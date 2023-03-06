@@ -1,13 +1,14 @@
-package Model.Monsters;
+package entities.Monsters;
 
-import Model.Entity.Entity;
 import View.GamePanel;
+import entities.Entity.Entity;
 
-import java.util.Random;
-
-public class GreenSlime extends Entity {
+public class GreenSlime extends Entity
+{
     GamePanel gp;
-    public GreenSlime(GamePanel gp) {
+
+    public GreenSlime(GamePanel gp)
+    {
         super(gp);
         this.gp = gp;
         type = 2;
@@ -28,7 +29,8 @@ public class GreenSlime extends Entity {
         getImage();
     }
 
-    public void getImage () {
+    public void getImage()
+    {
         upSprites.add(setup("/monster/greenSlime/greenSlime1.png", gp.tileSize, gp.tileSize));
         upSprites.add(setup("/monster/greenSlime/greenSlime2.png", gp.tileSize, gp.tileSize));
         downSprites.add(setup("/monster/greenSlime/greenSlime1.png", gp.tileSize, gp.tileSize));
@@ -39,28 +41,8 @@ public class GreenSlime extends Entity {
         rightSprites.add(setup("/monster/greenSlime/greenSlime2.png", gp.tileSize, gp.tileSize));
     }
 
-    public void setAction() {
-        actionLockCounter++;
-
-        if (actionLockCounter == 120) {
-            Random random = new Random();
-            int i = 1 + random.nextInt(100);
-            if (i <= 25) {
-                direction = "up";
-            }
-            if (i > 25 && i <= 50) {
-                direction = "down";
-            }
-            if (i > 50 && i <= 75) {
-                direction = "left";
-            }
-            if (i > 75) {
-                direction = "right";
-            }
-            actionLockCounter = 0;
-        }
-    }
-    public void damageReaction() {
+    public void damageReaction()
+    {
         actionLockCounter = 0;
         direction = gp.player.direction;
     }

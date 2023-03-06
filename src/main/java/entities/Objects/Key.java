@@ -1,11 +1,13 @@
-package Model.Objects;
+package entities.Objects;
 
-import Model.Entity.Entity;
 import View.GamePanel;
+import entities.Entity.Entity;
 
-public class Key extends Entity {
+public class Key extends Entity
+{
 
-    public Key(GamePanel gp) {
+    public Key(GamePanel gp)
+    {
         super(gp);
         name = "Key";
         downSprites.add(setup("/objects/key.png", gp.tileSize, gp.tileSize));

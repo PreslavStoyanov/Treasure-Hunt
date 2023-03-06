@@ -1,18 +1,21 @@
-package Controller;
+package utilities;
 
-import Model.Entity.Entity;
 import View.GamePanel;
+import entities.Entity.Entity;
 
 import java.util.ArrayList;
 
-public class CollisionChecker {
+public class CollisionChecker
+{
     GamePanel gp;
 
-    public CollisionChecker(GamePanel gp) {
+    public CollisionChecker(GamePanel gp)
+    {
         this.gp = gp;
     }
 
-    public void checkTile(Entity entity) {
+    public void checkTile(Entity entity)
+    {
         int entityLeftWorldX = entity.worldX + entity.solidArea.x;
         int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
@@ -25,26 +28,31 @@ public class CollisionChecker {
 
         int tileNumber1, tileNumber2;
 
-        switch (entity.direction) {
-            case "up" -> {
+        switch (entity.direction)
+        {
+            case "up" ->
+            {
                 entityTopRow = (entityTopWorldY - entity.speed) / gp.tileSize;
                 tileNumber1 = setTileNumber(entityLeftCol, entityTopRow);
                 tileNumber2 = setTileNumber(entityRightCol, entityTopRow);
                 setCollisionOn(entity, tileNumber1, tileNumber2);
             }
-            case "down" -> {
+            case "down" ->
+            {
                 entityBottomRow = (entityBottomWorldY + entity.speed) / gp.tileSize;
                 tileNumber1 = setTileNumber(entityLeftCol, entityBottomRow);
                 tileNumber2 = setTileNumber(entityRightCol, entityBottomRow);
                 setCollisionOn(entity, tileNumber1, tileNumber2);
             }
-            case "left" -> {
+            case "left" ->
+            {
                 entityLeftCol = (entityLeftWorldX - entity.speed) / gp.tileSize;
                 tileNumber1 = setTileNumber(entityLeftCol, entityTopRow);
                 tileNumber2 = setTileNumber(entityLeftCol, entityBottomRow);
                 setCollisionOn(entity, tileNumber1, tileNumber2);
             }
-            case "right" -> {
+            case "right" ->
+            {
                 entityRightCol = (entityRightWorldX + entity.speed) / gp.tileSize;
                 tileNumber1 = setTileNumber(entityRightCol, entityTopRow);
                 tileNumber2 = setTileNumber(entityRightCol, entityBottomRow);
@@ -54,18 +62,22 @@ public class CollisionChecker {
 
     }
 
-    public int checkObject(Entity entity, boolean player) {
+    public int checkObject(Entity entity, boolean player)
+    {
         int index = 999;
 
-        for (int i = 0; i < gp.objects.size(); i++) {
-            if (gp.objects.get(i) != null) {
+        for (int i = 0; i < gp.objects.size(); i++)
+        {
+            if (gp.objects.get(i) != null)
+            {
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
 
                 gp.objects.get(i).solidArea.x = gp.objects.get(i).worldX + gp.objects.get(i).solidArea.x;
                 gp.objects.get(i).solidArea.y = gp.objects.get(i).worldY + gp.objects.get(i).solidArea.y;
 
-                switch (entity.direction) {
+                switch (entity.direction)
+                {
                     case "up" -> entity.solidArea.y -= entity.speed;
                     case "down" -> entity.solidArea.y += entity.speed;
                     case "left" -> entity.solidArea.x -= entity.speed;
@@ -81,18 +93,22 @@ public class CollisionChecker {
         return index;
     }
 
-    public int checkEntity(Entity entity, ArrayList<Entity> target) {
+    public int checkEntity(Entity entity, ArrayList<Entity> target)
+    {
         int index = 999;
 
-        for (int i = 0; i < target.size(); i++) {
-            if (target.get(i) != null) {
+        for (int i = 0; i < target.size(); i++)
+        {
+            if (target.get(i) != null)
+            {
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
 
                 target.get(i).solidArea.x = target.get(i).worldX + target.get(i).solidArea.x;
                 target.get(i).solidArea.y = target.get(i).worldY + target.get(i).solidArea.y;
 
-                switch (entity.direction) {
+                switch (entity.direction)
+                {
                     case "up" -> entity.solidArea.y -= entity.speed;
                     case "down" -> entity.solidArea.y += entity.speed;
                     case "left" -> entity.solidArea.x -= entity.speed;
@@ -109,7 +125,8 @@ public class CollisionChecker {
         return index;
     }
 
-    public boolean checkPlayer(Entity entity) {
+    public boolean checkPlayer(Entity entity)
+    {
 
         boolean contactPlayer = false;
         entity.solidArea.x = entity.worldX + entity.solidArea.x;
@@ -118,13 +135,15 @@ public class CollisionChecker {
         gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
         gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
 
-        switch (entity.direction) {
+        switch (entity.direction)
+        {
             case "up" -> entity.solidArea.y -= entity.speed;
             case "down" -> entity.solidArea.y += entity.speed;
             case "left" -> entity.solidArea.x -= entity.speed;
             case "right" -> entity.solidArea.x += entity.speed;
         }
-        if (entity.solidArea.intersects(gp.player.solidArea)) {
+        if (entity.solidArea.intersects(gp.player.solidArea))
+        {
             entity.collisionOn = true;
             contactPlayer = true;
         }
@@ -136,9 +155,12 @@ public class CollisionChecker {
         return contactPlayer;
     }
 
-    public int getEntityIndex(Entity entity, ArrayList<Entity> target, int index, int i) {
-        if (entity.solidArea.intersects(target.get(i).solidArea)) {
-            if (target.get(i) != entity){
+    public int getEntityIndex(Entity entity, ArrayList<Entity> target, int index, int i)
+    {
+        if (entity.solidArea.intersects(target.get(i).solidArea))
+        {
+            if (target.get(i) != entity)
+            {
                 entity.collisionOn = true;
                 index = i;
             }
@@ -146,25 +168,32 @@ public class CollisionChecker {
         return index;
     }
 
-    public int getObjectIndex(Entity entity, boolean player, int index, int i) {
-        if (entity.solidArea.intersects(gp.objects.get(i).solidArea)) {
-            if (gp.objects.get(i).collision) {
+    public int getObjectIndex(Entity entity, boolean player, int index, int i)
+    {
+        if (entity.solidArea.intersects(gp.objects.get(i).solidArea))
+        {
+            if (gp.objects.get(i).collision)
+            {
                 entity.collisionOn = true;
             }
-            if (player) {
+            if (player)
+            {
                 index = i;
             }
         }
         return index;
     }
 
-    public void setCollisionOn(Entity entity, int tileNumber1, int tileNumber2) {
-        if (gp.tileManager.tile[tileNumber1].collision || gp.tileManager.tile[tileNumber2].collision) {
+    public void setCollisionOn(Entity entity, int tileNumber1, int tileNumber2)
+    {
+        if (gp.tileManager.tile[tileNumber1].collision || gp.tileManager.tile[tileNumber2].collision)
+        {
             entity.collisionOn = true;
         }
     }
 
-    public int setTileNumber(int entityLeftCol, int entityBottomRow) {
+    public int setTileNumber(int entityLeftCol, int entityBottomRow)
+    {
         return gp.tileManager.mapTileNumber[entityLeftCol][entityBottomRow];
     }
 }

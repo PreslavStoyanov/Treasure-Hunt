@@ -1,15 +1,17 @@
-package Controller;
+package utilities;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.net.URL;
 
-public class SoundController {
+public class SoundHandler
+{
     Clip clip;
     URL[] soundURL = new URL[30];
 
-    public SoundController() {
+    public SoundHandler()
+    {
         soundURL[0] = getClass().getResource("/sounds/TreasureHuntPlayback.wav");
         soundURL[1] = getClass().getResource("/sounds/coin.wav");
         soundURL[2] = getClass().getResource("/sounds/powerUp.wav");
@@ -21,25 +23,31 @@ public class SoundController {
         soundURL[8] = getClass().getResource("/sounds/levelUp.wav");
     }
 
-    public void setFile(int i) {
-        try {
+    public void setFile(int i)
+    {
+        try
+        {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
 
-    public void play() {
+    public void play()
+    {
         clip.start();
     }
 
-    public void loop() {
+    public void loop()
+    {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    public void stop() {
+    public void stop()
+    {
         clip.stop();
     }
 }

@@ -1,10 +1,12 @@
-package Model.Objects;
+package entities.Objects;
 
-import Model.Entity.Entity;
 import View.GamePanel;
+import entities.Entity.Entity;
 
-public class Door extends Entity {
-    public Door(GamePanel gp) {
+public class Door extends Entity
+{
+    public Door(GamePanel gp)
+    {
         super(gp);
         name = "Door";
         downSprites.add(setup("/objects/door.png", gp.tileSize, gp.tileSize));

@@ -1,12 +1,13 @@
-package Model.Entity;
+package entities.Entity;
 
 import View.GamePanel;
 
-import java.util.Random;
-
-public class OldMan extends Entity {
+public class OldMan extends Entity
+{
     int dialogueIndex;
-    public OldMan(GamePanel gp) {
+
+    public OldMan(GamePanel gp)
+    {
         super(gp);
         direction = "down";
         speed = 1;
@@ -14,7 +15,8 @@ public class OldMan extends Entity {
         setDialogue();
     }
 
-    public void getOldManImage() {
+    public void getOldManImage()
+    {
         upSprites.add(setup("/npc/oldMan/up1.png", gp.tileSize, gp.tileSize));
         upSprites.add(setup("/npc/oldMan/up2.png", gp.tileSize, gp.tileSize));
         downSprites.add(setup("/npc/oldMan/down1.png", gp.tileSize, gp.tileSize));
@@ -25,40 +27,20 @@ public class OldMan extends Entity {
         rightSprites.add(setup("/npc/oldMan/right2.png", gp.tileSize, gp.tileSize));
     }
 
-    public void setAction() {
-        actionLockCounter++;
-
-        if (actionLockCounter == 120) {
-            Random random = new Random();
-            int i = 1 + random.nextInt(100);
-            if (i <= 25) {
-                direction = "up";
-            }
-            if (i > 25 && i <= 50) {
-                direction = "down";
-            }
-            if (i > 50 && i <= 75) {
-                direction = "left";
-            }
-            if (i > 75) {
-                direction = "right";
-            }
-            actionLockCounter = 0;
-        }
-    }
-
-
     @Override
-    public void speak() {
+    public void speak()
+    {
         super.speak();
         gp.ui.currentDialogue = dialogues.get(dialogueIndex);
         dialogueIndex++;
-        if (dialogueIndex == dialogues.size()) {
+        if (dialogueIndex == dialogues.size())
+        {
             dialogueIndex = 0;
         }
     }
 
-    public void setDialogue() {
+    public void setDialogue()
+    {
         dialogues.add("Hello, buddy!");
         dialogues.add("Be aware of the monkey!");
         dialogues.add("Once I was a wizard but now... I was \ntrowing a fire balls. Now I'm just \nold-man");

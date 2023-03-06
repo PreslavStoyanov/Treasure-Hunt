@@ -1,11 +1,13 @@
-package Model.Objects;
+package entities.Objects;
 
-import Model.Entity.Entity;
 import View.GamePanel;
+import entities.Entity.Entity;
 
-public class Sword extends Entity {
+public class Sword extends Entity
+{
 
-    public Sword(GamePanel gp) {
+    public Sword(GamePanel gp)
+    {
         super(gp);
         name = "Sword";
         image = setup("/objects/sword.png", gp.tileSize, gp.tileSize);

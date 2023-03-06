@@ -1,16 +1,17 @@
 package View;
 
-import Controller.*;
-import Model.Entity.Entity;
-import Model.Entity.Player;
-import Model.Tile.TileManager;
+import entities.Entity.Entity;
+import entities.Entity.Player;
+import entities.Tile.TileManager;
+import utilities.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable
+{
     final int originalTileSize = 16;
     final int scale = 3;
     public final int tileSize = originalTileSize * scale;
@@ -26,12 +27,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     public TileManager tileManager = new TileManager(this);
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
-    SoundController music = new SoundController();
-    SoundController soundEffect = new SoundController();
+    SoundHandler music = new SoundHandler();
+    SoundHandler soundEffect = new SoundHandler();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     public UIController ui = new UIController(this);
-    public EventHandler eventHandler = new EventHandler(this);
 
     public Thread gameThread;
 
@@ -49,7 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int characterState = 5;
     public int gameState = titleState;
 
-    public GamePanel() {
+    public GamePanel()
+    {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(new Color(36, 84, 24));
         this.setDoubleBuffered(true);
@@ -57,7 +58,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
-    public void setUpNewGame() {
+    public void setUpNewGame()
+    {
         assetSetter.setObject();
         assetSetter.setNpc();
         assetSetter.setMonster();
@@ -67,67 +69,83 @@ public class GamePanel extends JPanel implements Runnable {
         playMusic(0);
     }
 
-    public void startGameThread() {
+    public void startGameThread()
+    {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
         double drawInterval = (double) 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
 
-        while (gameThread != null) {
+        while (gameThread != null)
+        {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             timer += (currentTime - lastTime);
             lastTime = currentTime;
 
-            if (delta >= 1) {
+            if (delta >= 1)
+            {
                 update();
                 repaint();
                 delta--;
             }
 
-            if (timer >= 1000000000) {
+            if (timer >= 1000000000)
+            {
                 timer = 0;
             }
         }
     }
 
-    public void update() {
-        if (gameState == playState) {
+    public void update()
+    {
+        if (gameState == playState)
+        {
             player.update();
-            for (Entity entity : npc) {
-                if (entity != null) {
+            for (Entity entity : npc)
+            {
+                if (entity != null)
+                {
                     entity.update();
                 }
             }
-            for (int i = 0; i < monsters.size(); i++) {
+            for (int i = 0; i < monsters.size(); i++)
+            {
                 Entity monster = monsters.get(i);
-                if (monster.alive && !monster.dying) {
+                if (monster.alive && !monster.dying)
+                {
                     monster.update();
                 }
-                if (!monster.alive) {
+                if (!monster.alive)
+                {
                     monsters.remove(monster);
                 }
             }
         }
     }
 
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g)
+    {
         long drawStart = System.nanoTime();
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (gameState == titleState) {
+        if (gameState == titleState)
+        {
             ui.draw(g2);
-        } else if (gameState == helpState) {
+        } else if (gameState == helpState)
+        {
             ui.draw(g2);
-        } else {
+        } else
+        {
             tileManager.draw(g2);
 
             entities.add(player);
@@ -141,7 +159,8 @@ public class GamePanel extends JPanel implements Runnable {
 
             ui.draw(g2);
         }
-        if (keyboardHandler.showCordText) {
+        if (keyboardHandler.showCordText)
+        {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
 
@@ -161,17 +180,20 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    public void playMusic(int i) {
+    public void playMusic(int i)
+    {
         music.setFile(i);
         music.play();
         music.loop();
     }
 
-    public void stopMusic() {
+    public void stopMusic()
+    {
         music.stop();
     }
 
-    public void playSoundEffect(int i) {
+    public void playSoundEffect(int i)
+    {
         soundEffect.setFile(i);
         soundEffect.play();
     }

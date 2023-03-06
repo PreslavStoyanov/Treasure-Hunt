@@ -1,18 +1,17 @@
-package Model.Entity;
+package entities.Entity;
 
-import Controller.UtilityTool;
+import utilities.ImageScalar;
 import View.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-public class Entity {
+public class Entity
+{
     GamePanel gp;
 
     public String name;
@@ -65,11 +64,13 @@ public class Entity {
     public List<BufferedImage> leftAttackSprites = new ArrayList<>();
     public List<BufferedImage> rightAttackSprites = new ArrayList<>();
 
-    public Entity(GamePanel gp) {
+    public Entity(GamePanel gp)
+    {
         this.gp = gp;
     }
 
-    public void update() {
+    public void update()
+    {
         setAction();
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
@@ -77,27 +78,34 @@ public class Entity {
         gp.collisionChecker.checkEntity(this, gp.npc);
         gp.collisionChecker.checkEntity(this, gp.monsters);
         boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
-        if (!gp.player.invincible && contactPlayer) {
-            if (this.type == 2) {
+        if (!gp.player.invincible && contactPlayer)
+        {
+            if (this.type == 2)
+            {
                 gp.playSoundEffect(6);
                 int damage = attack - gp.player.defense;
-                if (damage < 0) {
+                if (damage < 0)
+                {
                     damage = 0;
                 }
                 gp.player.life -= damage;
                 gp.player.invincible = true;
-            } else if (this.type == 3) {
+            } else if (this.type == 3)
+            {
                 gp.playSoundEffect(6);
                 int damage = attack - gp.player.defense;
-                if (damage < 0) {
+                if (damage < 0)
+                {
                     damage = 0;
                 }
                 gp.player.life -= damage;
                 gp.player.invincible = true;
             }
         }
-        if (!collisionOn) {
-            switch (direction) {
+        if (!collisionOn)
+        {
+            switch (direction)
+            {
                 case "up" -> worldY -= speed;
                 case "down" -> worldY += speed;
                 case "left" -> worldX -= speed;
@@ -108,7 +116,8 @@ public class Entity {
         setInvincibleTime(40);
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2)
+    {
         BufferedImage image = null;
         int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
@@ -126,7 +135,8 @@ public class Entity {
         if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX
                 && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
                 && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY
-                && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+                && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
+        {
             image = switchDirection(image);
         } /*else if (gp.player.screenX > gp.player.worldX ||
                 gp.player.screenY > gp.player.worldY ||
@@ -135,7 +145,8 @@ public class Entity {
             image = switchDirection(image);
             //offsets
         }*/
-        if ((type == 2 || type == 3) && hpBarOn) {
+        if ((type == 2 || type == 3) && hpBarOn)
+        {
             double oneScale = (double) gp.tileSize / maxLife;
             double hpBarValue = oneScale * life;
 
@@ -146,34 +157,64 @@ public class Entity {
             g2.fillRect(screenX, screenY - 15, (int) hpBarValue, 10);
 
             hpBarCounter++;
-            if (hpBarCounter > 300) {
+            if (hpBarCounter > 300)
+            {
                 hpBarCounter = 0;
                 hpBarOn = false;
             }
         }
 
-        if (invincible) {
+        if (invincible)
+        {
             hpBarOn = true;
             hpBarCounter = 0;
             changeAlpha(g2, 0.5F);
         }
-        if (dying) {
+        if (dying)
+        {
             dyingAnimation(g2);
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
         changeAlpha(g2, 1F);
     }
 
-    public void setAction() {
+    public void setAction()
+    {
+        actionLockCounter++;
+
+        if (actionLockCounter == 120)
+        {
+            Random random = new Random();
+            int i = 1 + random.nextInt(100);
+            if (i <= 25)
+            {
+                direction = "up";
+            }
+            if (i > 25 && i <= 50)
+            {
+                direction = "down";
+            }
+            if (i > 50 && i <= 75)
+            {
+                direction = "left";
+            }
+            if (i > 75)
+            {
+                direction = "right";
+            }
+            actionLockCounter = 0;
+        }
+    }
+
+    public void damageReaction()
+    {
 
     }
 
-    public void damageReaction() {
-
-    }
-
-    public void speak() {
-        switch (gp.player.direction) {
+    public void speak()
+    {
+        switch (gp.player.direction)
+        {
             case "up" -> direction = "down";
             case "down" -> direction = "up";
             case "left" -> direction = "right";
@@ -181,7 +222,8 @@ public class Entity {
         }
     }
 
-    public void dyingAnimation(Graphics2D g2) {
+    public void dyingAnimation(Graphics2D g2)
+    {
         dyingCounter++;
         int i = 5;
         if (dyingCounter <= i) changeAlpha(g2, 0f);
@@ -192,14 +234,17 @@ public class Entity {
         if (dyingCounter > i * 5 && dyingCounter <= i * 6) changeAlpha(g2, 1f);
         if (dyingCounter > i * 6 && dyingCounter <= i * 7) changeAlpha(g2, 0f);
         if (dyingCounter > i * 7 && dyingCounter <= i * 8) changeAlpha(g2, 1f);
-        if (dyingCounter >= i * 8) {
+        if (dyingCounter >= i * 8)
+        {
             dying = false;
             alive = false;
         }
     }
 
-    public BufferedImage switchDirection(BufferedImage image) {
-        switch (direction) {
+    public BufferedImage switchDirection(BufferedImage image)
+    {
+        switch (direction)
+        {
             case "up" -> image = changeSprite(image, upSprites, spriteNumber);
             case "down" -> image = changeSprite(image, downSprites, spriteNumber);
             case "left" -> image = changeSprite(image, leftSprites, spriteNumber);
@@ -208,43 +253,55 @@ public class Entity {
         return image;
     }
 
-    public void setInvincibleTime(int time) {
-        if (invincible) {
+    public void setInvincibleTime(int time)
+    {
+        if (invincible)
+        {
             invincibleCounter--;
-            if (invincibleCounter < 0) {
+            if (invincibleCounter < 0)
+            {
                 invincible = false;
                 invincibleCounter = time;
             }
         }
     }
 
-    public void changeAlpha(Graphics2D g2, float alpha) {
+    public void changeAlpha(Graphics2D g2, float alpha)
+    {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
     }
 
-    public BufferedImage setup(String imagePath, int width, int height) {
-        UtilityTool utilityTool = new UtilityTool();
+    public BufferedImage setup(String imagePath, int width, int height)
+    {
+        ImageScalar imageScalar = new ImageScalar();
         BufferedImage image = null;
 
-        try {
+        try
+        {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
-            image = utilityTool.scaleImage(image, width, height);
-        } catch (IOException e) {
+            image = imageScalar.scaleImage(image, width, height);
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
 
         return image;
     }
 
-    public void spriteNumberChanger(int numberOfSprites, int speedOfChanging) {
+    public void spriteNumberChanger(int numberOfSprites, int speedOfChanging)
+    {
         spriteCounter++;
-        if (spriteCounter > speedOfChanging) {
-            while (true) {
-                if (spriteNumber > numberOfSprites) {
+        if (spriteCounter > speedOfChanging)
+        {
+            while (true)
+            {
+                if (spriteNumber > numberOfSprites)
+                {
                     break;
                 }
                 spriteNumber++;
-                if (spriteNumber == numberOfSprites) {
+                if (spriteNumber == numberOfSprites)
+                {
                     spriteNumber = 0;
                 }
                 break;
@@ -253,9 +310,12 @@ public class Entity {
         }
     }
 
-    public BufferedImage changeSprite(BufferedImage image, List<BufferedImage> sprites, int spriteNumber) {
-        for (int i = 0; i < sprites.size(); i++) {
-            if (spriteNumber == i) {
+    public BufferedImage changeSprite(BufferedImage image, List<BufferedImage> sprites, int spriteNumber)
+    {
+        for (int i = 0; i < sprites.size(); i++)
+        {
+            if (spriteNumber == i)
+            {
                 image = sprites.get(i);
                 break;
             }

@@ -1,9 +1,9 @@
-package Controller;
+package utilities;
 
-import Model.Entity.Entity;
-import Model.Objects.Heart;
-import Model.Objects.Key;
 import View.GamePanel;
+import entities.Entity.Entity;
+import entities.Objects.Heart;
+import entities.Objects.Key;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,7 +13,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class UIController {
+public class UIController
+{
     GamePanel gp;
     Graphics2D g2;
 
@@ -31,21 +32,24 @@ public class UIController {
     public double playTime;
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
-    int commandNumber = 0;
+    public int commandNumber = 0;
 
     public String currentDialogue = "";
 
 
-    public UIController(GamePanel gamePanel) {
+    public UIController(GamePanel gamePanel)
+    {
         this.gp = gamePanel;
         Key key = new Key(gamePanel);
         keyImage = key.downSprites.get(0);
 
-        try {
+        try
+        {
             InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("font/prstartk.ttf");
             pixelFont = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(stream)).deriveFont(14f);
 
-        } catch (FontFormatException | IOException e) {
+        } catch (FontFormatException | IOException e)
+        {
             e.printStackTrace();
         }
         pixelFont20 = pixelFont.deriveFont(20f);
@@ -57,30 +61,38 @@ public class UIController {
         heartBlank = heart.image3;
     }
 
-    public void addMessage(String text) {
+    public void addMessage(String text)
+    {
         messages.add(text);
         messageTimer.add(0);
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2)
+    {
         this.g2 = g2;
         g2.setFont(pixelFont);
         g2.setColor(Color.white);
-        if (gp.gameState == gp.titleState) {
+        if (gp.gameState == gp.titleState)
+        {
             drawTitleScreen();
         }
-        if (gp.gameState == gp.helpState) {
+        if (gp.gameState == gp.helpState)
+        {
             drawHelpMenu();
         }
-        if (gp.gameState == gp.dialogueState) {
+        if (gp.gameState == gp.dialogueState)
+        {
             drawPlayerLife();
             drawDialogueScreen();
         }
-        if (gp.gameState == gp.playState) {
-            if (gameFinished) {
+        if (gp.gameState == gp.playState)
+        {
+            if (gameFinished)
+            {
                 drawEndScreen(g2);
                 gp.gameThread = null;
-            } else {
+            } else
+            {
                 g2.setFont(pixelFont20);
                 g2.setColor(Color.white);
                 drawPlayerLife();
@@ -102,22 +114,27 @@ public class UIController {
                 }*/
             }
         }
-        if (gp.gameState == gp.pauseState) {
+        if (gp.gameState == gp.pauseState)
+        {
             drawPlayerLife();
             drawPauseScreen();
         }
-        if (gp.gameState == gp.characterState) {
+        if (gp.gameState == gp.characterState)
+        {
             drawPlayerLife();
             drawCharacterScreen();
         }
     }
 
-    public void drawMessage() {
+    public void drawMessage()
+    {
         int messageX = gp.tileSize;
         int messageY = gp.tileSize * 6;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 12F));
-        for (int i = 0; i < messages.size(); i++) {
-            if (messages.get(i) != null) {
+        for (int i = 0; i < messages.size(); i++)
+        {
+            if (messages.get(i) != null)
+            {
                 g2.setColor(Color.black);
                 g2.drawString(messages.get(i), messageX + 2, messageY + 2);
                 g2.setColor(Color.white);
@@ -127,7 +144,8 @@ public class UIController {
                 messageTimer.set(i, counter);
                 messageY += 30;
 
-                if (messageTimer.get(i) > 180) {
+                if (messageTimer.get(i) > 180)
+                {
                     messages.remove(i);
                     messageTimer.remove(i);
                 }
@@ -135,28 +153,33 @@ public class UIController {
         }
     }
 
-    public void drawPlayerLife() {
+    public void drawPlayerLife()
+    {
 
         int x = gp.tileSize / 2;
         int y = gp.tileSize / 2;
 
-        for (int i = 0; i < gp.player.maxLife / 2; i++) {
+        for (int i = 0; i < gp.player.maxLife / 2; i++)
+        {
             g2.drawImage(heartBlank, x, y, null);
             x += gp.tileSize;
         }
 
         x = gp.tileSize / 2;
-        for (int i = 0; i < gp.player.life; i++) {
+        for (int i = 0; i < gp.player.life; i++)
+        {
             g2.drawImage(heartHalf, x, y, null);
             i++;
-            if (i < gp.player.life) {
-                g2.drawImage(heartFull, x, y,null);
+            if (i < gp.player.life)
+            {
+                g2.drawImage(heartFull, x, y, null);
             }
             x += gp.tileSize;
         }
     }
 
-    public void drawEndScreen(Graphics2D g2) {
+    public void drawEndScreen(Graphics2D g2)
+    {
         g2.setFont(pixelFont20);
         g2.setColor(Color.white);
 
@@ -186,7 +209,8 @@ public class UIController {
         g2.drawString(text, x, y);
     }
 
-    private void drawDialogueScreen() {
+    private void drawDialogueScreen()
+    {
         int x = gp.tileSize * 2;
         int y = gp.tileSize / 2;
         int width = gp.screenWidth - (gp.tileSize * 4);
@@ -196,13 +220,15 @@ public class UIController {
 
         x += gp.tileSize;
         y += gp.tileSize;
-        for (String line : currentDialogue.split("\n")) {
+        for (String line : currentDialogue.split("\n"))
+        {
             g2.drawString(line, x, y);
             y += 40;
         }
     }
 
-    public void drawSubWindow(int x, int y, int width, int height) {
+    public void drawSubWindow(int x, int y, int width, int height)
+    {
         Color c = new Color(0, 0, 0, 210);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 35, 35);
@@ -213,7 +239,8 @@ public class UIController {
         g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
     }
 
-    public void drawTitleScreen() {
+    public void drawTitleScreen()
+    {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 56F));
         String text = "Treasure Hunt";
         int x = getXForCenteredText(text);
@@ -233,7 +260,8 @@ public class UIController {
         y += gp.tileSize * 4;
         g2.setColor(Color.white);
         g2.drawString(text, x, y);
-        if (commandNumber == 0) {
+        if (commandNumber == 0)
+        {
             g2.drawString(">", x - gp.tileSize, y);
         }
 
@@ -242,7 +270,8 @@ public class UIController {
         y += gp.tileSize;
         g2.setColor(Color.white);
         g2.drawString(text, x, y);
-        if (commandNumber == 1) {
+        if (commandNumber == 1)
+        {
             g2.drawString(">", x - gp.tileSize, y);
         }
 
@@ -251,12 +280,14 @@ public class UIController {
         y += gp.tileSize;
         g2.setColor(Color.white);
         g2.drawString(text, x, y);
-        if (commandNumber == 2) {
+        if (commandNumber == 2)
+        {
             g2.drawString(">", x - gp.tileSize, y);
         }
     }
 
-    public void drawHelpMenu() {
+    public void drawHelpMenu()
+    {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24F));
         String text = "Buttons";
         int x = gp.tileSize * 2;
@@ -282,7 +313,8 @@ public class UIController {
         g2.drawString(">", x - gp.tileSize, y);
     }
 
-    public void drawPauseScreen() {
+    public void drawPauseScreen()
+    {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
         String text = "PAUSED";
         int x = getXForCenteredText(text);
@@ -290,7 +322,8 @@ public class UIController {
         g2.drawString(text, x, y);
     }
 
-    public void drawCharacterScreen() {
+    public void drawCharacterScreen()
+    {
         final int frameX = gp.tileSize;
         final int frameY = gp.tileSize;
         final int frameWidth = gp.tileSize * 5;
@@ -326,21 +359,24 @@ public class UIController {
         drawParameter(String.valueOf(gp.player.nextLevelExp), textY + lineHeight * 7, tailX);
         drawParameter(String.valueOf(gp.player.coins), textY + lineHeight * 8, tailX);
         g2.drawImage(gp.player.currentWeapon.image, tailX - gp.tileSize, textY + lineHeight * 7 + gp.tileSize, null);
-        g2.drawImage(gp.player.currentShield.image, tailX - gp.tileSize, textY + lineHeight * 7 + gp.tileSize * 2 + 10,  null);
+        g2.drawImage(gp.player.currentShield.image, tailX - gp.tileSize, textY + lineHeight * 7 + gp.tileSize * 2 + 10, null);
     }
 
-    private void drawParameter(String value, int textY, int tailX) {
+    private void drawParameter(String value, int textY, int tailX)
+    {
         int textX;
         textX = getXForAlignToRightText(value, tailX);
         g2.drawString(value, textX, textY);
     }
 
-    public int getXForCenteredText(String text) {
+    public int getXForCenteredText(String text)
+    {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.screenWidth / 2 - length / 2;
     }
 
-    public int getXForAlignToRightText(String text, int tailX) {
+    public int getXForAlignToRightText(String text, int tailX)
+    {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return tailX - length;
     }

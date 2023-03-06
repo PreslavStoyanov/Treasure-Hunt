@@ -1,10 +1,12 @@
-package Model.Objects;
+package entities.Objects;
 
-import Model.Entity.Entity;
 import View.GamePanel;
+import entities.Entity.Entity;
 
-public class Shield extends Entity {
-    public Shield(GamePanel gp) {
+public class Shield extends Entity
+{
+    public Shield(GamePanel gp)
+    {
         super(gp);
         name = "Shield";
         image = setup("/objects/shield.png", gp.tileSize, gp.tileSize);

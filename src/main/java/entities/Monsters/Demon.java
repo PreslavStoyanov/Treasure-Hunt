@@ -1,14 +1,14 @@
-package Model.Monsters;
+package entities.Monsters;
 
-import Model.Entity.Entity;
 import View.GamePanel;
+import entities.Entity.Entity;
 
-import java.util.Random;
-
-public class Demon extends Entity {
+public class Demon extends Entity
+{
     GamePanel gp;
 
-    public Demon(GamePanel gp) {
+    public Demon(GamePanel gp)
+    {
         super(gp);
         this.gp = gp;
         type = 3;
@@ -29,7 +29,8 @@ public class Demon extends Entity {
         getImage();
     }
 
-    public void getImage() {
+    public void getImage()
+    {
         downSprites.add(setup("/monster/demon/demon00.png", gp.tileSize, gp.tileSize));
         downSprites.add(setup("/monster/demon/demon01.png", gp.tileSize, gp.tileSize));
         downSprites.add(setup("/monster/demon/demon02.png", gp.tileSize, gp.tileSize));
@@ -51,32 +52,12 @@ public class Demon extends Entity {
         leftSprites.add(setup("/monster/demon/demon15.png", gp.tileSize, gp.tileSize));
     }
 
-    public void setAction() {
-        actionLockCounter++;
-
-        if (actionLockCounter == 120) {
-            Random random = new Random();
-            int i = 1 + random.nextInt(100);
-            if (i <= 25) {
-                direction = "up";
-            }
-            if (i > 25 && i <= 50) {
-                direction = "down";
-            }
-            if (i > 50 && i <= 75) {
-                direction = "left";
-            }
-            if (i > 75) {
-                direction = "right";
-            }
-            actionLockCounter = 0;
-        }
-    }
-
-    public void damageReaction() {
+    public void damageReaction()
+    {
         speed = 2;
         actionLockCounter = 0;
-        switch (gp.player.direction) {
+        switch (gp.player.direction)
+        {
             case "up" -> direction = "down";
             case "down" -> direction = "up";
             case "left" -> direction = "right";
@@ -85,7 +66,8 @@ public class Demon extends Entity {
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         super.update();
         spriteNumberChanger(upSprites.size(), 30);
     }

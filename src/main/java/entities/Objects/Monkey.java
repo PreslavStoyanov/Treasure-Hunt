@@ -1,11 +1,13 @@
-package Model.Objects;
+package entities.Objects;
 
-import Model.Entity.Entity;
 import View.GamePanel;
+import entities.Entity.Entity;
 
-public class Monkey extends Entity {
+public class Monkey extends Entity
+{
 
-    public Monkey(GamePanel gp) {
+    public Monkey(GamePanel gp)
+    {
         super(gp);
         name = "Monkey";
         downSprites.add(setup("/objects/monkey.png", gp.tileSize, gp.tileSize));

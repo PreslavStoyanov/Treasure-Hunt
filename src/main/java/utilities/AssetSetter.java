@@ -1,25 +1,28 @@
-package Controller;
+package utilities;
 
-import Model.Entity.Entity;
-import Model.Entity.OldMan;
-import Model.Entity.OldWoman;
-import Model.Monsters.Demon;
-import Model.Monsters.GreenSlime;
-import Model.Monsters.OrangeSlime;
-import Model.Objects.*;
 import View.GamePanel;
+import entities.Entity.Entity;
+import entities.Entity.OldMan;
+import entities.Entity.OldWoman;
+import entities.Monsters.Demon;
+import entities.Monsters.GreenSlime;
+import entities.Monsters.OrangeSlime;
+import entities.Objects.*;
 
 import java.util.ArrayList;
 
-public class AssetSetter {
+public class AssetSetter
+{
     GamePanel gp;
     int i;
 
-    public AssetSetter(GamePanel gp) {
+    public AssetSetter(GamePanel gp)
+    {
         this.gp = gp;
     }
 
-    public void setMonster() {
+    public void setMonster()
+    {
         i = 0;
         gp.monsters.add(i, new GreenSlime(gp));
         assertCoordinates(gp.monsters, i, 42, 12);
@@ -52,7 +55,8 @@ public class AssetSetter {
         assertCoordinates(gp.monsters, i, 11, 14);
     }
 
-    public void setNpc() {
+    public void setNpc()
+    {
         i = 0;
         gp.npc.add(i, new OldMan(gp));
         assertCoordinates(gp.npc, i, 27, 25);
@@ -61,7 +65,8 @@ public class AssetSetter {
         assertCoordinates(gp.npc, i, 29, 12);
     }
 
-    public void setObject() {
+    public void setObject()
+    {
         i = 0;
         gp.objects.add(i, new Boots(gp));
         assertCoordinates(gp.objects, i, 9, 52);
@@ -95,10 +100,9 @@ public class AssetSetter {
 
     }
 
-    private void assertCoordinates(ArrayList<Entity> list, int tileNumber, int x, int y) {
+    private void assertCoordinates(ArrayList<Entity> list, int tileNumber, int x, int y)
+    {
         list.get(tileNumber).worldX = x * gp.tileSize;
         list.get(tileNumber).worldY = y * gp.tileSize;
     }
-
-
 }

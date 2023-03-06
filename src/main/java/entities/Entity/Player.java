@@ -1,21 +1,23 @@
-package Model.Entity;
+package entities.Entity;
 
-import Controller.KeyboardHandler;
-import Model.Objects.Shield;
-import Model.Objects.Sword;
+import utilities.KeyboardHandler;
 import View.GamePanel;
+import entities.Objects.Shield;
+import entities.Objects.Sword;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-public class Player extends Entity {
+public class Player extends Entity
+{
     KeyboardHandler keyboardHandler;
     public final int screenX;
     public final int screenY;
     public int keyCount;
 
-    public Player(GamePanel gamePanel, KeyboardHandler keyboardHandler) {
+    public Player(GamePanel gamePanel, KeyboardHandler keyboardHandler)
+    {
         super(gamePanel);
         this.keyboardHandler = keyboardHandler;
 
@@ -38,15 +40,18 @@ public class Player extends Entity {
         getPlayerAttackImages();
     }
 
-    public int getAttack() {
+    public int getAttack()
+    {
         return attack = strength * currentWeapon.attackValue;
     }
 
-    public int getDefence() {
+    public int getDefence()
+    {
         return defense = agility * currentShield.defenseValue;
     }
 
-    public void setDefaultValues() {
+    public void setDefaultValues()
+    {
         worldX = gp.tileSize * 28;
         worldY = gp.tileSize * 28;
         speed = 4;
@@ -66,7 +71,8 @@ public class Player extends Entity {
         defense = getDefence();
     }
 
-    public void getPlayerImage() {
+    public void getPlayerImage()
+    {
         upSprites.add(setup("/player/up/up0.png", gp.tileSize, gp.tileSize));
         upSprites.add(setup("/player/up/up1.png", gp.tileSize, gp.tileSize));
         upSprites.add(setup("/player/up/up2.png", gp.tileSize, gp.tileSize));
@@ -98,7 +104,8 @@ public class Player extends Entity {
         thumbUp = setup("/player/thumbUp.png", gp.tileSize, gp.tileSize);
     }
 
-    public void getPlayerAttackImages() {
+    public void getPlayerAttackImages()
+    {
         upAttackSprites.add(setup("/player/attack/up1.png", gp.tileSize, gp.tileSize * 2));
         upAttackSprites.add(setup("/player/attack/up2.png", gp.tileSize, gp.tileSize * 2));
         downAttackSprites.add(setup("/player/attack/down1.png", gp.tileSize, gp.tileSize * 2));
@@ -109,22 +116,30 @@ public class Player extends Entity {
         rightAttackSprites.add(setup("/player/attack/right2.png", gp.tileSize * 2, gp.tileSize));
     }
 
-    public void update() {
-        if (attacking) {
+    public void update()
+    {
+        if (attacking)
+        {
             attacking();
         } else if (keyboardHandler.upPressed || keyboardHandler.downPressed
                 || keyboardHandler.leftPressed || keyboardHandler.rightPressed
-                || keyboardHandler.thumbUpPressed || keyboardHandler.EPressed) {
+                || keyboardHandler.thumbUpPressed || keyboardHandler.EPressed)
+        {
 
-            if (keyboardHandler.upPressed) {
+            if (keyboardHandler.upPressed)
+            {
                 direction = "up";
-            } else if (keyboardHandler.downPressed) {
+            } else if (keyboardHandler.downPressed)
+            {
                 direction = "down";
-            } else if (keyboardHandler.leftPressed) {
+            } else if (keyboardHandler.leftPressed)
+            {
                 direction = "left";
-            } else if (keyboardHandler.rightPressed) {
+            } else if (keyboardHandler.rightPressed)
+            {
                 direction = "right";
-            } else if (keyboardHandler.thumbUpPressed) {
+            } else if (keyboardHandler.thumbUpPressed)
+            {
                 direction = "thumbUp";
             }
 
@@ -140,8 +155,10 @@ public class Player extends Entity {
             int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
             contactMonster(monsterIndex);
 
-            if (!collisionOn && !keyboardHandler.EPressed) {
-                switch (direction) {
+            if (!collisionOn && !keyboardHandler.EPressed)
+            {
+                switch (direction)
+                {
                     case "up" -> worldY -= speed;
                     case "down" -> worldY += speed;
                     case "left" -> worldX -= speed;
@@ -150,28 +167,35 @@ public class Player extends Entity {
             }
             keyboardHandler.EPressed = false;
             spriteNumberChanger(upSprites.size(), 5);
-        } else {
+        } else
+        {
             spriteNumber = 1;
         }
         setInvincibleTime(60);
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics2D g2)
+    {
         BufferedImage image = null;
         int tempScreenX = screenX;
         int tempScreenY = screenY;
 
-        switch (direction) {
-            case "up" -> {
+        switch (direction)
+        {
+            case "up" ->
+            {
                 image = changeSprite(image, upSprites, upAttackSprites, spriteNumber);
-                if (attacking) {
+                if (attacking)
+                {
                     tempScreenY -= gp.tileSize;
                 }
             }
             case "down" -> image = changeSprite(image, downSprites, downAttackSprites, spriteNumber);
-            case "left" -> {
+            case "left" ->
+            {
                 image = changeSprite(image, leftSprites, leftAttackSprites, spriteNumber);
-                if (attacking) {
+                if (attacking)
+                {
                     tempScreenX -= gp.tileSize;
                 }
             }
@@ -182,7 +206,8 @@ public class Player extends Entity {
         int x = Math.min(tempScreenX, worldX);
         int y = Math.min(tempScreenY, worldY);
 
-        if (invincible) {
+        if (invincible)
+        {
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         }
 
@@ -190,42 +215,54 @@ public class Player extends Entity {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 
-    public void pickUpObject(int i) {
-        if (i != 999) {
+    public void pickUpObject(int i)
+    {
+        if (i != 999)
+        {
             String objectName = gp.objects.get(i).name;
-            switch (objectName) {
-                case "Monkey" -> {
-                    if (keyCount == 0) {
+            switch (objectName)
+            {
+                case "Monkey" ->
+                {
+                    if (keyCount == 0)
+                    {
                         gp.ui.addMessage("You have nothing for me!");
-                    } else {
+                    } else
+                    {
                         keyCount--;
                         gp.objects.remove(i);
                         gp.ui.addMessage("The monkey robbed you and ran out!");
                     }
                 }
-                case "Key" -> {
+                case "Key" ->
+                {
                     gp.playSoundEffect(1);
                     keyCount++;
                     gp.objects.remove(i);
                     gp.ui.addMessage("You got a key!");
                 }
-                case "Door" -> {
-                    if (keyCount > 0) {
+                case "Door" ->
+                {
+                    if (keyCount > 0)
+                    {
                         gp.playSoundEffect(3);
                         keyCount--;
                         gp.objects.remove(i);
                         gp.ui.addMessage("Door opened!");
-                    } else {
+                    } else
+                    {
                         gp.ui.addMessage("You need a key!");
                     }
                 }
-                case "Boots" -> {
+                case "Boots" ->
+                {
                     gp.playSoundEffect(2);
                     speed += 2;
                     gp.objects.remove(i);
                     gp.ui.addMessage("You got boots!");
                 }
-                case "Chest" -> {
+                case "Chest" ->
+                {
                     gp.ui.gameFinished = true;
                     gp.stopMusic();
                     gp.playSoundEffect(4);
@@ -235,9 +272,12 @@ public class Player extends Entity {
         }
     }
 
-    public void interactNpc(int i) {
-        if (i != 999) {
-            if (keyboardHandler.EPressed) {
+    public void interactNpc(int i)
+    {
+        if (i != 999)
+        {
+            if (keyboardHandler.EPressed)
+            {
                 gp.gameState = gp.dialogueState;
                 gp.npc.get(i).speak();
             }
@@ -245,14 +285,19 @@ public class Player extends Entity {
         }
     }
 
-    public void contactMonster(int i) {
-        if (i != 999) {
-            if (!invincible) {
-                if (gp.monsters.get(i).type == 2) {
+    public void contactMonster(int i)
+    {
+        if (i != 999)
+        {
+            if (!invincible)
+            {
+                if (gp.monsters.get(i).type == 2)
+                {
                     gp.playSoundEffect(6);
                     life -= takeDamage(i);
                     invincible = true;
-                } else if (gp.monsters.get(i).type == 3) {
+                } else if (gp.monsters.get(i).type == 3)
+                {
                     gp.playSoundEffect(6);
                     life -= takeDamage(i);
                     invincible = true;
@@ -261,17 +306,22 @@ public class Player extends Entity {
         }
     }
 
-    private int takeDamage(int i) {
+    private int takeDamage(int i)
+    {
         int damage = gp.monsters.get(i).attack - defense;
-        if (damage < 0) {
+        if (damage < 0)
+        {
             damage = 0;
         }
         return damage;
     }
 
-    public void damageMonster(int i) {
-        if (i != 999) {
-            if (!gp.monsters.get(i).invincible) {
+    public void damageMonster(int i)
+    {
+        if (i != 999)
+        {
+            if (!gp.monsters.get(i).invincible)
+            {
                 gp.playSoundEffect(5);
 
                 int damage = causeDamage(i);
@@ -282,7 +332,8 @@ public class Player extends Entity {
                 gp.monsters.get(i).invincible = true;
 
                 gp.monsters.get(i).damageReaction();
-                if (gp.monsters.get(i).life <= 0) {
+                if (gp.monsters.get(i).life <= 0)
+                {
                     gp.monsters.get(i).dying = true;
                     gp.ui.addMessage(gp.monsters.get(i).name + " killed!");
                     gp.ui.addMessage(gp.monsters.get(i).exp + " exp  gained!");
@@ -293,15 +344,19 @@ public class Player extends Entity {
         }
     }
 
-    public void checkLevelUp() {
-        if (exp >= nextLevelExp) {
+    public void checkLevelUp()
+    {
+        if (exp >= nextLevelExp)
+        {
             level++;
             nextLevelExp += 5;
             maxLife += 2;
             life += 2;
-            if (maxLife >= 12) {
+            if (maxLife >= 12)
+            {
                 maxLife = 12;
-                if (life >= 12) {
+                if (life >= 12)
+                {
                     life = 12;
                 }
             }
@@ -316,28 +371,36 @@ public class Player extends Entity {
         }
     }
 
-    private int causeDamage(int i) {
+    private int causeDamage(int i)
+    {
         int damage = attack - gp.monsters.get(i).defense;
-        if (damage < 0) {
+        if (damage < 0)
+        {
             damage = 0;
         }
         return damage;
     }
 
-    public void attacking() {
-        if (attacking) {
+    public void attacking()
+    {
+        if (attacking)
+        {
             spriteCounter++;
-            if (spriteCounter == 2) {
+            if (spriteCounter == 2)
+            {
                 gp.playSoundEffect(7);
             }
-            if (spriteCounter <= 5) {
+            if (spriteCounter <= 5)
+            {
                 spriteNumber = 1;
             }
-            if (spriteCounter > 5 && spriteCounter <= 25) {
+            if (spriteCounter > 5 && spriteCounter <= 25)
+            {
                 spriteNumber = 2;
                 checkAttackMonsterCollision();
             }
-            if (spriteCounter > 25) {
+            if (spriteCounter > 25)
+            {
                 spriteNumber = 1;
                 spriteCounter = 0;
                 attacking = false;
@@ -345,14 +408,16 @@ public class Player extends Entity {
         }
     }
 
-    private void checkAttackMonsterCollision() {
+    private void checkAttackMonsterCollision()
+    {
         //save current worldX, worldY, solidArea
         int currentWorldX = worldX;
         int currentWorldY = worldY;
         int solidAreaWidth = solidArea.width;
         int solidAreaHeight = solidArea.height;
         //adjust player worldX/Y for attackArea
-        switch (direction) {
+        switch (direction)
+        {
             case "up" -> worldY -= attackArea.height;
             case "down" -> worldY += attackArea.height;
             case "left" -> worldX -= attackArea.width;
@@ -371,19 +436,26 @@ public class Player extends Entity {
         solidArea.height = solidAreaHeight;
     }
 
-    public BufferedImage changeSprite(BufferedImage image, List<BufferedImage> sprites, List<BufferedImage> attackingSprites, int spriteNumber) {
-        if (!attacking) {
-            for (int i = 0; i < sprites.size(); i++) {
-                if (spriteNumber == i) {
+    public BufferedImage changeSprite(BufferedImage image, List<BufferedImage> sprites, List<BufferedImage> attackingSprites, int spriteNumber)
+    {
+        if (!attacking)
+        {
+            for (int i = 0; i < sprites.size(); i++)
+            {
+                if (spriteNumber == i)
+                {
                     image = sprites.get(spriteNumber);
                     break;
                 }
             }
-        } else {
-            if (spriteNumber == 1) {
+        } else
+        {
+            if (spriteNumber == 1)
+            {
                 image = attackingSprites.get(0);
             }
-            if (spriteNumber == 2) {
+            if (spriteNumber == 2)
+            {
                 image = attackingSprites.get(1);
             }
         }
