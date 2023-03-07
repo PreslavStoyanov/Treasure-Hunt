@@ -1,7 +1,7 @@
 package entities.Entity;
 
-import utilities.ImageScalar;
 import View.GamePanel;
+import utilities.ImageScalar;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -75,7 +75,7 @@ public class Entity
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         gp.collisionChecker.checkObject(this, false);
-        gp.collisionChecker.checkEntity(this, gp.npc);
+        gp.collisionChecker.checkEntity(this, gp.npcs);
         gp.collisionChecker.checkEntity(this, gp.monsters);
         boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
         if (!gp.player.invincible && contactPlayer)
@@ -90,7 +90,8 @@ public class Entity
                 }
                 gp.player.life -= damage;
                 gp.player.invincible = true;
-            } else if (this.type == 3)
+            }
+            else if (this.type == 3)
             {
                 gp.playSoundEffect(6);
                 int damage = attack - gp.player.defense;
@@ -271,7 +272,12 @@ public class Entity
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
     }
 
-    public BufferedImage setup(String imagePath, int width, int height)
+    public BufferedImage setupDefaultImage(String imagePath)
+    {
+        return setupImage(imagePath, gp.tileSize, gp.tileSize);
+    }
+
+    public BufferedImage setupImage(String imagePath, int width, int height)
     {
         ImageScalar imageScalar = new ImageScalar();
         BufferedImage image = null;
@@ -280,7 +286,8 @@ public class Entity
         {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
             image = imageScalar.scaleImage(image, width, height);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }

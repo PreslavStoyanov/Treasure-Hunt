@@ -7,9 +7,11 @@ public class GreenSlime extends Entity
 {
     GamePanel gp;
 
-    public GreenSlime(GamePanel gp)
+    public GreenSlime(GamePanel gp, int x, int y)
     {
         super(gp);
+        this.worldX = x * gp.tileSize;
+        this.worldY = y * gp.tileSize;
         this.gp = gp;
         type = 2;
         name = "Green slime";
@@ -31,14 +33,14 @@ public class GreenSlime extends Entity
 
     public void getImage()
     {
-        upSprites.add(setup("/monster/greenSlime/greenSlime1.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/monster/greenSlime/greenSlime2.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/monster/greenSlime/greenSlime1.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/monster/greenSlime/greenSlime2.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/monster/greenSlime/greenSlime1.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/monster/greenSlime/greenSlime2.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/monster/greenSlime/greenSlime1.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/monster/greenSlime/greenSlime2.png", gp.tileSize, gp.tileSize));
+        upSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime1.png"));
+        upSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime2.png"));
+        downSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime1.png"));
+        downSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime2.png"));
+        leftSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime1.png"));
+        leftSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime2.png"));
+        rightSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime1.png"));
+        rightSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime2.png"));
     }
 
     public void damageReaction()

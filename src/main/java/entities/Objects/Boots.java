@@ -5,10 +5,12 @@ import entities.Entity.Entity;
 
 public class Boots extends Entity
 {
-    public Boots(GamePanel gp)
+    public Boots(GamePanel gp, int x, int y)
     {
         super(gp);
+        this.worldX = x * gp.tileSize;
+        this.worldY = y * gp.tileSize;
         name = "Boots";
-        downSprites.add(setup("/objects/boots.png", gp.tileSize, gp.tileSize));
+        downSprites.add(setupDefaultImage("/objects/boots.png"));
     }
 }

@@ -7,9 +7,11 @@ public class Demon extends Entity
 {
     GamePanel gp;
 
-    public Demon(GamePanel gp)
+    public Demon(GamePanel gp, int x, int y)
     {
         super(gp);
+        this.worldX = x * gp.tileSize;
+        this.worldY = y * gp.tileSize;
         this.gp = gp;
         type = 3;
         name = "Demon";
@@ -31,25 +33,25 @@ public class Demon extends Entity
 
     public void getImage()
     {
-        downSprites.add(setup("/monster/demon/demon00.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/monster/demon/demon01.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/monster/demon/demon02.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/monster/demon/demon03.png", gp.tileSize, gp.tileSize));
+        downSprites.add(setupDefaultImage("/monster/demon/demon00.png"));
+        downSprites.add(setupDefaultImage("/monster/demon/demon01.png"));
+        downSprites.add(setupDefaultImage("/monster/demon/demon02.png"));
+        downSprites.add(setupDefaultImage("/monster/demon/demon03.png"));
 
-        upSprites.add(setup("/monster/demon/demon04.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/monster/demon/demon05.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/monster/demon/demon06.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/monster/demon/demon07.png", gp.tileSize, gp.tileSize));
+        upSprites.add(setupDefaultImage("/monster/demon/demon04.png"));
+        upSprites.add(setupDefaultImage("/monster/demon/demon05.png"));
+        upSprites.add(setupDefaultImage("/monster/demon/demon06.png"));
+        upSprites.add(setupDefaultImage("/monster/demon/demon07.png"));
 
-        rightSprites.add(setup("/monster/demon/demon08.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/monster/demon/demon09.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/monster/demon/demon10.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/monster/demon/demon11.png", gp.tileSize, gp.tileSize));
+        rightSprites.add(setupDefaultImage("/monster/demon/demon08.png"));
+        rightSprites.add(setupDefaultImage("/monster/demon/demon09.png"));
+        rightSprites.add(setupDefaultImage("/monster/demon/demon10.png"));
+        rightSprites.add(setupDefaultImage("/monster/demon/demon11.png"));
 
-        leftSprites.add(setup("/monster/demon/demon12.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/monster/demon/demon13.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/monster/demon/demon14.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/monster/demon/demon15.png", gp.tileSize, gp.tileSize));
+        leftSprites.add(setupDefaultImage("/monster/demon/demon12.png"));
+        leftSprites.add(setupDefaultImage("/monster/demon/demon13.png"));
+        leftSprites.add(setupDefaultImage("/monster/demon/demon14.png"));
+        leftSprites.add(setupDefaultImage("/monster/demon/demon15.png"));
     }
 
     public void damageReaction()

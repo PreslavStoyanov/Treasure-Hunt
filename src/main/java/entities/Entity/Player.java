@@ -1,6 +1,6 @@
 package entities.Entity;
 
-import utilities.keboard.KeyboardHandler;
+import utilities.keyboard.KeyboardHandler;
 import View.GamePanel;
 import entities.Objects.Shield;
 import entities.Objects.Sword;
@@ -38,8 +38,8 @@ public class Player extends Entity
         attackArea.height = 36;
 
         setDefaultValues();
-        getPlayerImage();
-        getPlayerAttackImages();
+        setPlayerImages();
+        setPlayerAttackImages();
     }
 
     public int getAttack()
@@ -73,49 +73,49 @@ public class Player extends Entity
         defense = getDefence();
     }
 
-    public void getPlayerImage()
+    public void setPlayerImages()
     {
-        upSprites.add(setup("/player/up/up0.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/player/up/up1.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/player/up/up2.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/player/up/up3.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/player/up/up4.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/player/up/up5.png", gp.tileSize, gp.tileSize));
+        upSprites.add(setupDefaultImage("/player/up/up0.png"));
+        upSprites.add(setupDefaultImage("/player/up/up1.png"));
+        upSprites.add(setupDefaultImage("/player/up/up2.png"));
+        upSprites.add(setupDefaultImage("/player/up/up3.png"));
+        upSprites.add(setupDefaultImage("/player/up/up4.png"));
+        upSprites.add(setupDefaultImage("/player/up/up5.png"));
 
-        downSprites.add(setup("/player/down/down0.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/player/down/down1.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/player/down/down2.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/player/down/down3.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/player/down/down4.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/player/down/down5.png", gp.tileSize, gp.tileSize));
+        downSprites.add(setupDefaultImage("/player/down/down0.png"));
+        downSprites.add(setupDefaultImage("/player/down/down1.png"));
+        downSprites.add(setupDefaultImage("/player/down/down2.png"));
+        downSprites.add(setupDefaultImage("/player/down/down3.png"));
+        downSprites.add(setupDefaultImage("/player/down/down4.png"));
+        downSprites.add(setupDefaultImage("/player/down/down5.png"));
 
-        leftSprites.add(setup("/player/left/left0.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/player/left/left1.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/player/left/left2.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/player/left/left3.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/player/left/left4.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/player/left/left5.png", gp.tileSize, gp.tileSize));
+        leftSprites.add(setupDefaultImage("/player/left/left0.png"));
+        leftSprites.add(setupDefaultImage("/player/left/left1.png"));
+        leftSprites.add(setupDefaultImage("/player/left/left2.png"));
+        leftSprites.add(setupDefaultImage("/player/left/left3.png"));
+        leftSprites.add(setupDefaultImage("/player/left/left4.png"));
+        leftSprites.add(setupDefaultImage("/player/left/left5.png"));
 
-        rightSprites.add(setup("/player/right/right0.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/player/right/right1.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/player/right/right2.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/player/right/right3.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/player/right/right4.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/player/right/right5.png", gp.tileSize, gp.tileSize));
+        rightSprites.add(setupDefaultImage("/player/right/right0.png"));
+        rightSprites.add(setupDefaultImage("/player/right/right1.png"));
+        rightSprites.add(setupDefaultImage("/player/right/right2.png"));
+        rightSprites.add(setupDefaultImage("/player/right/right3.png"));
+        rightSprites.add(setupDefaultImage("/player/right/right4.png"));
+        rightSprites.add(setupDefaultImage("/player/right/right5.png"));
 
-        thumbUp = setup("/player/thumbUp.png", gp.tileSize, gp.tileSize);
+        thumbUp = setupDefaultImage("/player/thumbUp.png");
     }
 
-    public void getPlayerAttackImages()
+    public void setPlayerAttackImages()
     {
-        upAttackSprites.add(setup("/player/attack/up1.png", gp.tileSize, gp.tileSize * 2));
-        upAttackSprites.add(setup("/player/attack/up2.png", gp.tileSize, gp.tileSize * 2));
-        downAttackSprites.add(setup("/player/attack/down1.png", gp.tileSize, gp.tileSize * 2));
-        downAttackSprites.add(setup("/player/attack/down2.png", gp.tileSize, gp.tileSize * 2));
-        leftAttackSprites.add(setup("/player/attack/left1.png", gp.tileSize * 2, gp.tileSize));
-        leftAttackSprites.add(setup("/player/attack/left2.png", gp.tileSize * 2, gp.tileSize));
-        rightAttackSprites.add(setup("/player/attack/right1.png", gp.tileSize * 2, gp.tileSize));
-        rightAttackSprites.add(setup("/player/attack/right2.png", gp.tileSize * 2, gp.tileSize));
+        upAttackSprites.add(setupImage("/player/attack/up1.png", gp.tileSize, gp.tileSize * 2));
+        upAttackSprites.add(setupImage("/player/attack/up2.png", gp.tileSize, gp.tileSize * 2));
+        downAttackSprites.add(setupImage("/player/attack/down1.png", gp.tileSize, gp.tileSize * 2));
+        downAttackSprites.add(setupImage("/player/attack/down2.png", gp.tileSize, gp.tileSize * 2));
+        leftAttackSprites.add(setupImage("/player/attack/left1.png", gp.tileSize * 2, gp.tileSize));
+        leftAttackSprites.add(setupImage("/player/attack/left2.png", gp.tileSize * 2, gp.tileSize));
+        rightAttackSprites.add(setupImage("/player/attack/right1.png", gp.tileSize * 2, gp.tileSize));
+        rightAttackSprites.add(setupImage("/player/attack/right2.png", gp.tileSize * 2, gp.tileSize));
     }
 
     public void update()
@@ -151,7 +151,7 @@ public class Player extends Entity
             int objectIndex = gp.collisionChecker.checkObject(this, true);
             pickUpObject(objectIndex);
 
-            int npcIndex = gp.collisionChecker.checkEntity(this, gp.npc);
+            int npcIndex = gp.collisionChecker.checkEntity(this, gp.npcs);
             interactNpc(npcIndex);
 
             int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
@@ -281,7 +281,7 @@ public class Player extends Entity
             if (keyboardHandler.ePressed)
             {
                 gp.setGameState(DIALOGUE_STATE);
-                gp.npc.get(i).speak();
+                gp.npcs.get(i).speak();
             }
             keyboardHandler.ePressed = false;
         }

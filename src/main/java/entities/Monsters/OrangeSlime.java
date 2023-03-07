@@ -7,9 +7,11 @@ public class OrangeSlime extends Entity
 {
     GamePanel gp;
 
-    public OrangeSlime(GamePanel gp)
+    public OrangeSlime(GamePanel gp, int x, int y)
     {
         super(gp);
+        this.worldX = x * gp.tileSize;
+        this.worldY = y * gp.tileSize;
         this.gp = gp;
         type = 2;
         name = "Orange slime";
@@ -31,14 +33,14 @@ public class OrangeSlime extends Entity
 
     public void getImage()
     {
-        upSprites.add(setup("/monster/orangeSlime/orangeSlime1.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/monster/orangeSlime/orangeSlime2.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/monster/orangeSlime/orangeSlime1.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/monster/orangeSlime/orangeSlime2.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/monster/orangeSlime/orangeSlime1.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/monster/orangeSlime/orangeSlime2.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/monster/orangeSlime/orangeSlime1.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/monster/orangeSlime/orangeSlime2.png", gp.tileSize, gp.tileSize));
+        upSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime1.png"));
+        upSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime2.png"));
+        downSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime1.png"));
+        downSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime2.png"));
+        leftSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime1.png"));
+        leftSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime2.png"));
+        rightSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime1.png"));
+        rightSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime2.png"));
     }
 
     public void damageReaction()

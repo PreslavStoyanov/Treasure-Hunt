@@ -9,7 +9,7 @@ public class Shield extends Entity
     {
         super(gp);
         name = "Shield";
-        image = setup("/objects/shield.png", gp.tileSize, gp.tileSize);
+        image = setupDefaultImage("/objects/shield.png");
         defenseValue = 1;
     }
 }

@@ -1,4 +1,4 @@
-package utilities.keboard;
+package utilities.keyboard;
 
 import View.GamePanel;
 

@@ -4,7 +4,7 @@ import entities.Entity.Entity;
 import entities.Entity.Player;
 import entities.Tile.TileManager;
 import utilities.*;
-import utilities.keboard.KeyboardHandler;
+import utilities.keyboard.KeyboardHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,14 +35,14 @@ public class GamePanel extends JPanel implements Runnable
     SoundHandler music = new SoundHandler();
     SoundHandler soundEffect = new SoundHandler();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
-    public AssetSetter assetSetter = new AssetSetter(this);
+    public EntitySetter entitySetter = new EntitySetter(this);
     public UIController ui = new UIController(this);
     public Thread gameThread;
 
     public Player player = new Player(this, keyboardHandler);
 
     public ArrayList<Entity> objects = new ArrayList<>();
-    public ArrayList<Entity> npc = new ArrayList<>();
+    public ArrayList<Entity> npcs = new ArrayList<>();
     public ArrayList<Entity> monsters = new ArrayList<>();
     ArrayList<Entity> entities = new ArrayList<>();
     private GameState gameState;
@@ -77,9 +77,9 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setUpNewGame()
     {
-        assetSetter.setObject();
-        assetSetter.setNpc();
-        assetSetter.setMonster();
+        entitySetter.setObjects();
+        entitySetter.setNpcs();
+        entitySetter.setMonsters();
         setGameState(PLAY_STATE);
         ui.playTime = 0;
         player.setDefaultValues();
@@ -127,7 +127,7 @@ public class GamePanel extends JPanel implements Runnable
         if (getGameState() == PLAY_STATE)
         {
             player.update();
-            for (Entity entity : npc)
+            for (Entity entity : npcs)
             {
                 if (entity != null)
                 {
@@ -179,7 +179,7 @@ public class GamePanel extends JPanel implements Runnable
         tileManager.draw(g2);
 
         entities.add(player);
-        entities.addAll(npc);
+        entities.addAll(npcs);
         entities.addAll(objects);
         entities.addAll(monsters);
 

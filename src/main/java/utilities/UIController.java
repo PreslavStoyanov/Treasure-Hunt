@@ -3,7 +3,6 @@ package utilities;
 import View.GamePanel;
 import entities.Entity.Entity;
 import entities.Objects.Heart;
-import entities.Objects.Key;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,54 +18,58 @@ public class UIController
 {
     GamePanel gp;
     Graphics2D g2;
-
     public Font pixelFont, pixelFont20, pixelFont40;
-
-    BufferedImage keyImage, heartFull, heartHalf, heartBlank;
-
-
-    public boolean messageOn = false;
+    BufferedImage heartFull;
+    BufferedImage heartHalf;
+    BufferedImage heartBlank;
     ArrayList<String> messages = new ArrayList<>();
     ArrayList<Integer> messageTimer = new ArrayList<>();
-
-
     public boolean gameFinished = false;
     public double playTime;
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-
     public int commandNumber = 0;
-
     public String currentDialogue = "";
 
 
     public UIController(GamePanel gamePanel)
     {
         this.gp = gamePanel;
-        Key key = new Key(gamePanel);
-        keyImage = key.downSprites.get(0);
-
-        try
-        {
-            InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("font/prstartk.ttf");
-            pixelFont = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(stream)).deriveFont(14f);
-
-        } catch (FontFormatException | IOException e)
-        {
-            e.printStackTrace();
-        }
-        pixelFont20 = pixelFont.deriveFont(20f);
-        pixelFont40 = pixelFont.deriveFont(40f);
-
-        Entity heart = new Heart(gp);
-        heartFull = heart.image;
-        heartHalf = heart.image2;
-        heartBlank = heart.image3;
+        setFont();
+        setHeartImages();
     }
 
     public void addMessage(String text)
     {
         messages.add(text);
         messageTimer.add(0);
+    }
+
+    private void setFont()
+    {
+        loadFont();
+        pixelFont20 = pixelFont.deriveFont(20f);
+        pixelFont40 = pixelFont.deriveFont(40f);
+    }
+
+    private void setHeartImages()
+    {
+        Heart heart = new Heart(gp);
+        heartFull = heart.image;
+        heartHalf = heart.image2;
+        heartBlank = heart.image3;
+    }
+
+    private void loadFont()
+    {
+        try
+        {
+            InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("font/prstartk.ttf");
+            pixelFont = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(stream)).deriveFont(14f);
+        }
+        catch (FontFormatException | IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics2D g2)
@@ -359,13 +362,13 @@ public class UIController
         g2.drawString(value, textX, textY);
     }
 
-    public int getXForCenteredText(String text)
+    private int getXForCenteredText(String text)
     {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.screenWidth / 2 - length / 2;
     }
 
-    public int getXForAlignToRightText(String text, int tailX)
+    private int getXForAlignToRightText(String text, int tailX)
     {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return tailX - length;

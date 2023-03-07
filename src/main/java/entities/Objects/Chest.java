@@ -6,10 +6,12 @@ import entities.Entity.Entity;
 public class Chest extends Entity
 {
 
-    public Chest(GamePanel gp)
+    public Chest(GamePanel gp, int x, int y)
     {
         super(gp);
+        this.worldX = x * gp.tileSize;
+        this.worldY = y * gp.tileSize;
         name = "Chest";
-        downSprites.add(setup("/objects/chest.png", gp.tileSize, gp.tileSize));
+        downSprites.add(setupDefaultImage("/objects/chest.png"));
     }
 }

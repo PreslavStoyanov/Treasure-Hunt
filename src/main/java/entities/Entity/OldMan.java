@@ -6,9 +6,11 @@ public class OldMan extends Entity
 {
     int dialogueIndex;
 
-    public OldMan(GamePanel gp)
+    public OldMan(GamePanel gp, int x, int y)
     {
         super(gp);
+        this.worldX = x * gp.tileSize;
+        this.worldY = y * gp.tileSize;
         direction = "down";
         speed = 1;
         getOldManImage();
@@ -17,14 +19,14 @@ public class OldMan extends Entity
 
     public void getOldManImage()
     {
-        upSprites.add(setup("/npc/oldMan/up1.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/npc/oldMan/up2.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/npc/oldMan/down1.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/npc/oldMan/down2.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/npc/oldMan/left1.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/npc/oldMan/left2.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/npc/oldMan/right1.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/npc/oldMan/right2.png", gp.tileSize, gp.tileSize));
+        upSprites.add(setupDefaultImage("/npc/oldMan/up1.png"));
+        upSprites.add(setupDefaultImage("/npc/oldMan/up2.png"));
+        downSprites.add(setupDefaultImage("/npc/oldMan/down1.png"));
+        downSprites.add(setupDefaultImage("/npc/oldMan/down2.png"));
+        leftSprites.add(setupDefaultImage("/npc/oldMan/left1.png"));
+        leftSprites.add(setupDefaultImage("/npc/oldMan/left2.png"));
+        rightSprites.add(setupDefaultImage("/npc/oldMan/right1.png"));
+        rightSprites.add(setupDefaultImage("/npc/oldMan/right2.png"));
     }
 
     @Override

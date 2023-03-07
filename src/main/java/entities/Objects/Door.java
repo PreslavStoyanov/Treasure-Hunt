@@ -5,11 +5,13 @@ import entities.Entity.Entity;
 
 public class Door extends Entity
 {
-    public Door(GamePanel gp)
+    public Door(GamePanel gp, int x, int y)
     {
         super(gp);
+        this.worldX = x * gp.tileSize;
+        this.worldY = y * gp.tileSize;
         name = "Door";
-        downSprites.add(setup("/objects/door.png", gp.tileSize, gp.tileSize));
+        downSprites.add(setupDefaultImage("/objects/door.png"));
         collision = true;
 
         solidArea.x = 0;

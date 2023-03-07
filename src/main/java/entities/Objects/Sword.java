@@ -10,7 +10,7 @@ public class Sword extends Entity
     {
         super(gp);
         name = "Sword";
-        image = setup("/objects/sword.png", gp.tileSize, gp.tileSize);
+        image = setupDefaultImage("/objects/sword.png");
         attackValue = 1;
     }
 }

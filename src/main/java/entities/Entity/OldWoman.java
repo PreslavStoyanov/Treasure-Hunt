@@ -6,9 +6,11 @@ public class OldWoman extends Entity
 {
     int dialogueIndex;
 
-    public OldWoman(GamePanel gp)
+    public OldWoman(GamePanel gp, int x, int y)
     {
         super(gp);
+        this.worldX = x * gp.tileSize;
+        this.worldY = y * gp.tileSize;
         direction = "down";
         speed = 1;
         getOldWomanImage();
@@ -17,14 +19,14 @@ public class OldWoman extends Entity
 
     public void getOldWomanImage()
     {
-        upSprites.add(setup("/npc/oldWoman/up1.png", gp.tileSize, gp.tileSize));
-        upSprites.add(setup("/npc/oldWoman/up2.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/npc/oldWoman/down1.png", gp.tileSize, gp.tileSize));
-        downSprites.add(setup("/npc/oldWoman/down2.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/npc/oldWoman/left1.png", gp.tileSize, gp.tileSize));
-        leftSprites.add(setup("/npc/oldWoman/left2.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/npc/oldWoman/right1.png", gp.tileSize, gp.tileSize));
-        rightSprites.add(setup("/npc/oldWoman/right2.png", gp.tileSize, gp.tileSize));
+        upSprites.add(setupDefaultImage("/npc/oldWoman/up1.png"));
+        upSprites.add(setupDefaultImage("/npc/oldWoman/up2.png"));
+        downSprites.add(setupDefaultImage("/npc/oldWoman/down1.png"));
+        downSprites.add(setupDefaultImage("/npc/oldWoman/down2.png"));
+        leftSprites.add(setupDefaultImage("/npc/oldWoman/left1.png"));
+        leftSprites.add(setupDefaultImage("/npc/oldWoman/left2.png"));
+        rightSprites.add(setupDefaultImage("/npc/oldWoman/right1.png"));
+        rightSprites.add(setupDefaultImage("/npc/oldWoman/right2.png"));
     }
 
     public void setAction()
