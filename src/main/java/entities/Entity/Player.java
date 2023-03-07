@@ -1,6 +1,6 @@
 package entities.Entity;
 
-import utilities.KeyboardHandler;
+import utilities.keboard.KeyboardHandler;
 import View.GamePanel;
 import entities.Objects.Shield;
 import entities.Objects.Sword;
@@ -8,6 +8,8 @@ import entities.Objects.Sword;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
+
+import static utilities.GameState.DIALOGUE_STATE;
 
 public class Player extends Entity
 {
@@ -123,7 +125,7 @@ public class Player extends Entity
             attacking();
         } else if (keyboardHandler.upPressed || keyboardHandler.downPressed
                 || keyboardHandler.leftPressed || keyboardHandler.rightPressed
-                || keyboardHandler.thumbUpPressed || keyboardHandler.EPressed)
+                || keyboardHandler.thumbUpPressed || keyboardHandler.ePressed)
         {
 
             if (keyboardHandler.upPressed)
@@ -155,7 +157,7 @@ public class Player extends Entity
             int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
             contactMonster(monsterIndex);
 
-            if (!collisionOn && !keyboardHandler.EPressed)
+            if (!collisionOn && !keyboardHandler.ePressed)
             {
                 switch (direction)
                 {
@@ -165,7 +167,7 @@ public class Player extends Entity
                     case "right" -> worldX += speed;
                 }
             }
-            keyboardHandler.EPressed = false;
+            keyboardHandler.ePressed = false;
             spriteNumberChanger(upSprites.size(), 5);
         } else
         {
@@ -276,12 +278,12 @@ public class Player extends Entity
     {
         if (i != 999)
         {
-            if (keyboardHandler.EPressed)
+            if (keyboardHandler.ePressed)
             {
-                gp.gameState = gp.dialogueState;
+                gp.setGameState(DIALOGUE_STATE);
                 gp.npc.get(i).speak();
             }
-            keyboardHandler.EPressed = false;
+            keyboardHandler.ePressed = false;
         }
     }
 
@@ -366,7 +368,7 @@ public class Player extends Entity
             attack = getAttack();
             defense = getDefence();
             gp.playSoundEffect(8);
-            gp.gameState = gp.dialogueState;
+            gp.setGameState(DIALOGUE_STATE);
             gp.ui.currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
         }
     }

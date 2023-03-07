@@ -4,11 +4,14 @@ import entities.Entity.Entity;
 import entities.Entity.Player;
 import entities.Tile.TileManager;
 import utilities.*;
+import utilities.keboard.KeyboardHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
+
+import static utilities.GameState.*;
 
 public class GamePanel extends JPanel implements Runnable
 {
@@ -23,31 +26,28 @@ public class GamePanel extends JPanel implements Runnable
     public final int maxWorldRow = 62;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
-    int FPS = 60;
 
+
+    int FPS = 60;
     public TileManager tileManager = new TileManager(this);
+
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
     SoundHandler music = new SoundHandler();
     SoundHandler soundEffect = new SoundHandler();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     public UIController ui = new UIController(this);
-
     public Thread gameThread;
 
     public Player player = new Player(this, keyboardHandler);
+
     public ArrayList<Entity> objects = new ArrayList<>();
     public ArrayList<Entity> npc = new ArrayList<>();
     public ArrayList<Entity> monsters = new ArrayList<>();
     ArrayList<Entity> entities = new ArrayList<>();
+    private GameState gameState;
 
-    public final int titleState = 0;
-    public final int playState = 1;
-    public final int pauseState = 2;
-    public final int helpState = 3;
-    public final int dialogueState = 4;
-    public final int characterState = 5;
-    public int gameState = titleState;
+    private boolean showCoordinates;
 
     public GamePanel()
     {
@@ -56,6 +56,23 @@ public class GamePanel extends JPanel implements Runnable
         this.setDoubleBuffered(true);
         this.addKeyListener(keyboardHandler);
         this.setFocusable(true);
+        this.setGameState(HOME_STATE);
+        this.showCoordinates = false;
+    }
+
+    public GameState getGameState()
+    {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState)
+    {
+        this.gameState = gameState;
+    }
+
+    public void toggleShowingCoordinates()
+    {
+        this.showCoordinates = !showCoordinates;
     }
 
     public void setUpNewGame()
@@ -63,7 +80,7 @@ public class GamePanel extends JPanel implements Runnable
         assetSetter.setObject();
         assetSetter.setNpc();
         assetSetter.setMonster();
-        gameState = playState;
+        setGameState(PLAY_STATE);
         ui.playTime = 0;
         player.setDefaultValues();
         playMusic(0);
@@ -107,7 +124,7 @@ public class GamePanel extends JPanel implements Runnable
 
     public void update()
     {
-        if (gameState == playState)
+        if (getGameState() == PLAY_STATE)
         {
             player.update();
             for (Entity entity : npc)
@@ -138,46 +155,55 @@ public class GamePanel extends JPanel implements Runnable
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (gameState == titleState)
+        if (getGameState() == HOME_STATE)
         {
-            ui.draw(g2);
-        } else if (gameState == helpState)
-        {
-            ui.draw(g2);
-        } else
-        {
-            tileManager.draw(g2);
-
-            entities.add(player);
-            entities.addAll(npc);
-            entities.addAll(objects);
-            entities.addAll(monsters);
-
-            entities.sort(Comparator.comparingInt(e -> e.worldY));
-            entities.forEach(e -> e.draw(g2));
-            entities.clear();
-
             ui.draw(g2);
         }
-        if (keyboardHandler.showCordText)
+        else if (getGameState() == HELP_STATE)
         {
-            long drawEnd = System.nanoTime();
-            long passed = drawEnd - drawStart;
-
-            g2.setFont(new Font("Arial", Font.BOLD, 20));
-            g2.setColor(Color.white);
-            int x = 10;
-            int y = 400;
-            int lineHeight = 20;
-
-            g2.drawString("Invincible: " + player.invincibleCounter, x, y);
-            g2.drawString("WorldX: " + player.worldX, x, y + lineHeight);
-            g2.drawString("WorldY: " + player.worldY, x, y + lineHeight * 2);
-            g2.drawString("Col (x): " + (player.worldX + player.solidArea.x) / tileSize, x, y + lineHeight * 3);
-            g2.drawString("Row: (y): " + (player.worldY + player.solidArea.y) / tileSize, x, y + lineHeight * 4);
-            g2.drawString("Draw Time: " + passed, x, y + lineHeight * 5);
+            ui.draw(g2);
+        }
+        else
+        {
+            drawPlayScreen(g2);
+        }
+        if (showCoordinates)
+        {
+            showCoordinates(drawStart, g2);
         }
         g2.dispose();
+    }
+
+    private void drawPlayScreen(Graphics2D g2)
+    {
+        tileManager.draw(g2);
+
+        entities.add(player);
+        entities.addAll(npc);
+        entities.addAll(objects);
+        entities.addAll(monsters);
+
+        entities.sort(Comparator.comparingInt(e -> e.worldY));
+        entities.forEach(e -> e.draw(g2));
+        entities.clear();
+
+        ui.draw(g2);
+    }
+
+    private void showCoordinates(long drawStart, Graphics2D g2)
+    {
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        g2.setColor(Color.white);
+        int x = 10;
+        int y = 400;
+        int lineHeight = 20;
+
+        g2.drawString("Invincible: " + player.invincibleCounter, x, y);
+        g2.drawString("WorldX: " + player.worldX, x, y + lineHeight);
+        g2.drawString("WorldY: " + player.worldY, x, y + lineHeight * 2);
+        g2.drawString("Col (x): " + (player.worldX + player.solidArea.x) / tileSize, x, y + lineHeight * 3);
+        g2.drawString("Row: (y): " + (player.worldY + player.solidArea.y) / tileSize, x, y + lineHeight * 4);
+        g2.drawString("Draw Time: " + (System.nanoTime() - drawStart), x, y + lineHeight * 5);
     }
 
     public void playMusic(int i)

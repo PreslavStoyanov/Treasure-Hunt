@@ -13,6 +13,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static utilities.GameState.*;
+
 public class UIController
 {
     GamePanel gp;
@@ -72,54 +74,42 @@ public class UIController
         this.g2 = g2;
         g2.setFont(pixelFont);
         g2.setColor(Color.white);
-        if (gp.gameState == gp.titleState)
+        if (gp.getGameState() == HOME_STATE)
         {
             drawTitleScreen();
         }
-        if (gp.gameState == gp.helpState)
+        if (gp.getGameState() == HELP_STATE)
         {
             drawHelpMenu();
         }
-        if (gp.gameState == gp.dialogueState)
+        if (gp.getGameState() == DIALOGUE_STATE)
         {
             drawPlayerLife();
             drawDialogueScreen();
         }
-        if (gp.gameState == gp.playState)
+        if (gp.getGameState() == PLAY_STATE)
         {
             if (gameFinished)
             {
                 drawEndScreen(g2);
                 gp.gameThread = null;
-            } else
+            }
+            else
             {
                 g2.setFont(pixelFont20);
                 g2.setColor(Color.white);
                 drawPlayerLife();
-                /*g2.drawImage(keyImage, gp.tileSize * 11, gp.tileSize + gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
-                g2.drawString("x " + gp.player.keyCount, gp.tileSize * 12, gp.tileSize * 2);*/
                 playTime += (double) 1 / 60;
                 g2.drawString("Time: " + decimalFormat.format(playTime), gp.tileSize * 11, gp.tileSize);
-
                 drawMessage();
-                /*if (messageOn) {
-                    g2.setFont(g2.getFont().deriveFont(20F));
-                    g2.drawString(message, gp.tileSize / 2, gp.tileSize * 11);
-                    messageTimer++;
-
-                    if (messageTimer == 120) {
-                        messageTimer = 0;
-                        messageOn = false;
-                    }
-                }*/
             }
         }
-        if (gp.gameState == gp.pauseState)
+        if (gp.getGameState() == PAUSE_STATE)
         {
             drawPlayerLife();
             drawPauseScreen();
         }
-        if (gp.gameState == gp.characterState)
+        if (gp.getGameState() == CHARACTER_STATE)
         {
             drawPlayerLife();
             drawCharacterScreen();
