@@ -3,14 +3,12 @@ package entities.Tile;
 import View.GamePanel;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
 import static utilities.ImageUtils.setupDefaultImage;
-import static utilities.ImageUtils.setupImage;
 
 public class TileManager
 {

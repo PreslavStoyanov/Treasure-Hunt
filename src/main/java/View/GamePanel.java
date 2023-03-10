@@ -6,6 +6,8 @@ import entities.Tile.TileManager;
 import utilities.*;
 import utilities.drawers.UIController;
 import utilities.keyboard.KeyboardHandler;
+import utilities.sound.Sound;
+import utilities.sound.SoundHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import static utilities.GameState.*;
+import static utilities.sound.Sound.*;
 
 public class GamePanel extends JPanel implements Runnable
 {
@@ -29,8 +32,7 @@ public class GamePanel extends JPanel implements Runnable
     public TileManager tileManager = new TileManager(this);
 
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
-    SoundHandler music = new SoundHandler();
-    SoundHandler soundEffect = new SoundHandler();
+    SoundHandler soundHandler = new SoundHandler();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public EntitySetter entitySetter = new EntitySetter(this);
     public UIController ui = new UIController(this);
@@ -80,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable
         setGameState(PLAY_STATE);
         ui.playTime = 0;
         player.setDefaultValues();
-        playMusic(0);
+        playMusic(PLAYBACK);
     }
 
     public void startGameThread()
@@ -203,21 +205,21 @@ public class GamePanel extends JPanel implements Runnable
         g2.drawString("Draw Time: " + (System.nanoTime() - drawStart), x, y + lineHeight * 5);
     }
 
-    public void playMusic(int i)
+    public void playMusic(Sound sound)
     {
-        music.setFile(i);
-        music.play();
-        music.loop();
+        soundHandler.setFile(sound);
+        soundHandler.play();
+        soundHandler.loop();
     }
 
     public void stopMusic()
     {
-        music.stop();
+        soundHandler.stop();
     }
 
-    public void playSoundEffect(int i)
+    public void playSoundEffect(Sound sound)
     {
-        soundEffect.setFile(i);
-        soundEffect.play();
+        soundHandler.setFile(sound);
+        soundHandler.play();
     }
 }

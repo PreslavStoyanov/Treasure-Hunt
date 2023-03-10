@@ -12,7 +12,7 @@ public class ImageUtils
 {
     public static BufferedImage setupDefaultImage(Object imagePath)
     {
-        return setupImage((String) imagePath, GamePanel.tileSize, GamePanel.tileSize);
+        return setupImage(imagePath.toString(), GamePanel.tileSize, GamePanel.tileSize);
     }
 
     public static BufferedImage setupImage(String imagePath, int width, int height)

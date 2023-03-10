@@ -4,6 +4,7 @@ import utilities.keyboard.KeyboardHandler;
 import View.GamePanel;
 import entities.Objects.Shield;
 import entities.Objects.Sword;
+import utilities.sound.Sound;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,6 +13,7 @@ import java.util.List;
 import static utilities.GameState.DIALOGUE_STATE;
 import static utilities.ImageUtils.setupDefaultImage;
 import static utilities.ImageUtils.setupImage;
+import static utilities.sound.Sound.*;
 
 public class Player extends Entity
 {
@@ -240,7 +242,7 @@ public class Player extends Entity
                 }
                 case "Key" ->
                 {
-                    gp.playSoundEffect(1);
+                    gp.playSoundEffect(COIN);
                     keyCount++;
                     gp.objects.remove(i);
                     gp.ui.addMessage("You got a key!");
@@ -249,7 +251,7 @@ public class Player extends Entity
                 {
                     if (keyCount > 0)
                     {
-                        gp.playSoundEffect(3);
+                        gp.playSoundEffect(UNLOCK);
                         keyCount--;
                         gp.objects.remove(i);
                         gp.ui.addMessage("Door opened!");
@@ -260,7 +262,7 @@ public class Player extends Entity
                 }
                 case "Boots" ->
                 {
-                    gp.playSoundEffect(2);
+                    gp.playSoundEffect(POWER_UP);
                     speed += 2;
                     gp.objects.remove(i);
                     gp.ui.addMessage("You got boots!");
@@ -269,7 +271,7 @@ public class Player extends Entity
                 {
                     gp.ui.gameFinished = true;
                     gp.stopMusic();
-                    gp.playSoundEffect(4);
+                    gp.playSoundEffect(WIN);
                 }
             }
 
@@ -297,12 +299,12 @@ public class Player extends Entity
             {
                 if (gp.monsters.get(i).type == 2)
                 {
-                    gp.playSoundEffect(6);
+                    gp.playSoundEffect(RECEIVE_DAMAGE);
                     life -= takeDamage(i);
                     invincible = true;
                 } else if (gp.monsters.get(i).type == 3)
                 {
-                    gp.playSoundEffect(6);
+                    gp.playSoundEffect(RECEIVE_DAMAGE);
                     life -= takeDamage(i);
                     invincible = true;
                 }
@@ -326,7 +328,7 @@ public class Player extends Entity
         {
             if (!gp.monsters.get(i).invincible)
             {
-                gp.playSoundEffect(5);
+                gp.playSoundEffect(HIT);
 
                 int damage = causeDamage(i);
                 gp.monsters.get(i).life -= damage;
@@ -369,7 +371,7 @@ public class Player extends Entity
             agility++;
             attack = getAttack();
             defense = getDefence();
-            gp.playSoundEffect(8);
+            gp.playSoundEffect(LEVEL_UP);
             gp.setGameState(DIALOGUE_STATE);
             gp.ui.currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
         }
@@ -392,7 +394,7 @@ public class Player extends Entity
             spriteCounter++;
             if (spriteCounter == 2)
             {
-                gp.playSoundEffect(7);
+                gp.playSoundEffect(SWING_WEAPON);
             }
             if (spriteCounter <= 5)
             {

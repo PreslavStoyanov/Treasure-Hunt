@@ -19,9 +19,9 @@ public class PlayerLifeDrawer
     public PlayerLifeDrawer(GamePanel gp)
     {
         this.gp = gp;
-        this.heartFull = setupDefaultImage(properties.get("images.fullHeart.path"));
-        this.heartHalf = setupDefaultImage(properties.get("images.halfHeart.path"));
-        this.heartBlank = setupDefaultImage(properties.get("images.blankHeart.path"));
+        this.heartFull = setupDefaultImage(properties.get("images.fullHeart"));
+        this.heartHalf = setupDefaultImage(properties.get("images.halfHeart"));
+        this.heartBlank = setupDefaultImage(properties.get("images.blankHeart"));
     }
 
     public void drawPlayerLife()

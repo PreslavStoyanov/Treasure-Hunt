@@ -1,11 +1,14 @@
 package entities.Entity;
 
 import View.GamePanel;
+import utilities.sound.Sound;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.*;
+
+import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
 public class Entity
 {
@@ -79,7 +82,7 @@ public class Entity
         {
             if (this.type == 2)
             {
-                gp.playSoundEffect(6);
+                gp.playSoundEffect(RECEIVE_DAMAGE);
                 int damage = attack - gp.player.defense;
                 if (damage < 0)
                 {
@@ -90,7 +93,7 @@ public class Entity
             }
             else if (this.type == 3)
             {
-                gp.playSoundEffect(6);
+                gp.playSoundEffect(RECEIVE_DAMAGE);
                 int damage = attack - gp.player.defense;
                 if (damage < 0)
                 {

@@ -12,8 +12,8 @@ public class Heart extends Entity
     {
         super(gp);
         name = "Heart";
-        image = setupDefaultImage(properties.get("images.fullHeart.path"));
-        image2 = setupDefaultImage(properties.get("images.halfHeart.path"));
-        image3 = setupDefaultImage(properties.get("images.blankHeart.path"));
+        image = setupDefaultImage(properties.get("images.fullHeart"));
+        image2 = setupDefaultImage(properties.get("images.halfHeart"));
+        image3 = setupDefaultImage(properties.get("images.blankHeart"));
     }
 }
