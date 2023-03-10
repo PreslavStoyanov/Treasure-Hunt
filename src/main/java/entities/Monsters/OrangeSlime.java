@@ -3,6 +3,8 @@ package entities.Monsters;
 import View.GamePanel;
 import entities.Entity.Entity;
 
+import static utilities.ImageUtils.setupDefaultImage;
+
 public class OrangeSlime extends Entity
 {
     GamePanel gp;

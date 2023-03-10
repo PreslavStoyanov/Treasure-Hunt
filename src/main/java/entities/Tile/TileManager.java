@@ -1,15 +1,16 @@
 package entities.Tile;
 
-import utilities.ImageScalar;
 import View.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
+
+import static utilities.ImageUtils.setupDefaultImage;
+import static utilities.ImageUtils.setupImage;
 
 public class TileManager
 {
@@ -114,20 +115,9 @@ public class TileManager
         setup(34, "wall", true);
     }
 
-    public void setup(int index, String imageName, boolean collision)
+    public void setup(int index, String imageName, boolean haveCollision)
     {
-        ImageScalar imageScalar = new ImageScalar();
-        try
-        {
-            tile[index] = new Tile();
-            tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + imageName + ".png")));
-            tile[index].image = imageScalar.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
-            tile[index].collision = collision;
-
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        tile[index] = new Tile(setupDefaultImage("/tiles/" + imageName + ".png"), haveCollision);
     }
 
     public void loadMap(String mapPath)
@@ -179,7 +169,7 @@ public class TileManager
                     && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY
                     && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
             {
-                g2.drawImage(tile[tileNumber].image, screenX, screenY, null);
+                g2.drawImage(tile[tileNumber].image(), screenX, screenY, null);
             }
             worldCol++;
 

@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import static utilities.GameState.DIALOGUE_STATE;
+import static utilities.ImageUtils.setupDefaultImage;
+import static utilities.ImageUtils.setupImage;
 
 public class Player extends Entity
 {

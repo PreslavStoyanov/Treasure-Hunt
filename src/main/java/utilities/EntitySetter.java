@@ -42,6 +42,7 @@ public class EntitySetter
     public void setObjects()
     {
         gp.objects.add(new Boots(gp, 9, 52));
+        gp.objects.add(new Boots(gp, 31, 28));
 
         gp.objects.add(new Monkey(gp, 33, 28));
 

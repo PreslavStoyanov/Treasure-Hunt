@@ -2,8 +2,7 @@ package entities.Tile;
 
 import java.awt.image.BufferedImage;
 
-public class Tile
+public record Tile(BufferedImage image, boolean haveCollision)
 {
-    public BufferedImage image;
-    public boolean collision = false;
+
 }

@@ -28,33 +28,33 @@ public record HomeScreenKeyboardHandler(GamePanel gp)
 
     private void moveSelectionUp()
     {
-        gp.ui.commandNumber--;
-        if (gp.ui.commandNumber < 0)
+        gp.ui.getHomeScreenDrawer().decreaseCommandNumber();
+        if (gp.ui.getHomeScreenDrawer().getCommandNumber() < 0)
         {
-            gp.ui.commandNumber = 2;
+            gp.ui.getHomeScreenDrawer().setCommandNumber(2);
         }
     }
 
     private void moveSelectionDown()
     {
-        gp.ui.commandNumber++;
-        if (gp.ui.commandNumber > 2)
+        gp.ui.getHomeScreenDrawer().increaseCommandNumber();
+        if (gp.ui.getHomeScreenDrawer().getCommandNumber() > 2)
         {
-            gp.ui.commandNumber = 0;
+            gp.ui.getHomeScreenDrawer().setCommandNumber(0);
         }
     }
 
     private void handleSelection()
     {
-        if (gp.ui.commandNumber == 0)
+        if (gp.ui.getHomeScreenDrawer().getCommandNumber() == 0)
         {
             openNewGame();
         }
-        if (gp.ui.commandNumber == 1)
+        if (gp.ui.getHomeScreenDrawer().getCommandNumber() == 1)
         {
             openHelpScreen();
         }
-        if (gp.ui.commandNumber == 2)
+        if (gp.ui.getHomeScreenDrawer().getCommandNumber() == 2)
         {
             quitGame();
         }

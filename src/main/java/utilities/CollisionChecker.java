@@ -186,7 +186,7 @@ public class CollisionChecker
 
     public void setCollisionOn(Entity entity, int tileNumber1, int tileNumber2)
     {
-        if (gp.tileManager.tile[tileNumber1].collision || gp.tileManager.tile[tileNumber2].collision)
+        if (gp.tileManager.tile[tileNumber1].haveCollision() || gp.tileManager.tile[tileNumber2].haveCollision())
         {
             entity.collisionOn = true;
         }

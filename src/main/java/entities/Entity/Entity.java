@@ -1,12 +1,9 @@
 package entities.Entity;
 
 import View.GamePanel;
-import utilities.ImageScalar;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.List;
 import java.util.*;
 
@@ -122,16 +119,6 @@ public class Entity
         BufferedImage image = null;
         int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
-
-        /*int rightOffset = gp.screenWidth - gp.player.screenX;
-        if (rightOffset > gp.worldWidth - gp.player.worldX) {
-            screenX = gp.screenWidth - (gp.worldWidth - worldX);
-        }
-
-        int bottomOffset = gp.screenHeight - gp.player.screenY;
-        if (bottomOffset > gp.worldHeight - gp.player.worldY) {
-            screenY = gp.screenHeight - (gp.worldHeight - worldY);
-        }*/
 
         if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX
                 && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
@@ -270,29 +257,6 @@ public class Entity
     public void changeAlpha(Graphics2D g2, float alpha)
     {
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-    }
-
-    public BufferedImage setupDefaultImage(String imagePath)
-    {
-        return setupImage(imagePath, gp.tileSize, gp.tileSize);
-    }
-
-    public BufferedImage setupImage(String imagePath, int width, int height)
-    {
-        ImageScalar imageScalar = new ImageScalar();
-        BufferedImage image = null;
-
-        try
-        {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
-            image = imageScalar.scaleImage(image, width, height);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        return image;
     }
 
     public void spriteNumberChanger(int numberOfSprites, int speedOfChanging)

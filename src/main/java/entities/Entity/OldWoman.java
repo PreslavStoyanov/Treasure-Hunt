@@ -2,6 +2,8 @@ package entities.Entity;
 
 import View.GamePanel;
 
+import static utilities.ImageUtils.setupDefaultImage;
+
 public class OldWoman extends Entity
 {
     int dialogueIndex;
