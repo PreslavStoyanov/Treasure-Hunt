@@ -3,17 +3,19 @@ package utilities.drawers;
 import View.GamePanel;
 
 import java.awt.*;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class DrawerUtils
 {
 
-    public static void drawCenteredText(String text, int numberOfTilesFromTop, boolean shouldDrawShadow, float fontSize)
+    public static void drawCenteredText(String text, float numberOfTilesFromTop, boolean shouldDrawShadow, float fontSize)
     {
         g2.setFont(g2.getFont().deriveFont(fontSize));
-        int x = getXForCenteredText(text);
-        int y = GamePanel.tileSize * numberOfTilesFromTop;
+        float x = getXForCenteredText(text);
+        float y = GamePanel.tileSize * numberOfTilesFromTop;
         if (shouldDrawShadow)
         {
             drawShadow(text, x, y);
@@ -22,13 +24,13 @@ public class DrawerUtils
         drawText(text, x, y);
     }
 
-    private static void drawText(String text, int x, int y)
+    private static void drawText(String text, float x, float y)
     {
         g2.setColor(Color.white);
         g2.drawString(text, x, y);
     }
 
-    private static void drawShadow(String text, int x, int y)
+    private static void drawShadow(String text, float x, float y)
     {
         g2.setColor(Color.black);
         g2.drawString(text, x + 5, y + 5);
@@ -40,9 +42,9 @@ public class DrawerUtils
         return GamePanel.screenWidth / 2 - length / 2;
     }
 
-    public static int getXForAlignToRightText(String text, int tailX)
+    public static float getXForAlignToRightText(String text, float tailX)
     {
-        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        float length = (float) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return tailX - length;
     }
 
@@ -56,5 +58,15 @@ public class DrawerUtils
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    }
+
+    public static void drawListWithSameMarginRightAligned(List<String> values, float margin, float x, float y)
+    {
+        IntStream.range(0, values.size()).forEach(i -> g2.drawString(values.get(i), getXForAlignToRightText(values.get(i), x), y + margin * i));
+    }
+
+    public static void drawListWithSameMargin(List<String> values, float margin, float x, float y)
+    {
+        IntStream.range(0, values.size()).forEach(i -> g2.drawString(values.get(i),  x, y + margin * i));
     }
 }

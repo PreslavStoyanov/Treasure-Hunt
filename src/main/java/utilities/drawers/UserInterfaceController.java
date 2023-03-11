@@ -5,95 +5,77 @@ import View.GamePanel;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.util.Map;
+
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 import static utilities.GameState.*;
+import static utilities.drawers.CoordinatesDrawer.shouldShowCoordinates;
+import static utilities.drawers.CoordinatesDrawer.showPlayerCoordinates;
 import static utilities.drawers.DrawerUtils.drawCenteredText;
+import static utilities.drawers.GameTimeDrawer.playTime;
+import static utilities.drawers.MessageDrawer.messagesWIthTheirExpirationTime;
 
 public class UserInterfaceController
 {
-    protected static Graphics2D g2;
     public static Font pixelFont;
-    public static DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-    public static String currentDialogue = "";
+    protected static Graphics2D g2;
 
-    private final Map<String, Long> messagesWIthTheirExpirationTime = new ConcurrentHashMap<>();
-    public boolean gameFinished = false;
-    public double playTime;
     private final GamePanel gp;
-    private final HomeScreenDrawer homeScreenDrawer;
-    private final HelpScreenDrawer helpScreenDrawer;
     private final PlayerLifeDrawer playerLifeDrawer;
-    private final DialogueWindowDrawer dialogueWindowDrawer;
-    private final CharacterWindowDrawer characterWindowDrawer;
-    private final EndScreenDrawer endScreenDrawer;
-
-    public HomeScreenDrawer getHomeScreenDrawer()
-    {
-        return homeScreenDrawer;
-    }
+    public boolean gameFinished = false;
 
     public UserInterfaceController(GamePanel gp)
     {
         this.gp = gp;
         pixelFont = loadFont();
-        homeScreenDrawer = new HomeScreenDrawer();
-        helpScreenDrawer = new HelpScreenDrawer();
-        playerLifeDrawer = new PlayerLifeDrawer(gp);
-        dialogueWindowDrawer = new DialogueWindowDrawer();
-        characterWindowDrawer = new CharacterWindowDrawer(gp);
-        endScreenDrawer = new EndScreenDrawer();
+        playerLifeDrawer = new PlayerLifeDrawer();
     }
 
     public void draw(Graphics2D g2)
     {
+        long drawStart = System.nanoTime();
         UserInterfaceController.g2 = g2;
 
         if (gp.getGameState() == HOME_STATE)
         {
-            homeScreenDrawer.drawHomeScreen();
+            HomeScreenDrawer.drawHomeScreen();
         }
         if (gp.getGameState() == HELP_STATE)
         {
-            helpScreenDrawer.drawHelpScreen();
+            HelpScreenDrawer.drawHelpScreen();
         }
         if (gp.getGameState() == DIALOGUE_STATE)
         {
-            playerLifeDrawer.drawPlayerLife();
-            dialogueWindowDrawer.drawDialogueScreen();
+            playerLifeDrawer.drawPlayerLife(gp.player);
+            DialogueWindowDrawer.drawDialogueScreen();
         }
         if (gp.getGameState() == PLAY_STATE)
         {
             if (gameFinished)
             {
-                endScreenDrawer.drawEndScreen(playTime);
+                EndScreenDrawer.drawEndScreen(playTime);
                 stopGame();
             }
 
-            playerLifeDrawer.drawPlayerLife();
-            drawTime();
-            drawMessage();
-
+            playerLifeDrawer.drawPlayerLife(gp.player);
+            GameTimeDrawer.drawTime();
+            MessageDrawer.drawMessage();
         }
         if (gp.getGameState() == PAUSE_STATE)
         {
-            playerLifeDrawer.drawPlayerLife();
+            playerLifeDrawer.drawPlayerLife(gp.player);
             drawCenteredText("PAUSED", 8, true, 80F);
         }
         if (gp.getGameState() == CHARACTER_STATE)
         {
-            playerLifeDrawer.drawPlayerLife();
-            characterWindowDrawer.drawCharacterScreen();
+            playerLifeDrawer.drawPlayerLife(gp.player);
+            CharacterWindowDrawer.drawCharacterScreen(gp.player);
         }
-    }
-
-    public void addMessage(String text)
-    {
-        messagesWIthTheirExpirationTime.put(text, System.currentTimeMillis());
+        if (shouldShowCoordinates)
+        {
+            showPlayerCoordinates(drawStart, gp.player);
+        }
     }
 
     private Font loadFont()
@@ -111,27 +93,5 @@ public class UserInterfaceController
     private void stopGame()
     {
         gp.gameThread = null;
-    }
-
-    private void drawTime()
-    {
-        UserInterfaceController.g2.setColor(Color.white);
-        playTime += (double) 1 / 60;
-        UserInterfaceController.g2.drawString("Time: " + decimalFormat.format(playTime), GamePanel.tileSize * 11, GamePanel.tileSize);
-    }
-
-    public void drawMessage()
-    {
-        AtomicInteger messageY = new AtomicInteger(11);
-
-        messagesWIthTheirExpirationTime.forEach((message, timeAdded) ->
-        {
-            drawCenteredText(message, messageY.get(), false, 12F);
-            if ((System.currentTimeMillis() - timeAdded) / 1000 > 3)
-            {
-                messagesWIthTheirExpirationTime.remove(message);
-            }
-            messageY.addAndGet(-1);
-        });
     }
 }

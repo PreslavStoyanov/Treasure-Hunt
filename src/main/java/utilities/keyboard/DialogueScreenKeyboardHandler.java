@@ -9,19 +9,15 @@ import static utilities.GameState.PLAY_STATE;
 
 public record DialogueScreenKeyboardHandler(GamePanel gp)
 {
-    public void handleDialogueScreenKeys(int code)
+    public void handleDialogueScreenKeys(int keyPressed)
     {
-        if (code == KeyEvent.VK_E)
+        if (keyPressed == KeyEvent.VK_E)
         {
             quitDialogue();
         }
-        if (code == KeyEvent.VK_P)
+        if (keyPressed == KeyEvent.VK_P)
         {
             pauseGame();
-        }
-        if (code == KeyEvent.VK_O)
-        {
-            gp.toggleShowingCoordinates();
         }
     }
 

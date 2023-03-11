@@ -1,5 +1,6 @@
 package entities.Entity;
 
+import utilities.drawers.DialogueWindowDrawer;
 import utilities.keyboard.KeyboardHandler;
 import View.GamePanel;
 import entities.Objects.Shield;
@@ -10,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import static utilities.GameState.DIALOGUE_STATE;
+import static utilities.drawers.DialogueWindowDrawer.*;
+import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultImage;
 import static utilities.images.ImageUtils.setupImage;
 import static utilities.sound.Sound.*;
@@ -240,13 +243,13 @@ public class Player extends Entity
             {
                 if (keyCount == 0)
                 {
-                    gp.ui.addMessage("You have nothing for me!");
+                    addMessage("You have nothing for me!");
                 }
                 else
                 {
                     keyCount--;
                     gp.objects.remove(i);
-                    gp.ui.addMessage("The monkey robbed you and ran out!");
+                    addMessage("The monkey robbed you and ran out!");
                 }
             }
             case "Key" ->
@@ -254,7 +257,7 @@ public class Player extends Entity
                 gp.playSoundEffect(COIN);
                 keyCount++;
                 gp.objects.remove(i);
-                gp.ui.addMessage("You got a key!");
+                addMessage("You got a key!");
             }
             case "Door" ->
             {
@@ -263,11 +266,11 @@ public class Player extends Entity
                     gp.playSoundEffect(UNLOCK);
                     keyCount--;
                     gp.objects.remove(i);
-                    gp.ui.addMessage("Door opened!");
+                    addMessage("Door opened!");
                 }
                 else
                 {
-                    gp.ui.addMessage("You need a key!");
+                    addMessage("You need a key!");
                 }
             }
             case "Boots" ->
@@ -275,7 +278,7 @@ public class Player extends Entity
                 gp.playSoundEffect(POWER_UP);
                 speed += 2;
                 gp.objects.remove(i);
-                gp.ui.addMessage("You got boots!");
+                addMessage("You got boots!");
             }
             case "Chest" ->
             {
@@ -334,7 +337,7 @@ public class Player extends Entity
             int damage = causeDamage(i);
             gp.monsters.get(i).life -= damage;
 
-            gp.ui.addMessage(damage + " damage!");
+            addMessage(damage + " damage!");
 
             gp.monsters.get(i).invincible = true;
 
@@ -342,8 +345,8 @@ public class Player extends Entity
             if (gp.monsters.get(i).life <= 0)
             {
                 gp.monsters.get(i).dying = true;
-                gp.ui.addMessage(gp.monsters.get(i).name + " killed!");
-                gp.ui.addMessage(gp.monsters.get(i).exp + " exp  gained!");
+                addMessage(gp.monsters.get(i).name + " killed!");
+                addMessage(gp.monsters.get(i).exp + " exp  gained!");
                 exp += gp.monsters.get(i).exp;
                 checkLevelUp();
             }
@@ -373,7 +376,7 @@ public class Player extends Entity
             defense = getDefence();
             gp.playSoundEffect(LEVEL_UP);
             gp.setGameState(DIALOGUE_STATE);
-            gp.ui.currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
+            currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
         }
     }
 

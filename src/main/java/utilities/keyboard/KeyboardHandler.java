@@ -1,15 +1,17 @@
 package utilities.keyboard;
 
 import View.GamePanel;
+import utilities.drawers.CoordinatesDrawer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import static utilities.GameState.*;
+import static utilities.drawers.CoordinatesDrawer.shouldShowCoordinates;
 
 public class KeyboardHandler implements KeyListener
 {
-    GamePanel gp;
+    private final GamePanel gp;
     public final HomeScreenKeyboardHandler homeScreenKeyboardHandler;
     public final HelpScreenKeyboardHandler helpScreenKeyboardHandler;
     public final PauseScreenKeyboardHandler pauseScreenKeyboardHandler;
@@ -67,9 +69,13 @@ public class KeyboardHandler implements KeyListener
         {
             characterScreenKeyboardHandler.handleCharacterScreenKeys(keyPressed);
         }
-        else if (keyPressed == KeyEvent.VK_L)
+        if (keyPressed == KeyEvent.VK_L)
         {
             reloadMap();
+        }
+        if (keyPressed == KeyEvent.VK_O)
+        {
+            shouldShowCoordinates = !shouldShowCoordinates;
         }
     }
 
@@ -145,10 +151,6 @@ public class KeyboardHandler implements KeyListener
         {
             spacePressed = true;
             gp.player.attacking = true;
-        }
-        if (keyPressed == KeyEvent.VK_O)
-        {
-            gp.toggleShowingCoordinates();
         }
     }
 

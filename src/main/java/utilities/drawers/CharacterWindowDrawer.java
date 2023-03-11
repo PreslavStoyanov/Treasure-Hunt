@@ -1,72 +1,59 @@
 package utilities.drawers;
 
 import View.GamePanel;
+import entities.Entity.Player;
 
 import java.awt.*;
 import java.util.List;
 
-import static utilities.drawers.DrawerUtils.drawSubWindow;
-import static utilities.drawers.DrawerUtils.getXForAlignToRightText;
+import static View.GamePanel.*;
+import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class CharacterWindowDrawer
 {
-
     private static final int LINE_HEIGHT = 35;
 
-    private final GamePanel gp;
-
-    public CharacterWindowDrawer(GamePanel gp)
+    public static void drawCharacterScreen(Player player)
     {
-        this.gp = gp;
-    }
-
-    public void drawCharacterScreen()
-    {
-        final int frameX = GamePanel.tileSize;
-        final int frameY = GamePanel.tileSize;
-        final int frameWidth = GamePanel.tileSize * 5;
-        final int frameHeight = GamePanel.tileSize * 10;
+        final int frameX = tileSize;
+        final int frameY = tileSize;
+        final int frameWidth = tileSize * 5;
+        final int frameHeight = tileSize * 10;
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(15F));
 
         int textX = frameX + 20;
-        int textY = frameY + GamePanel.tileSize;
+        int textY = frameY + tileSize;
         drawLabels(textX, textY);
 
         textX = frameX + frameWidth - 30;
-        drawParameters(textX, textY);
+        drawParameters(player, textX, textY);
     }
 
-    private void drawParameters(int textX, int textY)
+    private static void drawParameters(Player player, int textX, int textY)
     {
-        java.util.List<String> parameters = java.util.List.of(
-                gp.player.life + "/" + gp.player.maxLife,
-                String.valueOf(gp.player.level),
-                String.valueOf(gp.player.strength),
-                String.valueOf(gp.player.agility),
-                String.valueOf(gp.player.attack),
-                String.valueOf(gp.player.defense),
-                String.valueOf(gp.player.exp),
-                String.valueOf(gp.player.nextLevelExp),
-                String.valueOf(gp.player.coins));
+        drawListWithSameMarginRightAligned(List.of(
+                player.life + "/" + player.maxLife,
+                String.valueOf(player.level),
+                String.valueOf(player.strength),
+                String.valueOf(player.agility),
+                String.valueOf(player.attack),
+                String.valueOf(player.defense),
+                String.valueOf(player.exp),
+                String.valueOf(player.nextLevelExp),
+                String.valueOf(player.coins)),
+                LINE_HEIGHT, textX, textY);
 
-        for (int i = 0; i < parameters.size(); i++)
-        {
-            String parameter = parameters.get(i);
-            g2.drawString(parameter, getXForAlignToRightText(parameter, textX), textY + LINE_HEIGHT * i);
-        }
-
-        g2.drawImage(gp.player.currentWeapon.image, textX - GamePanel.tileSize, textY + LINE_HEIGHT * 7 + GamePanel.tileSize, null);
-        g2.drawImage(gp.player.currentShield.image, textX - GamePanel.tileSize, textY + LINE_HEIGHT * 7 + GamePanel.tileSize * 2 + 10, null);
-
+        g2.drawImage(player.currentWeapon.image, textX - tileSize, textY + LINE_HEIGHT * 7 + tileSize, null);
+        g2.drawImage(player.currentShield.image, textX - tileSize, textY + LINE_HEIGHT * 7 + tileSize * 2 + 10, null);
     }
 
-    private static void drawLabels(int textX, int textY)
+    private static void drawLabels(float textX, float textY)
     {
-        java.util.List<String> labels = List.of(
+        drawListWithSameMargin(List.of(
                 "Life",
                 "Level",
                 "Strength",
@@ -75,12 +62,8 @@ public class CharacterWindowDrawer
                 "Defense",
                 "Exp",
                 "Next level",
-                "Coins");
-
-        for (int i = 0; i < labels.size(); i++)
-        {
-            g2.drawString(labels.get(i), textX, textY + LINE_HEIGHT * i);
-        }
+                "Coins"),
+                LINE_HEIGHT, textX, textY);
 
         g2.drawString("Weapon", textX, textY + LINE_HEIGHT * 9 + 10);
         g2.drawString("Shield", textX, textY + LINE_HEIGHT * 10 + 30);

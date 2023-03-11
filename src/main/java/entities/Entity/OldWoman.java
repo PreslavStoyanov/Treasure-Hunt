@@ -1,7 +1,9 @@
 package entities.Entity;
 
 import View.GamePanel;
+import utilities.drawers.DialogueWindowDrawer;
 
+import static utilities.drawers.DialogueWindowDrawer.*;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class OldWoman extends Entity
@@ -40,7 +42,7 @@ public class OldWoman extends Entity
     public void speak()
     {
         super.speak();
-        gp.ui.currentDialogue = dialogues.get(dialogueIndex);
+        currentDialogue = dialogues.get(dialogueIndex);
         dialogueIndex++;
         if (dialogueIndex == dialogues.size())
         {

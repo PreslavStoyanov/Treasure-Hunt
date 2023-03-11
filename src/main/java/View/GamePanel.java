@@ -4,6 +4,7 @@ import entities.Entity.Entity;
 import entities.Entity.Player;
 import entities.Tile.TileManager;
 import utilities.*;
+import utilities.drawers.GameTimeDrawer;
 import utilities.drawers.UserInterfaceController;
 import utilities.keyboard.KeyboardHandler;
 import utilities.sound.Sound;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import static utilities.GameState.*;
+import static utilities.drawers.GameTimeDrawer.playTime;
 import static utilities.sound.Sound.*;
 
 public class GamePanel extends JPanel implements Runnable
@@ -46,8 +48,6 @@ public class GamePanel extends JPanel implements Runnable
     ArrayList<Entity> entities = new ArrayList<>();
     private GameState gameState;
 
-    private boolean showCoordinates;
-
     public GamePanel()
     {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -56,7 +56,6 @@ public class GamePanel extends JPanel implements Runnable
         this.addKeyListener(keyboardHandler);
         this.setFocusable(true);
         this.setGameState(HOME_STATE);
-        this.showCoordinates = false;
     }
 
     public GameState getGameState()
@@ -69,18 +68,13 @@ public class GamePanel extends JPanel implements Runnable
         this.gameState = gameState;
     }
 
-    public void toggleShowingCoordinates()
-    {
-        this.showCoordinates = !showCoordinates;
-    }
-
     public void setUpNewGame()
     {
         entitySetter.setObjects();
         entitySetter.setNpcs();
         entitySetter.setMonsters();
         setGameState(PLAY_STATE);
-        ui.playTime = 0;
+        playTime = 0;
         player.setDefaultValues();
         playMusic(PLAYBACK);
     }
@@ -150,25 +144,16 @@ public class GamePanel extends JPanel implements Runnable
 
     public void paintComponent(Graphics g)
     {
-        long drawStart = System.nanoTime();
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (getGameState() == HOME_STATE)
-        {
-            ui.draw(g2);
-        }
-        else if (getGameState() == HELP_STATE)
+        if (getGameState() == HOME_STATE || getGameState() == HELP_STATE)
         {
             ui.draw(g2);
         }
         else
         {
             drawPlayScreen(g2);
-        }
-        if (showCoordinates)
-        {
-            showCoordinates(drawStart, g2);
         }
         g2.dispose();
     }
@@ -187,22 +172,6 @@ public class GamePanel extends JPanel implements Runnable
         entities.clear();
 
         ui.draw(g2);
-    }
-
-    private void showCoordinates(long drawStart, Graphics2D g2)
-    {
-        g2.setFont(new Font("Arial", Font.BOLD, 20));
-        g2.setColor(Color.white);
-        int x = 10;
-        int y = 400;
-        int lineHeight = 20;
-
-        g2.drawString("Invincible: " + player.invincibleCounter, x, y);
-        g2.drawString("WorldX: " + player.worldX, x, y + lineHeight);
-        g2.drawString("WorldY: " + player.worldY, x, y + lineHeight * 2);
-        g2.drawString("Col (x): " + (player.worldX + player.solidArea.x) / tileSize, x, y + lineHeight * 3);
-        g2.drawString("Row: (y): " + (player.worldY + player.solidArea.y) / tileSize, x, y + lineHeight * 4);
-        g2.drawString("Draw Time: " + (System.nanoTime() - drawStart), x, y + lineHeight * 5);
     }
 
     public void playMusic(Sound sound)

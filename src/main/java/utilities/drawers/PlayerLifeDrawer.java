@@ -1,6 +1,7 @@
 package utilities.drawers;
 
 import View.GamePanel;
+import entities.Entity.Player;
 
 import java.awt.image.BufferedImage;
 
@@ -11,61 +12,58 @@ import static utilities.drawers.UserInterfaceController.pixelFont;
 
 public class PlayerLifeDrawer
 {
-    GamePanel gp;
     private final BufferedImage heartFull;
     private final BufferedImage heartHalf;
     private final BufferedImage heartBlank;
 
-    public PlayerLifeDrawer(GamePanel gp)
+    public PlayerLifeDrawer()
     {
-        this.gp = gp;
         this.heartFull = setupDefaultImage(properties.get("images.fullHeart"));
         this.heartHalf = setupDefaultImage(properties.get("images.halfHeart"));
         this.heartBlank = setupDefaultImage(properties.get("images.blankHeart"));
     }
 
-    public void drawPlayerLife()
+    public void drawPlayerLife(Player player)
     {
-        UserInterfaceController.g2.setFont(pixelFont);
-        drawBlankHearts();
-        drawHalfHearts();
-        drawFullHearts();
+        g2.setFont(pixelFont);
+        drawBlankHearts(player.maxLife);
+        drawHalfHearts(player.life);
+        drawFullHearts(player.life);
     }
 
-    private void drawFullHearts()
+    private void drawBlankHearts(int maxLife)
     {
-        int x = GamePanel.tileSize / 2;
         int y = GamePanel.tileSize / 2;
-        for (int i = 0; i < gp.player.life; i++)
+        int x = GamePanel.tileSize / 2;
+        for (int i = 0; i < maxLife / 2; i++)
         {
-            i++;
-            if (i < gp.player.life)
-            {
-                g2.drawImage(heartFull, x, y, null);
-            }
+            g2.drawImage(heartBlank, x, y, null);
             x += GamePanel.tileSize;
         }
     }
 
-    private void drawHalfHearts()
+    private void drawHalfHearts(int life)
     {
         int y = GamePanel.tileSize / 2;
         int x = GamePanel.tileSize / 2;
-        for (int i = 0; i < gp.player.life; i+=2)
+        for (int i = 0; i < life; i+=2)
         {
             g2.drawImage(heartHalf, x, y, null);
             x += GamePanel.tileSize;
         }
     }
 
-    private void drawBlankHearts()
+    private void drawFullHearts(int life)
     {
-        final int MAX_HEARTS = gp.player.maxLife / 2;
-        int y = GamePanel.tileSize / 2;
         int x = GamePanel.tileSize / 2;
-        for (int i = 0; i < MAX_HEARTS; i++)
+        int y = GamePanel.tileSize / 2;
+        for (int i = 0; i < life; i++)
         {
-            g2.drawImage(heartBlank, x, y, null);
+            i++;
+            if (i < life)
+            {
+                g2.drawImage(heartFull, x, y, null);
+            }
             x += GamePanel.tileSize;
         }
     }

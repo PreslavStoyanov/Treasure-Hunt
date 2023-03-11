@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 
 import static utilities.GameState.HELP_STATE;
 import static utilities.GameState.PLAY_STATE;
+import static utilities.drawers.HomeScreenDrawer.HomeMenuOption.*;
+import static utilities.drawers.HomeScreenDrawer.homeMenuOption;
 
 public record HomeScreenKeyboardHandler(GamePanel gp)
 {
@@ -28,33 +30,47 @@ public record HomeScreenKeyboardHandler(GamePanel gp)
 
     private void moveSelectionUp()
     {
-        gp.ui.getHomeScreenDrawer().decreaseCommandNumber();
-        if (gp.ui.getHomeScreenDrawer().getCommandNumber() < 0)
+        if (homeMenuOption.equals(NEW_GAME))
         {
-            gp.ui.getHomeScreenDrawer().setCommandNumber(2);
+            homeMenuOption = QUIT;
+        }
+        else if (homeMenuOption.equals(HELP))
+        {
+            homeMenuOption = NEW_GAME;
+        }
+        else if (homeMenuOption.equals(QUIT))
+        {
+            homeMenuOption = HELP;
         }
     }
 
     private void moveSelectionDown()
     {
-        gp.ui.getHomeScreenDrawer().increaseCommandNumber();
-        if (gp.ui.getHomeScreenDrawer().getCommandNumber() > 2)
+        if (homeMenuOption.equals(NEW_GAME))
         {
-            gp.ui.getHomeScreenDrawer().setCommandNumber(0);
+            homeMenuOption = HELP;
+        }
+        else if (homeMenuOption.equals(HELP))
+        {
+            homeMenuOption = QUIT;
+        }
+        else if (homeMenuOption.equals(QUIT))
+        {
+            homeMenuOption = NEW_GAME;
         }
     }
 
     private void handleSelection()
     {
-        if (gp.ui.getHomeScreenDrawer().getCommandNumber() == 0)
+        if (homeMenuOption.equals(NEW_GAME))
         {
             openNewGame();
         }
-        if (gp.ui.getHomeScreenDrawer().getCommandNumber() == 1)
+        if (homeMenuOption.equals(HELP))
         {
             openHelpScreen();
         }
-        if (gp.ui.getHomeScreenDrawer().getCommandNumber() == 2)
+        if (homeMenuOption.equals(QUIT))
         {
             quitGame();
         }
