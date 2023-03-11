@@ -3,7 +3,7 @@ package entities.Objects;
 import View.GamePanel;
 import entities.Entity.Entity;
 
-import static utilities.ImageUtils.setupDefaultImage;
+import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class Chest extends Entity
 {

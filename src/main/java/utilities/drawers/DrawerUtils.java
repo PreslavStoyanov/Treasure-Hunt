@@ -4,7 +4,7 @@ import View.GamePanel;
 
 import java.awt.*;
 
-import static utilities.drawers.UIController.g2;
+import static utilities.drawers.UserInterfaceController.g2;
 
 public class DrawerUtils
 {

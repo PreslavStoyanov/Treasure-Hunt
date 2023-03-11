@@ -4,7 +4,7 @@ import View.GamePanel;
 import entities.Entity.Entity;
 
 import static View.Main.properties;
-import static utilities.ImageUtils.setupDefaultImage;
+import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class Heart extends Entity
 {

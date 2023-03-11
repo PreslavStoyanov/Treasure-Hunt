@@ -1,4 +1,4 @@
-package utilities;
+package utilities.images;
 
 import View.GamePanel;
 import entities.Entity.Entity;

@@ -5,9 +5,9 @@ import View.GamePanel;
 import java.awt.image.BufferedImage;
 
 import static View.Main.properties;
-import static utilities.ImageUtils.setupDefaultImage;
-import static utilities.drawers.UIController.g2;
-import static utilities.drawers.UIController.pixelFont;
+import static utilities.images.ImageUtils.setupDefaultImage;
+import static utilities.drawers.UserInterfaceController.g2;
+import static utilities.drawers.UserInterfaceController.pixelFont;
 
 public class PlayerLifeDrawer
 {
@@ -26,7 +26,7 @@ public class PlayerLifeDrawer
 
     public void drawPlayerLife()
     {
-        UIController.g2.setFont(pixelFont);
+        UserInterfaceController.g2.setFont(pixelFont);
         drawBlankHearts();
         drawHalfHearts();
         drawFullHearts();

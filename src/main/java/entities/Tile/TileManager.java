@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
-import static utilities.ImageUtils.setupDefaultImage;
+import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class TileManager
 {

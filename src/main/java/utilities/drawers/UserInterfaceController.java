@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static utilities.GameState.*;
 import static utilities.drawers.DrawerUtils.drawCenteredText;
 
-public class UIController
+public class UserInterfaceController
 {
     protected static Graphics2D g2;
     public static Font pixelFont;
@@ -37,7 +37,7 @@ public class UIController
         return homeScreenDrawer;
     }
 
-    public UIController(GamePanel gp)
+    public UserInterfaceController(GamePanel gp)
     {
         this.gp = gp;
         pixelFont = loadFont();
@@ -51,7 +51,7 @@ public class UIController
 
     public void draw(Graphics2D g2)
     {
-        UIController.g2 = g2;
+        UserInterfaceController.g2 = g2;
 
         if (gp.getGameState() == HOME_STATE)
         {
@@ -115,9 +115,9 @@ public class UIController
 
     private void drawTime()
     {
-        UIController.g2.setColor(Color.white);
+        UserInterfaceController.g2.setColor(Color.white);
         playTime += (double) 1 / 60;
-        UIController.g2.drawString("Time: " + decimalFormat.format(playTime), GamePanel.tileSize * 11, GamePanel.tileSize);
+        UserInterfaceController.g2.drawString("Time: " + decimalFormat.format(playTime), GamePanel.tileSize * 11, GamePanel.tileSize);
     }
 
     public void drawMessage()

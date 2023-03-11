@@ -2,7 +2,7 @@ package entities.Entity;
 
 import View.GamePanel;
 
-import static utilities.ImageUtils.setupDefaultImage;
+import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class OldMan extends Entity
 {

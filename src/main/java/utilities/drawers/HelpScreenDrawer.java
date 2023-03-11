@@ -1,13 +1,13 @@
 package utilities.drawers;
 
 import static utilities.drawers.DrawerUtils.drawCenteredText;
-import static utilities.drawers.UIController.pixelFont;
+import static utilities.drawers.UserInterfaceController.pixelFont;
 
 public class HelpScreenDrawer
 {
     public void drawHelpScreen()
     {
-        UIController.g2.setFont(pixelFont);
+        UserInterfaceController.g2.setFont(pixelFont);
         drawCenteredText("Buttons", 1, false, 24F);
         drawCenteredText("W | MOVE UP", 2, false, 15F);
         drawCenteredText("S | MOVE DOWN", 3, false, 15F);

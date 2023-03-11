@@ -1,7 +1,7 @@
 package utilities.drawers;
 
 import static utilities.drawers.DrawerUtils.drawCenteredText;
-import static utilities.drawers.UIController.pixelFont;
+import static utilities.drawers.UserInterfaceController.pixelFont;
 
 public class HomeScreenDrawer
 {
@@ -34,7 +34,7 @@ public class HomeScreenDrawer
 
     public void drawHomeScreen()
     {
-        UIController.g2.setFont(pixelFont);
+        UserInterfaceController.g2.setFont(pixelFont);
         drawCenteredText("Treasure Hunt", 3, true, 56F);
         drawCenteredText("NEW GAME", 9, commandNumber == 0, 36F);
         drawCenteredText("HELP", 10, commandNumber == 1, 36F);

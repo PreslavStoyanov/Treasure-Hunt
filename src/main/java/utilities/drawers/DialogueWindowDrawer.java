@@ -3,8 +3,8 @@ package utilities.drawers;
 import View.GamePanel;
 
 import static utilities.drawers.DrawerUtils.drawSubWindow;
-import static utilities.drawers.UIController.currentDialogue;
-import static utilities.drawers.UIController.g2;
+import static utilities.drawers.UserInterfaceController.currentDialogue;
+import static utilities.drawers.UserInterfaceController.g2;
 
 public class DialogueWindowDrawer
 {

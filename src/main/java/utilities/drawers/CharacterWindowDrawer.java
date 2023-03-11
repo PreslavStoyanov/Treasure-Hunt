@@ -7,7 +7,7 @@ import java.util.List;
 
 import static utilities.drawers.DrawerUtils.drawSubWindow;
 import static utilities.drawers.DrawerUtils.getXForAlignToRightText;
-import static utilities.drawers.UIController.g2;
+import static utilities.drawers.UserInterfaceController.g2;
 
 public class CharacterWindowDrawer
 {

@@ -4,7 +4,7 @@ import entities.Entity.Entity;
 import entities.Entity.Player;
 import entities.Tile.TileManager;
 import utilities.*;
-import utilities.drawers.UIController;
+import utilities.drawers.UserInterfaceController;
 import utilities.keyboard.KeyboardHandler;
 import utilities.sound.Sound;
 import utilities.sound.SoundHandler;
@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable
     SoundHandler soundHandler = new SoundHandler();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public EntitySetter entitySetter = new EntitySetter(this);
-    public UIController ui = new UIController(this);
+    public UserInterfaceController ui = new UserInterfaceController(this);
     public Thread gameThread;
 
     public Player player = new Player(this, keyboardHandler);
