@@ -1,7 +1,6 @@
 package entities.Entity;
 
 import View.GamePanel;
-import utilities.sound.Sound;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -74,10 +73,10 @@ public class Entity
         setAction();
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
-        gp.collisionChecker.checkObject(this, false);
-        gp.collisionChecker.checkEntity(this, gp.npcs);
-        gp.collisionChecker.checkEntity(this, gp.monsters);
-        boolean contactPlayer = gp.collisionChecker.checkPlayer(this);
+        gp.collisionChecker.checkObjectsForCollisions(this, gp.objects, false);
+        gp.collisionChecker.checkEntitiesForCollision(this, gp.npcs);
+        gp.collisionChecker.checkEntitiesForCollision(this, gp.monsters);
+        boolean contactPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
         if (!gp.player.invincible && contactPlayer)
         {
             if (this.type == 2)

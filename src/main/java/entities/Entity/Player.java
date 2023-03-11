@@ -4,7 +4,6 @@ import utilities.keyboard.KeyboardHandler;
 import View.GamePanel;
 import entities.Objects.Shield;
 import entities.Objects.Sword;
-import utilities.sound.Sound;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -152,14 +151,25 @@ public class Player extends Entity
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
 
-            int objectIndex = gp.collisionChecker.checkObject(this, true);
-            pickUpObject(objectIndex);
+            //index == -1 -> false (no interaction)
+            //index == 0+ -> true (interaction and the index of entity to interact with)
+            int objectIndex = gp.collisionChecker.checkObjectsForCollisions(this, gp.objects, true);
+            if (objectIndex != -1)
+            {
+                pickUpObject(objectIndex);
+            }
 
-            int npcIndex = gp.collisionChecker.checkEntity(this, gp.npcs);
-            interactNpc(npcIndex);
+            int npcIndex = gp.collisionChecker.checkEntitiesForCollision(this, gp.npcs);
+            if (npcIndex != -1)
+            {
+                interactNpc(npcIndex);
+            }
 
-            int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
-            contactMonster(monsterIndex);
+            int monsterIndex = gp.collisionChecker.checkEntitiesForCollision(this, gp.monsters);
+            if (monsterIndex != -1)
+            {
+                contactMonster(monsterIndex);
+            }
 
             if (!collisionOn && !keyboardHandler.ePressed)
             {
@@ -223,91 +233,84 @@ public class Player extends Entity
 
     public void pickUpObject(int i)
     {
-        if (i != 999)
+        String objectName = gp.objects.get(i).name;
+        switch (objectName)
         {
-            String objectName = gp.objects.get(i).name;
-            switch (objectName)
+            case "Monkey" ->
             {
-                case "Monkey" ->
+                if (keyCount == 0)
                 {
-                    if (keyCount == 0)
-                    {
-                        gp.ui.addMessage("You have nothing for me!");
-                    } else
-                    {
-                        keyCount--;
-                        gp.objects.remove(i);
-                        gp.ui.addMessage("The monkey robbed you and ran out!");
-                    }
+                    gp.ui.addMessage("You have nothing for me!");
                 }
-                case "Key" ->
+                else
                 {
-                    gp.playSoundEffect(COIN);
-                    keyCount++;
+                    keyCount--;
                     gp.objects.remove(i);
-                    gp.ui.addMessage("You got a key!");
-                }
-                case "Door" ->
-                {
-                    if (keyCount > 0)
-                    {
-                        gp.playSoundEffect(UNLOCK);
-                        keyCount--;
-                        gp.objects.remove(i);
-                        gp.ui.addMessage("Door opened!");
-                    } else
-                    {
-                        gp.ui.addMessage("You need a key!");
-                    }
-                }
-                case "Boots" ->
-                {
-                    gp.playSoundEffect(POWER_UP);
-                    speed += 2;
-                    gp.objects.remove(i);
-                    gp.ui.addMessage("You got boots!");
-                }
-                case "Chest" ->
-                {
-                    gp.ui.gameFinished = true;
-                    gp.stopMusic();
-                    gp.playSoundEffect(WIN);
+                    gp.ui.addMessage("The monkey robbed you and ran out!");
                 }
             }
-
+            case "Key" ->
+            {
+                gp.playSoundEffect(COIN);
+                keyCount++;
+                gp.objects.remove(i);
+                gp.ui.addMessage("You got a key!");
+            }
+            case "Door" ->
+            {
+                if (keyCount > 0)
+                {
+                    gp.playSoundEffect(UNLOCK);
+                    keyCount--;
+                    gp.objects.remove(i);
+                    gp.ui.addMessage("Door opened!");
+                }
+                else
+                {
+                    gp.ui.addMessage("You need a key!");
+                }
+            }
+            case "Boots" ->
+            {
+                gp.playSoundEffect(POWER_UP);
+                speed += 2;
+                gp.objects.remove(i);
+                gp.ui.addMessage("You got boots!");
+            }
+            case "Chest" ->
+            {
+                gp.ui.gameFinished = true;
+                gp.stopMusic();
+                gp.playSoundEffect(WIN);
+            }
         }
     }
 
     public void interactNpc(int i)
     {
-        if (i != 999)
+        if (keyboardHandler.ePressed)
         {
-            if (keyboardHandler.ePressed)
-            {
-                gp.setGameState(DIALOGUE_STATE);
-                gp.npcs.get(i).speak();
-            }
-            keyboardHandler.ePressed = false;
+            gp.setGameState(DIALOGUE_STATE);
+            gp.npcs.get(i).speak();
         }
+        keyboardHandler.ePressed = false;
     }
 
     public void contactMonster(int i)
     {
-        if (i != 999)
+        if (!invincible)
         {
-            if (!invincible)
+            if (gp.monsters.get(i).type == 2)
             {
-                if (gp.monsters.get(i).type == 2)
-                {
-                    gp.playSoundEffect(RECEIVE_DAMAGE);
-                    life -= takeDamage(i);
-                    invincible = true;
-                } else if (gp.monsters.get(i).type == 3)
-                {
-                    gp.playSoundEffect(RECEIVE_DAMAGE);
-                    life -= takeDamage(i);
-                    invincible = true;
-                }
+                gp.playSoundEffect(RECEIVE_DAMAGE);
+                life -= takeDamage(i);
+                invincible = true;
+            }
+            else if (gp.monsters.get(i).type == 3)
+            {
+                gp.playSoundEffect(RECEIVE_DAMAGE);
+                life -= takeDamage(i);
+                invincible = true;
             }
         }
     }
@@ -324,28 +327,25 @@ public class Player extends Entity
 
     public void damageMonster(int i)
     {
-        if (i != 999)
+        if (!gp.monsters.get(i).invincible)
         {
-            if (!gp.monsters.get(i).invincible)
+            gp.playSoundEffect(HIT);
+
+            int damage = causeDamage(i);
+            gp.monsters.get(i).life -= damage;
+
+            gp.ui.addMessage(damage + " damage!");
+
+            gp.monsters.get(i).invincible = true;
+
+            gp.monsters.get(i).damageReaction();
+            if (gp.monsters.get(i).life <= 0)
             {
-                gp.playSoundEffect(HIT);
-
-                int damage = causeDamage(i);
-                gp.monsters.get(i).life -= damage;
-
-                gp.ui.addMessage(damage + " damage!");
-
-                gp.monsters.get(i).invincible = true;
-
-                gp.monsters.get(i).damageReaction();
-                if (gp.monsters.get(i).life <= 0)
-                {
-                    gp.monsters.get(i).dying = true;
-                    gp.ui.addMessage(gp.monsters.get(i).name + " killed!");
-                    gp.ui.addMessage(gp.monsters.get(i).exp + " exp  gained!");
-                    exp += gp.monsters.get(i).exp;
-                    checkLevelUp();
-                }
+                gp.monsters.get(i).dying = true;
+                gp.ui.addMessage(gp.monsters.get(i).name + " killed!");
+                gp.ui.addMessage(gp.monsters.get(i).exp + " exp  gained!");
+                exp += gp.monsters.get(i).exp;
+                checkLevelUp();
             }
         }
     }
@@ -421,7 +421,28 @@ public class Player extends Entity
         int currentWorldY = worldY;
         int solidAreaWidth = solidArea.width;
         int solidAreaHeight = solidArea.height;
-        //adjust player worldX/Y for attackArea
+
+        adjustPlayerCoordinatesForAttackArea();
+
+        setSolidAreaToAttackArea();
+
+        int monsterIndex = gp.collisionChecker.checkEntitiesForCollision(this, gp.monsters);
+        if (monsterIndex != -1)
+        {
+            damageMonster(monsterIndex);
+        }
+
+        restoreOriginalPosition(currentWorldX, currentWorldY, solidAreaWidth, solidAreaHeight);
+    }
+
+    private void setSolidAreaToAttackArea()
+    {
+        solidArea.width = attackArea.width;
+        solidArea.height = attackArea.height;
+    }
+
+    private void adjustPlayerCoordinatesForAttackArea()
+    {
         switch (direction)
         {
             case "up" -> worldY -= attackArea.height;
@@ -429,13 +450,11 @@ public class Player extends Entity
             case "left" -> worldX -= attackArea.width;
             case "right" -> worldX += attackArea.width;
         }
-        //attackArea become solidArea
-        solidArea.width = attackArea.width;
-        solidArea.height = attackArea.height;
-        //check monster collision with updated worldX, worldY, solidArea
-        int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
-        damageMonster(monsterIndex);
-        //restore original position
+    }
+
+    private void restoreOriginalPosition(int currentWorldX, int currentWorldY,
+                                         int solidAreaWidth, int solidAreaHeight)
+    {
         worldX = currentWorldX;
         worldY = currentWorldY;
         solidArea.width = solidAreaWidth;
