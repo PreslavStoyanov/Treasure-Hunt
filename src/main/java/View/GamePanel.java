@@ -4,7 +4,6 @@ import entities.Entity.Entity;
 import entities.Entity.Player;
 import entities.Tile.TileManager;
 import utilities.*;
-import utilities.drawers.GameTimeDrawer;
 import utilities.drawers.UserInterfaceController;
 import utilities.keyboard.KeyboardHandler;
 import utilities.sound.Sound;
@@ -28,8 +27,8 @@ public class GamePanel extends JPanel implements Runnable
     public static final int maxScreenRow = 12;
     public static final int screenWidth = tileSize * maxScreenCol;
     public static final int screenHeight = tileSize * maxScreenRow;
-    public static final int maxWorldCol = 62;
-    public static final int maxWorldRow = 62;
+    public static final int worldColumns = 62;
+    public static final int worldRows = 62;
     int FPS = 60;
     public TileManager tileManager = new TileManager(this);
 

@@ -128,13 +128,7 @@ public class Entity
                 && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
         {
             image = switchDirection(image);
-        } /*else if (gp.player.screenX > gp.player.worldX ||
-                gp.player.screenY > gp.player.worldY ||
-                rightOffset > gp.worldWidth - gp.player.worldX ||
-                bottomOffset > gp.worldHeight - gp.player.worldY) {
-            image = switchDirection(image);
-            //offsets
-        }*/
+        }
         if ((type == 2 || type == 3) && hpBarOn)
         {
             double oneScale = (double) gp.tileSize / maxLife;

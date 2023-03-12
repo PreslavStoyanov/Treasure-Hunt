@@ -8,11 +8,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+import static View.GamePanel.*;
+import static View.GamePanel.worldColumns;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class TileManager
 {
-    GamePanel gp;
+
+    private static final String SPACE = " ";
+    private final GamePanel gp;
     public Tile[] tile;
     public int[][] mapTileNumber;
 
@@ -20,97 +24,51 @@ public class TileManager
     {
         this.gp = gp;
         tile = new Tile[50];
-        mapTileNumber = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNumber = new int[worldColumns][worldRows];
         getTileImage();
         loadMap("/maps/world01.txt");
     }
 
     public void getTileImage()
     {
-        /*setup(0, "water01", false);
-        setup(1, "water01", true);
-        setup(2, "water01", true);
-        setup(3, "water01", false);
-        setup(4, "water01", true);
-        setup(5, "water01", false);
-        setup(6, "water01", true);
-        setup(7, "water01", false);
-        setup(8, "water01", false);
-        setup(9, "water01", false);
+        setup(0, "00_water", true);
+        setup(1, "01_water", true);
+        setup(2, "02_water", true);
+        setup(3, "03_water", true);
+        setup(4, "04_water", true);
+        setup(5, "05_water", true);
+        setup(6, "06_water", true);
+        setup(7, "07_water", true);
+        setup(8, "08_water", true);
+        setup(9, "09_water", true);
+        setup(10, "10_water", true);
+        setup(11, "11_water", true);
+        setup(12, "12_water", true);
+        setup(13, "13_water", true);
 
-        setup(10, "water00", true);
-        setup(11, "water01", true);
-        setup(12, "water02", true);
-        setup(13, "water03", true);
-        setup(14, "water04", true);
-        setup(15, "water05", true);
-        setup(16, "water06", true);
-        setup(17, "water07", true);
-        setup(18, "water08", true);
-        setup(19, "water09", true);
-        setup(20, "water10", true);
-        setup(21, "water11", true);
-        setup(22, "water12", true);
-        setup(23, "water13", true);
-        setup(24, "grass", false);
-        setup(25, "wall", true);
-        setup(26, "earth", false);
-        setup(27, "tree", true);
-        setup(28, "tree2", true);
-        setup(29, "road00", false);
-        setup(30, "floor01", false);
-        setup(31, "road01", false);
-        setup(32, "road02", false);
-        setup(33, "road03", false);
-        setup(34, "road04", false);
-        setup(35, "road05", false);
-        setup(36, "road06", false);
-        setup(37, "road07", false);
-        setup(38, "road08", false);
-        setup(39, "road09", false);
-        setup(40, "road10", false);
-        setup(41, "road11", false);
-        setup(42, "road12", false);
-        setup(43, "bridge", false);
-        setup(44, "bridge2", false);*/
-        setup(1, "water00", true);
-        setup(35, "water01", true);
-        setup(2, "water02", true);
-        setup(3, "water03", true);
-        setup(4, "water04", true);
-        setup(5, "water05", true);
-        setup(6, "water06", true);
-        setup(7, "water07", true);
-        setup(8, "water08", true);
-        setup(9, "water09", true);
-        setup(10, "water10", true);
-        setup(11, "water11", true);
-        setup(12, "water12", true);
-        setup(13, "water13", true);
+        setup(14, "14_road", false);
+        setup(15, "15_road", false);
+        setup(16, "16_road", false);
+        setup(17, "17_road", false);
+        setup(18, "18_road", false);
+        setup(19, "19_road", false);
+        setup(20, "20_road", false);
+        setup(21, "21_road", false);
+        setup(22, "22_road", false);
+        setup(23, "23_road", false);
+        setup(24, "24_road", false);
+        setup(25, "25_road", false);
+        setup(26, "26_road", false);
 
-        setup(14, "road00", false);
-        setup(15, "road01", false);
-        setup(16, "road02", false);
-        setup(17, "road03", false);
-        setup(18, "road04", false);
-        setup(19, "road05", false);
-        setup(20, "road06", false);
-        setup(21, "road07", false);
-        setup(22, "road08", false);
-        setup(23, "road09", false);
-        setup(24, "road10", false);
-        setup(25, "road11", false);
-        setup(26, "road12", false);
+        setup(27, "27_bridge", false);
+        setup(28, "28_bridge2", false);
 
-        setup(27, "bridge", false);
-        setup(28, "bridge2", false);
-
-        setup(29, "earth", false);
-        setup(30, "floor01", false);
-        setup(31, "grass", false);
-        setup(32, "tree", true);
-        setup(33, "tree2", true);
-        setup(34, "wall", true);
+        setup(29, "29_earth", false);
+        setup(30, "30_floor", false);
+        setup(31, "31_grass", false);
+        setup(32, "32_tree", true);
+        setup(33, "33_tree2", true);
+        setup(34, "34_wall", true);
     }
 
     public void setup(int index, String imageName, boolean haveCollision)
@@ -126,17 +84,17 @@ public class TileManager
             int col = 0;
             int row = 0;
 
-            while (col < gp.maxWorldCol && row < gp.maxWorldRow)
+            while (col < worldColumns && row < worldRows)
             {
                 String line = br.readLine();
-                while (col < gp.maxWorldCol)
+                while (col < worldColumns)
                 {
-                    String[] numbers = line.split(",");
+                    String[] numbers = line.split(SPACE);
                     int num = Integer.parseInt(numbers[col]);
                     mapTileNumber[col][row] = num;
                     col++;
                 }
-                if (col == gp.maxWorldCol)
+                if (col == worldColumns)
                 {
                     col = 0;
                     row++;
@@ -154,32 +112,34 @@ public class TileManager
         int worldRow = 0;
 
 
-        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow)
+        while (worldCol < worldColumns && worldRow < worldRows)
         {
             int tileNumber = mapTileNumber[worldCol][worldRow];
-            int worldX = worldCol * gp.tileSize;
-            int worldY = worldRow * gp.tileSize;
+            int worldX = worldCol * tileSize;
+            int worldY = worldRow * tileSize;
             int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
             int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
 
-            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX
-                    && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
-                    && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY
-                    && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
+            if (isTileVisibleOnPlayerScreen(worldX, worldY))
             {
                 g2.drawImage(tile[tileNumber].image(), screenX, screenY, null);
             }
+
             worldCol++;
 
-
-            if (worldCol == gp.maxWorldCol)
+            if (worldCol == worldColumns)
             {
                 worldCol = 0;
-
                 worldRow++;
-
             }
-
         }
+    }
+
+    private boolean isTileVisibleOnPlayerScreen(int worldX, int worldY)
+    {
+        return worldX + tileSize > gp.player.worldX - gp.player.screenX
+                && worldX - tileSize < gp.player.worldX + gp.player.screenX
+                && worldY + tileSize > gp.player.worldY - gp.player.screenY
+                && worldY - tileSize < gp.player.worldY + gp.player.screenY;
     }
 }
