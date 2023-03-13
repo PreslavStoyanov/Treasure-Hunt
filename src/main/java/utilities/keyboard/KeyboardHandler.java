@@ -16,13 +16,13 @@ public class KeyboardHandler implements KeyListener
     public final PauseScreenKeyboardHandler pauseScreenKeyboardHandler;
     public final DialogueScreenKeyboardHandler dialogueScreenKeyboardHandler;
     public final CharacterScreenKeyboardHandler characterScreenKeyboardHandler;
-    public boolean upPressed;
-    public boolean downPressed;
-    public boolean leftPressed;
-    public boolean rightPressed;
-    public boolean thumbUpPressed;
-    public boolean ePressed;
-    public boolean spacePressed;
+    public boolean isWPressed;
+    public boolean isSPressed;
+    public boolean isAPressed;
+    public boolean isDPressed;
+    public boolean isQPressed;
+    public boolean isEPressed;
+    public boolean isSpacePressed;
 
     public KeyboardHandler(GamePanel gp)
     {
@@ -88,27 +88,27 @@ public class KeyboardHandler implements KeyListener
     {
         if (releasedKey == KeyEvent.VK_W)
         {
-            upPressed = false;
+            isWPressed = false;
         }
         if (releasedKey == KeyEvent.VK_S)
         {
-            downPressed = false;
+            isSPressed = false;
         }
         if (releasedKey == KeyEvent.VK_A)
         {
-            leftPressed = false;
+            isAPressed = false;
         }
         if (releasedKey == KeyEvent.VK_D)
         {
-            rightPressed = false;
+            isDPressed = false;
         }
         if (releasedKey == KeyEvent.VK_Q)
         {
-            thumbUpPressed = false;
+            isQPressed = false;
         }
         if (releasedKey == KeyEvent.VK_SPACE)
         {
-            spacePressed = false;
+            isSpacePressed = false;
         }
     }
 
@@ -116,23 +116,23 @@ public class KeyboardHandler implements KeyListener
     {
         if (keyPressed == KeyEvent.VK_W)
         {
-            upPressed = true;
+            isWPressed = true;
         }
         if (keyPressed == KeyEvent.VK_S)
         {
-            downPressed = true;
+            isSPressed = true;
         }
         if (keyPressed == KeyEvent.VK_A)
         {
-            leftPressed = true;
+            isAPressed = true;
         }
         if (keyPressed == KeyEvent.VK_D)
         {
-            rightPressed = true;
+            isDPressed = true;
         }
         if (keyPressed == KeyEvent.VK_Q)
         {
-            thumbUpPressed = true;
+            isQPressed = true;
         }
         if (keyPressed == KeyEvent.VK_P)
         {
@@ -140,7 +140,7 @@ public class KeyboardHandler implements KeyListener
         }
         if (keyPressed == KeyEvent.VK_E)
         {
-            ePressed = true;
+            isEPressed = true;
         }
         if (keyPressed == KeyEvent.VK_B)
         {
@@ -148,7 +148,7 @@ public class KeyboardHandler implements KeyListener
         }
         if (keyPressed == KeyEvent.VK_SPACE)
         {
-            spacePressed = true;
+            isSpacePressed = true;
             gp.player.attacking = true;
         }
     }

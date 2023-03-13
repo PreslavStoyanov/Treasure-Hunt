@@ -1,11 +1,11 @@
 package utilities.drawers;
 
-import entities.entity.Player;
+import entities.types.Player;
 
 import java.awt.*;
 import java.util.List;
 
-import static View.GamePanel.*;
+import static View.GamePanel.tileSize;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 
@@ -35,15 +35,15 @@ public class CharacterWindowDrawer
     private static void drawParameters(Player player, int textX, int textY)
     {
         drawListWithSameMarginRightAligned(List.of(
-                player.life + "/" + player.maxLife,
-                String.valueOf(player.level),
-                String.valueOf(player.strength),
-                String.valueOf(player.agility),
-                String.valueOf(player.attack),
-                String.valueOf(player.defense),
-                String.valueOf(player.exp),
-                String.valueOf(player.nextLevelExp),
-                String.valueOf(player.coins)),
+                        player.life + "/" + player.maxLife,
+                        String.valueOf(player.level),
+                        String.valueOf(player.strength),
+                        String.valueOf(player.agility),
+                        String.valueOf(player.attack),
+                        String.valueOf(player.defense),
+                        String.valueOf(player.exp),
+                        String.valueOf(player.nextLevelExp),
+                        String.valueOf(player.coins)),
                 LINE_HEIGHT, textX, textY);
 
         g2.drawImage(player.currentWeapon.image, textX - tileSize, textY + LINE_HEIGHT * 7 + tileSize, null);
@@ -53,15 +53,15 @@ public class CharacterWindowDrawer
     private static void drawLabels(float textX, float textY)
     {
         drawListWithSameMargin(List.of(
-                "Life",
-                "Level",
-                "Strength",
-                "Agility",
-                "Attack",
-                "Defense",
-                "Exp",
-                "Next level",
-                "Coins"),
+                        "Life",
+                        "Level",
+                        "Strength",
+                        "Agility",
+                        "Attack",
+                        "Defense",
+                        "Exp",
+                        "Next level",
+                        "Coins"),
                 LINE_HEIGHT, textX, textY);
 
         g2.drawString("Weapon", textX, textY + LINE_HEIGHT * 9 + 10);

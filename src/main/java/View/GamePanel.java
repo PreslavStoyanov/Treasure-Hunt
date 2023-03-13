@@ -1,25 +1,35 @@
 package View;
 
-import entities.entity.Entity;
-import entities.entity.Player;
-import utilities.tiles.TileManager;
-import utilities.*;
+import entities.Entity;
+import entities.types.Monster;
+import entities.types.Npc;
+import entities.types.Object;
+import entities.types.Player;
+import utilities.CollisionChecker;
+import utilities.EntitySetter;
+import utilities.GameState;
 import utilities.drawers.UserInterfaceController;
 import utilities.keyboard.KeyboardHandler;
 import utilities.sound.Sound;
 import utilities.sound.SoundHandler;
+import utilities.tiles.TileManager;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import static utilities.GameState.*;
 import static utilities.drawers.GameTimeDrawer.playTime;
-import static utilities.sound.Sound.*;
+import static utilities.sound.Sound.PLAYBACK;
 
 public class GamePanel extends JPanel implements Runnable
 {
+    private static final int FPS = 60;
     private static final int originalTileSize = 16;
     private static final int scale = 3;
     public static final int tileSize = originalTileSize * scale;
@@ -29,11 +39,10 @@ public class GamePanel extends JPanel implements Runnable
     public static final int screenHeight = tileSize * maxScreenRow;
     public static final int worldColumns = 62;
     public static final int worldRows = 62;
-    int FPS = 60;
     public TileManager tileManager = new TileManager(this);
 
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
-    SoundHandler soundHandler = new SoundHandler();
+    public SoundHandler soundHandler = new SoundHandler();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public EntitySetter entitySetter = new EntitySetter(this);
     public UserInterfaceController ui = new UserInterfaceController(this);
@@ -41,11 +50,11 @@ public class GamePanel extends JPanel implements Runnable
 
     public Player player = new Player(this, keyboardHandler);
 
-    public ArrayList<Entity> objects = new ArrayList<>();
-    public ArrayList<Entity> npcs = new ArrayList<>();
-    public ArrayList<Entity> monsters = new ArrayList<>();
-    ArrayList<Entity> entities = new ArrayList<>();
-    private GameState gameState;
+    public List<Object> objects = new ArrayList<>();
+    public List<Npc> npcs = new ArrayList<>();
+    public List<Monster> monsters = new ArrayList<>();
+    public List<Entity> entities = new ArrayList<>();
+    private GameState gameState = HOME_STATE;
 
     public GamePanel()
     {
@@ -54,7 +63,6 @@ public class GamePanel extends JPanel implements Runnable
         this.setDoubleBuffered(true);
         this.addKeyListener(keyboardHandler);
         this.setFocusable(true);
-        this.setGameState(HOME_STATE);
     }
 
     public GameState getGameState()

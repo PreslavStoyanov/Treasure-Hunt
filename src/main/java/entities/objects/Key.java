@@ -1,19 +1,22 @@
 package entities.objects;
 
 import View.GamePanel;
-import entities.entity.Entity;
+import entities.types.EntityType;
+import entities.types.Object;
 
+import static entities.types.EntityType.KEY;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
-public class Key extends Entity
+public class Key extends Object
 {
 
     public Key(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.worldX = x * gp.tileSize;
-        this.worldY = y * gp.tileSize;
+        this.worldX = x * GamePanel.tileSize;
+        this.worldY = y * GamePanel.tileSize;
         name = "Key";
+        type = KEY;
         downSprites.add(setupDefaultImage("/objects/key.png"));
     }
 }

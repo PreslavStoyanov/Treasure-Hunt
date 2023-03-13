@@ -1,23 +1,28 @@
-package entities.entity;
+package entities;
 
 import View.GamePanel;
+import entities.types.EntityType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
+import java.util.Random;
 
+import static View.GamePanel.tileSize;
+import static entities.types.EntityType.*;
 import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
 public class Entity
 {
-    GamePanel gp;
+    public GamePanel gp;
 
     public String name;
     public int speed;
     public int maxLife;
     public int life;
-    public int type;
+    public EntityType type;
     public int level;
     public int strength;
     public int agility;
@@ -53,7 +58,7 @@ public class Entity
     public int spriteCounter = 0;
     public int spriteNumber = 0;
 
-    List<String> dialogues = new LinkedList<>();
+    public List<String> dialogues = new LinkedList<>();
     public List<BufferedImage> upSprites = new ArrayList<>();
     public List<BufferedImage> downSprites = new ArrayList<>();
     public List<BufferedImage> leftSprites = new ArrayList<>();
@@ -73,13 +78,13 @@ public class Entity
         setAction();
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
-        gp.collisionChecker.checkObjectsForCollisions(this, gp.objects, false);
+        gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
         gp.collisionChecker.checkEntitiesForCollision(this, gp.npcs);
         gp.collisionChecker.checkEntitiesForCollision(this, gp.monsters);
-        boolean contactPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
-        if (!gp.player.invincible && contactPlayer)
+        boolean isContactingPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
+        if (!gp.player.invincible && isContactingPlayer)
         {
-            if (this.type == 2)
+            if (type.equals(SLIME))
             {
                 gp.playSoundEffect(RECEIVE_DAMAGE);
                 int damage = attack - gp.player.defense;
@@ -90,7 +95,7 @@ public class Entity
                 gp.player.life -= damage;
                 gp.player.invincible = true;
             }
-            else if (this.type == 3)
+            else if (type.equals(DEMON))
             {
                 gp.playSoundEffect(RECEIVE_DAMAGE);
                 int damage = attack - gp.player.defense;
@@ -122,20 +127,20 @@ public class Entity
         int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
 
-        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX
-                && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
-                && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY
-                && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY)
+        if (worldX + tileSize > gp.player.worldX - gp.player.screenX
+                && worldX - tileSize < gp.player.worldX + gp.player.screenX
+                && worldY + tileSize > gp.player.worldY - gp.player.screenY
+                && worldY - tileSize < gp.player.worldY + gp.player.screenY)
         {
             image = switchDirection(image);
         }
-        if ((type == 2 || type == 3) && hpBarOn)
+        if (monstersTypes.contains(type) && hpBarOn)
         {
-            double oneScale = (double) gp.tileSize / maxLife;
+            double oneScale = (double) tileSize / maxLife;
             double hpBarValue = oneScale * life;
 
             g2.setColor(new Color(35, 35, 35));
-            g2.fillRect(screenX - 1, screenY - 16, gp.tileSize + 2, 12);
+            g2.fillRect(screenX - 1, screenY - 16, tileSize + 2, 12);
 
             g2.setColor(new Color(255, 0, 30));
             g2.fillRect(screenX, screenY - 15, (int) hpBarValue, 10);
@@ -158,7 +163,7 @@ public class Entity
         {
             dyingAnimation(g2);
         }
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, tileSize, tileSize, null);
         changeAlpha(g2, 1F);
     }
 

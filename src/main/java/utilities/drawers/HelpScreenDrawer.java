@@ -1,7 +1,7 @@
 package utilities.drawers;
 
 import static utilities.drawers.DrawerUtils.drawCenteredText;
-import static utilities.drawers.UserInterfaceController.*;
+import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
 
 public class HelpScreenDrawer

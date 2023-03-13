@@ -1,7 +1,7 @@
 package utilities.drawers;
 
 
-import entities.entity.Player;
+import entities.types.Player;
 
 import java.awt.*;
 import java.util.List;
@@ -21,7 +21,7 @@ public class CoordinatesDrawer
         int x = 10;
         int y = 400;
         int lineHeight = 20;
-        
+
         List<String> coordinates = List.of(
                 "Invincible: " + player.invincibleCounter,
                 "WorldX: " + player.worldX,

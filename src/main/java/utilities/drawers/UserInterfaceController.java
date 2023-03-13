@@ -1,20 +1,18 @@
 package utilities.drawers;
 
 import View.GamePanel;
+import utilities.GameState;
 
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.Objects;
 
-
-import static utilities.GameState.*;
+import static utilities.GameState.playableStates;
 import static utilities.drawers.CoordinatesDrawer.shouldShowCoordinates;
 import static utilities.drawers.CoordinatesDrawer.showPlayerCoordinates;
 import static utilities.drawers.DrawerUtils.drawCenteredText;
 import static utilities.drawers.GameTimeDrawer.playTime;
-import static utilities.drawers.MessageDrawer.messagesWIthTheirExpirationTime;
 
 public class UserInterfaceController
 {
@@ -23,7 +21,6 @@ public class UserInterfaceController
 
     private final GamePanel gp;
     private final PlayerLifeDrawer playerLifeDrawer;
-    public boolean gameFinished = false;
 
     public UserInterfaceController(GamePanel gp)
     {
@@ -37,40 +34,26 @@ public class UserInterfaceController
         long drawStart = System.nanoTime();
         UserInterfaceController.g2 = g2;
 
-        if (gp.getGameState() == HOME_STATE)
-        {
-            HomeScreenDrawer.drawHomeScreen();
-        }
-        if (gp.getGameState() == HELP_STATE)
-        {
-            HelpScreenDrawer.drawHelpScreen();
-        }
-        if (gp.getGameState() == DIALOGUE_STATE)
-        {
-            playerLifeDrawer.drawPlayerLife(gp.player);
-            DialogueWindowDrawer.drawDialogueScreen();
-        }
-        if (gp.getGameState() == PLAY_STATE)
-        {
-            if (gameFinished)
-            {
-                EndScreenDrawer.drawEndScreen(playTime);
-                stopGame();
-            }
+        GameState gameState = gp.getGameState();
 
-            playerLifeDrawer.drawPlayerLife(gp.player);
-            GameTimeDrawer.drawTime();
-            MessageDrawer.drawMessage();
-        }
-        if (gp.getGameState() == PAUSE_STATE)
+        if (playableStates.contains(gameState))
         {
             playerLifeDrawer.drawPlayerLife(gp.player);
-            drawCenteredText("PAUSED", 8, true, 80F);
         }
-        if (gp.getGameState() == CHARACTER_STATE)
+
+        switch (gp.getGameState())
         {
-            playerLifeDrawer.drawPlayerLife(gp.player);
-            CharacterWindowDrawer.drawCharacterScreen(gp.player);
+            case HOME_STATE -> HomeScreenDrawer.drawHomeScreen();
+            case HELP_STATE -> HelpScreenDrawer.drawHelpScreen();
+            case DIALOGUE_STATE -> DialogueWindowDrawer.drawDialogueScreen();
+            case PLAY_STATE ->
+            {
+                GameTimeDrawer.drawTime();
+                MessageDrawer.drawMessage();
+            }
+            case PAUSE_STATE -> drawCenteredText("PAUSED", 8, true, 80F);
+            case CHARACTER_STATE -> CharacterWindowDrawer.drawCharacterScreen(gp.player);
+            case END_STATE -> stopGame();
         }
         if (shouldShowCoordinates)
         {
@@ -92,6 +75,7 @@ public class UserInterfaceController
 
     private void stopGame()
     {
+        EndScreenDrawer.drawEndScreen(playTime);
         gp.gameThread = null;
     }
 }

@@ -67,6 +67,6 @@ public class DrawerUtils
 
     public static void drawListWithSameMargin(List<String> values, float margin, float x, float y)
     {
-        IntStream.range(0, values.size()).forEach(i -> g2.drawString(values.get(i),  x, y + margin * i));
+        IntStream.range(0, values.size()).forEach(i -> g2.drawString(values.get(i), x, y + margin * i));
     }
 }

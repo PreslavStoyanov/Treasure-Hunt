@@ -1,11 +1,11 @@
 package utilities;
 
 import View.GamePanel;
-import entities.entity.OldMan;
-import entities.entity.OldWoman;
 import entities.monsters.Demon;
 import entities.monsters.GreenSlime;
 import entities.monsters.OrangeSlime;
+import entities.npcs.OldMan;
+import entities.npcs.OldWoman;
 import entities.objects.*;
 
 public class EntitySetter

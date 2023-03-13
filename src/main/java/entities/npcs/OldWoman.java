@@ -1,20 +1,23 @@
-package entities.entity;
+package entities.npcs;
 
 import View.GamePanel;
+import entities.types.Npc;
 
-import static utilities.drawers.DialogueWindowDrawer.*;
+import static entities.types.EntityType.OLD_WOMAN;
+import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
-public class OldWoman extends Entity
+public class OldWoman extends Npc
 {
     int dialogueIndex;
 
     public OldWoman(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.worldX = x * gp.tileSize;
-        this.worldY = y * gp.tileSize;
+        this.worldX = x * GamePanel.tileSize;
+        this.worldY = y * GamePanel.tileSize;
         direction = "down";
+        type = OLD_WOMAN;
         speed = 1;
         getOldWomanImage();
         setDialogue();

@@ -1,20 +1,23 @@
-package entities.entity;
+package entities.npcs;
 
 import View.GamePanel;
+import entities.types.Npc;
 
+import static entities.types.EntityType.OLD_MAN;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
-public class OldMan extends Entity
+public class OldMan extends Npc
 {
     int dialogueIndex;
 
     public OldMan(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.worldX = x * gp.tileSize;
-        this.worldY = y * gp.tileSize;
+        this.worldX = x * GamePanel.tileSize;
+        this.worldY = y * GamePanel.tileSize;
         direction = "down";
+        type = OLD_MAN;
         speed = 1;
         getOldManImage();
         setDialogue();

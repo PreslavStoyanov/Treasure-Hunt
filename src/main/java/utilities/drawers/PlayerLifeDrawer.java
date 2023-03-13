@@ -1,14 +1,14 @@
 package utilities.drawers;
 
 import View.GamePanel;
-import entities.entity.Player;
+import entities.types.Player;
 
 import java.awt.image.BufferedImage;
 
 import static View.Main.properties;
-import static utilities.images.ImageUtils.setupDefaultImage;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
+import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class PlayerLifeDrawer
 {
@@ -46,7 +46,7 @@ public class PlayerLifeDrawer
     {
         int y = GamePanel.tileSize / 2;
         int x = GamePanel.tileSize / 2;
-        for (int i = 0; i < life; i+=2)
+        for (int i = 0; i < life; i += 2)
         {
             g2.drawImage(heartHalf, x, y, null);
             x += GamePanel.tileSize;

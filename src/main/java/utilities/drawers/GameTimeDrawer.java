@@ -5,8 +5,7 @@ import View.GamePanel;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-import static utilities.drawers.UserInterfaceController.*;
-
+import static utilities.drawers.UserInterfaceController.g2;
 
 
 public class GameTimeDrawer

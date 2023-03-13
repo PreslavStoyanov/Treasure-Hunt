@@ -35,7 +35,7 @@ public class SoundHandler
 
     public void setFile(Sound sound)
     {
-        try(AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(sounds.get(sound)))
+        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(sounds.get(sound)))
         {
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);

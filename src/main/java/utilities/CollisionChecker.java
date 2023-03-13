@@ -1,9 +1,11 @@
 package utilities;
 
 import View.GamePanel;
-import entities.entity.Entity;
+import entities.Entity;
+import entities.types.EntityType;
+import entities.types.Object;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CollisionChecker
 {
@@ -62,13 +64,13 @@ public class CollisionChecker
         }
     }
 
-    public int checkObjectsForCollisions(Entity entity, ArrayList<Entity> targets, boolean isPlayer)
+    public int checkObjectsForCollisions(Entity entity, List<Object> targets)
     {
         int index = -1;
 
         for (int i = 0; i < targets.size(); i++)
         {
-            Entity target = targets.get(i);
+            Object target = targets.get(i);
 
             if (target == null)
             {
@@ -80,7 +82,7 @@ public class CollisionChecker
 
             changeEntityDirection(entity);
 
-            if (isObjectIntersects(entity, target, isPlayer))
+            if (isObjectIntersects(entity, target))
             {
                 index = i;
             }
@@ -91,7 +93,7 @@ public class CollisionChecker
         return index;
     }
 
-    public int checkEntitiesForCollision(Entity entity, ArrayList<Entity> targets)
+    public int checkEntitiesForCollision(Entity entity, List<? extends Entity> targets)
     {
         int index = -1;
 
@@ -147,7 +149,7 @@ public class CollisionChecker
         return target != entity;
     }
 
-    public boolean isObjectIntersects(Entity entity, Entity target, boolean isPlayer)
+    public boolean isObjectIntersects(Entity entity, Entity target)
     {
         if (!entity.solidArea.intersects(target.solidArea))
         {
@@ -157,7 +159,7 @@ public class CollisionChecker
         {
             entity.collisionOn = true;
         }
-        return isPlayer;
+        return entity.type.equals(EntityType.PLAYER);
     }
 
     private static void increaseSolidAreaWorldCoordinates(Entity entity)

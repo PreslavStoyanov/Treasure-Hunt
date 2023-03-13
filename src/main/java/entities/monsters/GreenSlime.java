@@ -1,21 +1,22 @@
 package entities.monsters;
 
 import View.GamePanel;
-import entities.entity.Entity;
+import entities.types.EntityType;
+import entities.types.Monster;
 
 import static utilities.images.ImageUtils.setupDefaultImage;
 
-public class GreenSlime extends Entity
+public class GreenSlime extends Monster
 {
     GamePanel gp;
 
     public GreenSlime(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.worldX = x * gp.tileSize;
-        this.worldY = y * gp.tileSize;
+        this.worldX = x * GamePanel.tileSize;
+        this.worldY = y * GamePanel.tileSize;
         this.gp = gp;
-        type = 2;
+        type = EntityType.SLIME;
         name = "Green slime";
         speed = 1;
         maxLife = 3;
