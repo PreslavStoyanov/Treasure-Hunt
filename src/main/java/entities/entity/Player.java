@@ -1,10 +1,9 @@
-package entities.Entity;
+package entities.entity;
 
-import utilities.drawers.DialogueWindowDrawer;
 import utilities.keyboard.KeyboardHandler;
 import View.GamePanel;
-import entities.Objects.Shield;
-import entities.Objects.Sword;
+import entities.objects.Shield;
+import entities.objects.Sword;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

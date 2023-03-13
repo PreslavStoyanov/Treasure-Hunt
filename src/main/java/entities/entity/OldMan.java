@@ -1,7 +1,6 @@
-package entities.Entity;
+package entities.entity;
 
 import View.GamePanel;
-import utilities.drawers.DialogueWindowDrawer;
 
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.images.ImageUtils.setupDefaultImage;

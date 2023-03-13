@@ -1,7 +1,6 @@
 package utilities.keyboard;
 
 import View.GamePanel;
-import utilities.drawers.CoordinatesDrawer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -166,6 +165,6 @@ public class KeyboardHandler implements KeyListener
 
     private void reloadMap()
     {
-        gp.tileManager.loadMap("/maps/world01.txt");
+        gp.tileManager.loadTileMap("/maps/world01.txt");
     }
 }

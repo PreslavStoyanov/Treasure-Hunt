@@ -1,7 +1,7 @@
-package entities.Objects;
+package entities.objects;
 
 import View.GamePanel;
-import entities.Entity.Entity;
+import entities.entity.Entity;
 
 import static View.Main.properties;
 import static utilities.images.ImageUtils.setupDefaultImage;

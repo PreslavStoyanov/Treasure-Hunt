@@ -1,7 +1,7 @@
 package utilities;
 
 import View.GamePanel;
-import entities.Entity.Entity;
+import entities.entity.Entity;
 
 import java.util.ArrayList;
 
@@ -26,40 +26,40 @@ public class CollisionChecker
         int entityTopRow = entityTopWorldY / GamePanel.tileSize;
         int entityBottomRow = entityBottomWorldY / GamePanel.tileSize;
 
-        int tileNumber1, tileNumber2;
+        int tileNumber1;
+        int tileNumber2;
 
         switch (entity.direction)
         {
             case "up" ->
             {
                 entityTopRow = (entityTopWorldY - entity.speed) / GamePanel.tileSize;
-                tileNumber1 = setTileNumber(entityLeftCol, entityTopRow);
-                tileNumber2 = setTileNumber(entityRightCol, entityTopRow);
+                tileNumber1 = getTileNumber(entityLeftCol, entityTopRow);
+                tileNumber2 = getTileNumber(entityRightCol, entityTopRow);
                 setCollisionOn(entity, tileNumber1, tileNumber2);
             }
             case "down" ->
             {
                 entityBottomRow = (entityBottomWorldY + entity.speed) / GamePanel.tileSize;
-                tileNumber1 = setTileNumber(entityLeftCol, entityBottomRow);
-                tileNumber2 = setTileNumber(entityRightCol, entityBottomRow);
+                tileNumber1 = getTileNumber(entityLeftCol, entityBottomRow);
+                tileNumber2 = getTileNumber(entityRightCol, entityBottomRow);
                 setCollisionOn(entity, tileNumber1, tileNumber2);
             }
             case "left" ->
             {
                 entityLeftCol = (entityLeftWorldX - entity.speed) / GamePanel.tileSize;
-                tileNumber1 = setTileNumber(entityLeftCol, entityTopRow);
-                tileNumber2 = setTileNumber(entityLeftCol, entityBottomRow);
+                tileNumber1 = getTileNumber(entityLeftCol, entityTopRow);
+                tileNumber2 = getTileNumber(entityLeftCol, entityBottomRow);
                 setCollisionOn(entity, tileNumber1, tileNumber2);
             }
             case "right" ->
             {
                 entityRightCol = (entityRightWorldX + entity.speed) / GamePanel.tileSize;
-                tileNumber1 = setTileNumber(entityRightCol, entityTopRow);
-                tileNumber2 = setTileNumber(entityRightCol, entityBottomRow);
+                tileNumber1 = getTileNumber(entityRightCol, entityTopRow);
+                tileNumber2 = getTileNumber(entityRightCol, entityBottomRow);
                 setCollisionOn(entity, tileNumber1, tileNumber2);
             }
         }
-
     }
 
     public int checkObjectsForCollisions(Entity entity, ArrayList<Entity> targets, boolean isPlayer)
@@ -185,14 +185,15 @@ public class CollisionChecker
 
     public void setCollisionOn(Entity entity, int tileNumber1, int tileNumber2)
     {
-        if (gp.tileManager.tile[tileNumber1].haveCollision() || gp.tileManager.tile[tileNumber2].haveCollision())
+        if (gp.tileManager.getTiles().getTiles().get(tileNumber1).hasCollision()
+                || gp.tileManager.getTiles().getTiles().get(tileNumber2).hasCollision())
         {
             entity.collisionOn = true;
         }
     }
 
-    public int setTileNumber(int entityLeftCol, int entityBottomRow)
+    public int getTileNumber(int entityLeftCol, int entityBottomRow)
     {
-        return gp.tileManager.mapTileNumber[entityLeftCol][entityBottomRow];
+        return gp.tileManager.getMapTileNumbers()[entityLeftCol][entityBottomRow];
     }
 }

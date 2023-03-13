@@ -1,7 +1,7 @@
-package entities.Monsters;
+package entities.monsters;
 
 import View.GamePanel;
-import entities.Entity.Entity;
+import entities.entity.Entity;
 
 import static utilities.images.ImageUtils.setupDefaultImage;
 

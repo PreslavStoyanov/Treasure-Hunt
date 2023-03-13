@@ -1,0 +1,106 @@
+tiles:
+  0:
+    image: /tiles/00_water.png
+    hasCollision: true
+  1:
+    image: /tiles/01_water.png
+    hasCollision: true
+  2:
+    image: /tiles/02_water.png
+    hasCollision: true
+  3:
+    image: /tiles/03_water.png
+    hasCollision: true
+  4:
+    image: /tiles/04_water.png
+    hasCollision: true
+  5:
+    image: /tiles/05_water.png
+    hasCollision: true
+  6:
+    image: /tiles/06_water.png
+    hasCollision: true
+  7:
+    image: /tiles/07_water.png
+    hasCollision: true
+  8:
+    image: /tiles/08_water.png
+    hasCollision: true
+  9:
+    image: /tiles/09_water.png
+    hasCollision: true
+  10:
+    image: /tiles/10_water.png
+    hasCollision: true
+  11:
+    image: /tiles/11_water.png
+    hasCollision: true
+  12:
+    image: /tiles/12_water.png
+    hasCollision: true
+  13:
+    image: /tiles/13_water.png
+    hasCollision: true
+  14:
+    image: /tiles/14_road.png
+    hasCollision: false
+  15:
+    image: /tiles/15_road.png
+    hasCollision: false
+  16:
+    image: /tiles/16_road.png
+    hasCollision: false
+  17:
+    image: /tiles/17_road.png
+    hasCollision: false
+  18:
+    image: /tiles/18_road.png
+    hasCollision: false
+  19:
+    image: /tiles/19_road.png
+    hasCollision: false
+  20:
+    image: /tiles/20_road.png
+    hasCollision: false
+  21:
+    image: /tiles/21_road.png
+    hasCollision: false
+  22:
+    image: /tiles/22_road.png
+    hasCollision: false
+  23:
+    image: /tiles/23_road.png
+    hasCollision: false
+  24:
+    image: /tiles/24_road.png
+    hasCollision: false
+  25:
+    image: /tiles/25_road.png
+    hasCollision: false
+  26:
+    image: /tiles/26_road.png
+    hasCollision: false
+  27:
+    image: /tiles/27_bridge.png
+    hasCollision: false
+  28:
+    image: /tiles/28_bridge2.png
+    hasCollision: false
+  29:
+    image: /tiles/29_earth.png
+    hasCollision: false
+  30:
+    image: /tiles/30_floor.png
+    hasCollision: false
+  31:
+    image: /tiles/31_grass.png
+    hasCollision: false
+  32:
+    image: /tiles/32_tree.png
+    hasCollision: true
+  33:
+    image: /tiles/33_tree2.png
+    hasCollision: true
+  34:
+    image: /tiles/34_wall.png
+    hasCollision: true

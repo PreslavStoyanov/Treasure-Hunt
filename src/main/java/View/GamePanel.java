@@ -1,8 +1,8 @@
 package View;
 
-import entities.Entity.Entity;
-import entities.Entity.Player;
-import entities.Tile.TileManager;
+import entities.entity.Entity;
+import entities.entity.Player;
+import utilities.tiles.TileManager;
 import utilities.*;
 import utilities.drawers.UserInterfaceController;
 import utilities.keyboard.KeyboardHandler;
@@ -69,6 +69,7 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setUpNewGame()
     {
+        tileManager.loadTileMap("/maps/world01.txt");
         entitySetter.setObjects();
         entitySetter.setNpcs();
         entitySetter.setMonsters();
