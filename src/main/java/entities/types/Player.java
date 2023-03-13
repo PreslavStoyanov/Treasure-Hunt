@@ -21,7 +21,7 @@ import static utilities.sound.Sound.*;
 
 public class Player extends Entity
 {
-    KeyboardHandler keyboardHandler;
+    private final KeyboardHandler keyboardHandler;
     public final int screenX;
     public final int screenY;
     public int keyCount;

@@ -44,33 +44,14 @@ public class KeyboardHandler implements KeyListener
     {
         int keyPressed = e.getKeyCode();
 
-        if (gp.getGameState() == HOME_STATE)
+        switch (gp.getGameState())
         {
-            homeScreenKeyboardHandler.handleHomeScreenKeys(keyPressed);
-        }
-        else if (gp.getGameState() == HELP_STATE)
-        {
-            helpScreenKeyboardHandler.handleHelpScreenKeys(keyPressed);
-        }
-        else if (gp.getGameState() == PAUSE_STATE)
-        {
-            pauseScreenKeyboardHandler.handlePauseScreenKeys(keyPressed);
-        }
-        else if (gp.getGameState() == PLAY_STATE)
-        {
-            handlePlayScreenKeysOnPress(keyPressed);
-        }
-        else if (gp.getGameState() == DIALOGUE_STATE)
-        {
-            dialogueScreenKeyboardHandler.handleDialogueScreenKeys(keyPressed);
-        }
-        else if (gp.getGameState() == CHARACTER_STATE)
-        {
-            characterScreenKeyboardHandler.handleCharacterScreenKeys(keyPressed);
-        }
-        if (keyPressed == KeyEvent.VK_L)
-        {
-            reloadMap();
+            case HOME_STATE -> homeScreenKeyboardHandler.handleHomeScreenKeys(keyPressed);
+            case HELP_STATE -> helpScreenKeyboardHandler.handleHelpScreenKeys(keyPressed);
+            case PAUSE_STATE -> pauseScreenKeyboardHandler.handlePauseScreenKeys(keyPressed);
+            case PLAY_STATE -> handlePlayScreenKeysOnPress(keyPressed);
+            case DIALOGUE_STATE -> dialogueScreenKeyboardHandler.handleDialogueScreenKeys(keyPressed);
+            case CHARACTER_STATE -> characterScreenKeyboardHandler.handleCharacterScreenKeys(keyPressed);
         }
         if (keyPressed == KeyEvent.VK_O)
         {
@@ -81,75 +62,34 @@ public class KeyboardHandler implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
-        handlePlayScreenKeysOnRelease(e.getKeyCode());
-    }
-
-    private void handlePlayScreenKeysOnRelease(int releasedKey)
-    {
-        if (releasedKey == KeyEvent.VK_W)
+        switch (e.getKeyCode())
         {
-            isWPressed = false;
-        }
-        if (releasedKey == KeyEvent.VK_S)
-        {
-            isSPressed = false;
-        }
-        if (releasedKey == KeyEvent.VK_A)
-        {
-            isAPressed = false;
-        }
-        if (releasedKey == KeyEvent.VK_D)
-        {
-            isDPressed = false;
-        }
-        if (releasedKey == KeyEvent.VK_Q)
-        {
-            isQPressed = false;
-        }
-        if (releasedKey == KeyEvent.VK_SPACE)
-        {
-            isSpacePressed = false;
+            case KeyEvent.VK_W -> isWPressed = false;
+            case KeyEvent.VK_S -> isSPressed = false;
+            case KeyEvent.VK_A -> isAPressed = false;
+            case KeyEvent.VK_D -> isDPressed = false;
+            case KeyEvent.VK_Q -> isQPressed = false;
+            case KeyEvent.VK_SPACE -> isSpacePressed = false;
         }
     }
 
     private void handlePlayScreenKeysOnPress(int keyPressed)
     {
-        if (keyPressed == KeyEvent.VK_W)
+        switch (keyPressed)
         {
-            isWPressed = true;
-        }
-        if (keyPressed == KeyEvent.VK_S)
-        {
-            isSPressed = true;
-        }
-        if (keyPressed == KeyEvent.VK_A)
-        {
-            isAPressed = true;
-        }
-        if (keyPressed == KeyEvent.VK_D)
-        {
-            isDPressed = true;
-        }
-        if (keyPressed == KeyEvent.VK_Q)
-        {
-            isQPressed = true;
-        }
-        if (keyPressed == KeyEvent.VK_P)
-        {
-            openPauseScreen();
-        }
-        if (keyPressed == KeyEvent.VK_E)
-        {
-            isEPressed = true;
-        }
-        if (keyPressed == KeyEvent.VK_B)
-        {
-            openCharacterScreen();
-        }
-        if (keyPressed == KeyEvent.VK_SPACE)
-        {
-            isSpacePressed = true;
-            gp.player.attacking = true;
+            case KeyEvent.VK_W -> isWPressed = true;
+            case KeyEvent.VK_S -> isSPressed = true;
+            case KeyEvent.VK_A -> isAPressed = true;
+            case KeyEvent.VK_D -> isDPressed = true;
+            case KeyEvent.VK_Q -> isQPressed = true;
+            case KeyEvent.VK_P -> openPauseScreen();
+            case KeyEvent.VK_E -> isEPressed = true;
+            case KeyEvent.VK_B -> openCharacterScreen();
+            case KeyEvent.VK_SPACE ->
+            {
+                isSpacePressed = true;
+                gp.player.attacking = true;
+            }
         }
     }
 
@@ -161,10 +101,5 @@ public class KeyboardHandler implements KeyListener
     private void openCharacterScreen()
     {
         gp.setGameState(CHARACTER_STATE);
-    }
-
-    private void reloadMap()
-    {
-        gp.tileManager.loadTileMap("/maps/world01.txt");
     }
 }
