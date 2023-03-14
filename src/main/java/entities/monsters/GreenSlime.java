@@ -34,7 +34,7 @@ public class GreenSlime extends Monster
         sprites = setSprites("src/main/resources/green_slime_sprites.yaml");
     }
 
-    public void damageReaction()
+    public void reactToDamage()
     {
         actionLockCounter = 0;
         direction = gp.player.direction;

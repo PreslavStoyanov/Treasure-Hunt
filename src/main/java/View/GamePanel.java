@@ -135,7 +135,7 @@ public class GamePanel extends JPanel implements Runnable
             }
             for (int i = 0; i < monsters.size(); i++)
             {
-                Entity monster = monsters.get(i);
+                Monster monster = monsters.get(i);
                 if (monster.isAlive && !monster.isDying)
                 {
                     monster.update();

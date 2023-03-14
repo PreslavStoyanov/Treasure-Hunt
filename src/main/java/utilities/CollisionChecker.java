@@ -3,7 +3,9 @@ package utilities;
 import View.GamePanel;
 import entities.Entity;
 import entities.types.EntityType;
+import entities.types.LiveEntity;
 import entities.types.Object;
+import entities.types.Player;
 
 import java.util.List;
 
@@ -89,12 +91,12 @@ public class CollisionChecker
         return objectIndex;
     }
 
-    public int checkLiveAssetsForCollision(Entity entity, List<? extends Entity> liveAssets)
+    public int checkLiveEntitiesForCollision(Entity entity, List<? extends LiveEntity> liveEntities)
     {
         int assetIndex = -1;
-        for (int i = 0; i < liveAssets.size(); i++)
+        for (int i = 0; i < liveEntities.size(); i++)
         {
-            Entity asset = liveAssets.get(i);
+            LiveEntity asset = liveEntities.get(i);
             increaseSolidAreaWorldCoordinates(entity);
             increaseSolidAreaWorldCoordinates(asset);
             changeEntityDirection(entity);
@@ -112,7 +114,7 @@ public class CollisionChecker
         return assetIndex;
     }
 
-    public boolean checkForCollisionWithPlayer(Entity entity, Entity player)
+    public boolean checkForCollisionWithPlayer(Entity entity, Player player)
     {
         boolean contactPlayer = false;
         increaseSolidAreaWorldCoordinates(entity);

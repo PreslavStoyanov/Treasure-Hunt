@@ -10,6 +10,9 @@ import static View.GamePanel.tileSize;
 public class Object extends Entity
 {
 
+    public int attackValue;
+    public int defenseValue;
+
     public Object(GamePanel gp)
     {
         super(gp);

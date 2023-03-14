@@ -12,7 +12,7 @@ import static utilities.drawers.UserInterfaceController.g2;
 
 public class CoordinatesDrawer
 {
-    public static boolean shouldShowCoordinates = false;
+    public static boolean shouldShowCoordinates = true;
 
     public static void showPlayerCoordinates(long drawStart, Player player)
     {

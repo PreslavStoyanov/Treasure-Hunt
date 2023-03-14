@@ -1,7 +1,6 @@
 package entities.types;
 
 import View.GamePanel;
-import entities.Entity;
 import entities.objects.Shield;
 import entities.objects.Sword;
 import entities.sprites.AttackingSprite;
@@ -21,12 +20,22 @@ import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultImage;
 import static utilities.sound.Sound.*;
 
-public class Player extends Entity
+public class Player extends LiveEntity
 {
     private final KeyboardHandler keyboardHandler;
     private int keyCount;
+    public Object currentWeapon;
+    public Object currentShield;
+    public int coins;
+    public int nextLevelExp;
+    public int level;
+    public int strength;
+    public int agility;
+    public boolean isAttacking;
+    public Rectangle attackArea;
     public final int screenX;
     public final int screenY;
+
 
     public Player(GamePanel gp, KeyboardHandler keyboardHandler)
     {
@@ -37,11 +46,9 @@ public class Player extends Entity
         screenY = screenHeight / 2 - (tileSize / 2);
 
         solidArea = new Rectangle(8, 16, 30, 30);
+        attackArea = new Rectangle(0, 0, 36, 36);
         solidAreaDefaultX = 8;
         solidAreaDefaultY = 16;
-
-        attackArea.width = 36;
-        attackArea.height = 36;
 
         setDefaultValues();
         this.sprites = setSprites("src/main/resources/player_sprites.yaml");
@@ -74,12 +81,14 @@ public class Player extends Entity
         nextLevelExp = 5;
         coins = 0;
         type = PLAYER;
+        isAttacking = false;
         currentWeapon = new Sword(gp);
         currentShield = new Shield(gp);
         attack = calculateAttack();
         defense = calculateDefense();
     }
 
+    @Override
     public void update()
     {
         if (isAttacking)
@@ -108,6 +117,7 @@ public class Player extends Entity
         setInvincibleTime(60);
     }
 
+    @Override
     public void draw(Graphics2D g2)
     {
         BufferedImage image = null;
@@ -159,13 +169,13 @@ public class Player extends Entity
             pickUpObject(objectIndex);
         }
 
-        int npcIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.npcs);
+        int npcIndex = gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.npcs);
         if (npcIndex != -1)
         {
             interactNpc(npcIndex);
         }
 
-        int monsterIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.monsters);
+        int monsterIndex = gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.monsters);
         if (monsterIndex != -1)
         {
             contactMonster(monsterIndex);
@@ -318,7 +328,7 @@ public class Player extends Entity
 
             gp.monsters.get(i).isInvincible = true;
 
-            gp.monsters.get(i).damageReaction();
+            gp.monsters.get(i).reactToDamage();
             if (gp.monsters.get(i).life <= 0)
             {
                 gp.monsters.get(i).isDying = true;
@@ -404,7 +414,7 @@ public class Player extends Entity
 
         setSolidAreaToAttackArea();
 
-        int monsterIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.monsters);
+        int monsterIndex = gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.monsters);
         if (monsterIndex != -1)
         {
             damageMonster(monsterIndex);

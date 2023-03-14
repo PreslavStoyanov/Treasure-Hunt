@@ -35,7 +35,7 @@ public class Demon extends Monster
         sprites = setSprites("src/main/resources/demon_sprites.yaml");
     }
 
-    public void damageReaction()
+    public void reactToDamage()
     {
         speed = 2;
         actionLockCounter = 0;
@@ -46,12 +46,5 @@ public class Demon extends Monster
             case "left" -> direction = "right";
             case "right" -> direction = "left";
         }
-    }
-
-    @Override
-    public void update()
-    {
-        super.update();
-        changeSpriteNumber(sprites.getWalkingUpSprites().size(), 30);
     }
 }

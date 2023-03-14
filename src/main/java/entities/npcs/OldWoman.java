@@ -5,7 +5,6 @@ import entities.types.Npc;
 
 import static entities.types.EntityType.OLD_WOMAN;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
-import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class OldWoman extends Npc
 {
@@ -16,16 +15,10 @@ public class OldWoman extends Npc
         super(gp);
         this.worldX = x * GamePanel.tileSize;
         this.worldY = y * GamePanel.tileSize;
-        direction = "down";
         type = OLD_WOMAN;
         speed = 1;
         sprites = setSprites("src/main/resources/old_woman_sprites.yaml");
         setDialogue();
-    }
-
-    public void setAction()
-    {
-
     }
 
     @Override

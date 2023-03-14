@@ -15,7 +15,6 @@ public class OldMan extends Npc
         super(gp);
         this.worldX = x * GamePanel.tileSize;
         this.worldY = y * GamePanel.tileSize;
-        direction = "down";
         type = OLD_MAN;
         speed = 1;
         sprites = setSprites("src/main/resources/old_man_sprites.yaml");
