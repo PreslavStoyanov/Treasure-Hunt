@@ -1,7 +1,6 @@
 package entities.objects;
 
 import View.GamePanel;
-import entities.types.EntityType;
 import entities.types.Object;
 
 import static View.Main.properties;

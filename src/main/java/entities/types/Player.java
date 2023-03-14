@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import static View.GamePanel.*;
+import static entities.Direction.*;
 import static entities.types.EntityType.*;
 import static utilities.GameState.DIALOGUE_STATE;
 import static utilities.GameState.END_STATE;
@@ -71,7 +72,7 @@ public class Player extends LiveEntity
         worldY = tileSize * 28;
         speed = 4;
         keyCount = 0;
-        direction = "thumbUp";
+        direction = THUMB_UP;
         level = 1;
         maxLife = 6;
         life = maxLife;
@@ -126,7 +127,7 @@ public class Player extends LiveEntity
 
         switch (direction)
         {
-            case "up" ->
+            case UP ->
             {
                 image = changeSprite(sprites.getWalkingUpSprites(), sprites.getAttackingUpSprites(), spriteNumber);
                 if (isAttacking)
@@ -134,8 +135,9 @@ public class Player extends LiveEntity
                     tempScreenY -= tileSize;
                 }
             }
-            case "down" -> image = changeSprite(sprites.getWalkingDownSprites(), sprites.getAttackingDownSprites(), spriteNumber);
-            case "left" ->
+            case DOWN ->
+                    image = changeSprite(sprites.getWalkingDownSprites(), sprites.getAttackingDownSprites(), spriteNumber);
+            case LEFT ->
             {
                 image = changeSprite(sprites.getWalkingLeftSprites(), sprites.getAttackingLeftSprites(), spriteNumber);
                 if (isAttacking)
@@ -143,8 +145,9 @@ public class Player extends LiveEntity
                     tempScreenX -= tileSize;
                 }
             }
-            case "right" -> image = changeSprite(sprites.getWalkingRightSprites(), sprites.getAttackingRightSprites(), spriteNumber);
-            case "thumbUp" -> image = thumbUp;
+            case RIGHT ->
+                    image = changeSprite(sprites.getWalkingRightSprites(), sprites.getAttackingRightSprites(), spriteNumber);
+            case THUMB_UP -> image = thumbUp;
         }
 
         int x = Math.min(tempScreenX, worldX);
@@ -182,38 +185,28 @@ public class Player extends LiveEntity
         }
     }
 
-    private void handleMoving()
-    {
-        switch (direction)
-        {
-            case "up" -> worldY -= speed;
-            case "down" -> worldY += speed;
-            case "left" -> worldX -= speed;
-            case "right" -> worldX += speed;
-        }
-    }
 
     private void setDirection()
     {
         if (keyboardHandler.isWPressed)
         {
-            direction = "up";
+            direction = UP;
         }
         else if (keyboardHandler.isSPressed)
         {
-            direction = "down";
+            direction = DOWN;
         }
         else if (keyboardHandler.isAPressed)
         {
-            direction = "left";
+            direction = LEFT;
         }
         else if (keyboardHandler.isDPressed)
         {
-            direction = "right";
+            direction = RIGHT;
         }
         else if (keyboardHandler.isQPressed)
         {
-            direction = "thumbUp";
+            direction = THUMB_UP;
         }
     }
 
@@ -405,14 +398,13 @@ public class Player extends LiveEntity
     private void checkAttackMonsterCollision()
     {
         //save current worldX, worldY, solidArea
-        int currentWorldX = worldX;
-        int currentWorldY = worldY;
-        int solidAreaWidth = solidArea.width;
-        int solidAreaHeight = solidArea.height;
+        int worldXBeforeAttack = worldX;
+        int worldYBeforeAttack = worldY;
+        int solidAreaWidthBeforeAttack = solidArea.width;
+        int solidAreaHeightBeforeAttack = solidArea.height;
 
         adjustPlayerCoordinatesForAttackArea();
-
-        setSolidAreaToAttackArea();
+        solidArea.setSize(attackArea.width, attackArea.height);
 
         int monsterIndex = gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.monsters);
         if (monsterIndex != -1)
@@ -420,38 +412,25 @@ public class Player extends LiveEntity
             damageMonster(monsterIndex);
         }
 
-        restoreOriginalPosition(currentWorldX, currentWorldY, solidAreaWidth, solidAreaHeight);
-    }
-
-    private void setSolidAreaToAttackArea()
-    {
-        solidArea.width = attackArea.width;
-        solidArea.height = attackArea.height;
+        //restore original position
+        setWorldLocation(worldXBeforeAttack, worldYBeforeAttack);
+        solidArea.setSize(solidAreaWidthBeforeAttack, solidAreaHeightBeforeAttack);
     }
 
     private void adjustPlayerCoordinatesForAttackArea()
     {
         switch (direction)
         {
-            case "up" -> worldY -= attackArea.height;
-            case "down" -> worldY += attackArea.height;
-            case "left" -> worldX -= attackArea.width;
-            case "right" -> worldX += attackArea.width;
+            case UP -> worldY -= attackArea.height;
+            case DOWN -> worldY += attackArea.height;
+            case LEFT -> worldX -= attackArea.width;
+            case RIGHT -> worldX += attackArea.width;
         }
     }
 
-    private void restoreOriginalPosition(int currentWorldX, int currentWorldY,
-                                         int solidAreaWidth, int solidAreaHeight)
-    {
-        worldX = currentWorldX;
-        worldY = currentWorldY;
-        solidArea.width = solidAreaWidth;
-        solidArea.height = solidAreaHeight;
-    }
-
     private BufferedImage changeSprite(List<WalkingSprite> walkingSprites,
-                                      List<AttackingSprite> attackingSprites,
-                                      int spriteNumber)
+                                       List<AttackingSprite> attackingSprites,
+                                       int spriteNumber)
     {
         if (isAttacking)
         {

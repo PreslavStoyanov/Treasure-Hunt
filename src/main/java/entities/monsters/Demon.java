@@ -1,11 +1,10 @@
 package entities.monsters;
 
 import View.GamePanel;
-import entities.sprites.Sprites;
 import entities.types.EntityType;
 import entities.types.Monster;
 
-import static utilities.images.ImageUtils.setupDefaultImage;
+import static entities.Direction.*;
 
 public class Demon extends Monster
 {
@@ -41,10 +40,10 @@ public class Demon extends Monster
         actionLockCounter = 0;
         switch (gp.player.direction)
         {
-            case "up" -> direction = "down";
-            case "down" -> direction = "up";
-            case "left" -> direction = "right";
-            case "right" -> direction = "left";
+            case UP -> direction = DOWN;
+            case DOWN -> direction = UP;
+            case LEFT -> direction = RIGHT;
+            case RIGHT -> direction = LEFT;
         }
     }
 }

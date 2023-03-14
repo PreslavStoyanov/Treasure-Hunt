@@ -1,6 +1,7 @@
 package entities.types;
 
 import View.GamePanel;
+import entities.Direction;
 import entities.Entity;
 import entities.sprites.Sprites;
 import entities.sprites.WalkingSprite;
@@ -13,6 +14,9 @@ import java.util.List;
 import java.util.Random;
 
 import static View.GamePanel.tileSize;
+import static entities.Direction.*;
+import static entities.types.EntityType.monstersTypes;
+import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
 public class LiveEntity extends Entity
 {
@@ -24,8 +28,10 @@ public class LiveEntity extends Entity
     public int maxLife;
     public int life;
     public int defense;
+    public int speed;
     public int exp;
-
+    public int attack;
+    public Direction direction = DOWN;
     public Sprites sprites = new Sprites();
 
     public LiveEntity(GamePanel gp)
@@ -47,11 +53,31 @@ public class LiveEntity extends Entity
         }
     }
 
-    @Override
     public void update()
     {
         setDefaultWalking();
-        super.update();
+        hasCollision = gp.collisionChecker.isCollisionTile(this);
+        gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
+        gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.npcs);
+        gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.monsters);
+        boolean isContactingPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
+
+        if (!gp.player.isInvincible && isContactingPlayer && monstersTypes.contains(type))
+        {
+            gp.playSoundEffect(RECEIVE_DAMAGE);
+            int damage = attack - gp.player.defense;
+            if (damage < 0)
+            {
+                damage = 0;
+            }
+            gp.player.life -= damage;
+            gp.player.isInvincible = true;
+        }
+
+        if (!hasCollision)
+        {
+            handleMoving();
+        }
         changeSpriteNumber(sprites.getWalkingUpSprites().size(), 30);
         setInvincibleTime(40);
     }
@@ -60,19 +86,19 @@ public class LiveEntity extends Entity
     {
         switch (direction)
         {
-            case "up" ->
+            case UP ->
             {
                 return changeSprite(sprites.getWalkingUpSprites(), spriteNumber);
             }
-            case "down" ->
+            case DOWN ->
             {
                 return changeSprite(sprites.getWalkingDownSprites(), spriteNumber);
             }
-            case "left" ->
+            case LEFT ->
             {
                 return changeSprite(sprites.getWalkingLeftSprites(), spriteNumber);
             }
-            case "right" ->
+            case RIGHT ->
             {
                 return changeSprite(sprites.getWalkingRightSprites(), spriteNumber);
             }
@@ -92,7 +118,7 @@ public class LiveEntity extends Entity
         return sprites.get(0).getImage();
     }
 
-    public void setDefaultWalking()
+    private void setDefaultWalking()
     {
         actionLockCounter++;
 
@@ -102,10 +128,10 @@ public class LiveEntity extends Entity
         }
         switch (new Random().nextInt(4))
         {
-            case 0 -> direction = "up";
-            case 1 -> direction = "down";
-            case 2 -> direction = "left";
-            case 3 -> direction = "right";
+            case 0 -> direction = UP;
+            case 1 -> direction = DOWN;
+            case 2 -> direction = LEFT;
+            case 3 -> direction = RIGHT;
         }
         actionLockCounter = 0;
     }
@@ -160,5 +186,16 @@ public class LiveEntity extends Entity
     public void reactToDamage()
     {
 
+    }
+
+    public void handleMoving()
+    {
+        switch (direction)
+        {
+            case UP -> worldY -= speed;
+            case DOWN -> worldY += speed;
+            case LEFT -> worldX -= speed;
+            case RIGHT -> worldX += speed;
+        }
     }
 }

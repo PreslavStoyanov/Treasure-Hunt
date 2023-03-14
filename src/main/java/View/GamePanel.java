@@ -1,10 +1,8 @@
 package View;
 
 import entities.Entity;
-import entities.types.Monster;
-import entities.types.Npc;
 import entities.types.Object;
-import entities.types.Player;
+import entities.types.*;
 import utilities.CollisionChecker;
 import utilities.EntitySetter;
 import utilities.GameState;
@@ -15,16 +13,13 @@ import utilities.sound.SoundHandler;
 import utilities.tiles.TileManager;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import static utilities.GameState.*;
-import static utilities.drawers.GameTimeDrawer.playTime;
 import static utilities.sound.Sound.PLAYBACK;
 
 public class GamePanel extends JPanel implements Runnable
@@ -126,25 +121,12 @@ public class GamePanel extends JPanel implements Runnable
         if (getGameState() == PLAY_STATE)
         {
             player.update();
-            for (Entity entity : npcs)
-            {
-                if (entity != null)
-                {
-                    entity.update();
-                }
-            }
-            for (int i = 0; i < monsters.size(); i++)
-            {
-                Monster monster = monsters.get(i);
-                if (monster.isAlive && !monster.isDying)
-                {
-                    monster.update();
-                }
-                if (!monster.isAlive)
-                {
-                    monsters.remove(monster);
-                }
-            }
+            npcs.stream().filter(Objects::nonNull).forEach(LiveEntity::update);
+
+            monsters.removeIf(monster -> !monster.isAlive);
+            monsters.stream()
+                    .filter(monster -> !monster.isDying)
+                    .forEach(Monster::update);
         }
     }
 

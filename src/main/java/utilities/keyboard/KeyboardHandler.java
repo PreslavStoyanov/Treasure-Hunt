@@ -5,7 +5,8 @@ import View.GamePanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import static utilities.GameState.*;
+import static utilities.GameState.CHARACTER_STATE;
+import static utilities.GameState.PAUSE_STATE;
 import static utilities.drawers.CoordinatesDrawer.shouldShowCoordinates;
 
 public class KeyboardHandler implements KeyListener

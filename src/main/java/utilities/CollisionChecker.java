@@ -20,45 +20,45 @@ public class CollisionChecker
         this.gp = gp;
     }
 
-    public boolean isCollisionTile(Entity entity)
+    public boolean isCollisionTile(LiveEntity liveEntity)
     {
-        int entityLeftWorldX = entity.worldX + entity.solidArea.x;
-        int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
-        int entityTopWorldY = entity.worldY + entity.solidArea.y;
-        int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
+        int entityLeftWorldX = liveEntity.worldX + liveEntity.solidArea.x;
+        int entityRightWorldX = liveEntity.worldX + liveEntity.solidArea.x + liveEntity.solidArea.width;
+        int entityTopWorldY = liveEntity.worldY + liveEntity.solidArea.y;
+        int entityBottomWorldY = liveEntity.worldY + liveEntity.solidArea.y + liveEntity.solidArea.height;
 
         int entityLeftCol = entityLeftWorldX / tileSize;
         int entityRightCol = entityRightWorldX / tileSize;
         int entityTopRow = entityTopWorldY / tileSize;
         int entityBottomRow = entityBottomWorldY / tileSize;
 
-        switch (entity.direction)
+        switch (liveEntity.direction)
         {
-            case "up" ->
+            case UP ->
             {
-                entityTopRow = (entityTopWorldY - entity.speed) / tileSize;
+                entityTopRow = (entityTopWorldY - liveEntity.speed) / tileSize;
                 return areSurroundingTilesWithCollision(
                         getTileNumber(entityLeftCol, entityTopRow),
                         getTileNumber(entityRightCol, entityTopRow));
 
             }
-            case "down" ->
+            case DOWN ->
             {
-                entityBottomRow = (entityBottomWorldY + entity.speed) / tileSize;
+                entityBottomRow = (entityBottomWorldY + liveEntity.speed) / tileSize;
                 return areSurroundingTilesWithCollision(
                         getTileNumber(entityLeftCol, entityBottomRow),
                         getTileNumber(entityRightCol, entityBottomRow));
             }
-            case "left" ->
+            case LEFT ->
             {
-                entityLeftCol = (entityLeftWorldX - entity.speed) / tileSize;
+                entityLeftCol = (entityLeftWorldX - liveEntity.speed) / tileSize;
                 return areSurroundingTilesWithCollision(
                         getTileNumber(entityLeftCol, entityTopRow),
                         getTileNumber(entityLeftCol, entityBottomRow));
             }
-            case "right" ->
+            case RIGHT ->
             {
-                entityRightCol = (entityRightWorldX + entity.speed) / tileSize;
+                entityRightCol = (entityRightWorldX + liveEntity.speed) / tileSize;
                 return areSurroundingTilesWithCollision(
                         getTileNumber(entityRightCol, entityTopRow),
                         getTileNumber(entityRightCol, entityBottomRow));
@@ -70,51 +70,51 @@ public class CollisionChecker
         }
     }
 
-    public int checkObjectsForCollisions(Entity entity, List<Object> objects)
+    public int checkObjectsForCollisions(LiveEntity liveEntity, List<Object> objects)
     {
         int objectIndex = -1;
         for (int i = 0; i < objects.size(); i++)
         {
             Object object = objects.get(i);
-            increaseSolidAreaWorldCoordinates(entity);
+            increaseSolidAreaWorldCoordinates(liveEntity);
             increaseSolidAreaWorldCoordinates(object);
-            changeEntityDirection(entity);
+            changeEntityDirection(liveEntity);
 
-            if (isObjectIntersects(entity, object))
+            if (isObjectIntersects(liveEntity, object))
             {
                 objectIndex = i;
             }
 
-            setSolidAreaDefaultCoordinates(entity);
-            setSolidAreaDefaultCoordinates(object);
+            resetDefaultLocation(liveEntity);
+            resetDefaultLocation(object);
         }
         return objectIndex;
     }
 
-    public int checkLiveEntitiesForCollision(Entity entity, List<? extends LiveEntity> liveEntities)
+    public int checkLiveEntitiesForCollision(LiveEntity liveEntity, List<? extends LiveEntity> liveEntities)
     {
         int assetIndex = -1;
         for (int i = 0; i < liveEntities.size(); i++)
         {
             LiveEntity asset = liveEntities.get(i);
-            increaseSolidAreaWorldCoordinates(entity);
+            increaseSolidAreaWorldCoordinates(liveEntity);
             increaseSolidAreaWorldCoordinates(asset);
-            changeEntityDirection(entity);
+            changeEntityDirection(liveEntity);
 
-            if (isEntityIntersects(entity, asset))
+            if (isEntityIntersects(liveEntity, asset))
             {
-                entity.hasCollision = true;
+                liveEntity.hasCollision = true;
                 assetIndex = i;
             }
 
-            setSolidAreaDefaultCoordinates(entity);
-            setSolidAreaDefaultCoordinates(asset);
+            resetDefaultLocation(liveEntity);
+            resetDefaultLocation(asset);
         }
 
         return assetIndex;
     }
 
-    public boolean checkForCollisionWithPlayer(Entity entity, Player player)
+    public boolean checkForCollisionWithPlayer(LiveEntity entity, Player player)
     {
         boolean contactPlayer = false;
         increaseSolidAreaWorldCoordinates(entity);
@@ -127,13 +127,13 @@ public class CollisionChecker
             contactPlayer = true;
         }
 
-        setSolidAreaDefaultCoordinates(entity);
-        setSolidAreaDefaultCoordinates(player);
+        resetDefaultLocation(entity);
+        resetDefaultLocation(player);
 
         return contactPlayer;
     }
 
-    public boolean isEntityIntersects(Entity entity, Entity target)
+    public boolean isEntityIntersects(LiveEntity entity, LiveEntity target)
     {
         if (!entity.solidArea.intersects(target.solidArea))
         {
@@ -142,40 +142,38 @@ public class CollisionChecker
         return target != entity;
     }
 
-    public boolean isObjectIntersects(Entity entity, Entity target)
+    public boolean isObjectIntersects(LiveEntity liveEntity, Object object)
     {
-        if (!entity.solidArea.intersects(target.solidArea))
+        if (!liveEntity.solidArea.intersects(object.solidArea))
         {
             return false;
         }
-        if (target.hasCollision)
+        if (object.hasCollision)
         {
-            entity.hasCollision = true;
+            liveEntity.hasCollision = true;
         }
-        return entity.type.equals(EntityType.PLAYER);
+        return liveEntity.type.equals(EntityType.PLAYER);
     }
 
     private static void increaseSolidAreaWorldCoordinates(Entity entity)
     {
-        entity.solidArea.x += entity.worldX;
-        entity.solidArea.y += entity.worldY;
+        entity.solidArea.setLocation(entity.solidArea.x + entity.worldX, entity.solidArea.y + entity.worldY);
     }
 
-    private void changeEntityDirection(Entity entity)
+    private void changeEntityDirection(LiveEntity liveEntity)
     {
-        switch (entity.direction)
+        switch (liveEntity.direction)
         {
-            case "up" -> entity.solidArea.y -= entity.speed;
-            case "down" -> entity.solidArea.y += entity.speed;
-            case "left" -> entity.solidArea.x -= entity.speed;
-            case "right" -> entity.solidArea.x += entity.speed;
+            case UP -> liveEntity.solidArea.y -= liveEntity.speed;
+            case DOWN -> liveEntity.solidArea.y += liveEntity.speed;
+            case LEFT -> liveEntity.solidArea.x -= liveEntity.speed;
+            case RIGHT -> liveEntity.solidArea.x += liveEntity.speed;
         }
     }
 
-    private static void setSolidAreaDefaultCoordinates(Entity entity)
+    private static void resetDefaultLocation(Entity entity)
     {
-        entity.solidArea.x = entity.solidAreaDefaultX;
-        entity.solidArea.y = entity.solidAreaDefaultY;
+        entity.solidArea.setLocation(entity.solidAreaDefaultX, entity.solidAreaDefaultY);
     }
 
     public boolean areSurroundingTilesWithCollision(int tileNumber1, int tileNumber2)

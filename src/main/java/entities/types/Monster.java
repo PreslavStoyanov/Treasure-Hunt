@@ -1,10 +1,8 @@
 package entities.types;
 
 import View.GamePanel;
-import entities.Entity;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 import static View.GamePanel.tileSize;
 import static entities.types.EntityType.monstersTypes;
@@ -31,21 +29,7 @@ public class Monster extends LiveEntity
 
         if (monstersTypes.contains(type) && isHpBarOn)
         {
-            double oneScale = (double) tileSize / maxLife;
-            double hpBarValue = oneScale * life;
-
-            g2.setColor(new Color(35, 35, 35));
-            g2.fillRect(screenX - 1, screenY - 16, tileSize + 2, 12);
-
-            g2.setColor(new Color(255, 0, 30));
-            g2.fillRect(screenX, screenY - 15, (int) hpBarValue, 10);
-
-            hpBarCounter++;
-            if (hpBarCounter > 300)
-            {
-                hpBarCounter = 0;
-                isHpBarOn = false;
-            }
+            drawHpBar(g2, screenX, screenY);
         }
 
         if (isInvincible)
@@ -61,6 +45,25 @@ public class Monster extends LiveEntity
         }
         super.draw(g2);
         changeAlpha(g2, 1F);
+    }
+
+    private void drawHpBar(Graphics2D g2, int screenX, int screenY)
+    {
+        double oneScale = (double) tileSize / maxLife;
+        double hpBarValue = oneScale * life;
+
+        g2.setColor(new Color(35, 35, 35));
+        g2.fillRect(screenX - 1, screenY - 16, tileSize + 2, 12);
+
+        g2.setColor(new Color(255, 0, 30));
+        g2.fillRect(screenX, screenY - 15, (int) hpBarValue, 10);
+
+        hpBarCounter++;
+        if (hpBarCounter > 300)
+        {
+            hpBarCounter = 0;
+            isHpBarOn = false;
+        }
     }
 
     private void dyingAnimation(Graphics2D g2)

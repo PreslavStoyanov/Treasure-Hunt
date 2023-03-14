@@ -4,8 +4,6 @@ import View.GamePanel;
 import entities.types.EntityType;
 import entities.types.Monster;
 
-import static utilities.images.ImageUtils.setupDefaultImage;
-
 public class OrangeSlime extends Monster
 {
     GamePanel gp;
