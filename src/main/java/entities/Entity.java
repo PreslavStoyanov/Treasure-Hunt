@@ -36,8 +36,7 @@ public class Entity
     public int attackValue;
     public int defenseValue;
 
-    public boolean collision = false;
-    public boolean collisionOn = false;
+    public boolean hasCollision = false;
     public boolean invincible = false;
     public boolean attacking = false;
     public boolean alive = true;
@@ -53,7 +52,8 @@ public class Entity
 
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
-    public int solidAreaDefaultX, solidAreaDefaultY;
+    public int solidAreaDefaultX;
+    public int solidAreaDefaultY;
 
     public int spriteCounter = 0;
     public int spriteNumber = 0;
@@ -76,11 +76,10 @@ public class Entity
     public void update()
     {
         setAction();
-        collisionOn = false;
-        gp.collisionChecker.checkTile(this);
+        hasCollision = gp.collisionChecker.isCollisionTile(this);
         gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
-        gp.collisionChecker.checkEntitiesForCollision(this, gp.npcs);
-        gp.collisionChecker.checkEntitiesForCollision(this, gp.monsters);
+        gp.collisionChecker.checkLiveAssetsForCollision(this, gp.npcs);
+        gp.collisionChecker.checkLiveAssetsForCollision(this, gp.monsters);
         boolean isContactingPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
         if (!gp.player.invincible && isContactingPlayer)
         {
@@ -107,7 +106,7 @@ public class Entity
                 gp.player.invincible = true;
             }
         }
-        if (!collisionOn)
+        if (!hasCollision)
         {
             switch (direction)
             {

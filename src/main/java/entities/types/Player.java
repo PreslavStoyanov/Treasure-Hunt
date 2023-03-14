@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import static View.GamePanel.*;
+import static View.GamePanel.screenWidth;
 import static entities.types.EntityType.*;
 import static utilities.GameState.DIALOGUE_STATE;
 import static utilities.GameState.END_STATE;
@@ -22,25 +24,21 @@ import static utilities.sound.Sound.*;
 public class Player extends Entity
 {
     private final KeyboardHandler keyboardHandler;
+    private int keyCount;
     public final int screenX;
     public final int screenY;
-    public int keyCount;
 
-    public Player(GamePanel gamePanel, KeyboardHandler keyboardHandler)
+    public Player(GamePanel gp, KeyboardHandler keyboardHandler)
     {
-        super(gamePanel);
+        super(gp);
         this.keyboardHandler = keyboardHandler;
 
-        screenX = GamePanel.screenWidth / 2 - (GamePanel.tileSize / 2);
-        screenY = GamePanel.screenHeight / 2 - (GamePanel.tileSize / 2);
+        screenX = screenWidth / 2 - (tileSize / 2);
+        screenY = screenHeight / 2 - (tileSize / 2);
 
-        solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-        solidArea.width = 30;
-        solidArea.height = 30;
+        solidArea = new Rectangle(8, 16, 30, 30);
+        solidAreaDefaultX = 8;
+        solidAreaDefaultY = 16;
 
         attackArea.width = 36;
         attackArea.height = 36;
@@ -50,20 +48,20 @@ public class Player extends Entity
         setPlayerAttackImages();
     }
 
-    public int getAttack()
+    public int calculateAttack()
     {
         return attack = strength * currentWeapon.attackValue;
     }
 
-    public int getDefence()
+    public int calculateDefense()
     {
         return defense = agility * currentShield.defenseValue;
     }
 
     public void setDefaultValues()
     {
-        worldX = GamePanel.tileSize * 28;
-        worldY = GamePanel.tileSize * 28;
+        worldX = tileSize * 28;
+        worldY = tileSize * 28;
         speed = 4;
         keyCount = 0;
         direction = "thumbUp";
@@ -78,8 +76,8 @@ public class Player extends Entity
         type = PLAYER;
         currentWeapon = new Sword(gp);
         currentShield = new Shield(gp);
-        attack = getAttack();
-        defense = getDefence();
+        attack = calculateAttack();
+        defense = calculateDefense();
     }
 
     public void setPlayerImages()
@@ -117,14 +115,14 @@ public class Player extends Entity
 
     public void setPlayerAttackImages()
     {
-        upAttackSprites.add(setupImage("/player/attack/up1.png", GamePanel.tileSize, GamePanel.tileSize * 2));
-        upAttackSprites.add(setupImage("/player/attack/up2.png", GamePanel.tileSize, GamePanel.tileSize * 2));
-        downAttackSprites.add(setupImage("/player/attack/down1.png", GamePanel.tileSize, GamePanel.tileSize * 2));
-        downAttackSprites.add(setupImage("/player/attack/down2.png", GamePanel.tileSize, GamePanel.tileSize * 2));
-        leftAttackSprites.add(setupImage("/player/attack/left1.png", GamePanel.tileSize * 2, GamePanel.tileSize));
-        leftAttackSprites.add(setupImage("/player/attack/left2.png", GamePanel.tileSize * 2, GamePanel.tileSize));
-        rightAttackSprites.add(setupImage("/player/attack/right1.png", GamePanel.tileSize * 2, GamePanel.tileSize));
-        rightAttackSprites.add(setupImage("/player/attack/right2.png", GamePanel.tileSize * 2, GamePanel.tileSize));
+        upAttackSprites.add(setupImage("/player/attack/up1.png", tileSize, tileSize * 2));
+        upAttackSprites.add(setupImage("/player/attack/up2.png", tileSize, tileSize * 2));
+        downAttackSprites.add(setupImage("/player/attack/down1.png", tileSize, tileSize * 2));
+        downAttackSprites.add(setupImage("/player/attack/down2.png", tileSize, tileSize * 2));
+        leftAttackSprites.add(setupImage("/player/attack/left1.png", tileSize * 2, tileSize));
+        leftAttackSprites.add(setupImage("/player/attack/left2.png", tileSize * 2, tileSize));
+        rightAttackSprites.add(setupImage("/player/attack/right1.png", tileSize * 2, tileSize));
+        rightAttackSprites.add(setupImage("/player/attack/right2.png", tileSize * 2, tileSize));
     }
 
     public void update()
@@ -137,31 +135,9 @@ public class Player extends Entity
                 || keyboardHandler.isAPressed || keyboardHandler.isDPressed
                 || keyboardHandler.isQPressed || keyboardHandler.isEPressed)
         {
+            setDirection();
 
-            if (keyboardHandler.isWPressed)
-            {
-                direction = "up";
-            }
-            else if (keyboardHandler.isSPressed)
-            {
-                direction = "down";
-            }
-            else if (keyboardHandler.isAPressed)
-            {
-                direction = "left";
-            }
-            else if (keyboardHandler.isDPressed)
-            {
-                direction = "right";
-            }
-            else if (keyboardHandler.isQPressed)
-            {
-                direction = "thumbUp";
-            }
-
-            collisionOn = false;
-            gp.collisionChecker.checkTile(this);
-
+            hasCollision = gp.collisionChecker.isCollisionTile(this);
             //index == -1 == false (no interaction)
             //index == 0+ == true (has interaction and the index of entity to interact with)
             int objectIndex = gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
@@ -170,28 +146,23 @@ public class Player extends Entity
                 pickUpObject(objectIndex);
             }
 
-            int npcIndex = gp.collisionChecker.checkEntitiesForCollision(this, gp.npcs);
+            int npcIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.npcs);
             if (npcIndex != -1)
             {
                 interactNpc(npcIndex);
             }
 
-            int monsterIndex = gp.collisionChecker.checkEntitiesForCollision(this, gp.monsters);
+            int monsterIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.monsters);
             if (monsterIndex != -1)
             {
                 contactMonster(monsterIndex);
             }
 
-            if (!collisionOn && !keyboardHandler.isEPressed)
+            if (!hasCollision && !keyboardHandler.isEPressed)
             {
-                switch (direction)
-                {
-                    case "up" -> worldY -= speed;
-                    case "down" -> worldY += speed;
-                    case "left" -> worldX -= speed;
-                    case "right" -> worldX += speed;
-                }
+                handleMoving();
             }
+
             keyboardHandler.isEPressed = false;
             spriteNumberChanger(upSprites.size(), 5);
         }
@@ -200,6 +171,41 @@ public class Player extends Entity
             spriteNumber = 1;
         }
         setInvincibleTime(60);
+    }
+
+    private void handleMoving()
+    {
+        switch (direction)
+        {
+            case "up" -> worldY -= speed;
+            case "down" -> worldY += speed;
+            case "left" -> worldX -= speed;
+            case "right" -> worldX += speed;
+        }
+    }
+
+    private void setDirection()
+    {
+        if (keyboardHandler.isWPressed)
+        {
+            direction = "up";
+        }
+        else if (keyboardHandler.isSPressed)
+        {
+            direction = "down";
+        }
+        else if (keyboardHandler.isAPressed)
+        {
+            direction = "left";
+        }
+        else if (keyboardHandler.isDPressed)
+        {
+            direction = "right";
+        }
+        else if (keyboardHandler.isQPressed)
+        {
+            direction = "thumbUp";
+        }
     }
 
     public void draw(Graphics2D g2)
@@ -215,7 +221,7 @@ public class Player extends Entity
                 image = changeSprite(image, upSprites, upAttackSprites, spriteNumber);
                 if (attacking)
                 {
-                    tempScreenY -= GamePanel.tileSize;
+                    tempScreenY -= tileSize;
                 }
             }
             case "down" -> image = changeSprite(image, downSprites, downAttackSprites, spriteNumber);
@@ -224,7 +230,7 @@ public class Player extends Entity
                 image = changeSprite(image, leftSprites, leftAttackSprites, spriteNumber);
                 if (attacking)
                 {
-                    tempScreenX -= GamePanel.tileSize;
+                    tempScreenX -= tileSize;
                 }
             }
             case "right" -> image = changeSprite(image, rightSprites, rightAttackSprites, spriteNumber);
@@ -385,8 +391,8 @@ public class Player extends Entity
 
             strength++;
             agility++;
-            attack = getAttack();
-            defense = getDefence();
+            attack = calculateAttack();
+            defense = calculateDefense();
             gp.playSoundEffect(LEVEL_UP);
             gp.setGameState(DIALOGUE_STATE);
             currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
@@ -442,7 +448,7 @@ public class Player extends Entity
 
         setSolidAreaToAttackArea();
 
-        int monsterIndex = gp.collisionChecker.checkEntitiesForCollision(this, gp.monsters);
+        int monsterIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.monsters);
         if (monsterIndex != -1)
         {
             damageMonster(monsterIndex);

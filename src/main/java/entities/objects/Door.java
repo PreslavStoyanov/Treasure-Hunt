@@ -1,7 +1,6 @@
 package entities.objects;
 
 import View.GamePanel;
-import entities.types.EntityType;
 import entities.types.Object;
 
 import static entities.types.EntityType.DOOR;
@@ -17,7 +16,7 @@ public class Door extends Object
         name = "Door";
         type = DOOR;
         downSprites.add(setupDefaultImage("/objects/door.png"));
-        collision = true;
+        hasCollision = true;
 
         solidArea.x = 0;
         solidArea.y = 16;

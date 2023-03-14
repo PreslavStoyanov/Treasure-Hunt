@@ -1,7 +1,6 @@
 package entities.objects;
 
 import View.GamePanel;
-import entities.types.EntityType;
 import entities.types.Object;
 
 import static entities.types.EntityType.MONKEY;
@@ -18,6 +17,6 @@ public class Monkey extends Object
         name = "Monkey";
         type = MONKEY;
         downSprites.add(setupDefaultImage("/objects/monkey.png"));
-        collision = true;
+        hasCollision = true;
     }
 }
