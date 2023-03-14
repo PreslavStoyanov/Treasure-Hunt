@@ -1,0 +1,57 @@
+walkingUpSprites:
+  - image: /player/up/up0.png
+  - image: /player/up/up1.png
+  - image: /player/up/up2.png
+  - image: /player/up/up3.png
+  - image: /player/up/up4.png
+  - image: /player/up/up5.png
+walkingDownSprites:
+  - image: /player/down/down0.png
+  - image: /player/down/down1.png
+  - image: /player/down/down2.png
+  - image: /player/down/down3.png
+  - image: /player/down/down4.png
+  - image: /player/down/down5.png
+walkingLeftSprites:
+  - image: /player/left/left0.png
+  - image: /player/left/left1.png
+  - image: /player/left/left2.png
+  - image: /player/left/left3.png
+  - image: /player/left/left4.png
+  - image: /player/left/left5.png
+walkingRightSprites:
+  - image: /player/right/right0.png
+  - image: /player/right/right1.png
+  - image: /player/right/right2.png
+  - image: /player/right/right3.png
+  - image: /player/right/right4.png
+  - image: /player/right/right5.png
+
+attackingUpSprites:
+  - xInTiles: 1
+    yInTilesSize: 2
+    image: /player/attack/up1.png
+  - xInTiles: 1
+    yInTilesSize: 2
+    image: /player/attack/up2.png
+attackingDownSprites:
+  - xInTiles: 1
+    yInTilesSize: 2
+    image: /player/attack/down1.png
+  - xInTiles: 1
+    yInTilesSize: 2
+    image: /player/attack/down2.png
+attackingLeftSprites:
+  - xInTiles: 2
+    yInTilesSize: 1
+    image: /player/attack/left1.png
+  - xInTiles: 2
+    yInTilesSize: 1
+    image: /player/attack/left2.png
+attackingRightSprites:
+  - xInTiles: 2
+    yInTilesSize: 1
+    image: /player/attack/right1.png
+  - xInTiles: 2
+    yInTilesSize: 1
+    image: /player/attack/right2.png

@@ -16,6 +16,6 @@ public class Chest extends Object
         this.worldY = y * GamePanel.tileSize;
         name = "Chest";
         type = EntityType.CHEST;
-        downSprites.add(setupDefaultImage("/objects/chest.png"));
+        image = setupDefaultImage("/objects/chest.png");
     }
 }

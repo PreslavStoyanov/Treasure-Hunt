@@ -31,19 +31,7 @@ public class OrangeSlime extends Monster
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        getImage();
-    }
-
-    public void getImage()
-    {
-        upSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime1.png"));
-        upSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime2.png"));
-        downSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime1.png"));
-        downSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime2.png"));
-        leftSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime1.png"));
-        leftSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime2.png"));
-        rightSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime1.png"));
-        rightSprites.add(setupDefaultImage("/monster/orangeSlime/orangeSlime2.png"));
+        sprites = setSprites("src/main/resources/orange_slime_sprites.yaml");
     }
 
     public void damageReaction()

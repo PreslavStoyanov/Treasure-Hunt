@@ -88,7 +88,7 @@ public class KeyboardHandler implements KeyListener
             case KeyEvent.VK_SPACE ->
             {
                 isSpacePressed = true;
-                gp.player.attacking = true;
+                gp.player.isAttacking = true;
             }
         }
     }

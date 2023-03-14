@@ -17,6 +17,6 @@ public class Key extends Object
         this.worldY = y * GamePanel.tileSize;
         name = "Key";
         type = KEY;
-        downSprites.add(setupDefaultImage("/objects/key.png"));
+        image = setupDefaultImage("/objects/key.png");
     }
 }

@@ -10,7 +10,7 @@ import static utilities.drawers.UserInterfaceController.g2;
 
 public class GameTimeDrawer
 {
-    public static double playTime;
+    public static double playTime = 0;
     public static DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
     public static void drawTime()

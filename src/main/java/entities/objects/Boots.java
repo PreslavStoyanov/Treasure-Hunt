@@ -16,6 +16,6 @@ public class Boots extends Object
         this.worldY = y * GamePanel.tileSize;
         name = "Boots";
         type = BOOTS;
-        downSprites.add(setupDefaultImage("/objects/boots.png"));
+        image = setupDefaultImage("/objects/boots.png");
     }
 }

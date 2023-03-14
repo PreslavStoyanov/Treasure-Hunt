@@ -19,20 +19,8 @@ public class OldWoman extends Npc
         direction = "down";
         type = OLD_WOMAN;
         speed = 1;
-        getOldWomanImage();
+        sprites = setSprites("src/main/resources/old_woman_sprites.yaml");
         setDialogue();
-    }
-
-    public void getOldWomanImage()
-    {
-        upSprites.add(setupDefaultImage("/npc/oldWoman/up1.png"));
-        upSprites.add(setupDefaultImage("/npc/oldWoman/up2.png"));
-        downSprites.add(setupDefaultImage("/npc/oldWoman/down1.png"));
-        downSprites.add(setupDefaultImage("/npc/oldWoman/down2.png"));
-        leftSprites.add(setupDefaultImage("/npc/oldWoman/left1.png"));
-        leftSprites.add(setupDefaultImage("/npc/oldWoman/left2.png"));
-        rightSprites.add(setupDefaultImage("/npc/oldWoman/right1.png"));
-        rightSprites.add(setupDefaultImage("/npc/oldWoman/right2.png"));
     }
 
     public void setAction()

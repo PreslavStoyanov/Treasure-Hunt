@@ -1,6 +1,7 @@
 package entities.monsters;
 
 import View.GamePanel;
+import entities.sprites.Sprites;
 import entities.types.EntityType;
 import entities.types.Monster;
 
@@ -31,30 +32,7 @@ public class Demon extends Monster
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        getImage();
-    }
-
-    public void getImage()
-    {
-        downSprites.add(setupDefaultImage("/monster/demon/demon00.png"));
-        downSprites.add(setupDefaultImage("/monster/demon/demon01.png"));
-        downSprites.add(setupDefaultImage("/monster/demon/demon02.png"));
-        downSprites.add(setupDefaultImage("/monster/demon/demon03.png"));
-
-        upSprites.add(setupDefaultImage("/monster/demon/demon04.png"));
-        upSprites.add(setupDefaultImage("/monster/demon/demon05.png"));
-        upSprites.add(setupDefaultImage("/monster/demon/demon06.png"));
-        upSprites.add(setupDefaultImage("/monster/demon/demon07.png"));
-
-        rightSprites.add(setupDefaultImage("/monster/demon/demon08.png"));
-        rightSprites.add(setupDefaultImage("/monster/demon/demon09.png"));
-        rightSprites.add(setupDefaultImage("/monster/demon/demon10.png"));
-        rightSprites.add(setupDefaultImage("/monster/demon/demon11.png"));
-
-        leftSprites.add(setupDefaultImage("/monster/demon/demon12.png"));
-        leftSprites.add(setupDefaultImage("/monster/demon/demon13.png"));
-        leftSprites.add(setupDefaultImage("/monster/demon/demon14.png"));
-        leftSprites.add(setupDefaultImage("/monster/demon/demon15.png"));
+        sprites = setSprites("src/main/resources/demon_sprites.yaml");
     }
 
     public void damageReaction()
@@ -74,6 +52,6 @@ public class Demon extends Monster
     public void update()
     {
         super.update();
-        spriteNumberChanger(upSprites.size(), 30);
+        changeSpriteNumber(sprites.getWalkingUpSprites().size(), 30);
     }
 }

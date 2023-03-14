@@ -15,7 +15,7 @@ public class Door extends Object
         this.worldY = y * GamePanel.tileSize;
         name = "Door";
         type = DOOR;
-        downSprites.add(setupDefaultImage("/objects/door.png"));
+        image = setupDefaultImage("/objects/door.png");
         hasCollision = true;
 
         solidArea.x = 0;

@@ -5,7 +5,6 @@ import entities.types.Npc;
 
 import static entities.types.EntityType.OLD_MAN;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
-import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class OldMan extends Npc
 {
@@ -19,20 +18,8 @@ public class OldMan extends Npc
         direction = "down";
         type = OLD_MAN;
         speed = 1;
-        getOldManImage();
+        sprites = setSprites("src/main/resources/old_man_sprites.yaml");
         setDialogue();
-    }
-
-    public void getOldManImage()
-    {
-        upSprites.add(setupDefaultImage("/npc/oldMan/up1.png"));
-        upSprites.add(setupDefaultImage("/npc/oldMan/up2.png"));
-        downSprites.add(setupDefaultImage("/npc/oldMan/down1.png"));
-        downSprites.add(setupDefaultImage("/npc/oldMan/down2.png"));
-        leftSprites.add(setupDefaultImage("/npc/oldMan/left1.png"));
-        leftSprites.add(setupDefaultImage("/npc/oldMan/left2.png"));
-        rightSprites.add(setupDefaultImage("/npc/oldMan/right1.png"));
-        rightSprites.add(setupDefaultImage("/npc/oldMan/right2.png"));
     }
 
     @Override

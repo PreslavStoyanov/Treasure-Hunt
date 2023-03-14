@@ -82,8 +82,6 @@ public class GamePanel extends JPanel implements Runnable
         entitySetter.setNpcs();
         entitySetter.setMonsters();
         setGameState(PLAY_STATE);
-        playTime = 0;
-        player.setDefaultValues();
         playMusic(PLAYBACK);
     }
 
@@ -138,11 +136,11 @@ public class GamePanel extends JPanel implements Runnable
             for (int i = 0; i < monsters.size(); i++)
             {
                 Entity monster = monsters.get(i);
-                if (monster.alive && !monster.dying)
+                if (monster.isAlive && !monster.isDying)
                 {
                     monster.update();
                 }
-                if (!monster.alive)
+                if (!monster.isAlive)
                 {
                     monsters.remove(monster);
                 }

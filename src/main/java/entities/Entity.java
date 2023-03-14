@@ -1,10 +1,16 @@
 package entities;
 
 import View.GamePanel;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import entities.sprites.Sprites;
+import entities.sprites.WalkingSprite;
 import entities.types.EntityType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +22,7 @@ import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
 public class Entity
 {
+    public final ObjectMapper objectMapper;
     public GamePanel gp;
 
     public String name;
@@ -37,16 +44,19 @@ public class Entity
     public int defenseValue;
 
     public boolean hasCollision = false;
-    public boolean invincible = false;
-    public boolean attacking = false;
-    public boolean alive = true;
-    public boolean dying = false;
+    public boolean isInvincible = false;
+    public boolean isAttacking = false;
+    public boolean isAlive = true;
+    public boolean isDying = false;
     int dyingCounter = 0;
-    public boolean hpBarOn = false;
+    public boolean isHpBarOn = false;
     public int hpBarCounter = 0;
     public int invincibleCounter = 60;
     public int worldX, worldY;
-    public BufferedImage thumbUp, image, image2, image3;
+    public BufferedImage thumbUp;
+    public BufferedImage image;
+    public BufferedImage image2;
+    public BufferedImage image3;
     public String direction = "down";
     public int actionLockCounter;
 
@@ -59,18 +69,16 @@ public class Entity
     public int spriteNumber = 0;
 
     public List<String> dialogues = new LinkedList<>();
+    public Sprites sprites = new Sprites();
     public List<BufferedImage> upSprites = new ArrayList<>();
     public List<BufferedImage> downSprites = new ArrayList<>();
     public List<BufferedImage> leftSprites = new ArrayList<>();
     public List<BufferedImage> rightSprites = new ArrayList<>();
-    public List<BufferedImage> upAttackSprites = new ArrayList<>();
-    public List<BufferedImage> downAttackSprites = new ArrayList<>();
-    public List<BufferedImage> leftAttackSprites = new ArrayList<>();
-    public List<BufferedImage> rightAttackSprites = new ArrayList<>();
 
     public Entity(GamePanel gp)
     {
         this.gp = gp;
+        objectMapper = new ObjectMapper(new YAMLFactory());
     }
 
     public void update()
@@ -81,7 +89,7 @@ public class Entity
         gp.collisionChecker.checkLiveAssetsForCollision(this, gp.npcs);
         gp.collisionChecker.checkLiveAssetsForCollision(this, gp.monsters);
         boolean isContactingPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
-        if (!gp.player.invincible && isContactingPlayer)
+        if (!gp.player.isInvincible && isContactingPlayer)
         {
             if (type.equals(SLIME))
             {
@@ -92,7 +100,7 @@ public class Entity
                     damage = 0;
                 }
                 gp.player.life -= damage;
-                gp.player.invincible = true;
+                gp.player.isInvincible = true;
             }
             else if (type.equals(DEMON))
             {
@@ -103,7 +111,7 @@ public class Entity
                     damage = 0;
                 }
                 gp.player.life -= damage;
-                gp.player.invincible = true;
+                gp.player.isInvincible = true;
             }
         }
         if (!hasCollision)
@@ -116,7 +124,7 @@ public class Entity
                 case "right" -> worldX += speed;
             }
         }
-        spriteNumberChanger(upSprites.size(), 30);
+        changeSpriteNumber(sprites.getWalkingUpSprites().size(), 30);
         setInvincibleTime(40);
     }
 
@@ -131,9 +139,9 @@ public class Entity
                 && worldY + tileSize > gp.player.worldY - gp.player.screenY
                 && worldY - tileSize < gp.player.worldY + gp.player.screenY)
         {
-            image = switchDirection(image);
+            image = switchSpriteByDirection();
         }
-        if (monstersTypes.contains(type) && hpBarOn)
+        if (monstersTypes.contains(type) && isHpBarOn)
         {
             double oneScale = (double) tileSize / maxLife;
             double hpBarValue = oneScale * life;
@@ -148,17 +156,17 @@ public class Entity
             if (hpBarCounter > 300)
             {
                 hpBarCounter = 0;
-                hpBarOn = false;
+                isHpBarOn = false;
             }
         }
 
-        if (invincible)
+        if (isInvincible)
         {
-            hpBarOn = true;
+            isHpBarOn = true;
             hpBarCounter = 0;
             changeAlpha(g2, 0.5F);
         }
-        if (dying)
+        if (isDying)
         {
             dyingAnimation(g2);
         }
@@ -173,20 +181,20 @@ public class Entity
         if (actionLockCounter == 120)
         {
             Random random = new Random();
-            int i = 1 + random.nextInt(100);
-            if (i <= 25)
+            int i = random.nextInt(99);
+            if (i < 25)
             {
                 direction = "up";
             }
-            if (i > 25 && i <= 50)
+            else if (i < 50)
             {
                 direction = "down";
             }
-            if (i > 50 && i <= 75)
+            else if (i < 75)
             {
                 direction = "left";
             }
-            if (i > 75)
+            else
             {
                 direction = "right";
             }
@@ -203,10 +211,10 @@ public class Entity
     {
         switch (gp.player.direction)
         {
-            case "up" -> direction = "down";
-            case "down" -> direction = "up";
-            case "left" -> direction = "right";
-            case "right" -> direction = "left";
+            case "up" -> this.direction = "down";
+            case "down" -> this.direction = "up";
+            case "left" -> this.direction = "right";
+            case "right" -> this.direction = "left";
         }
     }
 
@@ -224,31 +232,43 @@ public class Entity
         if (dyingCounter > i * 7 && dyingCounter <= i * 8) changeAlpha(g2, 1f);
         if (dyingCounter >= i * 8)
         {
-            dying = false;
-            alive = false;
+            isDying = false;
+            isAlive = false;
         }
     }
 
-    public BufferedImage switchDirection(BufferedImage image)
+    private BufferedImage switchSpriteByDirection()
     {
         switch (direction)
         {
-            case "up" -> image = changeSprite(image, upSprites, spriteNumber);
-            case "down" -> image = changeSprite(image, downSprites, spriteNumber);
-            case "left" -> image = changeSprite(image, leftSprites, spriteNumber);
-            case "right" -> image = changeSprite(image, rightSprites, spriteNumber);
+            case "up" ->
+            {
+                return changeSprite(sprites.getWalkingUpSprites(), spriteNumber);
+            }
+            case "down" ->
+            {
+                return changeSprite(sprites.getWalkingDownSprites(), spriteNumber);
+            }
+            case "left" ->
+            {
+                return changeSprite(sprites.getWalkingLeftSprites(), spriteNumber);
+            }
+            case "right" ->
+            {
+                return changeSprite(sprites.getWalkingRightSprites(), spriteNumber);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + direction);
         }
-        return image;
     }
 
     public void setInvincibleTime(int time)
     {
-        if (invincible)
+        if (isInvincible)
         {
             invincibleCounter--;
             if (invincibleCounter < 0)
             {
-                invincible = false;
+                isInvincible = false;
                 invincibleCounter = time;
             }
         }
@@ -259,7 +279,7 @@ public class Entity
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
     }
 
-    public void spriteNumberChanger(int numberOfSprites, int speedOfChanging)
+    public void changeSpriteNumber(int numberOfSprites, int speedOfChanging)
     {
         spriteCounter++;
         if (spriteCounter > speedOfChanging)
@@ -281,16 +301,27 @@ public class Entity
         }
     }
 
-    public BufferedImage changeSprite(BufferedImage image, List<BufferedImage> sprites, int spriteNumber)
+    public Sprites setSprites(String filePath)
+    {
+        try
+        {
+            return objectMapper.readValue(new File(filePath), Sprites.class);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Setting sprites error", e);
+        }
+    }
+
+    public BufferedImage changeSprite(List<WalkingSprite> sprites, int spriteNumber)
     {
         for (int i = 0; i < sprites.size(); i++)
         {
             if (spriteNumber == i)
             {
-                image = sprites.get(i);
-                break;
+                return sprites.get(i).getImage();
             }
         }
-        return image;
+        return sprites.get(0).getImage();
     }
 }

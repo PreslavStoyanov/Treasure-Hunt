@@ -4,6 +4,8 @@ import View.GamePanel;
 import entities.Entity;
 import entities.objects.Shield;
 import entities.objects.Sword;
+import entities.sprites.AttackingSprite;
+import entities.sprites.WalkingSprite;
 import utilities.keyboard.KeyboardHandler;
 
 import java.awt.*;
@@ -11,14 +13,12 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import static View.GamePanel.*;
-import static View.GamePanel.screenWidth;
 import static entities.types.EntityType.*;
 import static utilities.GameState.DIALOGUE_STATE;
 import static utilities.GameState.END_STATE;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultImage;
-import static utilities.images.ImageUtils.setupImage;
 import static utilities.sound.Sound.*;
 
 public class Player extends Entity
@@ -44,8 +44,7 @@ public class Player extends Entity
         attackArea.height = 36;
 
         setDefaultValues();
-        setPlayerImages();
-        setPlayerAttackImages();
+        this.sprites = setSprites("src/main/resources/player_sprites.yaml");
     }
 
     public int calculateAttack()
@@ -60,6 +59,7 @@ public class Player extends Entity
 
     public void setDefaultValues()
     {
+        thumbUp = setupDefaultImage("/player/thumbUp.png");
         worldX = tileSize * 28;
         worldY = tileSize * 28;
         speed = 4;
@@ -80,97 +80,96 @@ public class Player extends Entity
         defense = calculateDefense();
     }
 
-    public void setPlayerImages()
-    {
-        upSprites.add(setupDefaultImage("/player/up/up0.png"));
-        upSprites.add(setupDefaultImage("/player/up/up1.png"));
-        upSprites.add(setupDefaultImage("/player/up/up2.png"));
-        upSprites.add(setupDefaultImage("/player/up/up3.png"));
-        upSprites.add(setupDefaultImage("/player/up/up4.png"));
-        upSprites.add(setupDefaultImage("/player/up/up5.png"));
-
-        downSprites.add(setupDefaultImage("/player/down/down0.png"));
-        downSprites.add(setupDefaultImage("/player/down/down1.png"));
-        downSprites.add(setupDefaultImage("/player/down/down2.png"));
-        downSprites.add(setupDefaultImage("/player/down/down3.png"));
-        downSprites.add(setupDefaultImage("/player/down/down4.png"));
-        downSprites.add(setupDefaultImage("/player/down/down5.png"));
-
-        leftSprites.add(setupDefaultImage("/player/left/left0.png"));
-        leftSprites.add(setupDefaultImage("/player/left/left1.png"));
-        leftSprites.add(setupDefaultImage("/player/left/left2.png"));
-        leftSprites.add(setupDefaultImage("/player/left/left3.png"));
-        leftSprites.add(setupDefaultImage("/player/left/left4.png"));
-        leftSprites.add(setupDefaultImage("/player/left/left5.png"));
-
-        rightSprites.add(setupDefaultImage("/player/right/right0.png"));
-        rightSprites.add(setupDefaultImage("/player/right/right1.png"));
-        rightSprites.add(setupDefaultImage("/player/right/right2.png"));
-        rightSprites.add(setupDefaultImage("/player/right/right3.png"));
-        rightSprites.add(setupDefaultImage("/player/right/right4.png"));
-        rightSprites.add(setupDefaultImage("/player/right/right5.png"));
-
-        thumbUp = setupDefaultImage("/player/thumbUp.png");
-    }
-
-    public void setPlayerAttackImages()
-    {
-        upAttackSprites.add(setupImage("/player/attack/up1.png", tileSize, tileSize * 2));
-        upAttackSprites.add(setupImage("/player/attack/up2.png", tileSize, tileSize * 2));
-        downAttackSprites.add(setupImage("/player/attack/down1.png", tileSize, tileSize * 2));
-        downAttackSprites.add(setupImage("/player/attack/down2.png", tileSize, tileSize * 2));
-        leftAttackSprites.add(setupImage("/player/attack/left1.png", tileSize * 2, tileSize));
-        leftAttackSprites.add(setupImage("/player/attack/left2.png", tileSize * 2, tileSize));
-        rightAttackSprites.add(setupImage("/player/attack/right1.png", tileSize * 2, tileSize));
-        rightAttackSprites.add(setupImage("/player/attack/right2.png", tileSize * 2, tileSize));
-    }
-
     public void update()
     {
-        if (attacking)
+        if (isAttacking)
         {
-            attacking();
+            attack();
         }
         else if (keyboardHandler.isWPressed || keyboardHandler.isSPressed
                 || keyboardHandler.isAPressed || keyboardHandler.isDPressed
                 || keyboardHandler.isQPressed || keyboardHandler.isEPressed)
         {
             setDirection();
-
             hasCollision = gp.collisionChecker.isCollisionTile(this);
-            //index == -1 == false (no interaction)
-            //index == 0+ == true (has interaction and the index of entity to interact with)
-            int objectIndex = gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
-            if (objectIndex != -1)
-            {
-                pickUpObject(objectIndex);
-            }
-
-            int npcIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.npcs);
-            if (npcIndex != -1)
-            {
-                interactNpc(npcIndex);
-            }
-
-            int monsterIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.monsters);
-            if (monsterIndex != -1)
-            {
-                contactMonster(monsterIndex);
-            }
-
+            interactWithEntities();
             if (!hasCollision && !keyboardHandler.isEPressed)
             {
                 handleMoving();
             }
 
             keyboardHandler.isEPressed = false;
-            spriteNumberChanger(upSprites.size(), 5);
+            changeSpriteNumber(sprites.getWalkingUpSprites().size(), 5);
         }
         else
         {
             spriteNumber = 1;
         }
         setInvincibleTime(60);
+    }
+
+    public void draw(Graphics2D g2)
+    {
+        BufferedImage image = null;
+        int tempScreenX = screenX;
+        int tempScreenY = screenY;
+
+        switch (direction)
+        {
+            case "up" ->
+            {
+                image = changeSprite(sprites.getWalkingUpSprites(), sprites.getAttackingUpSprites(), spriteNumber);
+                if (isAttacking)
+                {
+                    tempScreenY -= tileSize;
+                }
+            }
+            case "down" -> image = changeSprite(sprites.getWalkingDownSprites(), sprites.getAttackingDownSprites(), spriteNumber);
+            case "left" ->
+            {
+                image = changeSprite(sprites.getWalkingLeftSprites(), sprites.getAttackingLeftSprites(), spriteNumber);
+                if (isAttacking)
+                {
+                    tempScreenX -= tileSize;
+                }
+            }
+            case "right" -> image = changeSprite(sprites.getWalkingRightSprites(), sprites.getAttackingRightSprites(), spriteNumber);
+            case "thumbUp" -> image = thumbUp;
+        }
+
+        int x = Math.min(tempScreenX, worldX);
+        int y = Math.min(tempScreenY, worldY);
+
+        if (isInvincible)
+        {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        }
+
+        g2.drawImage(image, x, y, null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+    }
+
+    private void interactWithEntities()
+    {
+        //index == -1 == false (no interaction)
+        //index == 0+ == true (has interaction and the index of entity to interact with)
+        int objectIndex = gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
+        if (objectIndex != -1)
+        {
+            pickUpObject(objectIndex);
+        }
+
+        int npcIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.npcs);
+        if (npcIndex != -1)
+        {
+            interactNpc(npcIndex);
+        }
+
+        int monsterIndex = gp.collisionChecker.checkLiveAssetsForCollision(this, gp.monsters);
+        if (monsterIndex != -1)
+        {
+            contactMonster(monsterIndex);
+        }
     }
 
     private void handleMoving()
@@ -208,48 +207,7 @@ public class Player extends Entity
         }
     }
 
-    public void draw(Graphics2D g2)
-    {
-        BufferedImage image = null;
-        int tempScreenX = screenX;
-        int tempScreenY = screenY;
-
-        switch (direction)
-        {
-            case "up" ->
-            {
-                image = changeSprite(image, upSprites, upAttackSprites, spriteNumber);
-                if (attacking)
-                {
-                    tempScreenY -= tileSize;
-                }
-            }
-            case "down" -> image = changeSprite(image, downSprites, downAttackSprites, spriteNumber);
-            case "left" ->
-            {
-                image = changeSprite(image, leftSprites, leftAttackSprites, spriteNumber);
-                if (attacking)
-                {
-                    tempScreenX -= tileSize;
-                }
-            }
-            case "right" -> image = changeSprite(image, rightSprites, rightAttackSprites, spriteNumber);
-            case "thumbUp" -> image = thumbUp;
-        }
-
-        int x = Math.min(tempScreenX, worldX);
-        int y = Math.min(tempScreenY, worldY);
-
-        if (invincible)
-        {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-        }
-
-        g2.drawImage(image, x, y, null);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-    }
-
-    public void pickUpObject(int i)
+    private void pickUpObject(int i)
     {
         EntityType entityType = gp.objects.get(i).type;
         if (objectTypes.contains(entityType))
@@ -317,7 +275,7 @@ public class Player extends Entity
         }
     }
 
-    public void interactNpc(int i)
+    private void interactNpc(int i)
     {
         if (keyboardHandler.isEPressed)
         {
@@ -327,9 +285,9 @@ public class Player extends Entity
         keyboardHandler.isEPressed = false;
     }
 
-    public void contactMonster(int i)
+    private void contactMonster(int i)
     {
-        if (invincible)
+        if (isInvincible)
         {
             return;
         }
@@ -337,7 +295,7 @@ public class Player extends Entity
         {
             gp.playSoundEffect(RECEIVE_DAMAGE);
             life -= calculateDamage(i);
-            invincible = true;
+            isInvincible = true;
         }
     }
 
@@ -347,9 +305,9 @@ public class Player extends Entity
         return Math.max(damage, 0);
     }
 
-    public void damageMonster(int i)
+    private void damageMonster(int i)
     {
-        if (!gp.monsters.get(i).invincible)
+        if (!gp.monsters.get(i).isInvincible)
         {
             gp.playSoundEffect(HIT);
 
@@ -358,12 +316,12 @@ public class Player extends Entity
 
             addMessage(damage + " damage!");
 
-            gp.monsters.get(i).invincible = true;
+            gp.monsters.get(i).isInvincible = true;
 
             gp.monsters.get(i).damageReaction();
             if (gp.monsters.get(i).life <= 0)
             {
-                gp.monsters.get(i).dying = true;
+                gp.monsters.get(i).isDying = true;
                 addMessage(gp.monsters.get(i).name + " killed!");
                 addMessage(gp.monsters.get(i).exp + " exp  gained!");
                 exp += gp.monsters.get(i).exp;
@@ -372,7 +330,7 @@ public class Player extends Entity
         }
     }
 
-    public void checkLevelUp()
+    private void checkLevelUp()
     {
         if (exp >= nextLevelExp)
         {
@@ -409,31 +367,29 @@ public class Player extends Entity
         return damage;
     }
 
-    public void attacking()
+    private void attack()
     {
-        if (attacking)
+        spriteCounter++;
+        if (spriteCounter == 2)
         {
-            spriteCounter++;
-            if (spriteCounter == 2)
-            {
-                gp.playSoundEffect(SWING_WEAPON);
-            }
-            if (spriteCounter <= 5)
-            {
-                spriteNumber = 1;
-            }
-            if (spriteCounter > 5 && spriteCounter <= 25)
-            {
-                spriteNumber = 2;
-                checkAttackMonsterCollision();
-            }
-            if (spriteCounter > 25)
-            {
-                spriteNumber = 1;
-                spriteCounter = 0;
-                attacking = false;
-            }
+            gp.playSoundEffect(SWING_WEAPON);
         }
+        if (spriteCounter <= 5)
+        {
+            spriteNumber = 1;
+        }
+        if (spriteCounter > 5 && spriteCounter <= 25)
+        {
+            spriteNumber = 2;
+            checkAttackMonsterCollision();
+        }
+        if (spriteCounter > 25)
+        {
+            spriteNumber = 1;
+            spriteCounter = 0;
+            isAttacking = false;
+        }
+
     }
 
     private void checkAttackMonsterCollision()
@@ -483,30 +439,26 @@ public class Player extends Entity
         solidArea.height = solidAreaHeight;
     }
 
-    public BufferedImage changeSprite(BufferedImage image, List<BufferedImage> sprites, List<BufferedImage> attackingSprites, int spriteNumber)
+    private BufferedImage changeSprite(List<WalkingSprite> walkingSprites,
+                                      List<AttackingSprite> attackingSprites,
+                                      int spriteNumber)
     {
-        if (!attacking)
-        {
-            for (int i = 0; i < sprites.size(); i++)
-            {
-                if (spriteNumber == i)
-                {
-                    image = sprites.get(spriteNumber);
-                    break;
-                }
-            }
-        }
-        else
+        if (isAttacking)
         {
             if (spriteNumber == 1)
             {
-                image = attackingSprites.get(0);
+                return attackingSprites.get(0).getImage();
             }
-            if (spriteNumber == 2)
+            return attackingSprites.get(1).getImage();
+        }
+
+        for (int i = 0; i < walkingSprites.size(); i++)
+        {
+            if (spriteNumber == i)
             {
-                image = attackingSprites.get(1);
+                return walkingSprites.get(spriteNumber).getImage();
             }
         }
-        return image;
+        return walkingSprites.get(0).getImage();
     }
 }

@@ -31,19 +31,7 @@ public class GreenSlime extends Monster
         solidArea.height = 30;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        getImage();
-    }
-
-    public void getImage()
-    {
-        upSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime1.png"));
-        upSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime2.png"));
-        downSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime1.png"));
-        downSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime2.png"));
-        leftSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime1.png"));
-        leftSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime2.png"));
-        rightSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime1.png"));
-        rightSprites.add(setupDefaultImage("/monster/greenSlime/greenSlime2.png"));
+        sprites = setSprites("src/main/resources/green_slime_sprites.yaml");
     }
 
     public void damageReaction()

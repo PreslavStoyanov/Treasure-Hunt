@@ -16,7 +16,7 @@ public class Monkey extends Object
         this.worldY = y * GamePanel.tileSize;
         name = "Monkey";
         type = MONKEY;
-        downSprites.add(setupDefaultImage("/objects/monkey.png"));
+        image = setupDefaultImage("/objects/monkey.png");
         hasCollision = true;
     }
 }
