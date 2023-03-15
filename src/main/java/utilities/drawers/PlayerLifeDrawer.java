@@ -1,11 +1,11 @@
 package utilities.drawers;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.types.Player;
 
 import java.awt.image.BufferedImage;
 
-import static View.Main.properties;
+import static application.Main.properties;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
 import static utilities.images.ImageUtils.setupDefaultImage;

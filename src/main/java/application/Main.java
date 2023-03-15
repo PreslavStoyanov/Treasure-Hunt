@@ -1,4 +1,4 @@
-package View;
+package application;
 
 import javax.swing.*;
 import java.io.FileInputStream;

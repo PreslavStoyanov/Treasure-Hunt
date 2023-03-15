@@ -2,7 +2,7 @@ package entities.sprites;
 
 import java.awt.image.BufferedImage;
 
-import static View.GamePanel.tileSize;
+import static application.GamePanel.tileSize;
 import static utilities.images.ImageUtils.setupImage;
 
 public class AttackingSprite

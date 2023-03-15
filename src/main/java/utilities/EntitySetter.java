@@ -1,6 +1,6 @@
 package utilities;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.monsters.Demon;
 import entities.monsters.GreenSlime;
 import entities.monsters.OrangeSlime;

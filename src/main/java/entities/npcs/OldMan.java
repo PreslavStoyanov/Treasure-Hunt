@@ -1,6 +1,6 @@
 package entities.npcs;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.types.Npc;
 
 import static entities.types.EntityType.OLD_MAN;

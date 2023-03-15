@@ -1,6 +1,6 @@
 package entities.types;
 
-import View.GamePanel;
+import application.GamePanel;
 
 import java.util.LinkedList;
 import java.util.List;

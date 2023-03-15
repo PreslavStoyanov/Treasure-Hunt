@@ -1,6 +1,6 @@
 package utilities;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.Entity;
 import entities.types.EntityType;
 import entities.types.LiveEntity;
@@ -9,7 +9,7 @@ import entities.types.Player;
 
 import java.util.List;
 
-import static View.GamePanel.tileSize;
+import static application.GamePanel.tileSize;
 
 public class CollisionChecker
 {
@@ -20,7 +20,7 @@ public class CollisionChecker
         this.gp = gp;
     }
 
-    public boolean isCollisionTile(LiveEntity liveEntity)
+    public boolean isTileColliding(LiveEntity liveEntity)
     {
         int entityLeftWorldX = liveEntity.worldX + liveEntity.solidArea.x;
         int entityRightWorldX = liveEntity.worldX + liveEntity.solidArea.x + liveEntity.solidArea.width;
@@ -70,7 +70,7 @@ public class CollisionChecker
         }
     }
 
-    public int checkObjectsForCollisions(LiveEntity liveEntity, List<Object> objects)
+    public int areObjectsColliding(LiveEntity liveEntity, List<Object> objects)
     {
         int objectIndex = -1;
         for (int i = 0; i < objects.size(); i++)
@@ -91,46 +91,46 @@ public class CollisionChecker
         return objectIndex;
     }
 
-    public int checkLiveEntitiesForCollision(LiveEntity liveEntity, List<? extends LiveEntity> liveEntities)
+    public int areLiveEntitiesColliding(LiveEntity liveEntity, List<? extends LiveEntity> liveEntities)
     {
-        int assetIndex = -1;
+        int liveEntityIndex = -1;
         for (int i = 0; i < liveEntities.size(); i++)
         {
-            LiveEntity asset = liveEntities.get(i);
+            LiveEntity targetLiveEntity = liveEntities.get(i);
             increaseSolidAreaWorldCoordinates(liveEntity);
-            increaseSolidAreaWorldCoordinates(asset);
+            increaseSolidAreaWorldCoordinates(targetLiveEntity);
             changeEntityDirection(liveEntity);
 
-            if (isEntityIntersects(liveEntity, asset))
+            if (isEntityIntersects(liveEntity, targetLiveEntity))
             {
                 liveEntity.hasCollision = true;
-                assetIndex = i;
+                liveEntityIndex = i;
             }
 
             resetDefaultLocation(liveEntity);
-            resetDefaultLocation(asset);
+            resetDefaultLocation(targetLiveEntity);
         }
 
-        return assetIndex;
+        return liveEntityIndex;
     }
 
-    public boolean checkForCollisionWithPlayer(LiveEntity entity, Player player)
+    public boolean isCollidingWithPlayer(LiveEntity liveEntity, Player player)
     {
-        boolean contactPlayer = false;
-        increaseSolidAreaWorldCoordinates(entity);
+        boolean isContactingPlayer = false;
+        increaseSolidAreaWorldCoordinates(liveEntity);
         increaseSolidAreaWorldCoordinates(player);
-        changeEntityDirection(entity);
+        changeEntityDirection(liveEntity);
 
-        if (entity.solidArea.intersects(player.solidArea))
+        if (liveEntity.solidArea.intersects(player.solidArea))
         {
-            entity.hasCollision = true;
-            contactPlayer = true;
+            liveEntity.hasCollision = true;
+            isContactingPlayer = true;
         }
 
-        resetDefaultLocation(entity);
+        resetDefaultLocation(liveEntity);
         resetDefaultLocation(player);
 
-        return contactPlayer;
+        return isContactingPlayer;
     }
 
     public boolean isEntityIntersects(LiveEntity entity, LiveEntity target)

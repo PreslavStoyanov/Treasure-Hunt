@@ -1,6 +1,6 @@
 package entities.types;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.Direction;
 import entities.Entity;
 import entities.sprites.Sprites;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-import static View.GamePanel.tileSize;
+import static application.GamePanel.tileSize;
 import static entities.Direction.*;
 
 public class LiveEntity extends Entity
@@ -55,13 +55,13 @@ public class LiveEntity extends Entity
     public void update()
     {
         setDefaultWalking();
-        hasCollision = gp.collisionChecker.isCollisionTile(this);
-        gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
-        gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.npcs);
-        gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.monsters);
-        this.isContactingPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
+        hasCollision = gp.collisionChecker.isTileColliding(this);
+        gp.collisionChecker.areObjectsColliding(this, gp.objects);
+        gp.collisionChecker.areLiveEntitiesColliding(this, gp.npcs);
+        gp.collisionChecker.areLiveEntitiesColliding(this, gp.monsters);
+        this.isContactingPlayer = gp.collisionChecker.isCollidingWithPlayer(this, gp.player);
 
-        if (!hasCollision)
+        if (!hasCollision && !isContactingPlayer)
         {
             handleMoving();
         }

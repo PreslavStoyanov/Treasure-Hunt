@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static View.GamePanel.tileSize;
+import static application.GamePanel.tileSize;
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class CoordinatesDrawer

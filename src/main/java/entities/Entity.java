@@ -1,6 +1,6 @@
 package entities;
 
-import View.GamePanel;
+import application.GamePanel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import entities.types.EntityType;

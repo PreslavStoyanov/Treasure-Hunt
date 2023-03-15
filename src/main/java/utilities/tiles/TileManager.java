@@ -1,6 +1,6 @@
 package utilities.tiles;
 
-import View.GamePanel;
+import application.GamePanel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.Objects;
 
-import static View.GamePanel.*;
+import static application.GamePanel.*;
 
 public class TileManager
 {

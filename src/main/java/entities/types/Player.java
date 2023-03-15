@@ -1,6 +1,6 @@
 package entities.types;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.objects.Shield;
 import entities.objects.Sword;
 import entities.sprites.AttackingSprite;
@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import static View.GamePanel.*;
+import static application.GamePanel.*;
 import static entities.Direction.*;
 import static entities.types.EntityType.*;
 import static utilities.GameState.DIALOGUE_STATE;
@@ -96,14 +96,13 @@ public class Player extends LiveEntity
         {
             attack();
         }
-        else if (keyboardHandler.isWPressed || keyboardHandler.isSPressed
-                || keyboardHandler.isAPressed || keyboardHandler.isDPressed
-                || keyboardHandler.isQPressed || keyboardHandler.isEPressed)
+        else if (isActionButtonPressed())
         {
             setDirection();
-            hasCollision = gp.collisionChecker.isCollisionTile(this);
+            hasCollision = gp.collisionChecker.isTileColliding(this);
             interactWithEntities();
-            if (!hasCollision && !keyboardHandler.isEPressed)
+
+            if (!hasCollision)
             {
                 handleMoving();
             }
@@ -111,11 +110,14 @@ public class Player extends LiveEntity
             keyboardHandler.isEPressed = false;
             changeSpriteNumber(sprites.getWalkingUpSprites().size(), 5);
         }
-        else
-        {
-            spriteNumber = 1;
-        }
         setInvincibleTime(60);
+    }
+
+    private boolean isActionButtonPressed()
+    {
+        return keyboardHandler.isWPressed || keyboardHandler.isSPressed
+                || keyboardHandler.isAPressed || keyboardHandler.isDPressed
+                || keyboardHandler.isQPressed || keyboardHandler.isEPressed;
     }
 
     @Override
@@ -166,19 +168,19 @@ public class Player extends LiveEntity
     {
         //index == -1 == false (no interaction)
         //index == 0+ == true (has interaction and the index of entity to interact with)
-        int objectIndex = gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
+        int objectIndex = gp.collisionChecker.areObjectsColliding(this, gp.objects);
         if (objectIndex != -1)
         {
             pickUpObject(objectIndex);
         }
 
-        int npcIndex = gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.npcs);
-        if (npcIndex != -1)
+        int npcIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.npcs);
+        if (npcIndex != -1 && keyboardHandler.isEPressed)
         {
             interactNpc(npcIndex);
         }
 
-        int monsterIndex = gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.monsters);
+        int monsterIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.monsters);
         if (monsterIndex != -1)
         {
             contactMonster(monsterIndex);
@@ -280,11 +282,8 @@ public class Player extends LiveEntity
 
     private void interactNpc(int i)
     {
-        if (keyboardHandler.isEPressed)
-        {
-            gp.setGameState(DIALOGUE_STATE);
-            gp.npcs.get(i).speak();
-        }
+        gp.setGameState(DIALOGUE_STATE);
+        gp.npcs.get(i).speak();
         keyboardHandler.isEPressed = false;
     }
 
@@ -314,10 +313,7 @@ public class Player extends LiveEntity
         {
             gp.soundHandler.playSoundEffect(HIT);
 
-            int damage = causeDamage(i);
-            gp.monsters.get(i).life -= damage;
-
-            addMessage(damage + " damage!");
+            gp.monsters.get(i).life -= Math.max(attack - gp.monsters.get(i).defense, 0);
 
             gp.monsters.get(i).isInvincible = true;
 
@@ -360,16 +356,6 @@ public class Player extends LiveEntity
         }
     }
 
-    private int causeDamage(int i)
-    {
-        int damage = attack - gp.monsters.get(i).defense;
-        if (damage < 0)
-        {
-            damage = 0;
-        }
-        return damage;
-    }
-
     private void attack()
     {
         spriteCounter++;
@@ -406,7 +392,7 @@ public class Player extends LiveEntity
         adjustPlayerCoordinatesForAttackArea();
         solidArea.setSize(attackArea.width, attackArea.height);
 
-        int monsterIndex = gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.monsters);
+        int monsterIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.monsters);
         if (monsterIndex != -1)
         {
             damageMonster(monsterIndex);

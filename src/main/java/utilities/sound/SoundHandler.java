@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import static View.Main.properties;
+import static application.Main.properties;
 import static utilities.sound.Sound.*;
 
 public class SoundHandler

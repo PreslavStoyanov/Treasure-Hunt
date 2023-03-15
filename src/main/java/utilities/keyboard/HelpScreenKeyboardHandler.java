@@ -1,6 +1,6 @@
 package utilities.keyboard;
 
-import View.GamePanel;
+import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 

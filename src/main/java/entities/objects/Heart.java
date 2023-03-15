@@ -1,9 +1,9 @@
 package entities.objects;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.types.Object;
 
-import static View.Main.properties;
+import static application.Main.properties;
 import static entities.types.EntityType.HEART;
 import static utilities.images.ImageUtils.setupDefaultImage;
 

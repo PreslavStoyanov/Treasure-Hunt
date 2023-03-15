@@ -1,4 +1,4 @@
-package View;
+package application;
 
 import entities.Entity;
 import entities.types.Object;
@@ -8,7 +8,6 @@ import utilities.EntitySetter;
 import utilities.GameState;
 import utilities.drawers.UserInterfaceController;
 import utilities.keyboard.KeyboardHandler;
-import utilities.sound.Sound;
 import utilities.sound.SoundHandler;
 import utilities.tiles.TileManager;
 

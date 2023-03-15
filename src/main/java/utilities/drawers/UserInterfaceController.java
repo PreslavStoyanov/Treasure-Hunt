@@ -1,6 +1,6 @@
 package utilities.drawers;
 
-import View.GamePanel;
+import application.GamePanel;
 import utilities.GameState;
 
 import java.awt.*;

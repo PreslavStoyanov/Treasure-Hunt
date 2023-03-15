@@ -1,11 +1,11 @@
 package entities.types;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.Entity;
 
 import java.awt.*;
 
-import static View.GamePanel.tileSize;
+import static application.GamePanel.tileSize;
 
 public class Object extends Entity
 {

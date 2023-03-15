@@ -1,6 +1,6 @@
 package entities.objects;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.types.Object;
 
 import static entities.types.EntityType.DOOR;

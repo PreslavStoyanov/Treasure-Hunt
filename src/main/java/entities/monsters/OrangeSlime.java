@@ -1,6 +1,6 @@
 package entities.monsters;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.types.EntityType;
 import entities.types.Monster;
 

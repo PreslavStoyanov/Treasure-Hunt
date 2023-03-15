@@ -1,15 +1,16 @@
 package entities.types;
 
-import View.GamePanel;
+import application.GamePanel;
 
 import java.awt.*;
 
-import static View.GamePanel.tileSize;
+import static application.GamePanel.tileSize;
 import static entities.types.EntityType.monstersTypes;
 import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
 public class Monster extends LiveEntity
 {
+
     public boolean isAlive = true;
     public int dyingCounter = 0;
     public boolean isDying = false;
@@ -84,29 +85,28 @@ public class Monster extends LiveEntity
 
     private void handleMonsterDamage()
     {
-        gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
-        int damage = attack - gp.player.defense;
-        if (damage < 0)
-        {
-            damage = 0;
-        }
-        gp.player.life -= damage;
+        gp.player.life -= Math.max(this.attack - gp.player.defense, 0);
         gp.player.isInvincible = true;
+        gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
     }
 
     private void dyingAnimation(Graphics2D g2)
     {
         dyingCounter++;
-        int i = 5;
-        if (dyingCounter <= i) changeAlpha(g2, 0f);
-        if (dyingCounter > i && dyingCounter <= i * 2) changeAlpha(g2, 1f);
-        if (dyingCounter > i * 2 && dyingCounter <= i * 3) changeAlpha(g2, 0f);
-        if (dyingCounter > i * 3 && dyingCounter <= i * 4) changeAlpha(g2, 1f);
-        if (dyingCounter > i * 4 && dyingCounter <= i * 5) changeAlpha(g2, 0f);
-        if (dyingCounter > i * 5 && dyingCounter <= i * 6) changeAlpha(g2, 1f);
-        if (dyingCounter > i * 6 && dyingCounter <= i * 7) changeAlpha(g2, 0f);
-        if (dyingCounter > i * 7 && dyingCounter <= i * 8) changeAlpha(g2, 1f);
-        if (dyingCounter >= i * 8)
+        int framesPerFade = 5;
+        int frameIndex = (dyingCounter - 1) / framesPerFade;
+
+        if (frameIndex % 2 == 0)
+        {
+            changeAlpha(g2, 0f);
+        }
+        else
+        {
+            changeAlpha(g2, 1f);
+        }
+
+        int numDyingFrames = 8;
+        if (frameIndex >= numDyingFrames)
         {
             isDying = false;
             isAlive = false;

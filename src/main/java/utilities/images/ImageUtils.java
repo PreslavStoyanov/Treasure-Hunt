@@ -1,6 +1,6 @@
 package utilities.images;
 
-import View.GamePanel;
+import application.GamePanel;
 import entities.Entity;
 
 import javax.imageio.ImageIO;

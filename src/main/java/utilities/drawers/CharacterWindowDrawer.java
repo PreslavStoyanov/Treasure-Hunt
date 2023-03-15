@@ -5,7 +5,7 @@ import entities.types.Player;
 import java.awt.*;
 import java.util.List;
 
-import static View.GamePanel.tileSize;
+import static application.GamePanel.tileSize;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 

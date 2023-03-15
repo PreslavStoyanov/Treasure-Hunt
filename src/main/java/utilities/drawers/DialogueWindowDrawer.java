@@ -1,6 +1,6 @@
 package utilities.drawers;
 
-import View.GamePanel;
+import application.GamePanel;
 
 import static utilities.drawers.DrawerUtils.drawSubWindow;
 import static utilities.drawers.UserInterfaceController.g2;
