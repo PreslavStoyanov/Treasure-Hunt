@@ -1,8 +1,7 @@
 package utilities.sound;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class SoundHandler
 
     public SoundHandler()
     {
-        sounds = Map.of(
+        this.sounds = Map.of(
                 PLAYBACK, getURL("sounds.playback"),
                 COIN, getURL("sounds.coin"),
                 POWER_UP, getURL("sounds.power-up"),
@@ -28,36 +27,39 @@ public class SoundHandler
                 LEVEL_UP, getURL("sounds.level-up"));
     }
 
+    public void playMusic(Sound sound)
+    {
+        setFile(sound);
+        clip.start();
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public void playSoundEffect(Sound sound)
+    {
+        setFile(sound);
+        clip.start();
+    }
+
+    public void stop()
+    {
+        clip.stop();
+    }
+
     private URL getURL(Object url)
     {
         return getClass().getResource(properties.get(url).toString());
     }
 
-    public void setFile(Sound sound)
+    private void setFile(Sound sound)
     {
         try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(sounds.get(sound)))
         {
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
         }
-        catch (Exception e)
+        catch (IOException | LineUnavailableException | UnsupportedAudioFileException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Couldn't load the music file", e);
         }
-    }
-
-    public void play()
-    {
-        clip.start();
-    }
-
-    public void loop()
-    {
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-    }
-
-    public void stop()
-    {
-        clip.stop();
     }
 }

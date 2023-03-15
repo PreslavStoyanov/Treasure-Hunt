@@ -229,13 +229,13 @@ public class Player extends LiveEntity
     private void interactWithChest()
     {
         gp.setGameState(END_STATE);
-        gp.stopMusic();
-        gp.playSoundEffect(WIN);
+        gp.soundHandler.stop();
+        gp.soundHandler.playSoundEffect(WIN);
     }
 
     private void interactWithBoots(int i)
     {
-        gp.playSoundEffect(POWER_UP);
+        gp.soundHandler.playSoundEffect(POWER_UP);
         speed += 2;
         gp.objects.remove(i);
         addMessage("You got boots!");
@@ -245,7 +245,7 @@ public class Player extends LiveEntity
     {
         if (keyCount > 0)
         {
-            gp.playSoundEffect(UNLOCK);
+            gp.soundHandler.playSoundEffect(UNLOCK);
             keyCount--;
             gp.objects.remove(i);
             addMessage("Door opened!");
@@ -258,7 +258,7 @@ public class Player extends LiveEntity
 
     private void interactWithKey(int i)
     {
-        gp.playSoundEffect(COIN);
+        gp.soundHandler.playSoundEffect(COIN);
         keyCount++;
         gp.objects.remove(i);
         addMessage("You got a key!");
@@ -296,7 +296,7 @@ public class Player extends LiveEntity
         }
         if (monstersTypes.contains(gp.monsters.get(i).type))
         {
-            gp.playSoundEffect(RECEIVE_DAMAGE);
+            gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
             life -= calculateDamage(i);
             isInvincible = true;
         }
@@ -312,7 +312,7 @@ public class Player extends LiveEntity
     {
         if (!gp.monsters.get(i).isInvincible)
         {
-            gp.playSoundEffect(HIT);
+            gp.soundHandler.playSoundEffect(HIT);
 
             int damage = causeDamage(i);
             gp.monsters.get(i).life -= damage;
@@ -354,7 +354,7 @@ public class Player extends LiveEntity
             agility++;
             attack = calculateAttack();
             defense = calculateDefense();
-            gp.playSoundEffect(LEVEL_UP);
+            gp.soundHandler.playSoundEffect(LEVEL_UP);
             gp.setGameState(DIALOGUE_STATE);
             currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
         }
@@ -375,7 +375,7 @@ public class Player extends LiveEntity
         spriteCounter++;
         if (spriteCounter == 2)
         {
-            gp.playSoundEffect(SWING_WEAPON);
+            gp.soundHandler.playSoundEffect(SWING_WEAPON);
         }
         if (spriteCounter <= 5)
         {

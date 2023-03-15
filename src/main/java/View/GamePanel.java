@@ -34,13 +34,14 @@ public class GamePanel extends JPanel implements Runnable
     public static final int screenHeight = tileSize * maxScreenRow;
     public static final int worldColumns = 62;
     public static final int worldRows = 62;
-    public TileManager tileManager = new TileManager(this);
 
+    public TileManager tileManager = new TileManager(this);
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
     public SoundHandler soundHandler = new SoundHandler();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public EntitySetter entitySetter = new EntitySetter(this);
     public UserInterfaceController ui = new UserInterfaceController(this);
+
     public Thread gameThread;
 
     public Player player = new Player(this, keyboardHandler);
@@ -48,7 +49,6 @@ public class GamePanel extends JPanel implements Runnable
     public List<Object> objects = new ArrayList<>();
     public List<Npc> npcs = new ArrayList<>();
     public List<Monster> monsters = new ArrayList<>();
-    public List<Entity> entities = new ArrayList<>();
     private GameState gameState = HOME_STATE;
 
     public GamePanel()
@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable
         entitySetter.setNpcs();
         entitySetter.setMonsters();
         setGameState(PLAY_STATE);
-        playMusic(PLAYBACK);
+        soundHandler.playMusic(PLAYBACK);
     }
 
     public void startGameThread()
@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements Runnable
         long currentTime;
         long timer = 0;
 
-        while (gameThread != null)
+        while (!gameThread.isInterrupted())
         {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
@@ -122,7 +122,6 @@ public class GamePanel extends JPanel implements Runnable
         {
             player.update();
             npcs.stream().filter(Objects::nonNull).forEach(LiveEntity::update);
-
             monsters.removeIf(monster -> !monster.isAlive);
             monsters.stream()
                     .filter(monster -> !monster.isDying)
@@ -149,34 +148,16 @@ public class GamePanel extends JPanel implements Runnable
     private void drawPlayScreen(Graphics2D g2)
     {
         tileManager.draw(g2);
-
+        List<Entity> entities = new ArrayList<>();
         entities.add(player);
         entities.addAll(npcs);
         entities.addAll(objects);
         entities.addAll(monsters);
 
         entities.sort(Comparator.comparingInt(e -> e.worldY));
-        entities.forEach(e -> e.draw(g2));
+        entities.forEach(entity -> entity.draw(g2));
         entities.clear();
 
         ui.draw(g2);
-    }
-
-    public void playMusic(Sound sound)
-    {
-        soundHandler.setFile(sound);
-        soundHandler.play();
-        soundHandler.loop();
-    }
-
-    public void stopMusic()
-    {
-        soundHandler.stop();
-    }
-
-    public void playSoundEffect(Sound sound)
-    {
-        soundHandler.setFile(sound);
-        soundHandler.play();
     }
 }

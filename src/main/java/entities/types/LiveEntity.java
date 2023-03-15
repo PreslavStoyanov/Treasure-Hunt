@@ -15,8 +15,6 @@ import java.util.Random;
 
 import static View.GamePanel.tileSize;
 import static entities.Direction.*;
-import static entities.types.EntityType.monstersTypes;
-import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
 public class LiveEntity extends Entity
 {
@@ -31,6 +29,7 @@ public class LiveEntity extends Entity
     public int speed;
     public int exp;
     public int attack;
+    public boolean isContactingPlayer;
     public Direction direction = DOWN;
     public Sprites sprites = new Sprites();
 
@@ -60,19 +59,7 @@ public class LiveEntity extends Entity
         gp.collisionChecker.checkObjectsForCollisions(this, gp.objects);
         gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.npcs);
         gp.collisionChecker.checkLiveEntitiesForCollision(this, gp.monsters);
-        boolean isContactingPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
-
-        if (!gp.player.isInvincible && isContactingPlayer && monstersTypes.contains(type))
-        {
-            gp.playSoundEffect(RECEIVE_DAMAGE);
-            int damage = attack - gp.player.defense;
-            if (damage < 0)
-            {
-                damage = 0;
-            }
-            gp.player.life -= damage;
-            gp.player.isInvincible = true;
-        }
+        this.isContactingPlayer = gp.collisionChecker.checkForCollisionWithPlayer(this, gp.player);
 
         if (!hasCollision)
         {
@@ -181,11 +168,6 @@ public class LiveEntity extends Entity
         {
             throw new RuntimeException("Setting sprites error", e);
         }
-    }
-
-    public void reactToDamage()
-    {
-
     }
 
     public void handleMoving()

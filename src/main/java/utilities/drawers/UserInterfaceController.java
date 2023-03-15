@@ -76,6 +76,6 @@ public class UserInterfaceController
     private void stopGame()
     {
         EndScreenDrawer.drawEndScreen(playTime);
-        gp.gameThread = null;
+        gp.gameThread.interrupt();
     }
 }

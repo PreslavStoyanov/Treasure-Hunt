@@ -6,6 +6,7 @@ import java.awt.*;
 
 import static View.GamePanel.tileSize;
 import static entities.types.EntityType.monstersTypes;
+import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
 public class Monster extends LiveEntity
 {
@@ -64,6 +65,33 @@ public class Monster extends LiveEntity
             hpBarCounter = 0;
             isHpBarOn = false;
         }
+    }
+
+    public void reactToDamage()
+    {
+
+    }
+
+    @Override
+    public void update()
+    {
+        super.update();
+        if (!gp.player.isInvincible && isContactingPlayer)
+        {
+            handleMonsterDamage();
+        }
+    }
+
+    private void handleMonsterDamage()
+    {
+        gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
+        int damage = attack - gp.player.defense;
+        if (damage < 0)
+        {
+            damage = 0;
+        }
+        gp.player.life -= damage;
+        gp.player.isInvincible = true;
     }
 
     private void dyingAnimation(Graphics2D g2)
