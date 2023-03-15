@@ -35,14 +35,13 @@ public class EntitySetter
 
     public void setNpcs()
     {
-        gp.npcs.add(new OldMan(gp, 27, 25));
+        gp.npcs.add(new OldMan(gp, 27, 26));
         gp.npcs.add(new OldWoman(gp, 29, 12));
     }
 
     public void setObjects()
     {
         gp.objects.add(new Boots(gp, 9, 52));
-        gp.objects.add(new Boots(gp, 31, 28));
 
         gp.objects.add(new Monkey(gp, 33, 28));
 
