@@ -1,6 +1,8 @@
 package entities.types;
 
 import application.GamePanel;
+import entities.objects.Boots;
+import entities.objects.Key;
 import entities.objects.Shield;
 import entities.objects.Sword;
 import entities.sprites.AttackingSprite;
@@ -9,6 +11,7 @@ import utilities.keyboard.KeyboardHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import static application.GamePanel.*;
@@ -25,6 +28,7 @@ public class Player extends LiveEntity
 {
     private final KeyboardHandler keyboardHandler;
     private int keyCount;
+    public List<Object> inventory = new ArrayList<>();
     public Object currentWeapon;
     public Object currentShield;
     public int coins;
@@ -43,8 +47,8 @@ public class Player extends LiveEntity
         super(gp);
         this.keyboardHandler = keyboardHandler;
 
-        screenX = screenWidth / 2 - (tileSize / 2);
-        screenY = screenHeight / 2 - (tileSize / 2);
+        screenX = screenWidth / 2 - halfTileSize;
+        screenY = screenHeight / 2 - halfTileSize;
 
         solidArea = new Rectangle(8, 16, 30, 30);
         attackArea = new Rectangle(0, 0, 36, 36);
@@ -85,6 +89,11 @@ public class Player extends LiveEntity
         isAttacking = false;
         currentWeapon = new Sword(gp);
         currentShield = new Shield(gp);
+        inventory.add(currentShield);
+        inventory.add(currentWeapon);
+        inventory.add(new Boots(gp, -1, -1));
+        inventory.add(new Key(gp, -1, -1));
+
         attack = calculateAttack();
         defense = calculateDefense();
     }

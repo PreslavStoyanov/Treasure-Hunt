@@ -14,8 +14,9 @@ public class Key extends Object
         super(gp);
         this.worldX = x * GamePanel.tileSize;
         this.worldY = y * GamePanel.tileSize;
-        name = "Key";
-        type = KEY;
-        image = setupDefaultImage("/objects/key.png");
+        this.name = "Key";
+        this.type = KEY;
+        this.image = setupDefaultImage("/objects/key.png");
+        this.description = String.format("[%s]\nIt can open doors!", name);
     }
 }

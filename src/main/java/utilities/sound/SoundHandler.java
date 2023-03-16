@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import static application.Main.properties;
+import static application.Application.properties;
 import static utilities.sound.Sound.*;
 
 public class SoundHandler
@@ -24,7 +24,8 @@ public class SoundHandler
                 HIT, getURL("sounds.hit"),
                 RECEIVE_DAMAGE, getURL("sounds.receive-damage"),
                 SWING_WEAPON, getURL("sounds.swing-weapon"),
-                LEVEL_UP, getURL("sounds.level-up"));
+                LEVEL_UP, getURL("sounds.level-up"),
+                CURSOR, getURL("sounds.cursor"));
     }
 
     public void playMusic(Sound sound)

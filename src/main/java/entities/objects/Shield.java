@@ -11,9 +11,10 @@ public class Shield extends Object
     public Shield(GamePanel gp)
     {
         super(gp);
-        name = "Shield";
-        type = SHIELD;
-        image = setupDefaultImage("/objects/shield.png");
-        defenseValue = 1;
+        this.name = "Shield";
+        this.type = SHIELD;
+        this.image = setupDefaultImage("/objects/shield.png");
+        this.defenseValue = 1;
+        this.description = String.format("[%s]\nMade of wood!", name);
     }
 }

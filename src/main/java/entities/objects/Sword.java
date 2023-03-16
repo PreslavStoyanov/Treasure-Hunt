@@ -12,9 +12,10 @@ public class Sword extends Object
     public Sword(GamePanel gp)
     {
         super(gp);
-        name = "Sword";
-        type = EntityType.SWORD;
-        image = setupDefaultImage("/objects/sword.png");
-        attackValue = 1;
+        this.name = "Sword";
+        this.type = EntityType.SWORD;
+        this.image = setupDefaultImage("/objects/sword.png");
+        this.attackValue = 1;
+        this.description = String.format("[%s]\nAn old sword!", name);
     }
 }

@@ -12,6 +12,7 @@ public class Object extends Entity
 
     public int attackValue;
     public int defenseValue;
+    public String description;
 
     public Object(GamePanel gp)
     {

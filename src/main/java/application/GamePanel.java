@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static utilities.GameState.*;
 import static utilities.sound.Sound.PLAYBACK;
@@ -27,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable
     private static final int originalTileSize = 16;
     private static final int scale = 3;
     public static final int tileSize = originalTileSize * scale;
+    public static final int halfTileSize = tileSize / 2;
     public static final int maxScreenCol = 16;
     public static final int maxScreenRow = 12;
     public static final int screenWidth = tileSize * maxScreenCol;
@@ -45,9 +47,9 @@ public class GamePanel extends JPanel implements Runnable
 
     public Player player = new Player(this, keyboardHandler);
 
-    public List<Object> objects = new ArrayList<>();
-    public List<Npc> npcs = new ArrayList<>();
-    public List<Monster> monsters = new ArrayList<>();
+    public List<Object> objects = new CopyOnWriteArrayList<>();
+    public List<Npc> npcs = new CopyOnWriteArrayList<>();
+    public List<Monster> monsters = new CopyOnWriteArrayList<>();
     private GameState gameState = HOME_STATE;
 
     public GamePanel()

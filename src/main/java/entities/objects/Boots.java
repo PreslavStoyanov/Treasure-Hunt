@@ -13,8 +13,9 @@ public class Boots extends Object
         super(gp);
         this.worldX = x * GamePanel.tileSize;
         this.worldY = y * GamePanel.tileSize;
-        name = "Boots";
-        type = BOOTS;
-        image = setupDefaultImage("/objects/boots.png");
+        this.name = "Boots";
+        this.type = BOOTS;
+        this.image = setupDefaultImage("/objects/boots.png");
+        this.description = String.format("[%s]\nMake you faster!", name);
     }
 }

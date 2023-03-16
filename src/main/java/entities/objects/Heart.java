@@ -3,7 +3,7 @@ package entities.objects;
 import application.GamePanel;
 import entities.types.Object;
 
-import static application.Main.properties;
+import static application.Application.properties;
 import static entities.types.EntityType.HEART;
 import static utilities.images.ImageUtils.setupDefaultImage;
 

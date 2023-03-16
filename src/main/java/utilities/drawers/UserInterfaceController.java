@@ -52,7 +52,11 @@ public class UserInterfaceController
                 MessageDrawer.drawMessage();
             }
             case PAUSE_STATE -> drawCenteredText("PAUSED", 8, true, 80F);
-            case CHARACTER_STATE -> CharacterWindowDrawer.drawCharacterScreen(gp.player);
+            case CHARACTER_STATE ->
+            {
+                CharacterWindowDrawer.drawCharacterWindow(gp.player);
+                InventoryWindowDrawer.drawInventoryWindow(gp.player);
+            }
             case END_STATE -> stopGame();
         }
         if (shouldShowCoordinates)
