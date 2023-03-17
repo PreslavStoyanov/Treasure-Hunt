@@ -12,17 +12,19 @@ public class MessageDrawer
 
     public static void drawMessage()
     {
-        AtomicInteger messageY = new AtomicInteger(11);
+        float messageY = 11.5F;
 
-        messagesWIthTheirExpirationTime.forEach((message, timeAdded) ->
+        for (Map.Entry<String, Long> entry : messagesWIthTheirExpirationTime.entrySet())
         {
-            drawCenteredText(message, messageY.get(), false, 12F);
+            String message = entry.getKey();
+            Long timeAdded = entry.getValue();
+            drawCenteredText(message, messageY, false, 12F);
             if ((System.currentTimeMillis() - timeAdded) / 1000 > 3)
             {
                 messagesWIthTheirExpirationTime.remove(message);
             }
-            messageY.addAndGet(-1);
-        });
+            messageY += 1;
+        }
     }
 
     public static void addMessage(String text)

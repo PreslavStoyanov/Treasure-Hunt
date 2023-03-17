@@ -1,8 +1,11 @@
 package application;
 
-import entities.Entity;
-import entities.types.Object;
-import entities.types.*;
+import assets.Entity;
+import assets.entities.LiveEntity;
+import assets.entities.liveentities.Monster;
+import assets.entities.liveentities.Npc;
+import assets.entities.Object;
+import assets.entities.liveentities.Player;
 import utilities.CollisionChecker;
 import utilities.EntitySetter;
 import utilities.GameState;

@@ -11,13 +11,10 @@ public record DialogueScreenKeyboardHandler(GamePanel gp)
 {
     public void handleDialogueScreenKeys(int keyPressed)
     {
-        if (keyPressed == KeyEvent.VK_E)
+        switch (keyPressed)
         {
-            quitDialogue();
-        }
-        if (keyPressed == KeyEvent.VK_P)
-        {
-            pauseGame();
+            case KeyEvent.VK_E, KeyEvent.VK_ESCAPE -> quitDialogue();
+            case KeyEvent.VK_P -> pauseGame();
         }
     }
 

@@ -1,7 +1,7 @@
 package utilities.images;
 
 import application.GamePanel;
-import entities.Entity;
+import assets.Entity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

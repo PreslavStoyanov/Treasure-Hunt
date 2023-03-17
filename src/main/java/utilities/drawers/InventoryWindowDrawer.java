@@ -1,10 +1,13 @@
 package utilities.drawers;
 
-import entities.types.Player;
+import assets.entities.Object;
+import assets.entities.liveentities.Player;
+
+import java.awt.*;
 
 import static application.GamePanel.tileSize;
-import static utilities.drawers.DrawerUtils.drawRoundRect;
-import static utilities.drawers.DrawerUtils.drawSubWindow;
+import static assets.entities.liveentities.Player.getInventoryItemIndex;
+import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class InventoryWindowDrawer
@@ -21,27 +24,50 @@ public class InventoryWindowDrawer
     public static void drawInventoryWindow(Player player)
     {
         drawSubWindow(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT, 5);
+        drawSlots();
         drawItems(player);
         drawCursor();
         drawDescriptionWindow(player);
     }
 
+    private static void drawSlots()
+    {
+        int slotX = FRAME_X + 25;
+        int slotY = FRAME_Y + 25;
+        for (int row = 0; row < INVENTORY_ROWS; row++)
+        {
+            for (int col = 0; col < INVENTORY_COLS; col++)
+            {
+                drawBlackRoundFilledRect(slotX + tileSize * col, slotY + tileSize * row, tileSize, tileSize, 100);
+            }
+        }
+    }
+
     private static void drawItems(Player player)
     {
-        final int slotXStart = FRAME_X + 25;
-        final int slotYStart = FRAME_Y + 25;
-        int slotX = slotXStart;
-        int slotY = slotYStart;
+        final int itemXStart = FRAME_X + 25;
+        final int itemYStart = FRAME_Y + 25;
+        int itemX = itemXStart;
+        int itemY = itemYStart;
         for (int i = 0; i < player.inventory.size(); i++)
         {
-            g2.drawImage(player.inventory.get(i).image.getScaledInstance(tileSize - 6, tileSize - 6, 1),
-                    slotX + 3, slotY + 3, null);
-            slotX += tileSize;
+            Object object = player.inventory.get(i);
+
+            if (object == player.currentWeapon || object == player.currentShield)
+            {
+                drawRoundFilledRect(itemX, itemY, tileSize, tileSize,
+                        new Color(36, 84, 24, 255));
+                drawRoundRect(itemX, itemY, tileSize, tileSize, 1);
+            }
+
+            g2.drawImage(object.image.getScaledInstance(tileSize - 6, tileSize - 6, 1),
+                    itemX + 3, itemY + 3, null);
+            itemX += tileSize;
 
             if (i == 4 || i == 9 || i == 14)
             {
-                slotY += tileSize;
-                slotX = slotXStart;
+                itemY += tileSize;
+                itemX = itemXStart;
             }
         }
     }
@@ -57,7 +83,6 @@ public class InventoryWindowDrawer
 
     private static void drawDescriptionWindow(Player player)
     {
-        drawSubWindow(FRAME_X, FRAME_Y + FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT - tileSize * 2, 5);
         int textX = FRAME_X + 20;
         int textY = FRAME_Y + FRAME_HEIGHT + 30;
 
@@ -66,6 +91,7 @@ public class InventoryWindowDrawer
         int inventoryItemIndex = getInventoryItemIndex();
         if (inventoryItemIndex < player.inventory.size())
         {
+            drawSubWindow(FRAME_X, FRAME_Y + FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT - tileSize * 2, 5);
             String[] split = player.inventory.get(inventoryItemIndex).description.split("\n");
             for (String line : split)
             {
@@ -73,10 +99,5 @@ public class InventoryWindowDrawer
                 textY += 15;
             }
         }
-    }
-
-    private static int getInventoryItemIndex()
-    {
-        return inventorySlotCursorCol + inventorySlotCursorRow * INVENTORY_COLS;
     }
 }

@@ -1,8 +1,7 @@
 package utilities.drawers;
 
-import entities.types.Player;
+import assets.entities.liveentities.Player;
 
-import java.awt.*;
 import java.util.List;
 
 import static application.GamePanel.*;

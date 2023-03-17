@@ -1,11 +1,11 @@
 package utilities;
 
 import application.GamePanel;
-import entities.Entity;
-import entities.types.EntityType;
-import entities.types.LiveEntity;
-import entities.types.Object;
-import entities.types.Player;
+import assets.Entity;
+import assets.EntityType;
+import assets.entities.LiveEntity;
+import assets.entities.Object;
+import assets.entities.liveentities.Player;
 
 import java.util.List;
 

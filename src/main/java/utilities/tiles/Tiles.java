@@ -14,11 +14,6 @@ public class Tiles
         return tiles;
     }
 
-    public void setTiles(Map<Integer, Tile> tiles)
-    {
-        this.tiles = tiles;
-    }
-
     public static class Tile
     {
         private BufferedImage image;

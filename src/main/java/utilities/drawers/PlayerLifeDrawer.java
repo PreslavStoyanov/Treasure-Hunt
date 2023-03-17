@@ -1,7 +1,6 @@
 package utilities.drawers;
 
-import application.GamePanel;
-import entities.types.Player;
+import assets.entities.liveentities.Player;
 
 import java.awt.image.BufferedImage;
 

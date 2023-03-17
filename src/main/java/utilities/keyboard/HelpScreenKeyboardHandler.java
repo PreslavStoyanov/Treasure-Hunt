@@ -11,9 +11,9 @@ public record HelpScreenKeyboardHandler(GamePanel gp)
 
     public void handleHelpScreenKeys(int keyPressed)
     {
-        if (keyPressed == KeyEvent.VK_ENTER)
+        switch (keyPressed)
         {
-            openHomeScreen();
+            case KeyEvent.VK_ENTER -> openHomeScreen();
         }
     }
 

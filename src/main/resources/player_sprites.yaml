@@ -1,57 +1,87 @@
 walkingUpSprites:
-  - image: /player/up/up0.png
-  - image: /player/up/up1.png
-  - image: /player/up/up2.png
-  - image: /player/up/up3.png
-  - image: /player/up/up4.png
-  - image: /player/up/up5.png
+  - image: /player/walking/up0.png
+  - image: /player/walking/up1.png
+  - image: /player/walking/up2.png
+  - image: /player/walking/up3.png
+  - image: /player/walking/up4.png
+  - image: /player/walking/up5.png
 walkingDownSprites:
-  - image: /player/down/down0.png
-  - image: /player/down/down1.png
-  - image: /player/down/down2.png
-  - image: /player/down/down3.png
-  - image: /player/down/down4.png
-  - image: /player/down/down5.png
+  - image: /player/walking/down0.png
+  - image: /player/walking/down1.png
+  - image: /player/walking/down2.png
+  - image: /player/walking/down3.png
+  - image: /player/walking/down4.png
+  - image: /player/walking/down5.png
 walkingLeftSprites:
-  - image: /player/left/left0.png
-  - image: /player/left/left1.png
-  - image: /player/left/left2.png
-  - image: /player/left/left3.png
-  - image: /player/left/left4.png
-  - image: /player/left/left5.png
+  - image: /player/walking/left0.png
+  - image: /player/walking/left1.png
+  - image: /player/walking/left2.png
+  - image: /player/walking/left3.png
+  - image: /player/walking/left4.png
+  - image: /player/walking/left5.png
 walkingRightSprites:
-  - image: /player/right/right0.png
-  - image: /player/right/right1.png
-  - image: /player/right/right2.png
-  - image: /player/right/right3.png
-  - image: /player/right/right4.png
-  - image: /player/right/right5.png
-
-attackingUpSprites:
-  - xInTiles: 1
-    yInTilesSize: 2
-    image: /player/attack/up1.png
-  - xInTiles: 1
-    yInTilesSize: 2
-    image: /player/attack/up2.png
-attackingDownSprites:
-  - xInTiles: 1
-    yInTilesSize: 2
-    image: /player/attack/down1.png
-  - xInTiles: 1
-    yInTilesSize: 2
-    image: /player/attack/down2.png
-attackingLeftSprites:
-  - xInTiles: 2
-    yInTilesSize: 1
-    image: /player/attack/left1.png
-  - xInTiles: 2
-    yInTilesSize: 1
-    image: /player/attack/left2.png
-attackingRightSprites:
-  - xInTiles: 2
-    yInTilesSize: 1
-    image: /player/attack/right1.png
-  - xInTiles: 2
-    yInTilesSize: 1
-    image: /player/attack/right2.png
+  - image: /player/walking/right0.png
+  - image: /player/walking/right1.png
+  - image: /player/walking/right2.png
+  - image: /player/walking/right3.png
+  - image: /player/walking/right4.png
+  - image: /player/walking/right5.png
+attackingSprites:
+  SWORD:
+    upSprites:
+      - xInTiles: 1
+        yInTilesSize: 2
+        image: /player/attacking/sword/up1.png
+      - xInTiles: 1
+        yInTilesSize: 2
+        image: /player/attacking/sword/up2.png
+    downSprites:
+      - xInTiles: 1
+        yInTilesSize: 2
+        image: /player/attacking/sword/down1.png
+      - xInTiles: 1
+        yInTilesSize: 2
+        image: /player/attacking/sword/down2.png
+    leftSprites:
+      - xInTiles: 2
+        yInTilesSize: 1
+        image: /player/attacking/sword/left1.png
+      - xInTiles: 2
+        yInTilesSize: 1
+        image: /player/attacking/sword/left2.png
+    rightSprites:
+      - xInTiles: 2
+        yInTilesSize: 1
+        image: /player/attacking/sword/right1.png
+      - xInTiles: 2
+        yInTilesSize: 1
+        image: /player/attacking/sword/right2.png
+  AXE:
+    upSprites:
+      - xInTiles: 1
+        yInTilesSize: 2
+        image: /player/attacking/axe/up_axe_attack_1.png
+      - xInTiles: 1
+        yInTilesSize: 2
+        image: /player/attacking/axe/up_axe_attack_2.png
+    downSprites:
+      - xInTiles: 1
+        yInTilesSize: 2
+        image: /player/attacking/axe/down_axe_attack_1.png
+      - xInTiles: 1
+        yInTilesSize: 2
+        image: /player/attacking/axe/down_axe_attack_2.png
+    leftSprites:
+      - xInTiles: 2
+        yInTilesSize: 1
+        image: /player/attacking/axe/left_axe_attack_1.png
+      - xInTiles: 2
+        yInTilesSize: 1
+        image: /player/attacking/axe/left_axe_attack_2.png
+    rightSprites:
+      - xInTiles: 2
+        yInTilesSize: 1
+        image: /player/attacking/axe/right_axe_attack_1.png
+      - xInTiles: 2
+        yInTilesSize: 1
+        image: /player/attacking/axe/right_axe_attack_2.png
