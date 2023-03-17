@@ -52,8 +52,14 @@ public class UserInterfaceController
                 MessageDrawer.drawMessage();
             }
             case PAUSE_STATE -> drawCenteredText("PAUSED", 8, true, 80F);
-            case CHARACTER_STATE -> CharacterWindowDrawer.drawCharacterScreen(gp.player);
-            case END_STATE -> stopGame();
+            case CHARACTER_STATE ->
+            {
+                CharacterWindowDrawer.drawCharacterWindow(gp.player);
+                InventoryWindowDrawer.drawInventoryWindow(gp.player);
+                MessageDrawer.drawMessage();
+            }
+            case GAME_WIN_STATE -> drawGameWinScreen();
+            case GAME_LOSE_STATE -> drawGameLoseScreen();
         }
         if (shouldShowCoordinates)
         {
@@ -73,9 +79,15 @@ public class UserInterfaceController
         }
     }
 
-    private void stopGame()
+    private void drawGameWinScreen()
     {
-        EndScreenDrawer.drawEndScreen(playTime);
+        EndScreenDrawer.drawGameWinScreen(playTime);
+        gp.gameThread.interrupt();
+    }
+
+    private void drawGameLoseScreen()
+    {
+        EndScreenDrawer.drawGameLoseScreen(playTime);
         gp.gameThread.interrupt();
     }
 }

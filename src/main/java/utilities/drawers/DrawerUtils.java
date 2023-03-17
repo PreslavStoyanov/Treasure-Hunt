@@ -48,16 +48,28 @@ public class DrawerUtils
         return tailX - length;
     }
 
-    public static void drawSubWindow(int x, int y, int width, int height)
+    public static void drawSubWindow(int x, int y, int width, int height, int strokeWidth)
     {
-        Color c = new Color(0, 0, 0, 210);
-        g2.setColor(c);
-        g2.fillRoundRect(x, y, width, height, 35, 35);
+        drawBlackRoundFilledRect(x, y, width, height, 210);
+       drawRoundRect(x + 5, y + 5, width - 10, height - 10, strokeWidth);
+    }
 
-        c = new Color(255, 255, 255);
-        g2.setColor(c);
-        g2.setStroke(new BasicStroke(5));
-        g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    public static void drawBlackRoundFilledRect(int x, int y, int width, int height, int alpha)
+    {
+        drawRoundFilledRect(x, y, width, height, new Color(0, 0, 0, alpha));
+    }
+
+    public static void drawRoundFilledRect(int x, int y, int width, int height, Color color)
+    {
+        g2.setColor(color);
+        g2.fillRoundRect(x, y, width, height, 25, 25);
+    }
+
+    public static void drawRoundRect(int x, int y, int width, int height, int strokeWidth)
+    {
+        g2.setColor(new Color(255, 255, 255));
+        g2.setStroke(new BasicStroke(strokeWidth));
+        g2.drawRoundRect(x, y, width, height, 25, 25);
     }
 
     public static void drawListWithSameMarginRightAligned(List<String> values, float margin, float x, float y)

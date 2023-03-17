@@ -1,11 +1,11 @@
 package utilities.drawers;
 
-import application.GamePanel;
-import entities.types.Player;
+import assets.entities.liveentities.Player;
 
 import java.awt.image.BufferedImage;
 
-import static application.Main.properties;
+import static application.Application.properties;
+import static application.GamePanel.*;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
 import static utilities.images.ImageUtils.setupDefaultImage;
@@ -33,38 +33,35 @@ public class PlayerLifeDrawer
 
     private void drawBlankHearts(int maxLife)
     {
-        int y = GamePanel.tileSize / 2;
-        int x = GamePanel.tileSize / 2;
+        int x = halfTileSize;
         for (int i = 0; i < maxLife / 2; i++)
         {
-            g2.drawImage(heartBlank, x, y, null);
-            x += GamePanel.tileSize;
+            g2.drawImage(heartBlank, x, halfTileSize, null);
+            x += tileSize;
         }
     }
 
     private void drawHalfHearts(int life)
     {
-        int y = GamePanel.tileSize / 2;
-        int x = GamePanel.tileSize / 2;
+        int x = halfTileSize;
         for (int i = 0; i < life; i += 2)
         {
-            g2.drawImage(heartHalf, x, y, null);
-            x += GamePanel.tileSize;
+            g2.drawImage(heartHalf, x, halfTileSize, null);
+            x += tileSize;
         }
     }
 
     private void drawFullHearts(int life)
     {
-        int x = GamePanel.tileSize / 2;
-        int y = GamePanel.tileSize / 2;
+        int x = halfTileSize;
         for (int i = 0; i < life; i++)
         {
             i++;
             if (i < life)
             {
-                g2.drawImage(heartFull, x, y, null);
+                g2.drawImage(heartFull, x, halfTileSize, null);
             }
-            x += GamePanel.tileSize;
+            x += tileSize;
         }
     }
 }

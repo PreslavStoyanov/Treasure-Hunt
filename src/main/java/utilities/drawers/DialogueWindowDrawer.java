@@ -1,38 +1,32 @@
 package utilities.drawers;
 
-import application.GamePanel;
-
+import static application.GamePanel.*;
 import static utilities.drawers.DrawerUtils.drawSubWindow;
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class DialogueWindowDrawer
 {
+    private static final int FRAME_X = tileSize * 2;
+    private static final int FRAME_Y = halfTileSize;
+    private static final int FRAME_WIDTH = screenWidth - (tileSize * 4);
+    private static final int FRAME_HEIGHT = tileSize * 4;
+
     public static String currentDialogue = "";
 
     public static void drawDialogueScreen()
     {
-        drawDialogueWindow();
+        drawSubWindow(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT, 5);
         drawDialogueLines();
     }
 
     private static void drawDialogueLines()
     {
-        int x = GamePanel.tileSize * 3;
-        int y = GamePanel.tileSize / 2 + GamePanel.tileSize;
+        int x = tileSize * 3;
+        int y = halfTileSize + tileSize;
         for (String line : currentDialogue.split("\n"))
         {
             g2.drawString(line, x, y);
             y += 40;
         }
-    }
-
-    private static void drawDialogueWindow()
-    {
-        int x = GamePanel.tileSize * 2;
-        int y = GamePanel.tileSize / 2;
-        int width = GamePanel.screenWidth - (GamePanel.tileSize * 4);
-        int height = GamePanel.tileSize * 4;
-
-        drawSubWindow(x, y, width, height);
     }
 }

@@ -14,17 +14,11 @@ public record HomeScreenKeyboardHandler(GamePanel gp)
 
     public void handleHomeScreenKeys(int pressedKey)
     {
-        if (pressedKey == KeyEvent.VK_W)
+        switch (pressedKey)
         {
-            moveSelectionUp();
-        }
-        if (pressedKey == KeyEvent.VK_S)
-        {
-            moveSelectionDown();
-        }
-        if (pressedKey == KeyEvent.VK_ENTER)
-        {
-            handleSelection();
+            case KeyEvent.VK_W, KeyEvent.VK_UP -> moveSelectionUp();
+            case KeyEvent.VK_S, KeyEvent.VK_DOWN -> moveSelectionDown();
+            case KeyEvent.VK_ENTER -> handleSelection();
         }
     }
 

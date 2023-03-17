@@ -9,6 +9,8 @@ public enum Sound
     WIN,
     HIT,
     RECEIVE_DAMAGE,
-    SWING_WEAPON,
-    LEVEL_UP
+    SWING_SWORD,
+    SWING_AXE,
+    LEVEL_UP,
+    CURSOR
 }

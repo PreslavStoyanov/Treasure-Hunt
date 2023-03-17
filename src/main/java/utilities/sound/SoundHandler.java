@@ -3,9 +3,10 @@ package utilities.sound;
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
-import static application.Main.properties;
+import static application.Application.properties;
 import static utilities.sound.Sound.*;
 
 public class SoundHandler
@@ -15,16 +16,18 @@ public class SoundHandler
 
     public SoundHandler()
     {
-        this.sounds = Map.of(
-                PLAYBACK, getURL("sounds.playback"),
-                COIN, getURL("sounds.coin"),
-                POWER_UP, getURL("sounds.power-up"),
-                UNLOCK, getURL("sounds.unlock"),
-                WIN, getURL("sounds.win-sound"),
-                HIT, getURL("sounds.hit"),
-                RECEIVE_DAMAGE, getURL("sounds.receive-damage"),
-                SWING_WEAPON, getURL("sounds.swing-weapon"),
-                LEVEL_UP, getURL("sounds.level-up"));
+        this.sounds = new HashMap<>();
+        sounds.put(PLAYBACK, getURL("sounds.playback"));
+        sounds.put(COIN, getURL("sounds.coin"));
+        sounds.put(POWER_UP, getURL("sounds.power-up"));
+        sounds.put(UNLOCK, getURL("sounds.unlock"));
+        sounds.put(WIN, getURL("sounds.win-sound"));
+        sounds.put(HIT, getURL("sounds.hit"));
+        sounds.put(RECEIVE_DAMAGE, getURL("sounds.receive-damage"));
+        sounds.put(SWING_SWORD, getURL("sounds.swing-weapon"));
+        sounds.put(SWING_AXE, getURL("sounds.swing-weapon"));
+        sounds.put(LEVEL_UP, getURL("sounds.level-up"));
+        sounds.put(CURSOR, getURL("sounds.cursor"));
     }
 
     public void playMusic(Sound sound)
