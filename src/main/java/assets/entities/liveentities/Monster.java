@@ -86,7 +86,7 @@ public class Monster extends LiveEntity
 
     private void handleMonsterDamage()
     {
-        gp.player.life -= Math.max(this.attack - gp.player.defense, 0);
+        gp.player.decreaseLife(this.attack - gp.player.defense);
         gp.player.isInvincible = true;
         gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
     }

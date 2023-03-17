@@ -153,13 +153,15 @@ public class Player extends LiveEntity
                     image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getUpSprites());
                     tempScreenY -= tileSize;
                 }
-                case DOWN -> image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getDownSprites());
+                case DOWN ->
+                        image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getDownSprites());
                 case LEFT ->
                 {
                     image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getLeftSprites());
                     tempScreenX -= tileSize;
                 }
-                case RIGHT -> image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getRightSprites());
+                case RIGHT ->
+                        image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getRightSprites());
                 default -> throw new IllegalStateException("Unexpected value: " + direction);
             }
         }
@@ -245,13 +247,25 @@ public class Player extends LiveEntity
         }
         else if (staticObjects.contains(objectType))
         {
-            interactWithStaticObject(object, objectType);
+            interactWithStaticObject(object);
         }
     }
 
-    private void interactWithStaticObject(Object object, EntityType objectType)
+    private void collectObject(Object object)
     {
-        switch (objectType)
+        inventory.add(object);
+        gp.objects.remove(object);
+        addMessage(String.format("You got %s", object.name));
+        switch (object.type)
+        {
+            case KEY -> interactWithKey();
+            case BOOTS -> interactWithBoots();
+        }
+    }
+
+    private void interactWithStaticObject(Object object)
+    {
+        switch (object.type)
         {
             case DOOR -> interactWithDoor(object);
             case MONKEY -> interactWithMonkey(object);
@@ -259,37 +273,16 @@ public class Player extends LiveEntity
         }
     }
 
-    private void collectObject(Object object)
+    private void interactWithKey()
     {
-        switch (object.type)
-        {
-            case AXE -> interactWithAxe(object);
-            case KEY -> interactWithKey(object);
-            case BOOTS -> interactWithBoots(object);
-        }
+        gp.soundHandler.playSoundEffect(COIN);
+        keyCount++;
     }
 
-    private void interactWithAxe(Object object)
-    {
-        inventory.add(object);
-        gp.objects.remove(object);
-        addMessage("You got an axe!");
-    }
-
-    private void interactWithChest()
-    {
-        gp.setGameState(GAME_WIN_STATE);
-        gp.soundHandler.stop();
-        gp.soundHandler.playSoundEffect(WIN);
-    }
-
-    private void interactWithBoots(Object object)
+    private void interactWithBoots()
     {
         gp.soundHandler.playSoundEffect(POWER_UP);
-        inventory.add(object);
         speed += 2;
-        gp.objects.remove(object);
-        addMessage("You got boots!");
     }
 
     private void interactWithDoor(Object object)
@@ -307,15 +300,6 @@ public class Player extends LiveEntity
         }
     }
 
-    private void interactWithKey(Object object)
-    {
-        gp.soundHandler.playSoundEffect(COIN);
-        inventory.add(object);
-        keyCount++;
-        gp.objects.remove(object);
-        addMessage("You got a key!");
-    }
-
     private void interactWithMonkey(Object object)
     {
         if (keyCount == 0)
@@ -328,6 +312,13 @@ public class Player extends LiveEntity
             gp.objects.remove(object);
             addMessage("The monkey robbed you and ran out!");
         }
+    }
+
+    private void interactWithChest()
+    {
+        gp.setGameState(GAME_WIN_STATE);
+        gp.soundHandler.stop();
+        gp.soundHandler.playSoundEffect(WIN);
     }
 
     private void interactWithNpc(Npc npc)
@@ -343,67 +334,43 @@ public class Player extends LiveEntity
         {
             return;
         }
-        if (monstersTypes.contains(monster.type))
-        {
-            gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
-            life -= calculateDamage(monster.attack);
-            isInvincible = true;
-        }
+        gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
+        gp.player.decreaseLife(monster.attack - defense);
+        isInvincible = true;
     }
 
-    private int calculateDamage(int monsterAttack)
+    private void damageMonster(Monster monster)
     {
-        int damage = monsterAttack - defense;
-        return Math.max(damage, 0);
-    }
-
-    private void damageMonster(int i)
-    {
-        if (!gp.monsters.get(i).isInvincible)
+        gp.soundHandler.playSoundEffect(HIT);
+        monster.decreaseLife(attack - monster.defense);
+        monster.isInvincible = true;
+        monster.reactToDamage();
+        if (monster.life <= 0)
         {
-            gp.soundHandler.playSoundEffect(HIT);
-
-            gp.monsters.get(i).life -= Math.max(attack - gp.monsters.get(i).defense, 0);
-
-            gp.monsters.get(i).isInvincible = true;
-
-            gp.monsters.get(i).reactToDamage();
-            if (gp.monsters.get(i).life <= 0)
+            monster.isDying = true;
+            addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
+            exp += monster.exp;
+            if (exp >= nextLevelExp)
             {
-                gp.monsters.get(i).isDying = true;
-                addMessage(gp.monsters.get(i).name + " killed!");
-                addMessage(gp.monsters.get(i).exp + " exp  gained!");
-                exp += gp.monsters.get(i).exp;
-                checkLevelUp();
+                levelUp();
             }
         }
     }
 
-    private void checkLevelUp()
+    private void levelUp()
     {
-        if (exp >= nextLevelExp)
-        {
-            level++;
-            nextLevelExp += 5;
-            maxLife += 2;
-            life += 2;
-            if (maxLife >= 12)
-            {
-                maxLife = 12;
-                if (life >= 12)
-                {
-                    life = 12;
-                }
-            }
+        level++;
+        nextLevelExp += 5;
+        maxLife = Math.min(maxLife + 2, 12);
+        this.increaseLife(2);
+        strength++;
+        agility++;
 
-            strength++;
-            agility++;
-            attack = calculateAttack();
-            defense = calculateDefense();
-            gp.soundHandler.playSoundEffect(LEVEL_UP);
-            gp.setGameState(DIALOGUE_STATE);
-            currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
-        }
+        attack = calculateAttack();
+        defense = calculateDefense();
+        gp.soundHandler.playSoundEffect(LEVEL_UP);
+        gp.setGameState(DIALOGUE_STATE);
+        currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
     }
 
     private void attack()
@@ -449,7 +416,11 @@ public class Player extends LiveEntity
         int monsterIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.monsters);
         if (monsterIndex != -1)
         {
-            damageMonster(monsterIndex);
+            Monster monster = gp.monsters.get(monsterIndex);
+            if (!monster.isInvincible)
+            {
+                damageMonster(monster);
+            }
         }
 
         //restore original position

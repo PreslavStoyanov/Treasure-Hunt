@@ -82,10 +82,9 @@ public class KeyboardHandler implements KeyListener
             case KeyEvent.VK_S -> isSPressed = true;
             case KeyEvent.VK_A -> isAPressed = true;
             case KeyEvent.VK_D -> isDPressed = true;
-            case KeyEvent.VK_Q -> isQPressed = true;
+            case KeyEvent.VK_Q -> openCharacterScreen();
             case KeyEvent.VK_P -> openPauseScreen();
             case KeyEvent.VK_E -> isEPressed = true;
-            case KeyEvent.VK_B -> openCharacterScreen();
             case KeyEvent.VK_SPACE ->
             {
                 isSpacePressed = true;

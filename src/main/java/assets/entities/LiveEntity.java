@@ -170,6 +170,16 @@ public class LiveEntity extends Entity
         }
     }
 
+    public void increaseLife(int value)
+    {
+        life = Math.min(life + value, maxLife);
+    }
+
+    public void decreaseLife(int value)
+    {
+        life = Math.max(life - value, 0);
+    }
+
     public enum Direction
     {
         UP, DOWN, LEFT, RIGHT, THUMB_UP

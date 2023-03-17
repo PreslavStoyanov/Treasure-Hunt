@@ -24,4 +24,9 @@ public class Object extends Entity
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
         g2.drawImage(image, screenX, screenY, tileSize, tileSize, null);
     }
+
+    public void useItem()
+    {
+
+    }
 }
