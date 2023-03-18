@@ -4,6 +4,8 @@ import application.GamePanel;
 import assets.Entity;
 import assets.entities.sprites.Sprites;
 import assets.entities.sprites.WalkingSprite;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,6 +19,7 @@ import static assets.entities.LiveEntity.Direction.*;
 
 public class LiveEntity extends Entity
 {
+    public final ObjectMapper objectMapper;
     public int actionLockCounter;
     public boolean isInvincible = false;
     public int invincibleCounter = 60;
@@ -35,6 +38,7 @@ public class LiveEntity extends Entity
     public LiveEntity(GamePanel gp)
     {
         super(gp);
+        objectMapper = new ObjectMapper(new YAMLFactory());
     }
 
     @Override

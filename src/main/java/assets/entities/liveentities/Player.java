@@ -48,14 +48,9 @@ public class Player extends LiveEntity
     {
         super(gp);
         this.keyboardHandler = keyboardHandler;
-
         screenX = screenWidth / 2 - halfTileSize;
         screenY = screenHeight / 2 - halfTileSize;
-
-        solidArea = new Rectangle(8, 16, 30, 30);
-        solidAreaDefaultX = 8;
-        solidAreaDefaultY = 16;
-
+        setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         setDefaultValues();
         this.sprites = setSprites("src/main/resources/player_sprites.yaml");
     }
@@ -77,7 +72,6 @@ public class Player extends LiveEntity
 
     public void setDefaultValues()
     {
-        thumbUp = setupDefaultImage("/player/thumbUp.png");
         this.worldX = tileSize * 28;
         this.worldY = tileSize * 28;
         this.speed = 4;

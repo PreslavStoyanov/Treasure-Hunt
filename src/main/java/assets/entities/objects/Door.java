@@ -17,12 +17,6 @@ public class Door extends Object
         type = DOOR;
         image = setupDefaultImage("/objects/door.png");
         hasCollision = true;
-
-        solidArea.x = 0;
-        solidArea.y = 16;
-        solidArea.width = 48;
-        solidArea.height = 32;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
+        setSolidAreaAndDefaultLocation(0, 16,48, 32);
     }
 }

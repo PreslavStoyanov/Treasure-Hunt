@@ -25,12 +25,7 @@ public class Demon extends Monster
         defense = 0;
         exp = 5;
 
-        solidArea.x = 3;
-        solidArea.y = 18;
-        solidArea.width = 42;
-        solidArea.height = 30;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
+        setSolidAreaAndDefaultLocation(3, 18, 42, 30);
         sprites = setSprites("src/main/resources/demon_sprites.yaml");
     }
 
