@@ -3,7 +3,6 @@ package utilities.drawers;
 import application.GamePanel;
 
 import java.awt.*;
-import java.text.DecimalFormat;
 
 import static utilities.drawers.UserInterfaceController.g2;
 
@@ -11,6 +10,7 @@ import static utilities.drawers.UserInterfaceController.g2;
 public class GameTimeDrawer
 {
     public static double playTime = 0;
+
     public static void drawTime()
     {
         g2.setColor(Color.white);

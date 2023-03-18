@@ -57,7 +57,6 @@ public class InventoryWindowDrawer
             {
                 drawRoundFilledRect(itemX, itemY, tileSize, tileSize,
                         new Color(36, 84, 24, 255));
-                drawRoundRect(itemX, itemY, tileSize, tileSize, 1);
             }
 
             g2.drawImage(object.image.getScaledInstance(tileSize - 6, tileSize - 6, 1),

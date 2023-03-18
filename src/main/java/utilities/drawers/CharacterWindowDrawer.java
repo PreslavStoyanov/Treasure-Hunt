@@ -4,7 +4,8 @@ import assets.entities.liveentities.Player;
 
 import java.util.List;
 
-import static application.GamePanel.*;
+import static application.GamePanel.halfTileSize;
+import static application.GamePanel.tileSize;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 

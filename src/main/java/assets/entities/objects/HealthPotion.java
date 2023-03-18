@@ -2,7 +2,6 @@ package assets.entities.objects;
 
 import application.GamePanel;
 import assets.entities.Object;
-import utilities.sound.Sound;
 
 import static assets.EntityType.HEALTH_POTION;
 import static utilities.drawers.MessageDrawer.addMessage;
@@ -11,7 +10,7 @@ import static utilities.sound.Sound.POWER_UP;
 
 public class HealthPotion extends Object
 {
-    private int value = 4;
+    private final int value = 4;
 
     public HealthPotion(GamePanel gp)
     {

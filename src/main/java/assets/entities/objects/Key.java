@@ -17,4 +17,6 @@ public class Key extends Object
         this.image = setupDefaultImage("/objects/key.png");
         this.description = String.format("[%s]\nIt can open doors!", name);
     }
+
+
 }

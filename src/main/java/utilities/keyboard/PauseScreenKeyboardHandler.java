@@ -10,9 +10,9 @@ public record PauseScreenKeyboardHandler(GamePanel gp)
 {
     public void handlePauseScreenKeys(int keyPressed)
     {
-        switch (keyPressed)
+        if (keyPressed == KeyEvent.VK_P)
         {
-            case KeyEvent.VK_P -> unpauseGame();
+            unpauseGame();
         }
     }
 
