@@ -5,7 +5,8 @@ import assets.entities.liveentities.Player;
 import java.awt.image.BufferedImage;
 
 import static application.Application.properties;
-import static application.GamePanel.*;
+import static application.GamePanel.halfTileSize;
+import static application.GamePanel.tileSize;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
 import static utilities.images.ImageUtils.setupDefaultImage;

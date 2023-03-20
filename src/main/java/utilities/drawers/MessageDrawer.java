@@ -2,7 +2,6 @@ package utilities.drawers;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static utilities.drawers.DrawerUtils.drawCenteredText;
 

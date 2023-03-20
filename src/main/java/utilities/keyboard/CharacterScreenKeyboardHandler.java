@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import static assets.entities.liveentities.Player.getInventoryItemIndex;
 import static utilities.GameState.PLAY_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
-import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.sound.Sound.CURSOR;
 
 public record CharacterScreenKeyboardHandler(GamePanel gp)

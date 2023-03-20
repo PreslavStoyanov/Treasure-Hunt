@@ -5,7 +5,6 @@ import assets.entities.Object;
 
 import java.awt.*;
 
-import static assets.EntityType.weaponObjects;
 import static utilities.drawers.MessageDrawer.addMessage;
 
 public class Weapon extends Object

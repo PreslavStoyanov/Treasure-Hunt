@@ -4,6 +4,8 @@ import application.GamePanel;
 import assets.Entity;
 import assets.entities.sprites.Sprites;
 import assets.entities.sprites.WalkingSprite;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,6 +19,7 @@ import static assets.entities.LiveEntity.Direction.*;
 
 public class LiveEntity extends Entity
 {
+    public final ObjectMapper objectMapper;
     public int actionLockCounter;
     public boolean isInvincible = false;
     public int invincibleCounter = 60;
@@ -35,6 +38,7 @@ public class LiveEntity extends Entity
     public LiveEntity(GamePanel gp)
     {
         super(gp);
+        objectMapper = new ObjectMapper(new YAMLFactory());
     }
 
     @Override
@@ -71,7 +75,7 @@ public class LiveEntity extends Entity
     public BufferedImage switchWalkingSpritesByDirection()
     {
         BufferedImage image;
-        switch (direction)
+        switch (this.direction)
         {
             case UP -> image = changeWalkingSprite(sprites.getWalkingUpSprites());
             case DOWN -> image = changeWalkingSprite(sprites.getWalkingDownSprites());
@@ -104,6 +108,7 @@ public class LiveEntity extends Entity
         }
         switch (new Random().nextInt(4))
         {
+
             case 0 -> direction = UP;
             case 1 -> direction = DOWN;
             case 2 -> direction = LEFT;
@@ -161,7 +166,7 @@ public class LiveEntity extends Entity
 
     public void handleMoving()
     {
-        switch (direction)
+        switch (this.direction)
         {
             case UP -> worldY -= speed;
             case DOWN -> worldY += speed;

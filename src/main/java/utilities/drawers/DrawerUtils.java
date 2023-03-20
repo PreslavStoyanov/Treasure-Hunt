@@ -51,7 +51,7 @@ public class DrawerUtils
     public static void drawSubWindow(int x, int y, int width, int height, int strokeWidth)
     {
         drawBlackRoundFilledRect(x, y, width, height, 210);
-       drawRoundRect(x + 5, y + 5, width - 10, height - 10, strokeWidth);
+        drawRoundRect(x + 5, y + 5, width - 10, height - 10, strokeWidth);
     }
 
     public static void drawBlackRoundFilledRect(int x, int y, int width, int height, int alpha)

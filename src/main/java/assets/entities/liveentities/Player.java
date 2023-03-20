@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static application.GamePanel.*;
 import static assets.EntityType.*;
@@ -23,13 +24,11 @@ import static utilities.GameState.*;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
-import static utilities.images.ImageUtils.setupDefaultImage;
 import static utilities.sound.Sound.*;
 
 public class Player extends LiveEntity
 {
     private final KeyboardHandler keyboardHandler;
-    private int keyCount;
     public List<Object> inventory = new ArrayList<>();
     public int inventoryCapacity;
     public Weapon currentWeapon;
@@ -48,14 +47,9 @@ public class Player extends LiveEntity
     {
         super(gp);
         this.keyboardHandler = keyboardHandler;
-
         screenX = screenWidth / 2 - halfTileSize;
         screenY = screenHeight / 2 - halfTileSize;
-
-        solidArea = new Rectangle(8, 16, 30, 30);
-        solidAreaDefaultX = 8;
-        solidAreaDefaultY = 16;
-
+        setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         setDefaultValues();
         this.sprites = setSprites("src/main/resources/player_sprites.yaml");
     }
@@ -77,11 +71,9 @@ public class Player extends LiveEntity
 
     public void setDefaultValues()
     {
-        thumbUp = setupDefaultImage("/player/thumbUp.png");
         this.worldX = tileSize * 28;
         this.worldY = tileSize * 28;
         this.speed = 4;
-        this.keyCount = 0;
         this.direction = DOWN;
         this.level = 1;
         this.maxLife = 6;
@@ -115,7 +107,7 @@ public class Player extends LiveEntity
             hasCollision = gp.collisionChecker.isTileColliding(this);
             interactWithEntities();
 
-            if (!hasCollision)
+            if (!hasCollision && !keyboardHandler.isEPressed)
             {
                 handleMoving();
             }
@@ -200,7 +192,7 @@ public class Player extends LiveEntity
         }
 
         int monsterIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.monsters);
-        if (monsterIndex != -1)
+        if (monsterIndex != -1 && !gp.monsters.get(monsterIndex).isDying)
         {
             contactMonster(gp.monsters.get(monsterIndex));
         }
@@ -276,7 +268,6 @@ public class Player extends LiveEntity
     private void interactWithKey()
     {
         gp.soundHandler.playSoundEffect(COIN);
-        keyCount++;
     }
 
     private void interactWithBoots()
@@ -285,13 +276,17 @@ public class Player extends LiveEntity
         speed += 2;
     }
 
-    private void interactWithDoor(Object object)
+    private void interactWithDoor(Object door)
     {
-        if (keyCount > 0)
+        Optional<Object> keyToRemove = gp.player.inventory.stream()
+                .filter(obj -> obj.type.equals(KEY))
+                .findFirst();
+
+        if (keyToRemove.isPresent())
         {
+            gp.player.inventory.remove(keyToRemove.get());
             gp.soundHandler.playSoundEffect(UNLOCK);
-            keyCount--;
-            gp.objects.remove(object);
+            gp.objects.remove(door);
             addMessage("Door opened!");
         }
         else
@@ -300,17 +295,21 @@ public class Player extends LiveEntity
         }
     }
 
-    private void interactWithMonkey(Object object)
+    private void interactWithMonkey(Object monkey)
     {
-        if (keyCount == 0)
+        Optional<Object> keyToRemove = gp.player.inventory.stream()
+                .filter(obj -> obj.type.equals(KEY))
+                .findFirst();
+
+        if (keyToRemove.isPresent())
         {
-            addMessage("You have nothing for me!");
+            gp.player.inventory.remove(keyToRemove.get());
+            gp.objects.remove(monkey);
+            addMessage("The monkey robbed you and ran out!");
         }
         else
         {
-            keyCount--;
-            gp.objects.remove(object);
-            addMessage("The monkey robbed you and ran out!");
+            addMessage("You have nothing for me!");
         }
     }
 

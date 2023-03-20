@@ -16,6 +16,7 @@ public class HelpScreenDrawer
         drawCenteredText("E | TALK WITH NPC", 3.4F, false, 15F);
         drawCenteredText("B | CHARACTER MENU", 4, false, 15F);
         drawCenteredText("O | SHOW COORDINATES", 4.6F, false, 15F);
+        drawCenteredText("(HOLD E | DANCE)", 10F, false, 10F);
         drawCenteredText("MAIN MENU", 11, true, 36F);
     }
 }

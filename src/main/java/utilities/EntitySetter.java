@@ -1,13 +1,13 @@
 package utilities;
 
 import application.GamePanel;
+import assets.entities.Object;
 import assets.entities.liveentities.monsters.Demon;
 import assets.entities.liveentities.monsters.GreenSlime;
 import assets.entities.liveentities.monsters.OrangeSlime;
 import assets.entities.liveentities.npcs.OldMan;
 import assets.entities.liveentities.npcs.OldWoman;
 import assets.entities.objects.*;
-import assets.entities.Object;
 import assets.entities.objects.weapons.Axe;
 
 import static application.GamePanel.tileSize;

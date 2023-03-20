@@ -1,13 +1,13 @@
 walkingUpSprites:
-  - image: /monster/demon/up/demon00.png
-  - image: /monster/demon/up/demon01.png
-  - image: /monster/demon/up/demon02.png
-  - image: /monster/demon/up/demon03.png
+  - image: /monster/demon/up/demon04.png
+  - image: /monster/demon/up/demon05.png
+  - image: /monster/demon/up/demon06.png
+  - image: /monster/demon/up/demon07.png
 walkingDownSprites:
-  - image: /monster/demon/down/demon04.png
-  - image: /monster/demon/down/demon05.png
-  - image: /monster/demon/down/demon06.png
-  - image: /monster/demon/down/demon07.png
+  - image: /monster/demon/down/demon00.png
+  - image: /monster/demon/down/demon01.png
+  - image: /monster/demon/down/demon02.png
+  - image: /monster/demon/down/demon03.png
 walkingLeftSprites:
   - image: /monster/demon/left/demon12.png
   - image: /monster/demon/left/demon13.png
