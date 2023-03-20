@@ -107,7 +107,7 @@ public class Player extends LiveEntity
             hasCollision = gp.collisionChecker.isTileColliding(this);
             interactWithEntities();
 
-            if (!hasCollision)
+            if (!hasCollision && !keyboardHandler.isEPressed)
             {
                 handleMoving();
             }
