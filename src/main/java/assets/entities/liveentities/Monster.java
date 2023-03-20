@@ -109,7 +109,6 @@ public class Monster extends LiveEntity
         int numDyingFrames = 8;
         if (frameIndex >= numDyingFrames)
         {
-            isDying = false;
             isAlive = false;
         }
     }

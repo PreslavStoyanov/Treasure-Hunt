@@ -24,7 +24,6 @@ import static utilities.GameState.*;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
-import static utilities.images.ImageUtils.setupDefaultImage;
 import static utilities.sound.Sound.*;
 
 public class Player extends LiveEntity
@@ -193,7 +192,7 @@ public class Player extends LiveEntity
         }
 
         int monsterIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.monsters);
-        if (monsterIndex != -1)
+        if (monsterIndex != -1 && !gp.monsters.get(monsterIndex).isDying)
         {
             contactMonster(gp.monsters.get(monsterIndex));
         }
