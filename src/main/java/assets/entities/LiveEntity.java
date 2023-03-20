@@ -75,7 +75,7 @@ public class LiveEntity extends Entity
     public BufferedImage switchWalkingSpritesByDirection()
     {
         BufferedImage image;
-        switch (direction)
+        switch (this.direction)
         {
             case UP -> image = changeWalkingSprite(sprites.getWalkingUpSprites());
             case DOWN -> image = changeWalkingSprite(sprites.getWalkingDownSprites());
@@ -108,6 +108,7 @@ public class LiveEntity extends Entity
         }
         switch (new Random().nextInt(4))
         {
+
             case 0 -> direction = UP;
             case 1 -> direction = DOWN;
             case 2 -> direction = LEFT;
@@ -165,7 +166,7 @@ public class LiveEntity extends Entity
 
     public void handleMoving()
     {
-        switch (direction)
+        switch (this.direction)
         {
             case UP -> worldY -= speed;
             case DOWN -> worldY += speed;
