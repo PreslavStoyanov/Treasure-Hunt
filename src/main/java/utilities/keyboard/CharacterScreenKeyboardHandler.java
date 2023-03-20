@@ -4,7 +4,7 @@ import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 
-import static assets.entities.liveentities.Player.getInventoryItemIndex;
+import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.GameState.PLAY_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.sound.Sound.CURSOR;

@@ -1,6 +1,6 @@
 package utilities.drawers;
 
-import assets.entities.liveentities.Player;
+import assets.entities.movingentities.liveentities.Player;
 
 import java.awt.image.BufferedImage;
 

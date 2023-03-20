@@ -1,31 +1,31 @@
-walkingUpSprites:
-  - image: /player/walking/up0.png
-  - image: /player/walking/up1.png
-  - image: /player/walking/up2.png
-  - image: /player/walking/up3.png
-  - image: /player/walking/up4.png
-  - image: /player/walking/up5.png
-walkingDownSprites:
-  - image: /player/walking/down0.png
-  - image: /player/walking/down1.png
-  - image: /player/walking/down2.png
-  - image: /player/walking/down3.png
-  - image: /player/walking/down4.png
-  - image: /player/walking/down5.png
-walkingLeftSprites:
-  - image: /player/walking/left0.png
-  - image: /player/walking/left1.png
-  - image: /player/walking/left2.png
-  - image: /player/walking/left3.png
-  - image: /player/walking/left4.png
-  - image: /player/walking/left5.png
-walkingRightSprites:
-  - image: /player/walking/right0.png
-  - image: /player/walking/right1.png
-  - image: /player/walking/right2.png
-  - image: /player/walking/right3.png
-  - image: /player/walking/right4.png
-  - image: /player/walking/right5.png
+defaultUpSprites:
+  - image: /player/default/up0.png
+  - image: /player/default/up1.png
+  - image: /player/default/up2.png
+  - image: /player/default/up3.png
+  - image: /player/default/up4.png
+  - image: /player/default/up5.png
+defaultDownSprites:
+  - image: /player/default/down0.png
+  - image: /player/default/down1.png
+  - image: /player/default/down2.png
+  - image: /player/default/down3.png
+  - image: /player/default/down4.png
+  - image: /player/default/down5.png
+defaultLeftSprites:
+  - image: /player/default/left0.png
+  - image: /player/default/left1.png
+  - image: /player/default/left2.png
+  - image: /player/default/left3.png
+  - image: /player/default/left4.png
+  - image: /player/default/left5.png
+defaultRightSprites:
+  - image: /player/default/right0.png
+  - image: /player/default/right1.png
+  - image: /player/default/right2.png
+  - image: /player/default/right3.png
+  - image: /player/default/right4.png
+  - image: /player/default/right5.png
 attackingSprites:
   SWORD:
     upSprites:

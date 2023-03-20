@@ -1,14 +1,14 @@
-package assets.entities.liveentities;
+package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
-import assets.entities.LiveEntity;
+import assets.entities.movingentities.liveentities.Artificial;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static assets.entities.LiveEntity.Direction.*;
+import static assets.entities.MovingEntity.Direction.*;
 
-public class Npc extends LiveEntity
+public class Npc extends Artificial
 {
     public List<String> dialogues = new LinkedList<>();
 

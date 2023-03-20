@@ -1,31 +1,30 @@
-package assets.entities.liveentities.monsters;
+package assets.entities.movingentities.liveentities.artificials.monsters;
 
 import application.GamePanel;
 import assets.EntityType;
-import assets.entities.liveentities.Monster;
+import assets.entities.movingentities.liveentities.artificials.Monster;
 
-public class GreenSlime extends Monster
+public class OrangeSlime extends Monster
 {
     GamePanel gp;
 
-    public GreenSlime(GamePanel gp, int x, int y)
+    public OrangeSlime(GamePanel gp, int x, int y)
     {
         super(gp);
         this.worldX = x * GamePanel.tileSize;
         this.worldY = y * GamePanel.tileSize;
         this.gp = gp;
         type = EntityType.SLIME;
-        name = "Green slime";
-        speed = 1;
+        name = "Orange slime";
+        movingSpeed = 1;
         maxLife = 3;
         life = maxLife;
-        attack = 1;
+        attack = 2;
         defense = 0;
-        exp = 2;
+        exp = 3;
 
         setSolidAreaAndDefaultLocation(3, 18, 42, 30);
-
-        sprites = setSprites("src/main/resources/green_slime_sprites.yaml");
+        sprites = setSprites("src/main/resources/orange_slime_sprites.yaml");
     }
 
     public void reactToDamage()

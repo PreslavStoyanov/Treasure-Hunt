@@ -2,11 +2,11 @@ package utilities;
 
 import application.GamePanel;
 import assets.entities.Object;
-import assets.entities.liveentities.monsters.Demon;
-import assets.entities.liveentities.monsters.GreenSlime;
-import assets.entities.liveentities.monsters.OrangeSlime;
-import assets.entities.liveentities.npcs.OldMan;
-import assets.entities.liveentities.npcs.OldWoman;
+import assets.entities.movingentities.liveentities.artificials.monsters.Demon;
+import assets.entities.movingentities.liveentities.artificials.monsters.GreenSlime;
+import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSlime;
+import assets.entities.movingentities.liveentities.artificials.npcs.OldMan;
+import assets.entities.movingentities.liveentities.artificials.npcs.OldWoman;
 import assets.entities.objects.*;
 import assets.entities.objects.weapons.Axe;
 

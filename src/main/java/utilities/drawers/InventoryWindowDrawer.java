@@ -1,12 +1,12 @@
 package utilities.drawers;
 
 import assets.entities.Object;
-import assets.entities.liveentities.Player;
+import assets.entities.movingentities.liveentities.Player;
 
 import java.awt.*;
 
 import static application.GamePanel.tileSize;
-import static assets.entities.liveentities.Player.getInventoryItemIndex;
+import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 
@@ -56,7 +56,7 @@ public class InventoryWindowDrawer
             if (object == player.currentWeapon || object == player.currentShield)
             {
                 drawRoundFilledRect(itemX, itemY, tileSize, tileSize,
-                        new Color(36, 84, 24, 255));
+                        new Color(162, 137, 0, 255));
             }
 
             g2.drawImage(object.image.getScaledInstance(tileSize - 6, tileSize - 6, 1),

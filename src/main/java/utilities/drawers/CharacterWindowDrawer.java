@@ -1,6 +1,6 @@
 package utilities.drawers;
 
-import assets.entities.liveentities.Player;
+import assets.entities.movingentities.liveentities.Player;
 
 import java.util.List;
 
@@ -37,7 +37,6 @@ public class CharacterWindowDrawer
                         "Attack",
                         "Defense",
                         "Exp",
-                        "Next level",
                         "Coins",
                         "Weapon",
                         "Shield"),
@@ -49,20 +48,19 @@ public class CharacterWindowDrawer
         int textX = FRAME_X + FRAME_WIDTH - 30;
         int textY = FRAME_Y + tileSize;
         drawListWithSameMarginRightAligned(List.of(
-                        player.life + "/" + player.maxLife,
+                        String.format("%d/%d", player.life, player.maxLife),
                         String.valueOf(player.level),
                         String.valueOf(player.strength),
                         String.valueOf(player.agility),
                         String.valueOf(player.attack),
                         String.valueOf(player.defense),
-                        String.valueOf(player.exp),
-                        String.valueOf(player.nextLevelExp),
+                        String.format("%d/%d", player.exp, player.level * 5),
                         String.valueOf(player.coins)),
                 LINE_HEIGHT, textX, textY);
 
         g2.drawImage(player.currentWeapon.image.getScaledInstance(halfTileSize, halfTileSize, 1),
-                textX - halfTileSize, textY + LINE_HEIGHT * 7 + tileSize, null);
+                textX - halfTileSize, textY + LINE_HEIGHT * 6 + tileSize, null);
         g2.drawImage(player.currentShield.image.getScaledInstance(halfTileSize, halfTileSize, 1),
-                textX - halfTileSize, textY + LINE_HEIGHT * 8 + tileSize, null);
+                textX - halfTileSize, textY + LINE_HEIGHT * 7 + tileSize, null);
     }
 }

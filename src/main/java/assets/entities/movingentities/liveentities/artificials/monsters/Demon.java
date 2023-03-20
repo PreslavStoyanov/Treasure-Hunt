@@ -1,10 +1,10 @@
-package assets.entities.liveentities.monsters;
+package assets.entities.movingentities.liveentities.artificials.monsters;
 
 import application.GamePanel;
 import assets.EntityType;
-import assets.entities.liveentities.Monster;
+import assets.entities.movingentities.liveentities.artificials.Monster;
 
-import static assets.entities.LiveEntity.Direction.*;
+import static assets.entities.MovingEntity.Direction.*;
 
 public class Demon extends Monster
 {
@@ -18,7 +18,7 @@ public class Demon extends Monster
         this.gp = gp;
         type = EntityType.DEMON;
         name = "Demon";
-        speed = 1;
+        movingSpeed = 1;
         maxLife = 10;
         life = maxLife;
         attack = 5;
@@ -31,7 +31,7 @@ public class Demon extends Monster
 
     public void reactToDamage()
     {
-        speed = 2;
+        movingSpeed = 2;
         actionLockCounter = 0;
         switch (gp.player.direction)
         {
