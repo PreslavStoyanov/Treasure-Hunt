@@ -1,11 +1,11 @@
 package application;
 
 import assets.Entity;
-import assets.entities.LiveEntity;
+import assets.entities.movingentities.AliveEntity;
 import assets.entities.Object;
-import assets.entities.liveentities.Monster;
-import assets.entities.liveentities.Npc;
-import assets.entities.liveentities.Player;
+import assets.entities.movingentities.liveentities.artificials.Monster;
+import assets.entities.movingentities.liveentities.artificials.Npc;
+import assets.entities.movingentities.liveentities.Player;
 import utilities.CollisionChecker;
 import utilities.EntitySetter;
 import utilities.GameState;
@@ -125,7 +125,7 @@ public class GamePanel extends JPanel implements Runnable
         if (getGameState() == PLAY_STATE)
         {
             player.update();
-            npcs.stream().filter(Objects::nonNull).forEach(LiveEntity::update);
+            npcs.stream().filter(Objects::nonNull).forEach(AliveEntity::update);
             monsters.removeIf(monster -> !monster.isAlive);
             monsters.stream()
                     .filter(monster -> !monster.isDying)

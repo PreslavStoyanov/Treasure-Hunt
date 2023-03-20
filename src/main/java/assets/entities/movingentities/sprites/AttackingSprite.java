@@ -1,4 +1,4 @@
-package assets.entities.sprites;
+package assets.entities.movingentities.sprites;
 
 import java.awt.image.BufferedImage;
 

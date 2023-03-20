@@ -1,12 +1,12 @@
-walkingUpSprites:
+defaultUpSprites:
   - image: /monster/orangeSlime/orangeSlime1.png
   - image: /monster/orangeSlime/orangeSlime2.png
-walkingDownSprites:
+defaultDownSprites:
   - image: /monster/orangeSlime/orangeSlime1.png
   - image: /monster/orangeSlime/orangeSlime2.png
-walkingLeftSprites:
+defaultLeftSprites:
   - image: /monster/orangeSlime/orangeSlime1.png
   - image: /monster/orangeSlime/orangeSlime2.png
-walkingRightSprites:
+defaultRightSprites:
   - image: /monster/orangeSlime/orangeSlime1.png
   - image: /monster/orangeSlime/orangeSlime2.png

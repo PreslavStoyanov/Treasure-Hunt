@@ -1,12 +1,12 @@
-walkingUpSprites:
+defaultUpSprites:
   - image: /monster/greenSlime/greenSlime1.png
   - image: /monster/greenSlime/greenSlime2.png
-walkingDownSprites:
+defaultDownSprites:
   - image: /monster/greenSlime/greenSlime1.png
   - image: /monster/greenSlime/greenSlime2.png
-walkingLeftSprites:
+defaultLeftSprites:
   - image: /monster/greenSlime/greenSlime1.png
   - image: /monster/greenSlime/greenSlime2.png
-walkingRightSprites:
+defaultRightSprites:
   - image: /monster/greenSlime/greenSlime1.png
   - image: /monster/greenSlime/greenSlime2.png

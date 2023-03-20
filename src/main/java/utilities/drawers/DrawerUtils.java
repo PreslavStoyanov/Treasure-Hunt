@@ -62,14 +62,14 @@ public class DrawerUtils
     public static void drawRoundFilledRect(int x, int y, int width, int height, Color color)
     {
         g2.setColor(color);
-        g2.fillRoundRect(x, y, width, height, 25, 25);
+        g2.fillRoundRect(x, y, width, height, 15, 15);
     }
 
     public static void drawRoundRect(int x, int y, int width, int height, int strokeWidth)
     {
         g2.setColor(new Color(255, 255, 255));
         g2.setStroke(new BasicStroke(strokeWidth));
-        g2.drawRoundRect(x, y, width, height, 25, 25);
+        g2.drawRoundRect(x, y, width, height, 15, 15);
     }
 
     public static void drawListWithSameMarginRightAligned(List<String> values, float margin, float x, float y)

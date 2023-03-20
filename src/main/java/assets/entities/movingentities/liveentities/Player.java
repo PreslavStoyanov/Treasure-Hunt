@@ -1,14 +1,16 @@
-package assets.entities.liveentities;
+package assets.entities.movingentities.liveentities;
 
 import application.GamePanel;
 import assets.EntityType;
-import assets.entities.LiveEntity;
+import assets.entities.movingentities.AliveEntity;
 import assets.entities.Object;
+import assets.entities.movingentities.liveentities.artificials.Monster;
+import assets.entities.movingentities.liveentities.artificials.Npc;
 import assets.entities.objects.DefenseObject;
 import assets.entities.objects.Weapon;
 import assets.entities.objects.defenseobjects.Shield;
 import assets.entities.objects.weapons.Sword;
-import assets.entities.sprites.AttackingSprite;
+import assets.entities.movingentities.sprites.AttackingSprite;
 import utilities.keyboard.KeyboardHandler;
 
 import java.awt.*;
@@ -19,14 +21,14 @@ import java.util.Optional;
 
 import static application.GamePanel.*;
 import static assets.EntityType.*;
-import static assets.entities.LiveEntity.Direction.*;
+import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.*;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.sound.Sound.*;
 
-public class Player extends LiveEntity
+public class Player extends AliveEntity
 {
     private final KeyboardHandler keyboardHandler;
     public List<Object> inventory = new ArrayList<>();
@@ -34,7 +36,6 @@ public class Player extends LiveEntity
     public Weapon currentWeapon;
     public DefenseObject currentShield;
     public int coins;
-    public int nextLevelExp;
     public int level;
     public int strength;
     public int agility;
@@ -73,15 +74,13 @@ public class Player extends LiveEntity
     {
         this.worldX = tileSize * 28;
         this.worldY = tileSize * 28;
-        this.speed = 4;
-        this.direction = DOWN;
+        this.movingSpeed = 4;
         this.level = 1;
         this.maxLife = 6;
         this.life = maxLife;
         this.strength = 1;
         this.agility = 1;
         this.exp = 0;
-        this.nextLevelExp = 5;
         this.coins = 0;
         this.type = PLAYER;
         this.isAttacking = false;
@@ -103,7 +102,7 @@ public class Player extends LiveEntity
         }
         else if (isActionButtonPressed())
         {
-            setDirection();
+            changeMovingDirection();
             hasCollision = gp.collisionChecker.isTileColliding(this);
             interactWithEntities();
 
@@ -113,7 +112,6 @@ public class Player extends LiveEntity
             }
 
             keyboardHandler.isEPressed = false;
-            changeSpriteNumber(sprites.getWalkingUpSprites().size(), 5);
         }
         setInvincibleTime(60);
         if (life <= 0)
@@ -175,31 +173,34 @@ public class Player extends LiveEntity
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 
-    private void interactWithEntities()
+    @Override
+    public void interactWithEntities()
     {
-        //index == -1 == false (no interaction)
-        //index == 0+ == true (has interaction and the index of entity to interact with)
-        int objectIndex = gp.collisionChecker.areObjectsColliding(this, gp.objects);
-        if (objectIndex != -1)
+        Optional<Object> object = gp.objects.stream()
+                .filter(obj -> gp.collisionChecker.isObjectColliding(this, obj))
+                .findFirst();
+        object.ifPresent(this::interactWithObject);
+
+        Optional<Npc> npc = gp.npcs.stream()
+                .filter(n -> gp.collisionChecker.isLiveEntityColliding(this, n))
+                .findFirst();
+        if (npc.isPresent() && keyboardHandler.isEPressed)
         {
-            interactWithObject(gp.objects.get(objectIndex));
+            interactWithNpc(npc.get());
         }
 
-        int npcIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.npcs);
-        if (npcIndex != -1 && keyboardHandler.isEPressed)
-        {
-            interactWithNpc(gp.npcs.get(npcIndex));
-        }
+        Optional<Monster> monster = gp.monsters.stream()
+                .filter(m -> gp.collisionChecker.isLiveEntityColliding(this, m))
+                .findFirst();
 
-        int monsterIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.monsters);
-        if (monsterIndex != -1 && !gp.monsters.get(monsterIndex).isDying)
+        if (monster.isPresent() && !monster.get().isDying)
         {
-            contactMonster(gp.monsters.get(monsterIndex));
+            contactMonster(monster.get());
         }
     }
 
-
-    private void setDirection()
+    @Override
+    public void changeMovingDirection()
     {
         if (keyboardHandler.isWPressed)
         {
@@ -273,7 +274,7 @@ public class Player extends LiveEntity
     private void interactWithBoots()
     {
         gp.soundHandler.playSoundEffect(POWER_UP);
-        speed += 2;
+        movingSpeed += 2;
     }
 
     private void interactWithDoor(Object door)
@@ -349,7 +350,7 @@ public class Player extends LiveEntity
             monster.isDying = true;
             addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
             exp += monster.exp;
-            if (exp >= nextLevelExp)
+            if (exp >= level * 5)
             {
                 levelUp();
             }
@@ -359,7 +360,6 @@ public class Player extends LiveEntity
     private void levelUp()
     {
         level++;
-        nextLevelExp += 5;
         maxLife = Math.min(maxLife + 2, 12);
         this.increaseLife(2);
         strength++;
@@ -390,7 +390,11 @@ public class Player extends LiveEntity
         if (spriteCounter > 5 && spriteCounter <= 25)
         {
             spriteNumber = 2;
-            checkAttackMonsterCollision();
+            Optional<Monster> monster = getOptionalMonsterCollidingWithAttack();
+            if (monster.isPresent() && !monster.get().isInvincible)
+            {
+                damageMonster(monster.get());
+            }
         }
         if (spriteCounter > 25)
         {
@@ -398,10 +402,9 @@ public class Player extends LiveEntity
             spriteCounter = 0;
             isAttacking = false;
         }
-
     }
 
-    private void checkAttackMonsterCollision()
+    private Optional<Monster> getOptionalMonsterCollidingWithAttack()
     {
         //save current worldX, worldY, solidArea
         int worldXBeforeAttack = worldX;
@@ -412,19 +415,15 @@ public class Player extends LiveEntity
         adjustPlayerCoordinatesForAttackArea();
         solidArea.setSize(currentWeapon.attackArea.width, currentWeapon.attackArea.height);
 
-        int monsterIndex = gp.collisionChecker.areLiveEntitiesColliding(this, gp.monsters);
-        if (monsterIndex != -1)
-        {
-            Monster monster = gp.monsters.get(monsterIndex);
-            if (!monster.isInvincible)
-            {
-                damageMonster(monster);
-            }
-        }
+        Optional<Monster> monster = gp.monsters.stream()
+                .filter(m -> gp.collisionChecker.isLiveEntityColliding(this, m))
+                .findFirst();
 
         //restore original position
         setWorldLocation(worldXBeforeAttack, worldYBeforeAttack);
         solidArea.setSize(solidAreaWidthBeforeAttack, solidAreaHeightBeforeAttack);
+
+        return monster;
     }
 
     private void adjustPlayerCoordinatesForAttackArea()

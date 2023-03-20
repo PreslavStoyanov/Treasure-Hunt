@@ -1,7 +1,7 @@
-package assets.entities.liveentities;
+package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
-import assets.entities.LiveEntity;
+import assets.entities.movingentities.liveentities.Artificial;
 
 import java.awt.*;
 
@@ -9,7 +9,7 @@ import static application.GamePanel.tileSize;
 import static assets.EntityType.monstersTypes;
 import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
-public class Monster extends LiveEntity
+public class Monster extends Artificial
 {
 
     public boolean isAlive = true;
@@ -50,6 +50,21 @@ public class Monster extends LiveEntity
         changeAlpha(g2, 1F);
     }
 
+    @Override
+    public void update()
+    {
+        super.update();
+        if (!gp.player.isInvincible && isContactingPlayer)
+        {
+            handleMonsterDamage();
+        }
+    }
+
+    public void reactToDamage()
+    {
+
+    }
+
     private void drawHpBar(Graphics2D g2, int screenX, int screenY)
     {
         double oneScale = (double) tileSize / maxLife;
@@ -66,21 +81,6 @@ public class Monster extends LiveEntity
         {
             hpBarCounter = 0;
             isHpBarOn = false;
-        }
-    }
-
-    public void reactToDamage()
-    {
-
-    }
-
-    @Override
-    public void update()
-    {
-        super.update();
-        if (!gp.player.isInvincible && isContactingPlayer)
-        {
-            handleMonsterDamage();
         }
     }
 

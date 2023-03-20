@@ -1,12 +1,12 @@
-walkingUpSprites:
+defaultUpSprites:
   - image: /npc/oldWoman/up1.png
   - image: /npc/oldWoman/up2.png
-walkingDownSprites:
+defaultDownSprites:
   - image: /npc/oldWoman/down1.png
   - image: /npc/oldWoman/down2.png
-walkingLeftSprites:
+defaultLeftSprites:
   - image: /npc/oldWoman/left1.png
   - image: /npc/oldWoman/left2.png
-walkingRightSprites:
+defaultRightSprites:
   - image: /npc/oldWoman/right1.png
   - image: /npc/oldWoman/right2.png

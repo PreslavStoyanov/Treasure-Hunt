@@ -1,10 +1,10 @@
-package assets.entities.sprites;
+package assets.entities.movingentities.sprites;
 
 import java.awt.image.BufferedImage;
 
 import static utilities.images.ImageUtils.setupDefaultImage;
 
-public class WalkingSprite
+public class DefaultSprite
 {
     private BufferedImage image;
 

@@ -1,12 +1,12 @@
-walkingUpSprites:
+defaultUpSprites:
   - image: /npc/oldMan/up1.png
   - image: /npc/oldMan/up2.png
-walkingDownSprites:
+defaultDownSprites:
   - image: /npc/oldMan/down1.png
   - image: /npc/oldMan/down2.png
-walkingLeftSprites:
+defaultLeftSprites:
   - image: /npc/oldMan/left1.png
   - image: /npc/oldMan/left2.png
-walkingRightSprites:
+defaultRightSprites:
   - image: /npc/oldMan/right1.png
   - image: /npc/oldMan/right2.png

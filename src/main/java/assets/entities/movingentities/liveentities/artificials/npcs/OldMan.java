@@ -1,7 +1,7 @@
-package assets.entities.liveentities.npcs;
+package assets.entities.movingentities.liveentities.artificials.npcs;
 
 import application.GamePanel;
-import assets.entities.liveentities.Npc;
+import assets.entities.movingentities.liveentities.artificials.Npc;
 
 import static assets.EntityType.OLD_MAN;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
@@ -16,7 +16,7 @@ public class OldMan extends Npc
         this.worldX = x * GamePanel.tileSize;
         this.worldY = y * GamePanel.tileSize;
         type = OLD_MAN;
-        speed = 1;
+        movingSpeed = 1;
         sprites = setSprites("src/main/resources/old_man_sprites.yaml");
         setDialogue();
     }
