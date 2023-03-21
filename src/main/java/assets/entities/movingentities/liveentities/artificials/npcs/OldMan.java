@@ -18,7 +18,7 @@ public class OldMan extends Npc
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         type = OLD_MAN;
         movingSpeed = 1;
-        sprites = setSprites("src/main/resources/old_man_sprites.yaml");
+        sprites = setSprites("src/main/resources/npc/old_man_sprites.yaml");
         setDialogue();
     }
 

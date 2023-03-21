@@ -10,14 +10,14 @@ import static utilities.GameState.PAUSE_STATE;
 public class PlayScreenKeyboardHandler
 {
     private final GamePanel gp;
-    public boolean isWPressed;
-    public boolean isSPressed;
-    public boolean isAPressed;
-    public boolean isDPressed;
-    public boolean isQPressed;
-    public boolean isEPressed;
-    public boolean isRPressed;
-    public boolean isFPressed;
+    public boolean isUpPressed;
+    public boolean isDownPressed;
+    public boolean isLeftPressed;
+    public boolean isRightPressed;
+    public boolean isShootProjectileButtonPressed;
+    public boolean isTalkButtonPressed;
+    public boolean isInventoryButtonPressed;
+    public boolean isEnergyButtonPressed;
     public boolean isSpacePressed;
 
     public PlayScreenKeyboardHandler(GamePanel gp)
@@ -29,14 +29,14 @@ public class PlayScreenKeyboardHandler
     {
         switch (keyPressed.getKeyCode())
         {
-            case KeyEvent.VK_W -> isWPressed = true;
-            case KeyEvent.VK_S -> isSPressed = true;
-            case KeyEvent.VK_A -> isAPressed = true;
-            case KeyEvent.VK_D -> isDPressed = true;
-            case KeyEvent.VK_Q -> isQPressed = true;
-            case KeyEvent.VK_E -> isEPressed = true;
-            case KeyEvent.VK_F -> isFPressed = true;
-            case KeyEvent.VK_R -> gp.setGameState(CHARACTER_STATE);
+            case KeyEvent.VK_W -> isUpPressed = true;
+            case KeyEvent.VK_S -> isDownPressed = true;
+            case KeyEvent.VK_A -> isLeftPressed = true;
+            case KeyEvent.VK_D -> isRightPressed = true;
+            case KeyEvent.VK_E -> isTalkButtonPressed = true;
+            case KeyEvent.VK_F -> isEnergyButtonPressed = true;
+            case KeyEvent.VK_R -> isShootProjectileButtonPressed = true;
+            case KeyEvent.VK_Q -> gp.setGameState(CHARACTER_STATE);
             case KeyEvent.VK_P -> gp.setGameState(PAUSE_STATE);
             case KeyEvent.VK_SPACE ->
             {
@@ -50,14 +50,14 @@ public class PlayScreenKeyboardHandler
     {
         switch (keyReleased.getKeyCode())
         {
-            case KeyEvent.VK_W -> isWPressed = false;
-            case KeyEvent.VK_S -> isSPressed = false;
-            case KeyEvent.VK_A -> isAPressed = false;
-            case KeyEvent.VK_D -> isDPressed = false;
-            case KeyEvent.VK_Q -> isQPressed = false;
-            case KeyEvent.VK_R -> isRPressed = false;
-            case KeyEvent.VK_E -> isEPressed = false;
-            case KeyEvent.VK_F -> isFPressed = false;
+            case KeyEvent.VK_W -> isUpPressed = false;
+            case KeyEvent.VK_S -> isDownPressed = false;
+            case KeyEvent.VK_A -> isLeftPressed = false;
+            case KeyEvent.VK_D -> isRightPressed = false;
+            case KeyEvent.VK_Q -> isInventoryButtonPressed = false;
+            case KeyEvent.VK_R -> isShootProjectileButtonPressed = false;
+            case KeyEvent.VK_E -> isTalkButtonPressed = false;
+            case KeyEvent.VK_F -> isEnergyButtonPressed = false;
             case KeyEvent.VK_SPACE -> isSpacePressed = false;
         }
     }

@@ -13,7 +13,7 @@ public class Rock extends Projectile
         this.attackValue = 1;
         this.maxFlightTime = 60;
         this.castEnergyNeeded = 10;
-        this.sprites = setSprites("src/main/resources/rock_projectile_sprites.yaml");
+        this.sprites = setSprites("src/main/resources/projectiles/rock_sprites.yaml");
     }
 
     @Override

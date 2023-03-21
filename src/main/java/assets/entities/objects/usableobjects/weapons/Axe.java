@@ -6,7 +6,7 @@ import assets.entities.objects.usableobjects.Weapon;
 
 import java.awt.*;
 
-import static application.Application.properties;
+import static application.Application.defaultImagesUrls;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
 public class Axe extends Weapon
@@ -19,6 +19,6 @@ public class Axe extends Weapon
         this.attackValue = 2;
         this.attackArea = new Rectangle(0, 0, 30, 30);
         this.description = String.format("[%s]\nAn old axe!", name);
-        this.image = setupDefaultImage(properties.get("images.axe"));
+        this.image = setupDefaultImage(defaultImagesUrls.get("axe"));
     }
 }

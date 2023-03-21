@@ -27,7 +27,7 @@ public class Demon extends Monster
         exp = 5;
 
         setSolidAreaAndDefaultLocation(3, 18, 42, 30);
-        sprites = setSprites("src/main/resources/demon_sprites.yaml");
+        sprites = setSprites("src/main/resources/monster/demon_sprites.yaml");
     }
 
     public void reactToDamage()

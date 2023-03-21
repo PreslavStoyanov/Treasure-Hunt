@@ -55,7 +55,7 @@ public class Player extends AliveEntity
         screenY = screenHeight / 2 - halfTileSize;
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         setDefaultValues();
-        this.sprites = setSprites("src/main/resources/player_sprites.yaml");
+        this.sprites = setSprites("src/main/resources/player/player_sprites.yaml");
     }
 
     public static int getInventoryItemIndex()
@@ -109,19 +109,18 @@ public class Player extends AliveEntity
             hasCollision = gp.collisionChecker.isTileColliding(this);
             interactWithEntities();
 
-            if (!hasCollision && !keyboardHandler.playScreenKeyboardHandler.isEPressed)
+            if (!hasCollision && !keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
             {
                 handleMoving();
             }
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isQPressed
-                && !projectile.isFlying()
+        else if (keyboardHandler.playScreenKeyboardHandler.isShootProjectileButtonPressed
                 && energy == projectile.castEnergyNeeded)
         {
             shootProjectile();
             energy = 0;
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isFPressed)
+        else if (keyboardHandler.playScreenKeyboardHandler.isEnergyButtonPressed)
         {
             energy = Math.min(++energy, projectile.castEnergyNeeded);
         }
@@ -144,9 +143,9 @@ public class Player extends AliveEntity
 
     private boolean isActionButtonPressed()
     {
-        return keyboardHandler.playScreenKeyboardHandler.isWPressed || keyboardHandler.playScreenKeyboardHandler.isSPressed
-                || keyboardHandler.playScreenKeyboardHandler.isAPressed || keyboardHandler.playScreenKeyboardHandler.isDPressed
-                || keyboardHandler.playScreenKeyboardHandler.isRPressed || keyboardHandler.playScreenKeyboardHandler.isEPressed;
+        return keyboardHandler.playScreenKeyboardHandler.isUpPressed || keyboardHandler.playScreenKeyboardHandler.isDownPressed
+                || keyboardHandler.playScreenKeyboardHandler.isLeftPressed || keyboardHandler.playScreenKeyboardHandler.isRightPressed
+                || keyboardHandler.playScreenKeyboardHandler.isInventoryButtonPressed || keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed;
     }
 
     @Override
@@ -206,7 +205,7 @@ public class Player extends AliveEntity
                 .filter(npc -> gp.collisionChecker.isLiveEntityColliding(this, npc))
                 .findFirst().ifPresent(npc ->
                 {
-                    if (keyboardHandler.playScreenKeyboardHandler.isEPressed)
+                    if (keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
                     {
                         interactWithNpc(npc);
                     }
@@ -226,19 +225,19 @@ public class Player extends AliveEntity
     @Override
     public void changeMovingDirection()
     {
-        if (keyboardHandler.playScreenKeyboardHandler.isWPressed)
+        if (keyboardHandler.playScreenKeyboardHandler.isUpPressed)
         {
             direction = UP;
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isSPressed)
+        else if (keyboardHandler.playScreenKeyboardHandler.isDownPressed)
         {
             direction = DOWN;
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isAPressed)
+        else if (keyboardHandler.playScreenKeyboardHandler.isLeftPressed)
         {
             direction = LEFT;
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isDPressed)
+        else if (keyboardHandler.playScreenKeyboardHandler.isRightPressed)
         {
             direction = RIGHT;
         }
@@ -349,7 +348,7 @@ public class Player extends AliveEntity
     {
         gp.setGameState(DIALOGUE_STATE);
         npc.speak();
-        keyboardHandler.playScreenKeyboardHandler.isEPressed = false;
+        keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed = false;
     }
 
     @Override

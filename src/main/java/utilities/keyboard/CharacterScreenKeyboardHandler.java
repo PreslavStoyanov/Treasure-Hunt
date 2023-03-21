@@ -15,7 +15,7 @@ public record CharacterScreenKeyboardHandler(GamePanel gp)
     {
         switch (keyPressed.getKeyCode())
         {
-            case KeyEvent.VK_R, KeyEvent.VK_ESCAPE -> gp.setGameState(PLAY_STATE);
+            case KeyEvent.VK_Q, KeyEvent.VK_ESCAPE -> gp.setGameState(PLAY_STATE);
             case KeyEvent.VK_E, KeyEvent.VK_ENTER -> selectItem();
             case KeyEvent.VK_W, KeyEvent.VK_UP -> moveInventoryCursorUp();
             case KeyEvent.VK_S, KeyEvent.VK_DOWN -> moveInventoryCursorDown();

@@ -5,7 +5,7 @@ import assets.entities.movingentities.liveentities.Player;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static application.Application.properties;
+import static application.Application.defaultImagesUrls;
 import static application.GamePanel.halfTileSize;
 import static application.GamePanel.tileSize;
 import static utilities.drawers.DrawerUtils.drawRoundFilledRect;
@@ -22,9 +22,9 @@ public class PlayerStatsDrawer
 
     public PlayerStatsDrawer()
     {
-        this.heartFull = setupDefaultImage(properties.get("images.fullHeart"));
-        this.heartHalf = setupDefaultImage(properties.get("images.halfHeart"));
-        this.heartBlank = setupDefaultImage(properties.get("images.blankHeart"));
+        this.heartFull = setupDefaultImage(defaultImagesUrls.get("fullHeart"));
+        this.heartHalf = setupDefaultImage(defaultImagesUrls.get("halfHeart"));
+        this.heartBlank = setupDefaultImage(defaultImagesUrls.get("blankHeart"));
     }
 
     public void drawPlayerStats(Player player)

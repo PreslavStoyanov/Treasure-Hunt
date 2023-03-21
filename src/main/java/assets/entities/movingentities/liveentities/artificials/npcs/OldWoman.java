@@ -18,7 +18,7 @@ public class OldWoman extends Npc
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         type = OLD_WOMAN;
         movingSpeed = 1;
-        sprites = setSprites("src/main/resources/old_woman_sprites.yaml");
+        sprites = setSprites("src/main/resources/npc/old_woman_sprites.yaml");
         setDialogue();
     }
 

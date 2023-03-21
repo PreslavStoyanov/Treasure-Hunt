@@ -26,7 +26,7 @@ public class GreenSlime extends Monster
         defense = 0;
         exp = 2;
         projectile = new Slimeball(gp);
-        sprites = setSprites("src/main/resources/green_slime_sprites.yaml");
+        sprites = setSprites("src/main/resources/monster/green_slime_sprites.yaml");
     }
 
     @Override

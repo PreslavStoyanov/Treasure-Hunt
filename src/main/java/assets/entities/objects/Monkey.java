@@ -3,7 +3,7 @@ package assets.entities.objects;
 import application.GamePanel;
 import assets.entities.Object;
 
-import static application.Application.properties;
+import static application.Application.defaultImagesUrls;
 import static application.GamePanel.tileSize;
 import static assets.EntityType.MONKEY;
 import static utilities.images.ImageUtils.setupDefaultImage;
@@ -19,6 +19,6 @@ public class Monkey extends Object
         name = "Monkey";
         type = MONKEY;
         hasCollision = true;
-        image = setupDefaultImage(properties.get("images.monkey"));
+        image = setupDefaultImage(defaultImagesUrls.get("monkey"));
     }
 }

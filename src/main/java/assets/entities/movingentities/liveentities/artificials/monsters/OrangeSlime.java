@@ -24,7 +24,7 @@ public class OrangeSlime extends Monster
         attackValue = 2;
         defense = 0;
         exp = 3;
-        sprites = setSprites("src/main/resources/orange_slime_sprites.yaml");
+        sprites = setSprites("src/main/resources/monster/orange_slime_sprites.yaml");
     }
 
     public void reactToDamage()
