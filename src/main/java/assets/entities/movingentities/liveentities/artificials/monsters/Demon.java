@@ -21,7 +21,7 @@ public class Demon extends Monster
         movingSpeed = 1;
         maxLife = 10;
         life = maxLife;
-        attack = 5;
+        attackValue = 5;
         defense = 0;
         exp = 5;
 

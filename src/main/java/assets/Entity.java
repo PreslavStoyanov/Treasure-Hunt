@@ -5,7 +5,7 @@ import application.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Entity
+public abstract class Entity
 {
     public final GamePanel gp;
     public String name;
@@ -24,10 +24,7 @@ public class Entity
         this.solidArea = new Rectangle(0, 0, 48, 48);
     }
 
-    public void draw(Graphics2D g2)
-    {
-
-    }
+    public abstract void draw(Graphics2D g2);
 
     public void setWorldLocation(int worldX, int worldY)
     {

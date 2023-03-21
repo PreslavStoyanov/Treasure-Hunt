@@ -12,9 +12,9 @@ import static utilities.drawers.HomeScreenDrawer.homeMenuOption;
 public record HomeScreenKeyboardHandler(GamePanel gp)
 {
 
-    public void handleHomeScreenKeys(int pressedKey)
+    public void handleHomeScreenKeys(KeyEvent pressedKey)
     {
-        switch (pressedKey)
+        switch (pressedKey.getKeyCode())
         {
             case KeyEvent.VK_W, KeyEvent.VK_UP -> moveSelectionUp();
             case KeyEvent.VK_S, KeyEvent.VK_DOWN -> moveSelectionDown();

@@ -52,7 +52,7 @@ public class CharacterWindowDrawer
                         String.valueOf(player.level),
                         String.valueOf(player.strength),
                         String.valueOf(player.agility),
-                        String.valueOf(player.attack),
+                        String.valueOf(player.attackValue),
                         String.valueOf(player.defense),
                         String.format("%d/%d", player.exp, player.level * 5),
                         String.valueOf(player.coins)),

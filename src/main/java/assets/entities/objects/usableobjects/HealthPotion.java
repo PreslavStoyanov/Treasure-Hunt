@@ -1,14 +1,15 @@
-package assets.entities.objects;
+package assets.entities.objects.usableobjects;
 
 import application.GamePanel;
 import assets.entities.Object;
+import assets.entities.objects.UsableObject;
 
 import static assets.EntityType.HEALTH_POTION;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultImage;
 import static utilities.sound.Sound.POWER_UP;
 
-public class HealthPotion extends Object
+public class HealthPotion extends UsableObject
 {
     private final int value = 4;
 

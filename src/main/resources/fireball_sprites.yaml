@@ -1,0 +1,12 @@
+defaultUpSprites:
+  - image: /projectiles/fireball_up_1.png
+  - image: /projectiles/fireball_up_1.png
+defaultDownSprites:
+  - image: /projectiles/fireball_down_1.png
+  - image: /projectiles/fireball_down_2.png
+defaultLeftSprites:
+  - image: /projectiles/fireball_left_1.png
+  - image: /projectiles/fireball_left_2.png
+defaultRightSprites:
+  - image: /projectiles/fireball_right_1.png
+  - image: /projectiles/fireball_right_2.png

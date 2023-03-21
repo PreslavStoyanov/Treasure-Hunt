@@ -1,12 +1,13 @@
-package assets.entities.objects;
+package assets.entities.objects.usableobjects;
 
 import application.GamePanel;
 import assets.entities.Object;
+import assets.entities.objects.UsableObject;
 
 import static assets.EntityType.BOOTS;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
-public class Boots extends Object
+public class Boots extends UsableObject
 {
     public Boots(GamePanel gp)
     {
@@ -15,5 +16,11 @@ public class Boots extends Object
         this.type = BOOTS;
         this.image = setupDefaultImage("/objects/boots.png");
         this.description = String.format("[%s]\nMake you faster!", name);
+    }
+
+    @Override
+    public void useItem()
+    {
+
     }
 }

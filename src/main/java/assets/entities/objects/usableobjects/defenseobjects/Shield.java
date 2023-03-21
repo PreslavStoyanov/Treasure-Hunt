@@ -1,7 +1,7 @@
-package assets.entities.objects.defenseobjects;
+package assets.entities.objects.usableobjects.defenseobjects;
 
 import application.GamePanel;
-import assets.entities.objects.DefenseObject;
+import assets.entities.objects.usableobjects.DefenseObject;
 
 import static assets.EntityType.SHIELD;
 import static utilities.images.ImageUtils.setupDefaultImage;

@@ -1,8 +1,8 @@
-package assets.entities.objects.weapons;
+package assets.entities.objects.usableobjects.weapons;
 
 import application.GamePanel;
 import assets.EntityType;
-import assets.entities.objects.Weapon;
+import assets.entities.objects.usableobjects.Weapon;
 
 import java.awt.*;
 

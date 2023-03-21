@@ -19,7 +19,7 @@ public class OrangeSlime extends Monster
         movingSpeed = 1;
         maxLife = 3;
         life = maxLife;
-        attack = 2;
+        attackValue = 2;
         defense = 0;
         exp = 3;
 

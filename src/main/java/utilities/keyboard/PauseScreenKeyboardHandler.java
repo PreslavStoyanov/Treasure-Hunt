@@ -8,9 +8,9 @@ import static utilities.GameState.PLAY_STATE;
 
 public record PauseScreenKeyboardHandler(GamePanel gp)
 {
-    public void handlePauseScreenKeys(int keyPressed)
+    public void handlePauseScreenKeys(KeyEvent keyPressed)
     {
-        if (keyPressed == KeyEvent.VK_P)
+        if (keyPressed.getKeyCode() == KeyEvent.VK_P)
         {
             unpauseGame();
         }

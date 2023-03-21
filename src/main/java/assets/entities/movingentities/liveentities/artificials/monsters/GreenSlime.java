@@ -19,7 +19,7 @@ public class GreenSlime extends Monster
         movingSpeed = 1;
         maxLife = 3;
         life = maxLife;
-        attack = 1;
+        attackValue = 1;
         defense = 0;
         exp = 2;
 

@@ -3,6 +3,7 @@ package application;
 import assets.Entity;
 import assets.entities.movingentities.AliveEntity;
 import assets.entities.Object;
+import assets.entities.movingentities.Projectile;
 import assets.entities.movingentities.liveentities.artificials.Monster;
 import assets.entities.movingentities.liveentities.artificials.Npc;
 import assets.entities.movingentities.liveentities.Player;
@@ -53,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable
     public List<Object> objects = new CopyOnWriteArrayList<>();
     public List<Npc> npcs = new CopyOnWriteArrayList<>();
     public List<Monster> monsters = new CopyOnWriteArrayList<>();
+    public List<Projectile> projectiles = new CopyOnWriteArrayList<>();
     private GameState gameState = HOME_STATE;
 
     public GamePanel()
@@ -125,11 +127,14 @@ public class GamePanel extends JPanel implements Runnable
         if (getGameState() == PLAY_STATE)
         {
             player.update();
+
             npcs.stream().filter(Objects::nonNull).forEach(AliveEntity::update);
+
             monsters.removeIf(monster -> !monster.isAlive);
-            monsters.stream()
-                    .filter(monster -> !monster.isDying)
-                    .forEach(Monster::update);
+            monsters.stream().filter(monster -> !monster.isDying).forEach(Monster::update);
+
+            projectiles.removeIf(projectile -> !projectile.isFlying());
+            projectiles.stream().filter(Projectile::isFlying).forEach(Projectile::update);
         }
     }
 
@@ -157,6 +162,7 @@ public class GamePanel extends JPanel implements Runnable
         entities.addAll(npcs);
         entities.addAll(objects);
         entities.addAll(monsters);
+        entities.addAll(projectiles);
 
         entities.sort(Comparator.comparingInt(e -> e.worldY));
         entities.forEach(entity -> entity.draw(g2));

@@ -22,10 +22,12 @@ public class SoundHandler
         sounds.put(POWER_UP, getURL("sounds.power-up"));
         sounds.put(UNLOCK, getURL("sounds.unlock"));
         sounds.put(WIN, getURL("sounds.win-sound"));
+        sounds.put(GAME_OVER, getURL("sounds.gameover"));
         sounds.put(HIT, getURL("sounds.hit"));
         sounds.put(RECEIVE_DAMAGE, getURL("sounds.receive-damage"));
         sounds.put(SWING_SWORD, getURL("sounds.swing-weapon"));
         sounds.put(SWING_AXE, getURL("sounds.swing-weapon"));
+        sounds.put(FIREBALL_SOUND, getURL("sounds.fireball-sound"));
         sounds.put(LEVEL_UP, getURL("sounds.level-up"));
         sounds.put(CURSOR, getURL("sounds.cursor"));
     }

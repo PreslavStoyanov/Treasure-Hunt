@@ -9,22 +9,12 @@ import static utilities.GameState.PLAY_STATE;
 
 public record DialogueScreenKeyboardHandler(GamePanel gp)
 {
-    public void handleDialogueScreenKeys(int keyPressed)
+    public void handleDialogueScreenKeys(KeyEvent keyPressed)
     {
-        switch (keyPressed)
+        switch (keyPressed.getKeyCode())
         {
-            case KeyEvent.VK_E, KeyEvent.VK_ESCAPE -> quitDialogue();
-            case KeyEvent.VK_P -> pauseGame();
+            case KeyEvent.VK_E, KeyEvent.VK_ESCAPE -> gp.setGameState(PLAY_STATE);
+            case KeyEvent.VK_P -> gp.setGameState(PAUSE_STATE);
         }
-    }
-
-    private void pauseGame()
-    {
-        gp.setGameState(PAUSE_STATE);
-    }
-
-    private void quitDialogue()
-    {
-        gp.setGameState(PLAY_STATE);
     }
 }

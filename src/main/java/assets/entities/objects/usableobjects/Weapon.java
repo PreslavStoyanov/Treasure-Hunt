@@ -1,13 +1,13 @@
-package assets.entities.objects;
+package assets.entities.objects.usableobjects;
 
 import application.GamePanel;
-import assets.entities.Object;
+import assets.entities.objects.UsableObject;
 
 import java.awt.*;
 
 import static utilities.drawers.MessageDrawer.addMessage;
 
-public class Weapon extends Object
+public class Weapon extends UsableObject
 {
     public int attackValue;
     public Rectangle attackArea;
@@ -23,7 +23,7 @@ public class Weapon extends Object
         if (gp.player.currentWeapon.type != type)
         {
             gp.player.currentWeapon = this;
-            gp.player.attack = gp.player.calculateAttack();
+            gp.player.attackValue = gp.player.calculateAttack();
             addMessage(String.format("You equipped the %s", name));
         }
     }
