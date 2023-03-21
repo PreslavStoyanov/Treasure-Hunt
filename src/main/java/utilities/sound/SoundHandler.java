@@ -26,7 +26,7 @@ public class SoundHandler
         sounds.put(HIT, getSoundUrl("hit"));
         sounds.put(RECEIVE_DAMAGE, getSoundUrl("receive-damage"));
         sounds.put(SWING_SWORD, getSoundUrl("swing-sword"));
-        sounds.put(SWING_AXE, getSoundUrl("swing-sword"));
+        sounds.put(SWING_AXE, getSoundUrl("swing-axe"));
         sounds.put(FIREBALL_SOUND, getSoundUrl("fireball-sound"));
         sounds.put(LEVEL_UP, getSoundUrl("level-up"));
         sounds.put(CURSOR, getSoundUrl("cursor"));
