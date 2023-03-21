@@ -43,6 +43,10 @@ public abstract class Projectile extends MovingEntity
     public void update()
     {
         handleMoving();
+        if (gp.collisionChecker.isTileColliding(this))
+        {
+            setFlying(false);
+        }
         interactWithEntities();
         flightTime++;
         if (flightTime > maxFlightTime)
@@ -66,7 +70,12 @@ public abstract class Projectile extends MovingEntity
         }
         else if (MONSTER_TYPES.contains(shooter.type))
         {
+            boolean isContactingPlayer = gp.collisionChecker.isCollidingWithPlayer(this, gp.player);
 
+            if (!gp.player.isInvincible && isContactingPlayer)
+            {
+                gp.player.takeDamage(attackValue);
+            }
         }
     }
 }

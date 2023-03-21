@@ -18,21 +18,17 @@ public class Artificial extends AliveEntity
     @Override
     public void changeMovingDirection()
     {
-        actionLockCounter++;
-
-        if (actionLockCounter != 120)
+        if (gp.getFrameCounter() % 120 != 0)
         {
             return;
         }
         switch (new Random().nextInt(4))
         {
-
             case 0 -> direction = UP;
             case 1 -> direction = DOWN;
             case 2 -> direction = LEFT;
             case 3 -> direction = RIGHT;
         }
-        actionLockCounter = 0;
     }
 
     @Override

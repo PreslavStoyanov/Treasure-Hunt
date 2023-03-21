@@ -4,6 +4,7 @@ import application.GamePanel;
 import assets.entities.Object;
 import assets.entities.objects.UsableObject;
 
+import static application.Application.properties;
 import static assets.EntityType.HEALTH_POTION;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultImage;
@@ -19,8 +20,8 @@ public class HealthPotion extends UsableObject
         this.solidArea.setSize(36, 36);
         this.name = "Health Potion";
         this.type = HEALTH_POTION;
-        this.image = setupDefaultImage("/objects/health_potion.png");
         this.description = String.format("[%s]\nGives you 2 hearts!", name);
+        this.image = setupDefaultImage(properties.get("images.health-potion"));
     }
 
     @Override

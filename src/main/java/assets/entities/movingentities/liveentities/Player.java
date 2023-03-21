@@ -41,6 +41,7 @@ public class Player extends AliveEntity
     public int strength;
     public int agility;
     public boolean isAttacking;
+    public int attackActionTimer = 0;
     public final int screenX;
     public final int screenY;
 
@@ -73,8 +74,7 @@ public class Player extends AliveEntity
 
     public void setDefaultValues()
     {
-        this.worldX = tileSize * 28;
-        this.worldY = tileSize * 28;
+        this.setWorldLocation(tileSize * 28, tileSize * 28);
         this.movingSpeed = 4;
         this.level = 1;
         this.maxLife = 6;
@@ -207,9 +207,9 @@ public class Player extends AliveEntity
                 .filter(monster -> gp.collisionChecker.isLiveEntityColliding(this, monster))
                 .findFirst().ifPresent(monster ->
                 {
-                    if (!monster.isDying)
+                    if (!monster.isDying && !isInvincible)
                     {
-                        contactMonster(monster);
+                        takeDamage(monster.attackValue);
                     }
                 });
     }
@@ -343,15 +343,11 @@ public class Player extends AliveEntity
         keyboardHandler.playScreenKeyboardHandler.isEPressed = false;
     }
 
-    private void contactMonster(Monster monster)
+    @Override
+    public void takeDamage(int damage)
     {
-        if (isInvincible)
-        {
-            return;
-        }
         gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
-        gp.player.decreaseLife(monster.attackValue - defense);
-        isInvincible = true;
+        super.takeDamage(damage);
     }
 
     public void collectExpAndCheckForLevelingUp(int collectedExp)
@@ -379,8 +375,8 @@ public class Player extends AliveEntity
 
     private void attack()
     {
-        spriteCounter++;
-        if (spriteCounter == 2)
+        attackActionTimer++;
+        if (attackActionTimer == 2)
         {
             switch (currentWeapon.type)
             {
@@ -388,19 +384,19 @@ public class Player extends AliveEntity
                 case AXE -> gp.soundHandler.playSoundEffect(SWING_AXE);
             }
         }
-        if (spriteCounter <= 5)
+        if (attackActionTimer <= 5)
         {
             spriteNumber = 1;
         }
-        if (spriteCounter > 5 && spriteCounter <= 25)
+        if (attackActionTimer > 5 && attackActionTimer <= 25)
         {
             spriteNumber = 2;
             getOptionalMonsterCollidingWithAttack().ifPresent(monster -> damageMonster(monster, attackValue));
         }
-        if (spriteCounter > 25)
+        if (attackActionTimer > 25)
         {
             spriteNumber = 1;
-            spriteCounter = 0;
+            attackActionTimer = 0;
             isAttacking = false;
         }
     }

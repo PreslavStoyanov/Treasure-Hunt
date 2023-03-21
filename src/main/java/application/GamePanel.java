@@ -56,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable
     public List<Monster> monsters = new CopyOnWriteArrayList<>();
     public List<Projectile> projectiles = new CopyOnWriteArrayList<>();
     private GameState gameState = HOME_STATE;
+    private int frameCounter = 0;
 
     public GamePanel()
     {
@@ -64,6 +65,11 @@ public class GamePanel extends JPanel implements Runnable
         this.setDoubleBuffered(true);
         this.addKeyListener(keyboardHandler);
         this.setFocusable(true);
+    }
+
+    public int getFrameCounter()
+    {
+        return frameCounter;
     }
 
     public GameState getGameState()
@@ -99,6 +105,8 @@ public class GamePanel extends JPanel implements Runnable
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
+
+        //time can be used for some special time events
         long timer = 0;
 
         while (!gameThread.isInterrupted())
@@ -110,6 +118,11 @@ public class GamePanel extends JPanel implements Runnable
 
             if (delta >= 1)
             {
+                frameCounter++;
+                if (frameCounter == Integer.MAX_VALUE)
+                {
+                    frameCounter = 0;
+                }
                 update();
                 repaint();
                 delta--;

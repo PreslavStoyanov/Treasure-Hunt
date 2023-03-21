@@ -57,15 +57,15 @@ public class Monster extends Artificial
         super.update();
         if (!gp.player.isInvincible && isContactingPlayer)
         {
-            handleMonsterDamage();
+            gp.player.takeDamage(attackValue);
         }
     }
 
+    @Override
     public void takeDamage(int damage)
     {
         gp.soundHandler.playSoundEffect(HIT);
-        decreaseLife(damage - this.defense);
-        isInvincible = true;
+        super.takeDamage(damage);
         reactToDamage();
         isDying = life <= 0;
     }
@@ -92,13 +92,6 @@ public class Monster extends Artificial
             hpBarCounter = 0;
             isHpBarOn = false;
         }
-    }
-
-    private void handleMonsterDamage()
-    {
-        gp.player.decreaseLife(this.attackValue - gp.player.defense);
-        gp.player.isInvincible = true;
-        gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
     }
 
     private void dyingAnimation(Graphics2D g2)

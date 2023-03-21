@@ -3,18 +3,18 @@ package assets.entities.movingentities.projectiles;
 import application.GamePanel;
 import assets.entities.movingentities.Projectile;
 
-public class Fireball extends Projectile
+public class Slimeball extends Projectile
 {
-    public Fireball(GamePanel gp)
+    public Slimeball(GamePanel gp)
     {
         super(gp);
         this.solidArea.setSize(15, 15);
-        this.name = "Fireball";
-        this.movingSpeed = 3;
+        this.name = "Slimeball";
+        this.movingSpeed = 2;
         this.attackValue = 2;
-        this.maxFlightTime = 80;
+        this.maxFlightTime = 60;
         this.usageCosts = 1;
-        this.sprites = setSprites("src/main/resources/fireball_projectile_sprites.yaml");
+        this.sprites = setSprites("src/main/resources/slimeball_projectile_sprites.yaml");
     }
 
     @Override

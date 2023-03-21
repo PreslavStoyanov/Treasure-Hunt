@@ -1,0 +1,8 @@
+defaultUpSprites:
+  - image: /projectiles/rock.png
+defaultDownSprites:
+  - image: /projectiles/rock.png
+defaultLeftSprites:
+  - image: /projectiles/rock.png
+defaultRightSprites:
+  - image: /projectiles/rock.png

@@ -23,8 +23,6 @@ public abstract class MovingEntity extends Entity
     public Sprites sprites = new Sprites();
     public int movingSpeed;
     public boolean isContactingPlayer;
-    public int actionLockCounter;
-    public int spriteCounter = 0;
     public int spriteNumber = 0;
 
     public MovingEntity(GamePanel gp)
@@ -92,10 +90,8 @@ public abstract class MovingEntity extends Entity
     public abstract void interactWithEntities();
 
     private void changeSpriteNumber() {
-        spriteCounter++;
-        if (spriteCounter > (sprites.getDefaultUpSprites().size() * 5) / movingSpeed) {
+        if (gp.getFrameCounter() % ((sprites.getDefaultUpSprites().size() * 5) / movingSpeed) == 0) {
             spriteNumber = (spriteNumber + 1) % sprites.getDefaultUpSprites().size();
-            spriteCounter = 0;
         }
     }
 

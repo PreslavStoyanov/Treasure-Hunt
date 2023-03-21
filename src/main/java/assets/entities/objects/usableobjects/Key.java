@@ -4,6 +4,7 @@ import application.GamePanel;
 import assets.entities.Object;
 import assets.entities.objects.UsableObject;
 
+import static application.Application.properties;
 import static assets.EntityType.KEY;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
@@ -15,8 +16,8 @@ public class Key extends UsableObject
         super(gp);
         this.name = "Key";
         this.type = KEY;
-        this.image = setupDefaultImage("/objects/key.png");
         this.description = String.format("[%s]\nIt can open doors!", name);
+        this.image = setupDefaultImage(properties.get("images.key"));
     }
 
     @Override

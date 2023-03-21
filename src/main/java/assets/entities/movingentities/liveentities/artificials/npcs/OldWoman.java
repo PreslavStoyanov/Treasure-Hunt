@@ -3,6 +3,7 @@ package assets.entities.movingentities.liveentities.artificials.npcs;
 import application.GamePanel;
 import assets.entities.movingentities.liveentities.artificials.Npc;
 
+import static application.GamePanel.tileSize;
 import static assets.EntityType.OLD_WOMAN;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 
@@ -13,8 +14,8 @@ public class OldWoman extends Npc
     public OldWoman(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.worldX = x * GamePanel.tileSize;
-        this.worldY = y * GamePanel.tileSize;
+        this.setWorldLocation(x * tileSize, y * tileSize);
+        setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         type = OLD_WOMAN;
         movingSpeed = 1;
         sprites = setSprites("src/main/resources/old_woman_sprites.yaml");
