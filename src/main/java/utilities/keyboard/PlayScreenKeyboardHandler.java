@@ -17,6 +17,7 @@ public class PlayScreenKeyboardHandler
     public boolean isQPressed;
     public boolean isEPressed;
     public boolean isRPressed;
+    public boolean isFPressed;
     public boolean isSpacePressed;
 
     public PlayScreenKeyboardHandler(GamePanel gp)
@@ -34,6 +35,7 @@ public class PlayScreenKeyboardHandler
             case KeyEvent.VK_D -> isDPressed = true;
             case KeyEvent.VK_Q -> isQPressed = true;
             case KeyEvent.VK_E -> isEPressed = true;
+            case KeyEvent.VK_F -> isFPressed = true;
             case KeyEvent.VK_R -> gp.setGameState(CHARACTER_STATE);
             case KeyEvent.VK_P -> gp.setGameState(PAUSE_STATE);
             case KeyEvent.VK_SPACE ->
@@ -55,6 +57,7 @@ public class PlayScreenKeyboardHandler
             case KeyEvent.VK_Q -> isQPressed = false;
             case KeyEvent.VK_R -> isRPressed = false;
             case KeyEvent.VK_E -> isEPressed = false;
+            case KeyEvent.VK_F -> isFPressed = false;
             case KeyEvent.VK_SPACE -> isSpacePressed = false;
         }
     }

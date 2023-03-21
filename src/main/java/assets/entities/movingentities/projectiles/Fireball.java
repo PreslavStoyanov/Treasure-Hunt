@@ -13,7 +13,7 @@ public class Fireball extends Projectile
         this.movingSpeed = 3;
         this.attackValue = 2;
         this.maxFlightTime = 80;
-        this.usageCosts = 1;
+        this.castEnergyNeeded = 50;
         this.sprites = setSprites("src/main/resources/fireball_projectile_sprites.yaml");
     }
 

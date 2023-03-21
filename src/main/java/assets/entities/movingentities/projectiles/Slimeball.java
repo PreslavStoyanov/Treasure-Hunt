@@ -13,7 +13,7 @@ public class Slimeball extends Projectile
         this.movingSpeed = 2;
         this.attackValue = 2;
         this.maxFlightTime = 60;
-        this.usageCosts = 1;
+        this.castEnergyNeeded = 10;
         this.sprites = setSprites("src/main/resources/slimeball_projectile_sprites.yaml");
     }
 

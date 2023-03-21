@@ -42,6 +42,7 @@ public class Player extends AliveEntity
     public int agility;
     public boolean isAttacking;
     public int attackActionTimer = 0;
+    public int energy = 0;
     public final int screenX;
     public final int screenY;
 
@@ -113,9 +114,16 @@ public class Player extends AliveEntity
                 handleMoving();
             }
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isQPressed && !projectile.isFlying())
+        else if (keyboardHandler.playScreenKeyboardHandler.isQPressed
+                && !projectile.isFlying()
+                && energy == projectile.castEnergyNeeded)
         {
             shootProjectile();
+            energy = 0;
+        }
+        else if (keyboardHandler.playScreenKeyboardHandler.isFPressed)
+        {
+            energy = Math.min(++energy, projectile.castEnergyNeeded);
         }
         setInvincibleTime(60);
         if (life <= 0)
@@ -128,6 +136,7 @@ public class Player extends AliveEntity
 
     private void shootProjectile()
     {
+
         projectile.shoot(this);
         gp.projectiles.add(projectile);
         gp.soundHandler.playSoundEffect(FIREBALL_SOUND);
@@ -384,16 +393,16 @@ public class Player extends AliveEntity
                 case AXE -> gp.soundHandler.playSoundEffect(SWING_AXE);
             }
         }
-        if (attackActionTimer <= 5)
+        else if (attackActionTimer <= 5)
         {
             spriteNumber = 1;
         }
-        if (attackActionTimer > 5 && attackActionTimer <= 25)
+        else if (attackActionTimer <= 25)
         {
             spriteNumber = 2;
             getOptionalMonsterCollidingWithAttack().ifPresent(monster -> damageMonster(monster, attackValue));
         }
-        if (attackActionTimer > 25)
+        else
         {
             spriteNumber = 1;
             attackActionTimer = 0;

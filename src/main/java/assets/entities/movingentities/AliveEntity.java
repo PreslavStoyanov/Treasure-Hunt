@@ -9,8 +9,6 @@ public abstract class AliveEntity extends MovingEntity
     public int invincibleCounter = 60;
     public int maxLife;
     public int life;
-    public int maxMana;
-    public int mana;
     public int defense;
     public int exp;
     public int attackValue;

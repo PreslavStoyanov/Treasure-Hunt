@@ -13,7 +13,7 @@ public abstract class Projectile extends MovingEntity
     private int flightTime = 0;
     public int maxFlightTime;
     public int attackValue;
-    public int usageCosts;
+    public int castEnergyNeeded;
 
     public Projectile(GamePanel gp)
     {

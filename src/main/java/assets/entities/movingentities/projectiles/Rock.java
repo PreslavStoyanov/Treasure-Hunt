@@ -12,7 +12,7 @@ public class Rock extends Projectile
         this.movingSpeed = 3;
         this.attackValue = 1;
         this.maxFlightTime = 60;
-        this.usageCosts = 1;
+        this.castEnergyNeeded = 10;
         this.sprites = setSprites("src/main/resources/rock_projectile_sprites.yaml");
     }
 
