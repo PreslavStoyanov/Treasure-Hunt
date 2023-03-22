@@ -11,11 +11,11 @@ import static utilities.sound.Sound.CURSOR;
 
 public record CharacterScreenKeyboardHandler(GamePanel gp)
 {
-    public void handleCharacterScreenKeys(int keyPressed)
+    public void handleCharacterScreenKeys(KeyEvent keyPressed)
     {
-        switch (keyPressed)
+        switch (keyPressed.getKeyCode())
         {
-            case KeyEvent.VK_Q, KeyEvent.VK_ESCAPE -> quitCharacterScreen();
+            case KeyEvent.VK_Q, KeyEvent.VK_ESCAPE -> gp.setGameState(PLAY_STATE);
             case KeyEvent.VK_E, KeyEvent.VK_ENTER -> selectItem();
             case KeyEvent.VK_W, KeyEvent.VK_UP -> moveInventoryCursorUp();
             case KeyEvent.VK_S, KeyEvent.VK_DOWN -> moveInventoryCursorDown();
@@ -58,10 +58,5 @@ public record CharacterScreenKeyboardHandler(GamePanel gp)
     {
         inventorySlotCursorCol = Math.min(++inventorySlotCursorCol, INVENTORY_COLS - 1);
         gp.soundHandler.playSoundEffect(CURSOR);
-    }
-
-    private void quitCharacterScreen()
-    {
-        gp.setGameState(PLAY_STATE);
     }
 }

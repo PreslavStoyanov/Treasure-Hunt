@@ -9,9 +9,9 @@ import static utilities.GameState.HOME_STATE;
 public record HelpScreenKeyboardHandler(GamePanel gp)
 {
 
-    public void handleHelpScreenKeys(int keyPressed)
+    public void handleHelpScreenKeys(KeyEvent keyPressed)
     {
-        if (keyPressed == KeyEvent.VK_ENTER)
+        if (keyPressed.getKeyCode() == KeyEvent.VK_ENTER)
         {
             openHomeScreen();
         }

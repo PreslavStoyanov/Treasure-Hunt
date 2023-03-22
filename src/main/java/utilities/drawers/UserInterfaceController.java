@@ -20,13 +20,13 @@ public class UserInterfaceController
     protected static Graphics2D g2;
 
     private final GamePanel gp;
-    private final PlayerLifeDrawer playerLifeDrawer;
+    private final PlayerStatsDrawer playerStatsDrawer;
 
     public UserInterfaceController(GamePanel gp)
     {
         this.gp = gp;
         pixelFont = loadFont();
-        playerLifeDrawer = new PlayerLifeDrawer();
+        playerStatsDrawer = new PlayerStatsDrawer();
     }
 
     public void draw(Graphics2D g2)
@@ -38,7 +38,7 @@ public class UserInterfaceController
 
         if (playableStates.contains(gameState))
         {
-            playerLifeDrawer.drawPlayerLife(gp.player);
+            playerStatsDrawer.drawPlayerStats(gp.player);
         }
 
         switch (gp.getGameState())

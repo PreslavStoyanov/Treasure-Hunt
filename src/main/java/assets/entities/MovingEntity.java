@@ -7,28 +7,42 @@ import assets.entities.movingentities.sprites.Sprites;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static application.GamePanel.tileSize;
 import static assets.entities.MovingEntity.Direction.*;
 
-public class MovingEntity extends Entity
+public abstract class MovingEntity extends Entity
 {
     public final ObjectMapper objectMapper;
     public Direction direction = DOWN;
     public Sprites sprites = new Sprites();
     public int movingSpeed;
     public boolean isContactingPlayer;
-    public int actionLockCounter;
-    public int spriteCounter = 0;
     public int spriteNumber = 0;
 
     public MovingEntity(GamePanel gp)
     {
         super(gp);
         objectMapper = new ObjectMapper(new YAMLFactory());
+    }
+
+    @Override
+    public void draw(Graphics2D g2)
+    {
+        int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
+        int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
+        if (worldX + tileSize > gp.player.worldX - gp.player.screenX
+                && worldX - tileSize < gp.player.worldX + gp.player.screenX
+                && worldY + tileSize > gp.player.worldY - gp.player.screenY
+                && worldY - tileSize < gp.player.worldY + gp.player.screenY)
+        {
+            g2.drawImage(switchWalkingSpritesByDirection(), screenX, screenY, tileSize, tileSize, null);
+        }
     }
 
     public void update()
@@ -71,21 +85,13 @@ public class MovingEntity extends Entity
         changeSpriteNumber();
     }
 
-    public void changeMovingDirection()
-    {
+    public abstract void changeMovingDirection();
 
-    }
-
-    public void interactWithEntities()
-    {
-
-    }
+    public abstract void interactWithEntities();
 
     private void changeSpriteNumber() {
-        spriteCounter++;
-        if (spriteCounter > (sprites.getDefaultUpSprites().size() * 5) / movingSpeed) {
+        if (gp.getFrameCounter() % ((sprites.getDefaultUpSprites().size() * 5) / movingSpeed) == 0) {
             spriteNumber = (spriteNumber + 1) % sprites.getDefaultUpSprites().size();
-            spriteCounter = 0;
         }
     }
 

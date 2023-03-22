@@ -7,13 +7,15 @@ import java.util.Properties;
 
 public class Application
 {
-    public static Properties properties;
+    public static Properties defaultImagesUrls = new Properties();
+    public static Properties soundsUrls = new Properties();
 
     public static void main(String[] args) throws IOException
     {
-        properties = new Properties();
-        FileInputStream fileInputStream = new FileInputStream("src/main/resources/application.properties");
-        properties.load(fileInputStream);
+        FileInputStream fileInputStream = new FileInputStream("src/main/resources/defaultImages.properties");
+        defaultImagesUrls.load(fileInputStream);
+        fileInputStream = new FileInputStream("src/main/resources/sounds.properties");
+        soundsUrls.load(fileInputStream);
 
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

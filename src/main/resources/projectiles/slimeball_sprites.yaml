@@ -1,0 +1,8 @@
+defaultUpSprites:
+  - image: /projectiles/slimeball.png
+defaultDownSprites:
+  - image: /projectiles/slimeball.png
+defaultLeftSprites:
+  - image: /projectiles/slimeball.png
+defaultRightSprites:
+  - image: /projectiles/slimeball.png

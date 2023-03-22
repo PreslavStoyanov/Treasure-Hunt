@@ -39,7 +39,7 @@ public class TileManager
     {
         try
         {
-            return objectMapper.readValue(new File("src/main/resources/tiles.yaml"), Tiles.class);
+            return objectMapper.readValue(new File("src/main/resources/tiles/tiles.yaml"), Tiles.class);
         }
         catch (IOException e)
         {

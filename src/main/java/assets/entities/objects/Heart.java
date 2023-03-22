@@ -5,7 +5,7 @@ import assets.entities.Object;
 
 import java.awt.image.BufferedImage;
 
-import static application.Application.properties;
+import static application.Application.defaultImagesUrls;
 import static assets.EntityType.HEART;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
@@ -20,8 +20,8 @@ public class Heart extends Object
         super(gp);
         name = "Heart";
         type = HEART;
-        fullHeart = setupDefaultImage(properties.get("images.fullHeart"));
-        halfHeart = setupDefaultImage(properties.get("images.halfHeart"));
-        blankHeart = setupDefaultImage(properties.get("images.blankHeart"));
+        fullHeart = setupDefaultImage(defaultImagesUrls.get("fullHeart"));
+        halfHeart = setupDefaultImage(defaultImagesUrls.get("halfHeart"));
+        blankHeart = setupDefaultImage(defaultImagesUrls.get("blankHeart"));
     }
 }

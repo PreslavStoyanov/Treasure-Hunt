@@ -8,7 +8,10 @@ import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSl
 import assets.entities.movingentities.liveentities.artificials.npcs.OldMan;
 import assets.entities.movingentities.liveentities.artificials.npcs.OldWoman;
 import assets.entities.objects.*;
-import assets.entities.objects.weapons.Axe;
+import assets.entities.objects.usableobjects.Boots;
+import assets.entities.objects.usableobjects.HealthPotion;
+import assets.entities.objects.usableobjects.Key;
+import assets.entities.objects.usableobjects.weapons.Axe;
 
 import static application.GamePanel.tileSize;
 

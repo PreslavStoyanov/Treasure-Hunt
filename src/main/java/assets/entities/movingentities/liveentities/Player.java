@@ -2,15 +2,17 @@ package assets.entities.movingentities.liveentities;
 
 import application.GamePanel;
 import assets.EntityType;
-import assets.entities.movingentities.AliveEntity;
 import assets.entities.Object;
+import assets.entities.movingentities.AliveEntity;
 import assets.entities.movingentities.liveentities.artificials.Monster;
 import assets.entities.movingentities.liveentities.artificials.Npc;
-import assets.entities.objects.DefenseObject;
-import assets.entities.objects.Weapon;
-import assets.entities.objects.defenseobjects.Shield;
-import assets.entities.objects.weapons.Sword;
+import assets.entities.movingentities.projectiles.Fireball;
 import assets.entities.movingentities.sprites.AttackingSprite;
+import assets.entities.objects.UsableObject;
+import assets.entities.objects.usableobjects.DefenseObject;
+import assets.entities.objects.usableobjects.Weapon;
+import assets.entities.objects.usableobjects.defenseobjects.Shield;
+import assets.entities.objects.usableobjects.weapons.Sword;
 import utilities.keyboard.KeyboardHandler;
 
 import java.awt.*;
@@ -23,7 +25,6 @@ import static application.GamePanel.*;
 import static assets.EntityType.*;
 import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.*;
-import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.sound.Sound.*;
@@ -31,7 +32,7 @@ import static utilities.sound.Sound.*;
 public class Player extends AliveEntity
 {
     private final KeyboardHandler keyboardHandler;
-    public List<Object> inventory = new ArrayList<>();
+    public List<UsableObject> inventory = new ArrayList<>();
     public int inventoryCapacity;
     public Weapon currentWeapon;
     public DefenseObject currentShield;
@@ -40,6 +41,8 @@ public class Player extends AliveEntity
     public int strength;
     public int agility;
     public boolean isAttacking;
+    public int attackActionTimer = 0;
+    public int energy = 0;
     public final int screenX;
     public final int screenY;
 
@@ -52,7 +55,7 @@ public class Player extends AliveEntity
         screenY = screenHeight / 2 - halfTileSize;
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         setDefaultValues();
-        this.sprites = setSprites("src/main/resources/player_sprites.yaml");
+        this.sprites = setSprites("src/main/resources/player/player_sprites.yaml");
     }
 
     public static int getInventoryItemIndex()
@@ -72,8 +75,7 @@ public class Player extends AliveEntity
 
     public void setDefaultValues()
     {
-        this.worldX = tileSize * 28;
-        this.worldY = tileSize * 28;
+        this.setWorldLocation(tileSize * 28, tileSize * 28);
         this.movingSpeed = 4;
         this.level = 1;
         this.maxLife = 6;
@@ -86,10 +88,11 @@ public class Player extends AliveEntity
         this.isAttacking = false;
         this.currentWeapon = new Sword(gp);
         this.currentShield = new Shield(gp);
+        this.projectile = new Fireball(gp);
         this.inventory.add(currentShield);
         this.inventory.add(currentWeapon);
         this.inventoryCapacity = 20;
-        this.attack = calculateAttack();
+        this.attackValue = calculateAttack();
         this.defense = calculateDefense();
     }
 
@@ -106,25 +109,43 @@ public class Player extends AliveEntity
             hasCollision = gp.collisionChecker.isTileColliding(this);
             interactWithEntities();
 
-            if (!hasCollision && !keyboardHandler.isEPressed)
+            if (!hasCollision && !keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
             {
                 handleMoving();
             }
-
-            keyboardHandler.isEPressed = false;
+        }
+        else if (keyboardHandler.playScreenKeyboardHandler.isShootProjectileButtonPressed
+                && energy == projectile.castEnergyNeeded)
+        {
+            shootProjectile();
+            energy = 0;
+        }
+        else if (keyboardHandler.playScreenKeyboardHandler.isEnergyButtonPressed)
+        {
+            energy = Math.min(++energy, projectile.castEnergyNeeded);
         }
         setInvincibleTime(60);
         if (life <= 0)
         {
+            gp.soundHandler.stop();
+            gp.soundHandler.playSoundEffect(GAME_OVER);
             gp.setGameState(GAME_LOSE_STATE);
         }
     }
 
+    private void shootProjectile()
+    {
+
+        projectile.shoot(this);
+        gp.projectiles.add(projectile);
+        gp.soundHandler.playSoundEffect(FIREBALL_SOUND);
+    }
+
     private boolean isActionButtonPressed()
     {
-        return keyboardHandler.isWPressed || keyboardHandler.isSPressed
-                || keyboardHandler.isAPressed || keyboardHandler.isDPressed
-                || keyboardHandler.isQPressed || keyboardHandler.isEPressed;
+        return keyboardHandler.playScreenKeyboardHandler.isUpPressed || keyboardHandler.playScreenKeyboardHandler.isDownPressed
+                || keyboardHandler.playScreenKeyboardHandler.isLeftPressed || keyboardHandler.playScreenKeyboardHandler.isRightPressed
+                || keyboardHandler.playScreenKeyboardHandler.isInventoryButtonPressed || keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed;
     }
 
     @Override
@@ -176,45 +197,47 @@ public class Player extends AliveEntity
     @Override
     public void interactWithEntities()
     {
-        Optional<Object> object = gp.objects.stream()
-                .filter(obj -> gp.collisionChecker.isObjectColliding(this, obj))
-                .findFirst();
-        object.ifPresent(this::interactWithObject);
+        gp.objects.stream()
+                .filter(object -> gp.collisionChecker.isObjectColliding(this, object))
+                .findFirst().ifPresent(this::interactWithObject);
 
-        Optional<Npc> npc = gp.npcs.stream()
-                .filter(n -> gp.collisionChecker.isLiveEntityColliding(this, n))
-                .findFirst();
-        if (npc.isPresent() && keyboardHandler.isEPressed)
-        {
-            interactWithNpc(npc.get());
-        }
+        gp.npcs.stream()
+                .filter(npc -> gp.collisionChecker.isLiveEntityColliding(this, npc))
+                .findFirst().ifPresent(npc ->
+                {
+                    if (keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
+                    {
+                        interactWithNpc(npc);
+                    }
+                });
 
-        Optional<Monster> monster = gp.monsters.stream()
-                .filter(m -> gp.collisionChecker.isLiveEntityColliding(this, m))
-                .findFirst();
-
-        if (monster.isPresent() && !monster.get().isDying)
-        {
-            contactMonster(monster.get());
-        }
+        gp.monsters.stream()
+                .filter(monster -> gp.collisionChecker.isLiveEntityColliding(this, monster))
+                .findFirst().ifPresent(monster ->
+                {
+                    if (!monster.isDying && !isInvincible)
+                    {
+                        takeDamage(monster.attackValue);
+                    }
+                });
     }
 
     @Override
     public void changeMovingDirection()
     {
-        if (keyboardHandler.isWPressed)
+        if (keyboardHandler.playScreenKeyboardHandler.isUpPressed)
         {
             direction = UP;
         }
-        else if (keyboardHandler.isSPressed)
+        else if (keyboardHandler.playScreenKeyboardHandler.isDownPressed)
         {
             direction = DOWN;
         }
-        else if (keyboardHandler.isAPressed)
+        else if (keyboardHandler.playScreenKeyboardHandler.isLeftPressed)
         {
             direction = LEFT;
         }
-        else if (keyboardHandler.isDPressed)
+        else if (keyboardHandler.playScreenKeyboardHandler.isRightPressed)
         {
             direction = RIGHT;
         }
@@ -223,12 +246,12 @@ public class Player extends AliveEntity
     private void interactWithObject(Object object)
     {
         EntityType objectType = object.type;
-        if (!objectTypes.contains(objectType))
+        if (!OBJECT_TYPES.contains(objectType))
         {
             return;
         }
 
-        if (collectableObjects.contains(objectType))
+        if (USABLE_OBJECTS.contains(objectType))
         {
             if (inventory.size() == inventoryCapacity)
             {
@@ -236,15 +259,15 @@ public class Player extends AliveEntity
                 return;
             }
 
-            collectObject(object);
+            collectObject((UsableObject) object);
         }
-        else if (staticObjects.contains(objectType))
+        else if (STATIC_OBJECTS.contains(objectType))
         {
             interactWithStaticObject(object);
         }
     }
 
-    private void collectObject(Object object)
+    private void collectObject(UsableObject object)
     {
         inventory.add(object);
         gp.objects.remove(object);
@@ -279,7 +302,7 @@ public class Player extends AliveEntity
 
     private void interactWithDoor(Object door)
     {
-        Optional<Object> keyToRemove = gp.player.inventory.stream()
+        Optional<UsableObject> keyToRemove = gp.player.inventory.stream()
                 .filter(obj -> obj.type.equals(KEY))
                 .findFirst();
 
@@ -298,7 +321,7 @@ public class Player extends AliveEntity
 
     private void interactWithMonkey(Object monkey)
     {
-        Optional<Object> keyToRemove = gp.player.inventory.stream()
+        Optional<UsableObject> keyToRemove = gp.player.inventory.stream()
                 .filter(obj -> obj.type.equals(KEY))
                 .findFirst();
 
@@ -316,44 +339,31 @@ public class Player extends AliveEntity
 
     private void interactWithChest()
     {
-        gp.setGameState(GAME_WIN_STATE);
         gp.soundHandler.stop();
         gp.soundHandler.playSoundEffect(WIN);
+        gp.setGameState(GAME_WIN_STATE);
     }
 
     private void interactWithNpc(Npc npc)
     {
         gp.setGameState(DIALOGUE_STATE);
         npc.speak();
-        keyboardHandler.isEPressed = false;
+        keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed = false;
     }
 
-    private void contactMonster(Monster monster)
+    @Override
+    public void takeDamage(int damage)
     {
-        if (isInvincible)
-        {
-            return;
-        }
         gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
-        gp.player.decreaseLife(monster.attack - defense);
-        isInvincible = true;
+        super.takeDamage(damage);
     }
 
-    private void damageMonster(Monster monster)
+    public void collectExpAndCheckForLevelingUp(int collectedExp)
     {
-        gp.soundHandler.playSoundEffect(HIT);
-        monster.decreaseLife(attack - monster.defense);
-        monster.isInvincible = true;
-        monster.reactToDamage();
-        if (monster.life <= 0)
+        exp += collectedExp;
+        if (exp >= level * 5)
         {
-            monster.isDying = true;
-            addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
-            exp += monster.exp;
-            if (exp >= level * 5)
-            {
-                levelUp();
-            }
+            levelUp();
         }
     }
 
@@ -365,17 +375,16 @@ public class Player extends AliveEntity
         strength++;
         agility++;
 
-        attack = calculateAttack();
+        attackValue = calculateAttack();
         defense = calculateDefense();
         gp.soundHandler.playSoundEffect(LEVEL_UP);
-        gp.setGameState(DIALOGUE_STATE);
-        currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
+        addMessage(String.format("You are level %d now! You feel stronger!", level));
     }
 
     private void attack()
     {
-        spriteCounter++;
-        if (spriteCounter == 2)
+        attackActionTimer++;
+        if (attackActionTimer == 2)
         {
             switch (currentWeapon.type)
             {
@@ -383,24 +392,33 @@ public class Player extends AliveEntity
                 case AXE -> gp.soundHandler.playSoundEffect(SWING_AXE);
             }
         }
-        if (spriteCounter <= 5)
+        else if (attackActionTimer <= 5)
         {
             spriteNumber = 1;
         }
-        if (spriteCounter > 5 && spriteCounter <= 25)
+        else if (attackActionTimer <= 25)
         {
             spriteNumber = 2;
-            Optional<Monster> monster = getOptionalMonsterCollidingWithAttack();
-            if (monster.isPresent() && !monster.get().isInvincible)
-            {
-                damageMonster(monster.get());
-            }
+            getOptionalMonsterCollidingWithAttack().ifPresent(monster -> damageMonster(monster, attackValue));
         }
-        if (spriteCounter > 25)
+        else
         {
             spriteNumber = 1;
-            spriteCounter = 0;
+            attackActionTimer = 0;
             isAttacking = false;
+        }
+    }
+
+    public void damageMonster(Monster monster, int damage)
+    {
+        if (!monster.isInvincible)
+        {
+            monster.takeDamage(damage);
+            if (monster.isDying)
+            {
+                addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
+                collectExpAndCheckForLevelingUp(monster.exp);
+            }
         }
     }
 

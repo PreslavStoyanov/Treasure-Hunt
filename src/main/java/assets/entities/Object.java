@@ -7,9 +7,8 @@ import java.awt.*;
 
 import static application.GamePanel.tileSize;
 
-public class Object extends Entity
+public abstract class Object extends Entity
 {
-
     public String description;
 
     public Object(GamePanel gp)
@@ -23,10 +22,5 @@ public class Object extends Entity
         int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
         g2.drawImage(image, screenX, screenY, tileSize, tileSize, null);
-    }
-
-    public void useItem()
-    {
-
     }
 }

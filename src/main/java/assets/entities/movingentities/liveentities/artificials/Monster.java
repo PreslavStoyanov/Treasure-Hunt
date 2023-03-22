@@ -6,7 +6,8 @@ import assets.entities.movingentities.liveentities.Artificial;
 import java.awt.*;
 
 import static application.GamePanel.tileSize;
-import static assets.EntityType.monstersTypes;
+import static assets.EntityType.MONSTER_TYPES;
+import static utilities.sound.Sound.HIT;
 import static utilities.sound.Sound.RECEIVE_DAMAGE;
 
 public class Monster extends Artificial
@@ -30,7 +31,7 @@ public class Monster extends Artificial
         int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
 
-        if (monstersTypes.contains(type) && isHpBarOn)
+        if (MONSTER_TYPES.contains(type) && isHpBarOn)
         {
             drawHpBar(g2, screenX, screenY);
         }
@@ -56,8 +57,17 @@ public class Monster extends Artificial
         super.update();
         if (!gp.player.isInvincible && isContactingPlayer)
         {
-            handleMonsterDamage();
+            gp.player.takeDamage(attackValue);
         }
+    }
+
+    @Override
+    public void takeDamage(int damage)
+    {
+        gp.soundHandler.playSoundEffect(HIT);
+        super.takeDamage(damage);
+        reactToDamage();
+        isDying = life <= 0;
     }
 
     public void reactToDamage()
@@ -82,13 +92,6 @@ public class Monster extends Artificial
             hpBarCounter = 0;
             isHpBarOn = false;
         }
-    }
-
-    private void handleMonsterDamage()
-    {
-        gp.player.decreaseLife(this.attack - gp.player.defense);
-        gp.player.isInvincible = true;
-        gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
     }
 
     private void dyingAnimation(Graphics2D g2)

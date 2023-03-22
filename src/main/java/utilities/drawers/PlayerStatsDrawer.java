@@ -2,34 +2,54 @@ package utilities.drawers;
 
 import assets.entities.movingentities.liveentities.Player;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static application.Application.properties;
+import static application.Application.defaultImagesUrls;
 import static application.GamePanel.halfTileSize;
 import static application.GamePanel.tileSize;
+import static utilities.drawers.DrawerUtils.drawRoundFilledRect;
+import static utilities.drawers.DrawerUtils.drawRoundRect;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
 import static utilities.images.ImageUtils.setupDefaultImage;
 
-public class PlayerLifeDrawer
+public class PlayerStatsDrawer
 {
     private final BufferedImage heartFull;
     private final BufferedImage heartHalf;
     private final BufferedImage heartBlank;
 
-    public PlayerLifeDrawer()
+    public PlayerStatsDrawer()
     {
-        this.heartFull = setupDefaultImage(properties.get("images.fullHeart"));
-        this.heartHalf = setupDefaultImage(properties.get("images.halfHeart"));
-        this.heartBlank = setupDefaultImage(properties.get("images.blankHeart"));
+        this.heartFull = setupDefaultImage(defaultImagesUrls.get("fullHeart"));
+        this.heartHalf = setupDefaultImage(defaultImagesUrls.get("halfHeart"));
+        this.heartBlank = setupDefaultImage(defaultImagesUrls.get("blankHeart"));
     }
 
-    public void drawPlayerLife(Player player)
+    public void drawPlayerStats(Player player)
     {
         g2.setFont(pixelFont);
         drawBlankHearts(player.maxLife);
         drawHalfHearts(player.life);
         drawFullHearts(player.life);
+        drawPlayerEnergy(player.energy, player.projectile.castEnergyNeeded);
+    }
+
+    private void drawPlayerEnergy(int energy, int castEnergyNeeded)
+    {
+        double oneScale = (double) tileSize / castEnergyNeeded;
+        double energyBarValue = oneScale * energy;
+
+        drawRoundFilledRect(halfTileSize, tileSize + halfTileSize,
+                tileSize * 3, halfTileSize,
+                new Color(35, 35, 35));
+
+        drawRoundFilledRect(halfTileSize, tileSize + halfTileSize,
+                (int) energyBarValue * 3, halfTileSize,
+                new Color(199, 183, 0));
+
+        drawRoundRect(halfTileSize, tileSize + halfTileSize, tileSize * 3, halfTileSize, 2);
     }
 
     private void drawBlankHearts(int maxLife)
