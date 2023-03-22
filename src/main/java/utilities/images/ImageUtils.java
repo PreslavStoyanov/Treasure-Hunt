@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ImageUtils
 {
@@ -19,7 +20,7 @@ public class ImageUtils
     {
         try
         {
-            BufferedImage image = ImageIO.read(Entity.class.getResourceAsStream(imagePath));
+            BufferedImage image = ImageIO.read(Objects.requireNonNull(Entity.class.getResourceAsStream(imagePath)));
             return scaleImage(image, width, height);
         }
         catch (IOException e)
@@ -28,7 +29,7 @@ public class ImageUtils
         }
     }
 
-    public static BufferedImage scaleImage(BufferedImage original, int width, int height)
+    private static BufferedImage scaleImage(BufferedImage original, int width, int height)
     {
         BufferedImage scaledImage = new BufferedImage(width, height, original.getType());
         Graphics2D g2 = scaledImage.createGraphics();

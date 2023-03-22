@@ -17,5 +17,6 @@ public enum Sound
     GOSSIP,
     OPEN_DOOR,
     DRINK_POTION,
-    TAKE_POTION
+    TAKE_POTION,
+    TAKE_AXE
 }

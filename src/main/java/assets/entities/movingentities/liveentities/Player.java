@@ -275,6 +275,7 @@ public class Player extends AliveEntity
         addMessage(String.format("You got %s", object.name));
         switch (object.type)
         {
+            case AXE -> gp.soundHandler.playSoundEffect(TAKE_AXE);
             case HEALTH_POTION -> gp.soundHandler.playSoundEffect(TAKE_POTION);
             case KEY -> gp.soundHandler.playSoundEffect(TAKE_KEY);
             case BOOTS -> interactWithBoots();
