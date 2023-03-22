@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.GameState.PLAY_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
-import static utilities.sound.Sound.CURSOR;
+import static utilities.sound.Sound.MOVE_CURSOR;
 
 public record CharacterScreenKeyboardHandler(GamePanel gp)
 {
@@ -39,24 +39,24 @@ public record CharacterScreenKeyboardHandler(GamePanel gp)
     private void moveInventoryCursorUp()
     {
         inventorySlotCursorRow = Math.max(--inventorySlotCursorRow, 0);
-        gp.soundHandler.playSoundEffect(CURSOR);
+        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
     }
 
     private void moveInventoryCursorDown()
     {
         inventorySlotCursorRow = Math.min(++inventorySlotCursorRow, INVENTORY_ROWS - 1);
-        gp.soundHandler.playSoundEffect(CURSOR);
+        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
     }
 
     private void moveInventoryCursorLeft()
     {
         inventorySlotCursorCol = Math.max(--inventorySlotCursorCol, 0);
-        gp.soundHandler.playSoundEffect(CURSOR);
+        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
     }
 
     private void moveInventoryCursorRight()
     {
         inventorySlotCursorCol = Math.min(++inventorySlotCursorCol, INVENTORY_COLS - 1);
-        gp.soundHandler.playSoundEffect(CURSOR);
+        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
     }
 }

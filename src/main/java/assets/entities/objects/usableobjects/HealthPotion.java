@@ -7,6 +7,7 @@ import static application.Application.defaultImagesUrls;
 import static assets.EntityType.HEALTH_POTION;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultImage;
+import static utilities.sound.Sound.DRINK_POTION;
 import static utilities.sound.Sound.POWER_UP;
 
 public class HealthPotion extends UsableObject
@@ -28,7 +29,7 @@ public class HealthPotion extends UsableObject
     {
         gp.player.increaseLife(value);
         gp.player.inventory.remove(this);
-        gp.soundHandler.playSoundEffect(POWER_UP);
+        gp.soundHandler.playSoundEffect(DRINK_POTION);
         addMessage("You gained 2 hearts!");
     }
 }

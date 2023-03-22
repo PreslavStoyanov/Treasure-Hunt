@@ -12,24 +12,27 @@ import static utilities.sound.Sound.*;
 public class SoundHandler
 {
     private Clip clip;
-    private final Map<Sound, URL> sounds;
+    private final Map<Sound, URL> soundUrls;
 
     public SoundHandler()
     {
-        this.sounds = new HashMap<>();
-        sounds.put(PLAYBACK, getSoundUrl("playback"));
-        sounds.put(COIN, getSoundUrl("coin"));
-        sounds.put(POWER_UP, getSoundUrl("power-up"));
-        sounds.put(UNLOCK, getSoundUrl("unlock"));
-        sounds.put(WIN, getSoundUrl("win-sound"));
-        sounds.put(GAME_OVER, getSoundUrl("gameover"));
-        sounds.put(HIT, getSoundUrl("hit"));
-        sounds.put(RECEIVE_DAMAGE, getSoundUrl("receive-damage"));
-        sounds.put(SWING_SWORD, getSoundUrl("swing-sword"));
-        sounds.put(SWING_AXE, getSoundUrl("swing-axe"));
-        sounds.put(FIREBALL_SOUND, getSoundUrl("fireball-sound"));
-        sounds.put(LEVEL_UP, getSoundUrl("level-up"));
-        sounds.put(CURSOR, getSoundUrl("cursor"));
+        this.soundUrls = new HashMap<>();
+        soundUrls.put(MAIN_BACKGROUND_MUSIC, getSoundUrl("main-background-music"));
+        soundUrls.put(POWER_UP, getSoundUrl("power-up"));
+        soundUrls.put(LEVEL_UP, getSoundUrl("level-up"));
+        soundUrls.put(WIN_SOUND, getSoundUrl("win-sound"));
+        soundUrls.put(GAMEOVER_SOUND, getSoundUrl("gameover-sound"));
+        soundUrls.put(HIT_MONSTER, getSoundUrl("hit-monster"));
+        soundUrls.put(RECEIVE_DAMAGE, getSoundUrl("receive-damage"));
+        soundUrls.put(SWING_SWORD, getSoundUrl("swing-sword"));
+        soundUrls.put(SWING_AXE, getSoundUrl("swing-axe"));
+        soundUrls.put(FIREBALL_SOUND, getSoundUrl("fireball-sound"));
+        soundUrls.put(MOVE_CURSOR, getSoundUrl("move-cursor"));
+        soundUrls.put(GOSSIP, getSoundUrl("gossip"));
+        soundUrls.put(OPEN_DOOR, getSoundUrl("open-door"));
+        soundUrls.put(TAKE_KEY, getSoundUrl("take-key"));
+        soundUrls.put(TAKE_POTION, getSoundUrl("take-potion"));
+        soundUrls.put(DRINK_POTION, getSoundUrl("drink-potion"));
     }
 
     public void playMusic(Sound sound)
@@ -57,7 +60,7 @@ public class SoundHandler
 
     private void setFile(Sound sound)
     {
-        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(sounds.get(sound)))
+        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrls.get(sound)))
         {
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
