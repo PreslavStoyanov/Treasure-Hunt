@@ -5,6 +5,7 @@ import application.GamePanel;
 import java.awt.event.KeyEvent;
 
 import static utilities.GameState.HOME_STATE;
+import static utilities.sound.Sound.MOVE_CURSOR;
 
 public record HelpScreenKeyboardHandler(GamePanel gp)
 {
@@ -13,12 +14,8 @@ public record HelpScreenKeyboardHandler(GamePanel gp)
     {
         if (keyPressed.getKeyCode() == KeyEvent.VK_ENTER)
         {
-            openHomeScreen();
+            gp.soundHandler.playSoundEffect(MOVE_CURSOR);
+            gp.setGameState(HOME_STATE);
         }
-    }
-
-    private void openHomeScreen()
-    {
-        gp.setGameState(HOME_STATE);
     }
 }

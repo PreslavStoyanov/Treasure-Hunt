@@ -12,24 +12,27 @@ import static utilities.sound.Sound.*;
 public class SoundHandler
 {
     private Clip clip;
-    private final Map<Sound, URL> sounds;
+    private final Map<Sound, URL> sounds = new HashMap<>();
 
     public SoundHandler()
     {
-        this.sounds = new HashMap<>();
-        sounds.put(PLAYBACK, getSoundUrl("playback"));
-        sounds.put(COIN, getSoundUrl("coin"));
+        sounds.put(MAIN_BACKGROUND_MUSIC, getSoundUrl("main-background-music"));
         sounds.put(POWER_UP, getSoundUrl("power-up"));
-        sounds.put(UNLOCK, getSoundUrl("unlock"));
-        sounds.put(WIN, getSoundUrl("win-sound"));
-        sounds.put(GAME_OVER, getSoundUrl("gameover"));
-        sounds.put(HIT, getSoundUrl("hit"));
+        sounds.put(LEVEL_UP, getSoundUrl("level-up"));
+        sounds.put(WIN_SOUND, getSoundUrl("win-sound"));
+        sounds.put(GAMEOVER_SOUND, getSoundUrl("gameover-sound"));
+        sounds.put(HIT_MONSTER, getSoundUrl("hit-monster"));
         sounds.put(RECEIVE_DAMAGE, getSoundUrl("receive-damage"));
         sounds.put(SWING_SWORD, getSoundUrl("swing-sword"));
         sounds.put(SWING_AXE, getSoundUrl("swing-axe"));
         sounds.put(FIREBALL_SOUND, getSoundUrl("fireball-sound"));
-        sounds.put(LEVEL_UP, getSoundUrl("level-up"));
-        sounds.put(CURSOR, getSoundUrl("cursor"));
+        sounds.put(MOVE_CURSOR, getSoundUrl("move-cursor"));
+        sounds.put(GOSSIP, getSoundUrl("gossip"));
+        sounds.put(OPEN_DOOR, getSoundUrl("open-door"));
+        sounds.put(TAKE_KEY, getSoundUrl("take-key"));
+        sounds.put(TAKE_POTION, getSoundUrl("take-potion"));
+        sounds.put(TAKE_AXE, getSoundUrl("take-axe"));
+        sounds.put(DRINK_POTION, getSoundUrl("drink-potion"));
     }
 
     public void playMusic(Sound sound)

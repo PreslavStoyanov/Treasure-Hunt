@@ -7,8 +7,7 @@ import java.awt.*;
 
 import static application.GamePanel.tileSize;
 import static assets.EntityType.MONSTER_TYPES;
-import static utilities.sound.Sound.HIT;
-import static utilities.sound.Sound.RECEIVE_DAMAGE;
+import static utilities.sound.Sound.HIT_MONSTER;
 
 public class Monster extends Artificial
 {
@@ -64,7 +63,7 @@ public class Monster extends Artificial
     @Override
     public void takeDamage(int damage)
     {
-        gp.soundHandler.playSoundEffect(HIT);
+        gp.soundHandler.playSoundEffect(HIT_MONSTER);
         super.takeDamage(damage);
         reactToDamage();
         isDying = life <= 0;

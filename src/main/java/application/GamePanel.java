@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static utilities.GameState.*;
-import static utilities.sound.Sound.PLAYBACK;
+import static utilities.sound.Sound.MAIN_BACKGROUND_MUSIC;
 
 public class GamePanel extends JPanel implements Runnable
 {
@@ -89,7 +89,7 @@ public class GamePanel extends JPanel implements Runnable
         entitySetter.setNpcs();
         entitySetter.setMonsters();
         setGameState(PLAY_STATE);
-        soundHandler.playMusic(PLAYBACK);
+        soundHandler.playMusic(MAIN_BACKGROUND_MUSIC);
     }
 
     public void startGameThread()

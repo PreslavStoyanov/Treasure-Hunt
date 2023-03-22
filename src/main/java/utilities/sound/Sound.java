@@ -2,17 +2,21 @@ package utilities.sound;
 
 public enum Sound
 {
-    PLAYBACK,
-    COIN,
+    MAIN_BACKGROUND_MUSIC,
+    TAKE_KEY,
     POWER_UP,
-    UNLOCK,
-    WIN,
-    GAME_OVER,
-    HIT,
+    WIN_SOUND,
+    GAMEOVER_SOUND,
+    HIT_MONSTER,
     RECEIVE_DAMAGE,
     SWING_SWORD,
     SWING_AXE,
     FIREBALL_SOUND,
     LEVEL_UP,
-    CURSOR
+    MOVE_CURSOR,
+    GOSSIP,
+    OPEN_DOOR,
+    DRINK_POTION,
+    TAKE_POTION,
+    TAKE_AXE
 }

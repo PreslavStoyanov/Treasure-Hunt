@@ -8,6 +8,7 @@ import static utilities.GameState.HELP_STATE;
 import static utilities.GameState.PLAY_STATE;
 import static utilities.drawers.HomeScreenDrawer.HomeMenuOption.*;
 import static utilities.drawers.HomeScreenDrawer.homeMenuOption;
+import static utilities.sound.Sound.MOVE_CURSOR;
 
 public record HomeScreenKeyboardHandler(GamePanel gp)
 {
@@ -24,6 +25,7 @@ public record HomeScreenKeyboardHandler(GamePanel gp)
 
     private void moveSelectionUp()
     {
+        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
         if (homeMenuOption.equals(NEW_GAME))
         {
             homeMenuOption = QUIT;
@@ -40,6 +42,7 @@ public record HomeScreenKeyboardHandler(GamePanel gp)
 
     private void moveSelectionDown()
     {
+        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
         if (homeMenuOption.equals(NEW_GAME))
         {
             homeMenuOption = HELP;
@@ -62,11 +65,12 @@ public record HomeScreenKeyboardHandler(GamePanel gp)
         }
         if (homeMenuOption.equals(HELP))
         {
-            openHelpScreen();
+            gp.soundHandler.playSoundEffect(MOVE_CURSOR);
+            gp.setGameState(HELP_STATE);
         }
         if (homeMenuOption.equals(QUIT))
         {
-            quitGame();
+            System.exit(0);
         }
     }
 
@@ -74,15 +78,5 @@ public record HomeScreenKeyboardHandler(GamePanel gp)
     {
         gp.setGameState(PLAY_STATE);
         gp.setUpNewGame();
-    }
-
-    private void openHelpScreen()
-    {
-        gp.setGameState(HELP_STATE);
-    }
-
-    private static void quitGame()
-    {
-        System.exit(0);
     }
 }

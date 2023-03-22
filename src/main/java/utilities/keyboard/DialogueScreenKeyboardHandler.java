@@ -13,8 +13,10 @@ public record DialogueScreenKeyboardHandler(GamePanel gp)
     {
         switch (keyPressed.getKeyCode())
         {
-            case KeyEvent.VK_E, KeyEvent.VK_ESCAPE -> gp.setGameState(PLAY_STATE);
-            case KeyEvent.VK_P -> gp.setGameState(PAUSE_STATE);
+            case KeyEvent.VK_E, KeyEvent.VK_ESCAPE -> {
+                gp.setGameState(PLAY_STATE);
+                gp.soundHandler.stop();
+            }
         }
     }
 }

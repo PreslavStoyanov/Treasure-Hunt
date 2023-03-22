@@ -43,7 +43,7 @@ public class EntitySetter
     public void setNpcs()
     {
         gp.npcs.add(new OldMan(gp, 27, 26));
-        gp.npcs.add(new OldWoman(gp, 29, 12));
+        gp.npcs.add(new OldWoman(gp, 31, 10));
     }
 
     public void setObjects()

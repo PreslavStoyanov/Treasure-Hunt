@@ -14,6 +14,7 @@ import assets.entities.objects.usableobjects.Weapon;
 import assets.entities.objects.usableobjects.defenseobjects.Shield;
 import assets.entities.objects.usableobjects.weapons.Sword;
 import utilities.keyboard.KeyboardHandler;
+import utilities.sound.Sound;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -128,7 +129,7 @@ public class Player extends AliveEntity
         if (life <= 0)
         {
             gp.soundHandler.stop();
-            gp.soundHandler.playSoundEffect(GAME_OVER);
+            gp.soundHandler.playSoundEffect(GAMEOVER_SOUND);
             gp.setGameState(GAME_LOSE_STATE);
         }
     }
@@ -274,7 +275,9 @@ public class Player extends AliveEntity
         addMessage(String.format("You got %s", object.name));
         switch (object.type)
         {
-            case KEY -> interactWithKey();
+            case AXE -> gp.soundHandler.playSoundEffect(TAKE_AXE);
+            case HEALTH_POTION -> gp.soundHandler.playSoundEffect(TAKE_POTION);
+            case KEY -> gp.soundHandler.playSoundEffect(TAKE_KEY);
             case BOOTS -> interactWithBoots();
         }
     }
@@ -287,11 +290,6 @@ public class Player extends AliveEntity
             case MONKEY -> interactWithMonkey(object);
             case CHEST -> interactWithChest();
         }
-    }
-
-    private void interactWithKey()
-    {
-        gp.soundHandler.playSoundEffect(COIN);
     }
 
     private void interactWithBoots()
@@ -309,7 +307,7 @@ public class Player extends AliveEntity
         if (keyToRemove.isPresent())
         {
             gp.player.inventory.remove(keyToRemove.get());
-            gp.soundHandler.playSoundEffect(UNLOCK);
+            gp.soundHandler.playSoundEffect(OPEN_DOOR);
             gp.objects.remove(door);
             addMessage("Door opened!");
         }
@@ -340,13 +338,14 @@ public class Player extends AliveEntity
     private void interactWithChest()
     {
         gp.soundHandler.stop();
-        gp.soundHandler.playSoundEffect(WIN);
+        gp.soundHandler.playSoundEffect(WIN_SOUND);
         gp.setGameState(GAME_WIN_STATE);
     }
 
     private void interactWithNpc(Npc npc)
     {
         gp.setGameState(DIALOGUE_STATE);
+        gp.soundHandler.playSoundEffect(GOSSIP);
         npc.speak();
         keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed = false;
     }
