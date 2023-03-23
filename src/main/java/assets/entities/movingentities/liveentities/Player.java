@@ -327,6 +327,7 @@ public class Player extends AliveEntity
         {
             gp.player.inventory.remove(keyToRemove.get());
             gp.objects.remove(monkey);
+            gp.soundHandler.playSoundEffect(MONKEY_LAUGH);
             addMessage("The monkey robbed you and ran out!");
         }
         else

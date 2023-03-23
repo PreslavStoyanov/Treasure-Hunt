@@ -41,7 +41,7 @@ public abstract class AliveEntity extends MovingEntity
 
     public void takeDamage(int damage)
     {
-        decreaseLife(damage - defense);
+        decreaseLife(Math.max(damage - defense, 0));
         isInvincible = true;
     }
 

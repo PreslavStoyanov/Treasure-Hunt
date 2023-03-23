@@ -5,7 +5,11 @@ import assets.EntityType;
 import assets.entities.movingentities.liveentities.artificials.Monster;
 import assets.entities.movingentities.projectiles.Slimeball;
 
+import java.util.Random;
+
 import static application.GamePanel.tileSize;
+import static assets.entities.MovingEntity.Direction.*;
+import static assets.entities.MovingEntity.Direction.RIGHT;
 
 public class GreenSlime extends Monster
 {
@@ -33,7 +37,7 @@ public class GreenSlime extends Monster
     public void update()
     {
         super.update();
-        if (gp.getFrameCounter() % 120 == 0)
+        if (gp.getFrameCounter() % 120 == 0 && new Random().nextInt(3) == 2)
         {
             projectile.shoot(this);
             gp.projectiles.add(projectile);

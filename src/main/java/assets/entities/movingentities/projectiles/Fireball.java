@@ -8,7 +8,7 @@ public class Fireball extends Projectile
     public Fireball(GamePanel gp)
     {
         super(gp);
-        this.solidArea.setSize(15, 15);
+        this.solidArea.setSize(20, 20);
         this.name = "Fireball";
         this.movingSpeed = 3;
         this.attackValue = 2;

@@ -33,6 +33,7 @@ public class SoundHandler
         sounds.put(TAKE_POTION, getSoundUrl("take-potion"));
         sounds.put(TAKE_AXE, getSoundUrl("take-axe"));
         sounds.put(DRINK_POTION, getSoundUrl("drink-potion"));
+        sounds.put(MONKEY_LAUGH, getSoundUrl("monkey-laugh"));
     }
 
     public void playMusic(Sound sound)

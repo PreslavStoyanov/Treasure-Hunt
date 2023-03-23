@@ -43,10 +43,10 @@ public abstract class Projectile extends MovingEntity
     public void update()
     {
         handleMoving();
-        if (gp.collisionChecker.isTileColliding(this))
-        {
-            setFlying(false);
-        }
+//        if (gp.collisionChecker.isTileColliding(this))
+//        {
+//            setFlying(false);
+//        }
         interactWithEntities();
         flightTime++;
         if (flightTime > maxFlightTime)

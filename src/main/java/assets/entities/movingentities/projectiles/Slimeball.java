@@ -8,7 +8,7 @@ public class Slimeball extends Projectile
     public Slimeball(GamePanel gp)
     {
         super(gp);
-        this.solidArea.setSize(15, 15);
+        this.solidArea.setSize(20, 20);
         this.name = "Slimeball";
         this.movingSpeed = 2;
         this.attackValue = 2;
