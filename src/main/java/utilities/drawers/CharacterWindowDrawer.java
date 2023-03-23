@@ -30,16 +30,12 @@ public class CharacterWindowDrawer
         float textX = FRAME_X + 20;
         float textY = FRAME_Y + tileSize;
         drawListWithSameMargin(List.of(
-                        "Life",
                         "Level",
                         "Strength",
                         "Agility",
                         "Attack",
                         "Defense",
-                        "Exp",
-                        "Coins",
-                        "Weapon",
-                        "Shield"),
+                        "Coins"),
                 LINE_HEIGHT, textX, textY);
     }
 
@@ -48,19 +44,12 @@ public class CharacterWindowDrawer
         int textX = FRAME_X + FRAME_WIDTH - 30;
         int textY = FRAME_Y + tileSize;
         drawListWithSameMarginRightAligned(List.of(
-                        String.format("%d/%d", player.life, player.maxLife),
                         String.valueOf(player.level),
                         String.valueOf(player.strength),
                         String.valueOf(player.agility),
                         String.valueOf(player.attackValue),
                         String.valueOf(player.defense),
-                        String.format("%d/%d", player.exp, player.level * 5),
                         String.valueOf(player.coins)),
                 LINE_HEIGHT, textX, textY);
-
-        g2.drawImage(player.currentWeapon.image.getScaledInstance(halfTileSize, halfTileSize, 1),
-                textX - halfTileSize, textY + LINE_HEIGHT * 6 + tileSize, null);
-        g2.drawImage(player.currentShield.image.getScaledInstance(halfTileSize, halfTileSize, 1),
-                textX - halfTileSize, textY + LINE_HEIGHT * 7 + tileSize, null);
     }
 }

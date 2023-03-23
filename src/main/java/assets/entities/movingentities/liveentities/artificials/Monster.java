@@ -6,7 +6,7 @@ import assets.entities.movingentities.liveentities.Artificial;
 import java.awt.*;
 
 import static application.GamePanel.tileSize;
-import static assets.EntityType.MONSTER_TYPES;
+import static utilities.drawers.DrawerUtils.drawFillingBar;
 import static utilities.sound.Sound.HIT_MONSTER;
 
 public class Monster extends Artificial
@@ -30,7 +30,7 @@ public class Monster extends Artificial
         int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
 
-        if (MONSTER_TYPES.contains(type) && isHpBarOn)
+        if (isHpBarOn)
         {
             drawHpBar(g2, screenX, screenY);
         }
@@ -76,14 +76,7 @@ public class Monster extends Artificial
 
     private void drawHpBar(Graphics2D g2, int screenX, int screenY)
     {
-        double oneScale = (double) tileSize / maxLife;
-        double hpBarValue = oneScale * life;
-
-        g2.setColor(new Color(35, 35, 35));
-        g2.fillRect(screenX - 1, screenY - 16, tileSize + 2, 12);
-
-        g2.setColor(new Color(255, 0, 30));
-        g2.fillRect(screenX, screenY - 15, (int) hpBarValue, 10);
+        drawFillingBar(g2, screenX, screenY);
 
         hpBarCounter++;
         if (hpBarCounter > 300)
@@ -91,6 +84,26 @@ public class Monster extends Artificial
             hpBarCounter = 0;
             isHpBarOn = false;
         }
+    }
+
+    /**
+     * There is the same method in DrawerUtils, but it's not drawing.
+     * Probably the problem is in Graphics2D
+     */
+    private void drawFillingBar(Graphics2D g2, int screenX, int screenY)
+    {
+        double oneScale = (double) tileSize / maxLife;
+        double hpBarValue = oneScale * life;
+
+        g2.setColor(new Color(35, 35, 35));
+        g2.fillRoundRect(screenX, screenY - tileSize / 3, tileSize, tileSize / 4, 10, 10);
+
+        g2.setColor(new Color(255, 0, 30));
+        g2.fillRoundRect(screenX, screenY - tileSize / 3, (int) hpBarValue, tileSize / 4, 10, 10);
+
+        g2.setColor(new Color(255, 255, 255));
+        g2.setStroke(new BasicStroke(1));
+        g2.drawRoundRect(screenX, screenY - tileSize / 3, tileSize, tileSize / 4, 10, 10);
     }
 
     private void dyingAnimation(Graphics2D g2)

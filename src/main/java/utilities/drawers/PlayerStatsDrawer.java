@@ -6,10 +6,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static application.Application.defaultImagesUrls;
-import static application.GamePanel.halfTileSize;
-import static application.GamePanel.tileSize;
-import static utilities.drawers.DrawerUtils.drawRoundFilledRect;
-import static utilities.drawers.DrawerUtils.drawRoundRect;
+import static application.GamePanel.*;
+import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
 import static utilities.images.ImageUtils.setupDefaultImage;
@@ -34,22 +32,23 @@ public class PlayerStatsDrawer
         drawHalfHearts(player.life);
         drawFullHearts(player.life);
         drawPlayerEnergy(player.energy, player.projectile.castEnergyNeeded);
+        drawPlayerExpBar(player.exp, player.maxExp);
+    }
+
+    private void drawPlayerExpBar(int exp, int maxExp)
+    {
+        drawFillingBar(exp, maxExp,
+                tileSize * 4, -6,
+                8, tileSize, halfTileSize / 2,
+                1, new Color(147, 178, 6));
     }
 
     private void drawPlayerEnergy(int energy, int castEnergyNeeded)
     {
-        double oneScale = (double) tileSize / castEnergyNeeded;
-        double energyBarValue = oneScale * energy;
-
-        drawRoundFilledRect(halfTileSize, tileSize + halfTileSize,
-                tileSize * 3, halfTileSize,
-                new Color(35, 35, 35));
-
-        drawRoundFilledRect(halfTileSize, tileSize + halfTileSize,
-                (int) energyBarValue * 3, halfTileSize,
-                new Color(199, 183, 0));
-
-        drawRoundRect(halfTileSize, tileSize + halfTileSize, tileSize * 3, halfTileSize, 2);
+        drawFillingBar(energy, castEnergyNeeded,
+                halfTileSize, tileSize + halfTileSize,
+                3, tileSize, halfTileSize,
+                2, new Color(199, 183, 0));
     }
 
     private void drawBlankHearts(int maxLife)

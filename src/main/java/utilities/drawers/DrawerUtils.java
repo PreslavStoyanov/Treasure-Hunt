@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static application.GamePanel.tileSize;
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class DrawerUtils
@@ -24,28 +25,16 @@ public class DrawerUtils
         drawText(text, x, y);
     }
 
-    private static void drawText(String text, float x, float y)
+    public static void drawFillingBar(int value, int valueMax,
+                               int x, int y,
+                               int scale, int width, int height,
+                               int strokeWidth, Color color)
     {
-        g2.setColor(Color.white);
-        g2.drawString(text, x, y);
-    }
-
-    private static void drawShadow(String text, float x, float y)
-    {
-        g2.setColor(Color.black);
-        g2.drawString(text, x + 5, y + 5);
-    }
-
-    private static int getXForCenteredText(String text)
-    {
-        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return GamePanel.screenWidth / 2 - length / 2;
-    }
-
-    public static float getXForAlignToRightText(String text, float tailX)
-    {
-        float length = (float) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return tailX - length;
+        double oneScale = (double) tileSize / valueMax;
+        double barValue = oneScale * value;
+        drawRoundFilledRect(x, y, width * scale, height, new Color(35, 35, 35));
+        drawRoundFilledRect(x, y, (int) barValue * scale, height, color);
+        drawRoundRect(x, y, width * scale, height, strokeWidth);
     }
 
     public static void drawSubWindow(int x, int y, int width, int height, int strokeWidth)
@@ -80,5 +69,29 @@ public class DrawerUtils
     public static void drawListWithSameMargin(List<String> values, float margin, float x, float y)
     {
         IntStream.range(0, values.size()).forEach(i -> g2.drawString(values.get(i), x, y + margin * i));
+    }
+
+    private static void drawText(String text, float x, float y)
+    {
+        g2.setColor(Color.white);
+        g2.drawString(text, x, y);
+    }
+
+    private static void drawShadow(String text, float x, float y)
+    {
+        g2.setColor(Color.black);
+        g2.drawString(text, x + 5, y + 5);
+    }
+
+    private static int getXForCenteredText(String text)
+    {
+        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return GamePanel.screenWidth / 2 - length / 2;
+    }
+
+    private static float getXForAlignToRightText(String text, float tailX)
+    {
+        float length = (float) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return tailX - length;
     }
 }

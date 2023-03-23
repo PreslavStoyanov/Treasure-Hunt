@@ -59,8 +59,7 @@ public class InventoryWindowDrawer
                         new Color(162, 137, 0, 255));
             }
 
-            g2.drawImage(object.image.getScaledInstance(tileSize - 6, tileSize - 6, 1),
-                    itemX + 3, itemY + 3, null);
+            g2.drawImage(object.image, itemX + 3, itemY + 3, tileSize - 6, tileSize - 6, null);
             itemX += tileSize;
 
             if (i == 4 || i == 9 || i == 14)
