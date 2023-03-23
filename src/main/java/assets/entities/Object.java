@@ -21,6 +21,6 @@ public abstract class Object extends Entity
     {
         int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
-        g2.drawImage(image, screenX, screenY, tileSize, tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 }

@@ -41,7 +41,7 @@ public abstract class MovingEntity extends Entity
                 && worldY + tileSize > gp.player.worldY - gp.player.screenY
                 && worldY - tileSize < gp.player.worldY + gp.player.screenY)
         {
-            g2.drawImage(switchWalkingSpritesByDirection(), screenX, screenY, tileSize, tileSize, null);
+            g2.drawImage(switchWalkingSpritesByDirection(), screenX, screenY, null);
         }
     }
 

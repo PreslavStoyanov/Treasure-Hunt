@@ -14,7 +14,6 @@ import assets.entities.objects.usableobjects.Weapon;
 import assets.entities.objects.usableobjects.defenseobjects.Shield;
 import assets.entities.objects.usableobjects.weapons.Sword;
 import utilities.keyboard.KeyboardHandler;
-import utilities.sound.Sound;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -44,6 +43,7 @@ public class Player extends AliveEntity
     public boolean isAttacking;
     public int attackActionTimer = 0;
     public int energy = 0;
+    public int maxExp = 5;
     public final int screenX;
     public final int screenY;
 
@@ -360,9 +360,11 @@ public class Player extends AliveEntity
     public void collectExpAndCheckForLevelingUp(int collectedExp)
     {
         exp += collectedExp;
-        if (exp >= level * 5)
+        if (exp >= maxExp)
         {
             levelUp();
+            exp = 0;
+            maxExp += level;
         }
     }
 
