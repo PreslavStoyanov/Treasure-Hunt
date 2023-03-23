@@ -10,29 +10,36 @@ import static application.GamePanel.*;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
-import static utilities.images.ImageUtils.setupDefaultImage;
+import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
 public class PlayerStatsDrawer
 {
     private final BufferedImage heartFull;
     private final BufferedImage heartHalf;
     private final BufferedImage heartBlank;
+    private final BufferedImage energyImage;
 
     public PlayerStatsDrawer()
     {
-        this.heartFull = setupDefaultImage(defaultImagesUrls.get("fullHeart"));
-        this.heartHalf = setupDefaultImage(defaultImagesUrls.get("halfHeart"));
-        this.heartBlank = setupDefaultImage(defaultImagesUrls.get("blankHeart"));
+        heartFull = setupDefaultSizeImage(defaultImagesUrls.get("fullHeart"));
+        heartHalf = setupDefaultSizeImage(defaultImagesUrls.get("halfHeart"));
+        heartBlank = setupDefaultSizeImage(defaultImagesUrls.get("blankHeart"));
+        energyImage = setupDefaultSizeImage(defaultImagesUrls.get("energy"));
     }
 
     public void drawPlayerStats(Player player)
     {
         g2.setFont(pixelFont);
+        drawHearts(player);
+        drawPlayerEnergy(player.energy, player.maxEnergy);
+        drawPlayerExpBar(player.exp, player.maxExp);
+    }
+
+    private void drawHearts(Player player)
+    {
         drawBlankHearts(player.maxLife);
         drawHalfHearts(player.life);
         drawFullHearts(player.life);
-        drawPlayerEnergy(player.energy, player.projectile.castEnergyNeeded);
-        drawPlayerExpBar(player.exp, player.maxExp);
     }
 
     private void drawPlayerExpBar(int exp, int maxExp)
@@ -43,12 +50,13 @@ public class PlayerStatsDrawer
                 1, new Color(147, 178, 6));
     }
 
-    private void drawPlayerEnergy(int energy, int castEnergyNeeded)
+    private void drawPlayerEnergy(int energy, int maxEnergy)
     {
-        drawFillingBar(energy, castEnergyNeeded,
-                halfTileSize, tileSize + halfTileSize,
+        drawFillingBar(energy, maxEnergy,
+                tileSize, tileSize + halfTileSize,
                 3, tileSize, halfTileSize,
-                2, new Color(199, 183, 0));
+                2, new Color(247, 255, 25));
+        g2.drawImage(energyImage, halfTileSize, tileSize + 16, null);
     }
 
     private void drawBlankHearts(int maxLife)

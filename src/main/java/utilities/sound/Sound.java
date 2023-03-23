@@ -3,7 +3,7 @@ package utilities.sound;
 public enum Sound
 {
     MAIN_BACKGROUND_MUSIC,
-    TAKE_KEY,
+    TAKE_COIN,
     POWER_UP,
     WIN_SOUND,
     GAMEOVER_SOUND,

@@ -13,7 +13,7 @@ public abstract class Entity
     public boolean hasCollision;
     public int worldX;
     public int worldY;
-    public BufferedImage image;
+    public BufferedImage defaultImage;
     public Rectangle solidArea;
     public int solidAreaDefaultX;
     public int solidAreaDefaultY;

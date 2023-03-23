@@ -31,6 +31,7 @@ public class CharacterWindowDrawer
         float textY = FRAME_Y + tileSize;
         drawListWithSameMargin(List.of(
                         "Level",
+                        "Max Energy",
                         "Strength",
                         "Agility",
                         "Attack",
@@ -45,6 +46,7 @@ public class CharacterWindowDrawer
         int textY = FRAME_Y + tileSize;
         drawListWithSameMarginRightAligned(List.of(
                         String.valueOf(player.level),
+                        String.valueOf(player.maxEnergy),
                         String.valueOf(player.strength),
                         String.valueOf(player.agility),
                         String.valueOf(player.attackValue),

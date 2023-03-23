@@ -1,13 +1,13 @@
-package assets.entities.objects.usableobjects.weapons;
+package assets.entities.objects.collectables.weapons;
 
 import application.GamePanel;
 import assets.EntityType;
-import assets.entities.objects.usableobjects.Weapon;
+import assets.entities.objects.collectables.Weapon;
 
 import java.awt.*;
 
 import static application.Application.defaultImagesUrls;
-import static utilities.images.ImageUtils.setupDefaultImage;
+import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
 public class Sword extends Weapon
 {
@@ -19,7 +19,9 @@ public class Sword extends Weapon
         this.type = EntityType.SWORD;
         this.attackValue = 1;
         this.attackArea = new Rectangle(0, 0, 36, 36);
-        this.description = String.format("[%s]\nAn old sword!", name);
-        this.image = setupDefaultImage(defaultImagesUrls.get("sword"));
+        this.description = String.format("""
+                [%s]
+                An old sword!""", name);
+        this.defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("sword"));
     }
 }

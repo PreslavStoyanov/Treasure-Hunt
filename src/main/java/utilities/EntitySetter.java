@@ -8,10 +8,11 @@ import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSl
 import assets.entities.movingentities.liveentities.artificials.npcs.OldMan;
 import assets.entities.movingentities.liveentities.artificials.npcs.OldWoman;
 import assets.entities.objects.*;
-import assets.entities.objects.usableobjects.Boots;
-import assets.entities.objects.usableobjects.HealthPotion;
-import assets.entities.objects.usableobjects.Key;
-import assets.entities.objects.usableobjects.weapons.Axe;
+import assets.entities.objects.collectables.Boots;
+import assets.entities.objects.collectables.potions.EnergyPotion;
+import assets.entities.objects.collectables.potions.HealthPotion;
+import assets.entities.objects.collectables.Key;
+import assets.entities.objects.collectables.weapons.Axe;
 
 import static application.GamePanel.tileSize;
 
@@ -48,6 +49,12 @@ public class EntitySetter
 
     public void setObjects()
     {
+        addCollectableItem(new Energy(gp), 27, 25);
+        addCollectableItem(new EnergyPotion(gp), 27, 24);
+
+        addCollectableItem(new Heart(gp), 27, 26);
+        addCollectableItem(new Coin(gp), 26, 26);
+
         addCollectableItem(new Axe(gp), 24, 24);
 
         addCollectableItem(new Boots(gp), 9, 52);
