@@ -2,6 +2,7 @@ package assets.entities.movingentities.projectiles;
 
 import application.GamePanel;
 import assets.entities.movingentities.Projectile;
+import utilities.sound.Sound;
 
 public class Slimeball extends Projectile
 {
@@ -14,6 +15,7 @@ public class Slimeball extends Projectile
         this.attackValue = 2;
         this.maxFlightTime = 60;
         this.castEnergyNeeded = 10;
+        this.shootSound = Sound.FIREBALL_SOUND; //TODO add slimeball shoot sound
         this.sprites = setSprites("src/main/resources/projectiles/slimeball_sprites.yaml");
     }
 

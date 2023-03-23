@@ -23,9 +23,9 @@ public class OldWoman extends Npc
     }
 
     @Override
-    public void speak()
+    public void faceUpPlayer()
     {
-        super.speak();
+        super.faceUpPlayer();
         currentDialogue = dialogues.get(dialogueIndex);
         dialogueIndex++;
         if (dialogueIndex == dialogues.size())

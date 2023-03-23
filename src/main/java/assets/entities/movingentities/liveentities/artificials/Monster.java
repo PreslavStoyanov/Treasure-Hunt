@@ -1,15 +1,18 @@
 package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
+import assets.entities.movingentities.AliveEntity;
+import assets.entities.movingentities.interfaces.Damageable;
 import assets.entities.movingentities.liveentities.Artificial;
+import assets.entities.movingentities.liveentities.Player;
 
 import java.awt.*;
 
 import static application.GamePanel.tileSize;
-import static utilities.drawers.DrawerUtils.drawFillingBar;
+import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.sound.Sound.HIT_MONSTER;
 
-public class Monster extends Artificial
+public class Monster extends Artificial implements Damageable
 {
 
     public boolean isAlive = true;
@@ -57,12 +60,17 @@ public class Monster extends Artificial
         if (!gp.player.isInvincible && isContactingPlayer)
         {
             gp.player.takeDamage(attackValue);
+            gp.player.reactToDamage();
         }
     }
 
     @Override
     public void takeDamage(int damage)
     {
+        if (isInvincible)
+        {
+            return;
+        }
         gp.soundHandler.playSoundEffect(HIT_MONSTER);
         super.takeDamage(damage);
         reactToDamage();
@@ -71,7 +79,7 @@ public class Monster extends Artificial
 
     public void reactToDamage()
     {
-
+        isInvincible = true;
     }
 
     private void drawHpBar(Graphics2D g2, int screenX, int screenY)

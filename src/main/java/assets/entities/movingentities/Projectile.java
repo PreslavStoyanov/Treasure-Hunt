@@ -2,9 +2,11 @@ package assets.entities.movingentities;
 
 import application.GamePanel;
 import assets.entities.MovingEntity;
+import utilities.sound.Sound;
 
 import static assets.EntityType.MONSTER_TYPES;
 import static assets.EntityType.PLAYER;
+import static utilities.sound.Sound.FIREBALL_SOUND;
 
 public abstract class Projectile extends MovingEntity
 {
@@ -14,6 +16,7 @@ public abstract class Projectile extends MovingEntity
     public int maxFlightTime;
     public int attackValue;
     public int castEnergyNeeded;
+    public Sound shootSound;
 
     public Projectile(GamePanel gp)
     {
@@ -37,16 +40,14 @@ public abstract class Projectile extends MovingEntity
         setWorldLocation(shooter.worldX, shooter.worldY);
         direction = shooter.direction;
         setFlying(true);
+        gp.projectiles.add(this);
+        gp.soundHandler.playSoundEffect(shootSound);
     }
 
     @Override
     public void update()
     {
         handleMoving();
-//        if (gp.collisionChecker.isTileColliding(this))
-//        {
-//            setFlying(false);
-//        }
         interactWithEntities();
         flightTime++;
         if (flightTime > maxFlightTime)
@@ -75,6 +76,7 @@ public abstract class Projectile extends MovingEntity
             if (!gp.player.isInvincible && isContactingPlayer)
             {
                 gp.player.takeDamage(attackValue);
+                gp.player.reactToDamage();
             }
         }
     }
