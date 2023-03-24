@@ -2,12 +2,11 @@ package assets.entities.objects.collectables.potions;
 
 import application.GamePanel;
 import assets.entities.objects.collectables.Potion;
-import assets.entities.objects.interfaces.Consumable;
+import assets.interfaces.Consumable;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
-import static utilities.sound.Sound.DRINK_POTION;
 
 public class EnergyPotion extends Potion implements Consumable
 {
@@ -21,7 +20,7 @@ public class EnergyPotion extends Potion implements Consumable
         this.description = String.format("""
                 [%s]
                 Gives you %d energy!""", name, value);
-        this.defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("energy-potion"));
+        this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("energy-potion"));
     }
 
     @Override

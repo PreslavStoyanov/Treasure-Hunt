@@ -34,6 +34,7 @@ public class SoundHandler
         sounds.put(TAKE_AXE, getSoundUrl("take-axe"));
         sounds.put(DRINK_POTION, getSoundUrl("drink-potion"));
         sounds.put(MONKEY_LAUGH, getSoundUrl("monkey-laugh"));
+        sounds.put(TREE_CHOP, getSoundUrl("tree-chop"));
     }
 
     public void playMusic(Sound sound)

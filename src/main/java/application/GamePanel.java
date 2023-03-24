@@ -1,6 +1,7 @@
 package application;
 
 import assets.Entity;
+import assets.entities.InteractiveTile;
 import assets.entities.movingentities.AliveEntity;
 import assets.entities.Object;
 import assets.entities.movingentities.Projectile;
@@ -55,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable
     public List<Npc> npcs = new CopyOnWriteArrayList<>();
     public List<Monster> monsters = new CopyOnWriteArrayList<>();
     public List<Projectile> projectiles = new CopyOnWriteArrayList<>();
+    public List<InteractiveTile> interactiveTiles = new CopyOnWriteArrayList<>();
     private GameState gameState = HOME_STATE;
     private int frameCounter = 0;
 
@@ -88,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable
         entitySetter.setObjects();
         entitySetter.setNpcs();
         entitySetter.setMonsters();
+        entitySetter.setInteractiveTiles();
         setGameState(PLAY_STATE);
         soundHandler.playMusic(MAIN_BACKGROUND_MUSIC);
     }
@@ -141,12 +144,11 @@ public class GamePanel extends JPanel implements Runnable
         {
             player.update();
 
-            npcs.stream().filter(Objects::nonNull).forEach(AliveEntity::update);
+            npcs.stream().filter(Objects::nonNull).forEach(Npc::update);
 
             monsters.stream().filter(monster -> !monster.isAlive).forEach(Monster::dropItem);
             monsters.removeIf(monster -> !monster.isAlive);
             monsters.stream().filter(monster -> !monster.isDying).forEach(Monster::update);
-
 
             projectiles.removeIf(projectile -> !projectile.isFlying());
             projectiles.stream().filter(Projectile::isFlying).forEach(Projectile::update);
@@ -178,6 +180,7 @@ public class GamePanel extends JPanel implements Runnable
         entities.addAll(objects);
         entities.addAll(monsters);
         entities.addAll(projectiles);
+        entities.addAll(interactiveTiles);
 
         entities.sort(Comparator.comparingInt(e -> e.worldY));
         entities.forEach(entity -> entity.draw(g2));

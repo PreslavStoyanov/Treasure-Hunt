@@ -2,9 +2,8 @@ package assets.entities.objects;
 
 import application.GamePanel;
 import assets.entities.Object;
-import assets.entities.objects.interfaces.Consumable;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static assets.EntityType.ENERGY;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
@@ -21,7 +20,7 @@ public class Energy extends Object
         name = "Energy";
         type = ENERGY;
         interactSound = POWER_UP;
-        defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("energy"));
+        defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("energy"));
     }
 
     @Override

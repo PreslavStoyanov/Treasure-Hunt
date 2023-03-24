@@ -1,12 +1,12 @@
 package assets.entities.objects.collectables;
 
 import application.GamePanel;
-import assets.entities.objects.CollectableObject;
-import assets.entities.objects.interfaces.Equipable;
+import assets.entities.objects.StorableObject;
+import assets.interfaces.Equipable;
 
 import static utilities.drawers.MessageDrawer.addMessage;
 
-public class DefenseObject extends CollectableObject implements Equipable
+public class DefenseObject extends StorableObject implements Equipable
 {
     public int defenseValue;
 

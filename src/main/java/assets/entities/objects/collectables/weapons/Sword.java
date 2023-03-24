@@ -6,7 +6,7 @@ import assets.entities.objects.collectables.Weapon;
 
 import java.awt.*;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
 public class Sword extends Weapon
@@ -22,6 +22,6 @@ public class Sword extends Weapon
         this.description = String.format("""
                 [%s]
                 An old sword!""", name);
-        this.defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("sword"));
+        this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("sword"));
     }
 }

@@ -42,6 +42,7 @@ public abstract class Projectile extends MovingEntity
         setFlying(true);
         gp.projectiles.add(this);
         gp.soundHandler.playSoundEffect(shootSound);
+        //TODO implement timer for shooting
     }
 
     @Override

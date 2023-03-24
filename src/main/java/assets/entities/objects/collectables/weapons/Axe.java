@@ -6,7 +6,7 @@ import assets.entities.objects.collectables.Weapon;
 
 import java.awt.*;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.TAKE_AXE;
 
@@ -23,6 +23,6 @@ public class Axe extends Weapon
         this.description = String.format("""
                 [%s]
                 An old axe!""", name);
-        this.defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("axe"));
+        this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("axe"));
     }
 }

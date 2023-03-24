@@ -1,15 +1,15 @@
 package assets.entities.objects.collectables;
 
 import application.GamePanel;
-import assets.entities.objects.CollectableObject;
+import assets.entities.objects.StorableObject;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static assets.EntityType.KEY;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.TAKE_COIN;
 
-public class Key extends CollectableObject
+public class Key extends StorableObject
 {
 
     public Key(GamePanel gp)
@@ -21,7 +21,7 @@ public class Key extends CollectableObject
         this.description = String.format("""
                 [%s]
                 It can open doors!""", name);
-        this.defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("key"));
+        this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("key"));
     }
 
     @Override

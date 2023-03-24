@@ -83,37 +83,38 @@ public class CollisionChecker
 
     private boolean isEntityIntersects(MovingEntity movingEntity, Entity entity)
     {
-        if (entity.type.equals(PLAYER))
+        if (!movingEntity.solidArea.intersects(entity.solidArea))
         {
-            return isPlayerIntersects(movingEntity, entity);
+            return false;
         }
-        else if (OBJECT_TYPES.contains(entity.type))
-        {
-            return isObjectIntersects(movingEntity, (Object) entity);
-        }
-        else if (MOVING_ENTTIES.contains(entity.type))
-        {
-            return isMovingEntityIntersects(movingEntity, (MovingEntity) entity);
-        }
-        return true;
-    }
 
-    private static boolean isPlayerIntersects(MovingEntity movingEntity, Entity entity)
-    {
-        if (movingEntity.solidArea.intersects(entity.solidArea))
+        if (entity.type.equals(PLAYER))
         {
             movingEntity.hasCollision = true;
             return true;
         }
-        return false;
+        else if (OBJECT_TYPES.contains(entity.type))
+        {
+            return isObjectIntersects(movingEntity, entity);
+        }
+        else if (MOVING_ENTITIES.contains(entity.type))
+        {
+            return isMovingEntityIntersects(movingEntity, entity);
+        }
+        else if (INTERACTIVE_TILES.contains(entity.type))
+        {
+            return isInteractiveTileIntersects(movingEntity, entity);
+        }
+        return true;
     }
 
-    private static boolean isMovingEntityIntersects(MovingEntity movingEntity, MovingEntity target)
+    private static boolean isInteractiveTileIntersects(MovingEntity movingEntity, Entity entity)
     {
-        if (!movingEntity.solidArea.intersects(target.solidArea))
-        {
-            return false;
-        }
+        return entity.hasCollision;
+    }
+
+    private static boolean isMovingEntityIntersects(MovingEntity movingEntity, Entity target)
+    {
         if (target != movingEntity)
         {
             movingEntity.hasCollision = true;
@@ -122,12 +123,8 @@ public class CollisionChecker
         return false;
     }
 
-    private static boolean isObjectIntersects(MovingEntity movingEntity, Object object)
+    private static boolean isObjectIntersects(MovingEntity movingEntity, Entity object)
     {
-        if (!movingEntity.solidArea.intersects(object.solidArea))
-        {
-            return false;
-        }
         if (object.hasCollision)
         {
             movingEntity.hasCollision = true;

@@ -1,18 +1,17 @@
 package assets.entities.objects;
 
 import application.GamePanel;
-import assets.EntityType;
 import assets.entities.Object;
-import assets.entities.objects.interfaces.Interactable;
+import assets.interfaces.Interactive;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static application.GamePanel.tileSize;
 import static assets.EntityType.CHEST;
 import static utilities.GameState.GAME_WIN_STATE;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.WIN_SOUND;
 
-public class Chest extends Object implements Interactable
+public class Chest extends Object implements Interactive
 {
 
     public Chest(GamePanel gp, int x, int y)
@@ -22,7 +21,7 @@ public class Chest extends Object implements Interactable
         name = "Chest";
         type = CHEST;
         interactSound = WIN_SOUND;
-        defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("chest"));
+        defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("chest"));
     }
 
     @Override

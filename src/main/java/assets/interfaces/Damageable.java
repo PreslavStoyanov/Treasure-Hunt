@@ -1,4 +1,4 @@
-package assets.entities.movingentities.interfaces;
+package assets.interfaces;
 
 public interface Damageable
 {

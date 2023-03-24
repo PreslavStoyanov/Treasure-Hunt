@@ -1,14 +1,14 @@
 package assets.entities.objects.collectables;
 
 import application.GamePanel;
-import assets.entities.objects.CollectableObject;
-import assets.entities.objects.interfaces.Equipable;
+import assets.entities.objects.StorableObject;
+import assets.interfaces.Equipable;
 
 import java.awt.*;
 
 import static utilities.drawers.MessageDrawer.addMessage;
 
-public class Weapon extends CollectableObject implements Equipable
+public class Weapon extends StorableObject implements Equipable
 {
     public int attackValue;
     public Rectangle attackArea;

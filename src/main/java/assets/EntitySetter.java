@@ -2,6 +2,8 @@ package assets;
 
 import application.GamePanel;
 import assets.entities.Object;
+import assets.entities.interactivetiles.trees.Apple;
+import assets.entities.interactivetiles.trees.Oak;
 import assets.entities.movingentities.liveentities.artificials.monsters.Demon;
 import assets.entities.movingentities.liveentities.artificials.monsters.GreenSlime;
 import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSlime;
@@ -52,6 +54,17 @@ public class EntitySetter
     {
         gp.npcs.add(new OldMan(gp, 27, 26));
         gp.npcs.add(new OldWoman(gp, 31, 10));
+    }
+
+    public void setInteractiveTiles()
+    {
+        Apple apple = new Apple(gp);
+        apple.setWorldLocation(24 * tileSize, 30 * tileSize);
+        gp.interactiveTiles.add(apple);
+
+        Oak oak = new Oak(gp);
+        oak.setWorldLocation(24 * tileSize, 31 * tileSize);
+        gp.interactiveTiles.add(oak);
     }
 
     public void setObjects()

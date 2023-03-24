@@ -1,8 +1,8 @@
 package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
-import assets.entities.movingentities.interfaces.Damageable;
-import assets.entities.movingentities.interfaces.ItemDropable;
+import assets.interfaces.Damageable;
+import assets.interfaces.ItemDropable;
 import assets.entities.movingentities.liveentities.Artificial;
 
 import java.awt.*;

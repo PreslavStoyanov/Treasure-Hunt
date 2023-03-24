@@ -1,15 +1,15 @@
 package assets.entities.objects.collectables;
 
 import application.GamePanel;
-import assets.entities.objects.CollectableObject;
-import assets.entities.objects.interfaces.Equipable;
+import assets.entities.objects.StorableObject;
+import assets.interfaces.Equipable;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static assets.EntityType.BOOTS;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.POWER_UP;
 
-public class Boots extends CollectableObject implements Equipable
+public class Boots extends StorableObject implements Equipable
 {
     public Boots(GamePanel gp)
     {
@@ -17,7 +17,7 @@ public class Boots extends CollectableObject implements Equipable
         this.name = "Boots";
         this.type = BOOTS;
         this.interactSound = POWER_UP; //TODO add TAKE_BOOTS sound
-        this.defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("boots"));
+        this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("boots"));
         this.description = String.format("""
                 [%s]
                 Make you faster!""", name);
@@ -36,6 +36,7 @@ public class Boots extends CollectableObject implements Equipable
     @Override
     public void equip()
     {
+        //TODO draw equip effect in inventory
         gp.soundHandler.playSoundEffect(POWER_UP);
         gp.player.movingSpeed += 2;
     }

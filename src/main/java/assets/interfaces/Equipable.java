@@ -1,4 +1,4 @@
-package assets.entities.objects.interfaces;
+package assets.interfaces;
 
 public interface Equipable
 {

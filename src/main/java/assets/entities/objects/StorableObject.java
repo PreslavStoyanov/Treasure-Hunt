@@ -2,14 +2,14 @@ package assets.entities.objects;
 
 import application.GamePanel;
 import assets.entities.Object;
-import assets.entities.objects.interfaces.Interactable;
+import assets.interfaces.Interactive;
 
 
 import static utilities.drawers.MessageDrawer.addMessage;
 
-public class CollectableObject extends Object implements Interactable
+public class StorableObject extends Object implements Interactive
 {
-    public CollectableObject(GamePanel gp)
+    public StorableObject(GamePanel gp)
     {
         super(gp);
     }
@@ -17,12 +17,12 @@ public class CollectableObject extends Object implements Interactable
     @Override
     public void interact()
     {
-        collect();
+        store();
         super.interact();
         addMessage(String.format("You got %s", name));
     }
 
-    public void collect()
+    public void store()
     {
         if (gp.player.inventory.size() == gp.player.inventoryCapacity)
         {

@@ -3,7 +3,7 @@ package assets.entities.objects.collectables.defenseobjects;
 import application.GamePanel;
 import assets.entities.objects.collectables.DefenseObject;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static assets.EntityType.SHIELD;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
@@ -18,6 +18,6 @@ public class Shield extends DefenseObject
         this.description = String.format("""
                 [%s]
                 Made of iron!""", name);
-        this.defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("iron-shield"));
+        this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("iron-shield"));
     }
 }

@@ -21,11 +21,13 @@ public enum EntityType
     COIN,
     SHIELD,
     SWORD,
-    AXE;
+    AXE,
+    TREE;
 
     public static final List<EntityType> OBJECT_TYPES = List.of(CHEST, DOOR, MONKEY, BOOTS, KEY, POTION, HEART, ENERGY, COIN, SHIELD, SWORD, AXE);
     public static final List<EntityType> MONSTER_TYPES = List.of(DEMON, SLIME);
     public static final List<EntityType> NPC_TYPES = List.of(OLD_MAN, OLD_WOMAN);
-    public static final List<EntityType> MOVING_ENTTIES = Stream.of(MONSTER_TYPES, NPC_TYPES, List.of(PLAYER))
+    public static final List<EntityType> INTERACTIVE_TILES = List.of(TREE);
+    public static final List<EntityType> MOVING_ENTITIES = Stream.of(MONSTER_TYPES, NPC_TYPES, List.of(PLAYER))
             .flatMap(List::stream).toList();
 }
