@@ -38,8 +38,8 @@ public class GamePanel extends JPanel implements Runnable
     public static final int maxScreenRow = 12;
     public static final int screenWidth = tileSize * maxScreenCol;
     public static final int screenHeight = tileSize * maxScreenRow;
-    public static final int worldColumns = 62;
-    public static final int worldRows = 62;
+    public static final int worldColumns = 50;
+    public static final int worldRows = 50;
 
     public TileManager tileManager = new TileManager(this);
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setUpNewGame()
     {
-        tileManager.loadTileMap("/maps/world01.txt");
+        tileManager.loadTileMap("/maps/map_one.txt");
         entitySetter.setObjects();
         entitySetter.setNpcs();
         entitySetter.setMonsters();

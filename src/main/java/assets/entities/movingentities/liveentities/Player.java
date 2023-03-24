@@ -57,7 +57,7 @@ public class Player extends AliveEntity implements Damageable
         screenX = screenWidth / 2 - halfTileSize;
         screenY = screenHeight / 2 - halfTileSize;
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
-        setWorldLocation(tileSize * 28, tileSize * 28);
+        setWorldLocation(tileSize * 24, tileSize * 24);
         movingSpeed = 4;
         level = 1;
         maxLife = 6;
@@ -316,12 +316,17 @@ public class Player extends AliveEntity implements Damageable
             {
                 addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
 
-                exp += monster.exp;
-                if (exp >= maxExp)
-                {
-                    levelUp();
-                }
+                collectExp(monster.exp);
             }
+        }
+    }
+
+    public void collectExp(int collectedExp)
+    {
+        exp += collectedExp;
+        if (exp >= maxExp)
+        {
+            levelUp();
         }
     }
 
@@ -333,7 +338,8 @@ public class Player extends AliveEntity implements Damageable
         this.increaseLife(2);
         strength++;
         agility++;
-        exp = 0;
+        int expLeftover = exp - maxExp;
+        exp = Math.max(expLeftover, 0);
         maxExp += level;
 
         attackValue = calculateAttack();

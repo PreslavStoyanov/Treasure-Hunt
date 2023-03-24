@@ -9,6 +9,7 @@ public enum ObjectType
     KEY,
     HEALTH_POTION,
     ENERGY_POTION,
+    EXP_POTION,
     HEART,
     ENERGY,
     COIN,
