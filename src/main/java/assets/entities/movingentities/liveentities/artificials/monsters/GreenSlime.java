@@ -8,8 +8,6 @@ import assets.entities.movingentities.projectiles.Slimeball;
 import java.util.Random;
 
 import static application.GamePanel.tileSize;
-import static assets.entities.MovingEntity.Direction.*;
-import static assets.entities.MovingEntity.Direction.RIGHT;
 
 public class GreenSlime extends Monster
 {
@@ -37,7 +35,9 @@ public class GreenSlime extends Monster
     public void update()
     {
         super.update();
-        if (gp.getFrameCounter() % 120 == 0 && new Random().nextInt(3) == 2)
+        if (gp.getFrameCounter() % 120 == 0 &&
+                new Random().nextInt(3) == 2 &&
+                gp.isOnScreen(worldX, worldY))
         {
             projectile.shoot(this);
         }

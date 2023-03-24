@@ -36,10 +36,7 @@ public abstract class MovingEntity extends Entity
     {
         int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
         int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
-        if (worldX + tileSize > gp.player.worldX - gp.player.screenX
-                && worldX - tileSize < gp.player.worldX + gp.player.screenX
-                && worldY + tileSize > gp.player.worldY - gp.player.screenY
-                && worldY - tileSize < gp.player.worldY + gp.player.screenY)
+        if (gp.isOnScreen(worldX, worldY))
         {
             g2.drawImage(switchWalkingSpritesByDirection(), screenX, screenY, null);
         }

@@ -8,7 +8,7 @@ import assets.entities.movingentities.liveentities.artificials.Monster;
 import assets.entities.movingentities.liveentities.artificials.Npc;
 import assets.entities.movingentities.liveentities.Player;
 import utilities.CollisionChecker;
-import utilities.EntitySetter;
+import assets.EntitySetter;
 import utilities.GameState;
 import utilities.drawers.UserInterfaceController;
 import utilities.keyboard.KeyboardHandler;
@@ -143,8 +143,10 @@ public class GamePanel extends JPanel implements Runnable
 
             npcs.stream().filter(Objects::nonNull).forEach(AliveEntity::update);
 
+            monsters.stream().filter(monster -> !monster.isAlive).forEach(Monster::dropItem);
             monsters.removeIf(monster -> !monster.isAlive);
             monsters.stream().filter(monster -> !monster.isDying).forEach(Monster::update);
+
 
             projectiles.removeIf(projectile -> !projectile.isFlying());
             projectiles.stream().filter(Projectile::isFlying).forEach(Projectile::update);
@@ -182,5 +184,13 @@ public class GamePanel extends JPanel implements Runnable
         entities.clear();
 
         ui.draw(g2);
+    }
+
+    public boolean isOnScreen(int worldX, int worldY)
+    {
+        return worldX + tileSize > player.worldX - player.screenX
+                && worldX - tileSize < player.worldX + player.screenX
+                && worldY + tileSize > player.worldY - player.screenY
+                && worldY - tileSize < player.worldY + player.screenY;
     }
 }

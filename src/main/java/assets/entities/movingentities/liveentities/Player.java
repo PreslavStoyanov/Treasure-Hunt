@@ -247,10 +247,13 @@ public class Player extends AliveEntity implements Damageable
         {
             spriteNumber = 1;
         }
+        else if (attackActionTimer == 6)
+        {
+            getOptionalMonsterCollidingWithAttack().ifPresent(monster -> damageMonster(monster, attackValue));
+        }
         else if (attackActionTimer <= 25)
         {
             spriteNumber = 2;
-            getOptionalMonsterCollidingWithAttack().ifPresent(monster -> damageMonster(monster, attackValue));
         }
         else
         {
@@ -284,22 +287,19 @@ public class Player extends AliveEntity implements Damageable
 
     public void damageMonster(Monster monster, int damage)
     {
-        monster.takeDamage(damage);
-        if (monster.isDying)
+        if (!monster.isInvincible)
         {
-            addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
-            collectExpAndCheckForLevelingUp(monster.exp);
-        }
-    }
+            monster.takeDamage(damage);
+            if (monster.isDying)
+            {
+                addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
 
-    public void collectExpAndCheckForLevelingUp(int collectedExp)
-    {
-        exp += collectedExp;
-        if (exp >= maxExp)
-        {
-            levelUp();
-            exp = 0;
-            maxExp += level;
+                exp += monster.exp;
+                if (exp >= maxExp)
+                {
+                    levelUp();
+                }
+            }
         }
     }
 
@@ -311,6 +311,8 @@ public class Player extends AliveEntity implements Damageable
         this.increaseLife(2);
         strength++;
         agility++;
+        exp = 0;
+        maxExp += level;
 
         attackValue = calculateAttack();
         defense = calculateDefense();

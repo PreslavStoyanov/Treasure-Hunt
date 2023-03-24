@@ -1,18 +1,18 @@
 package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
-import assets.entities.movingentities.AliveEntity;
 import assets.entities.movingentities.interfaces.Damageable;
+import assets.entities.movingentities.interfaces.ItemDropable;
 import assets.entities.movingentities.liveentities.Artificial;
-import assets.entities.movingentities.liveentities.Player;
 
 import java.awt.*;
+import java.util.Random;
 
 import static application.GamePanel.tileSize;
-import static utilities.drawers.MessageDrawer.addMessage;
+import static assets.ObjectType.*;
 import static utilities.sound.Sound.HIT_MONSTER;
 
-public class Monster extends Artificial implements Damageable
+public class Monster extends Artificial implements Damageable, ItemDropable
 {
 
     public boolean isAlive = true;
@@ -67,10 +67,6 @@ public class Monster extends Artificial implements Damageable
     @Override
     public void takeDamage(int damage)
     {
-        if (isInvincible)
-        {
-            return;
-        }
         gp.soundHandler.playSoundEffect(HIT_MONSTER);
         super.takeDamage(damage);
         reactToDamage();
@@ -80,6 +76,20 @@ public class Monster extends Artificial implements Damageable
     public void reactToDamage()
     {
         isInvincible = true;
+    }
+
+    @Override
+    public void dropItem()
+    {
+        int droppingWorldX = worldX / tileSize;
+        int droppingWorldXY = worldY / tileSize;
+        switch (new Random().nextInt(20))
+        {
+            case 1 -> gp.entitySetter.addObject(HEALTH_POTION, droppingWorldX, droppingWorldXY);
+            case 2 -> gp.entitySetter.addObject(ENERGY_POTION, droppingWorldX, droppingWorldXY);
+            case 3, 4, 5, 6, 7 -> gp.entitySetter.addObject(ENERGY, droppingWorldX, droppingWorldXY);
+            case 8, 9, 10, 11, 12 -> gp.entitySetter.addObject(HEART, droppingWorldX, droppingWorldXY);
+        }
     }
 
     private void drawHpBar(Graphics2D g2, int screenX, int screenY)
