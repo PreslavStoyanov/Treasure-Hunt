@@ -1,13 +1,9 @@
 package utilities.keyboard;
 
 import application.GamePanel;
-import assets.entities.Object;
-import assets.entities.objects.interfaces.Equipable;
 
 import java.awt.event.KeyEvent;
 
-import static assets.EntityType.CONSUMABLE_OBJECTS;
-import static assets.EntityType.EQUIPABLE_OBJECTS;
 import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.GameState.PLAY_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;

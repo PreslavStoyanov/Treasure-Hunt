@@ -105,7 +105,7 @@ public class Player extends AliveEntity implements Damageable
         else if (isActionButtonPressed())
         {
             changeMovingDirection();
-            hasCollision = gp.collisionChecker.isTileColliding(this);
+            hasCollision = gp.collisionChecker.isHittingCollisionTile(this);
             interactWithEntities();
 
             if (!hasCollision && !keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
@@ -181,13 +181,13 @@ public class Player extends AliveEntity implements Damageable
     @Override
     public void interactWithEntities()
     {
-        gp.objects.stream().filter(object -> gp.collisionChecker.isObjectColliding(this, object))
+        gp.objects.stream().filter(object -> gp.collisionChecker.isEntityColliding(this, object))
                 .findFirst().ifPresent(Object::interact);
 
-        gp.npcs.stream().filter(npc -> gp.collisionChecker.isLiveEntityColliding(this, npc))
+        gp.npcs.stream().filter(npc -> gp.collisionChecker.isEntityColliding(this, npc))
                 .findFirst().ifPresent(this::talkToNpcIfTalkButtonPressed);
 
-        gp.monsters.stream().filter(monster -> gp.collisionChecker.isLiveEntityColliding(this, monster))
+        gp.monsters.stream().filter(monster -> gp.collisionChecker.isEntityColliding(this, monster))
                 .findFirst().ifPresent(this::takeDamageFromMonsterIfAvailable);
     }
 
@@ -275,7 +275,7 @@ public class Player extends AliveEntity implements Damageable
         solidArea.setSize(currentWeapon.attackArea.width, currentWeapon.attackArea.height);
 
         Optional<Monster> monster = gp.monsters.stream()
-                .filter(m -> gp.collisionChecker.isLiveEntityColliding(this, m))
+                .filter(m -> gp.collisionChecker.isEntityColliding(this, m))
                 .findFirst();
 
         //restore original position

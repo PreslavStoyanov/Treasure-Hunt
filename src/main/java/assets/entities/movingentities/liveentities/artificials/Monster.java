@@ -89,6 +89,7 @@ public class Monster extends Artificial implements Damageable, ItemDropable
             case 2 -> gp.entitySetter.addObject(ENERGY_POTION, droppingWorldX, droppingWorldXY);
             case 3, 4, 5, 6, 7 -> gp.entitySetter.addObject(ENERGY, droppingWorldX, droppingWorldXY);
             case 8, 9, 10, 11, 12 -> gp.entitySetter.addObject(HEART, droppingWorldX, droppingWorldXY);
+            case 13, 14 -> gp.entitySetter.addObject(COIN, droppingWorldX, droppingWorldXY);
         }
     }
 
