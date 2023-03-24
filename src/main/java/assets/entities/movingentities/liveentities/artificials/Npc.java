@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static assets.entities.MovingEntity.Direction.*;
+import static utilities.GameState.DIALOGUE_STATE;
+import static utilities.sound.Sound.GOSSIP;
 
 public class Npc extends Artificial
 {
@@ -17,7 +19,7 @@ public class Npc extends Artificial
         super(gp);
     }
 
-    public void speak()
+    public void faceUpPlayer()
     {
         switch (gp.player.direction)
         {
@@ -26,5 +28,13 @@ public class Npc extends Artificial
             case LEFT -> this.direction = RIGHT;
             case RIGHT -> this.direction = LEFT;
         }
+    }
+
+    public void speak()
+    {
+        gp.setGameState(DIALOGUE_STATE);
+        gp.soundHandler.playSoundEffect(GOSSIP);
+        faceUpPlayer();
+        gp.keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed = false;
     }
 }

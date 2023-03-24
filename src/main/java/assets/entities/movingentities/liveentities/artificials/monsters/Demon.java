@@ -32,6 +32,7 @@ public class Demon extends Monster
 
     public void reactToDamage()
     {
+        super.reactToDamage();
         movingSpeed = 2;
         switch (gp.player.direction)
         {

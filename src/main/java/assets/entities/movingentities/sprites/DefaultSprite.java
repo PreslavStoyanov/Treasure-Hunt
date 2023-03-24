@@ -2,7 +2,7 @@ package assets.entities.movingentities.sprites;
 
 import java.awt.image.BufferedImage;
 
-import static utilities.images.ImageUtils.setupDefaultImage;
+import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
 public class DefaultSprite
 {
@@ -15,6 +15,6 @@ public class DefaultSprite
 
     public void setImage(String path)
     {
-        this.image = setupDefaultImage(path);
+        this.image = setupDefaultSizeImage(path);
     }
 }

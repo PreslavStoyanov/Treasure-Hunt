@@ -3,7 +3,7 @@ package utilities.tiles;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
-import static utilities.images.ImageUtils.setupDefaultImage;
+import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
 public class Tiles
 {
@@ -27,7 +27,7 @@ public class Tiles
 
         public void setImage(String path)
         {
-            this.image = setupDefaultImage(path);
+            this.image = setupDefaultSizeImage(path);
         }
 
         public boolean hasCollision()

@@ -29,6 +29,7 @@ public class OrangeSlime extends Monster
 
     public void reactToDamage()
     {
+        super.reactToDamage();
         direction = gp.player.direction;
     }
 }

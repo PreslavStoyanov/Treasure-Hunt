@@ -29,10 +29,11 @@ public class SoundHandler
         sounds.put(MOVE_CURSOR, getSoundUrl("move-cursor"));
         sounds.put(GOSSIP, getSoundUrl("gossip"));
         sounds.put(OPEN_DOOR, getSoundUrl("open-door"));
-        sounds.put(TAKE_KEY, getSoundUrl("take-key"));
+        sounds.put(TAKE_COIN, getSoundUrl("take-key"));
         sounds.put(TAKE_POTION, getSoundUrl("take-potion"));
         sounds.put(TAKE_AXE, getSoundUrl("take-axe"));
         sounds.put(DRINK_POTION, getSoundUrl("drink-potion"));
+        sounds.put(MONKEY_LAUGH, getSoundUrl("monkey-laugh"));
     }
 
     public void playMusic(Sound sound)

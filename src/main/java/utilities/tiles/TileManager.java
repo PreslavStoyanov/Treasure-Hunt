@@ -80,19 +80,11 @@ public class TileManager
                 int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
                 int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
 
-                if (isTileVisibleOnPlayerScreen(worldX, worldY))
+                if (gp.isOnScreen(worldX, worldY))
                 {
                     g2.drawImage(tiles.getTiles().get(tileNumber).getImage(), screenX, screenY, null);
                 }
             }
         }
-    }
-
-    private boolean isTileVisibleOnPlayerScreen(int worldX, int worldY)
-    {
-        return worldX + tileSize > gp.player.worldX - gp.player.screenX
-                && worldX - tileSize < gp.player.worldX + gp.player.screenX
-                && worldY + tileSize > gp.player.worldY - gp.player.screenY
-                && worldY - tileSize < gp.player.worldY + gp.player.screenY;
     }
 }

@@ -11,16 +11,16 @@ import java.util.Objects;
 
 public class ImageUtils
 {
-    public static BufferedImage setupDefaultImage(Object imagePath)
+    public static BufferedImage setupDefaultSizeImage(Object imagePath)
     {
-        return setupImage(imagePath.toString(), GamePanel.tileSize, GamePanel.tileSize);
+        return setupImage(imagePath, GamePanel.tileSize, GamePanel.tileSize);
     }
 
-    public static BufferedImage setupImage(String imagePath, int width, int height)
+    public static BufferedImage setupImage(Object imagePath, int width, int height)
     {
         try
         {
-            BufferedImage image = ImageIO.read(Objects.requireNonNull(Entity.class.getResourceAsStream(imagePath)));
+            BufferedImage image = ImageIO.read(Objects.requireNonNull(Entity.class.getResourceAsStream(imagePath.toString())));
             return scaleImage(image, width, height);
         }
         catch (IOException e)
