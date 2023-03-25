@@ -2,10 +2,12 @@ package utilities.drawers;
 
 import assets.entities.Object;
 import assets.entities.movingentities.liveentities.Player;
+import assets.entities.objects.collectables.EquipableItem;
 
 import java.awt.*;
 
 import static application.GamePanel.tileSize;
+import static assets.EntityType.EQUIPPABLE_ITEMS;
 import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
@@ -53,7 +55,8 @@ public class InventoryWindowDrawer
         {
             Object object = player.inventory.get(i);
 
-            if (object == player.currentWeapon || object == player.currentShield)
+            if (EQUIPPABLE_ITEMS.contains(object.type) && ((EquipableItem) object).isEquipped ||
+                    object == player.currentWeapon || object == player.currentShield)
             {
                 drawRoundFilledRect(itemX, itemY, tileSize, tileSize,
                         new Color(162, 137, 0, 255));

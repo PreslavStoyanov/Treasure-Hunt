@@ -10,14 +10,14 @@ import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSl
 import assets.entities.movingentities.liveentities.artificials.npcs.OldMan;
 import assets.entities.movingentities.liveentities.artificials.npcs.OldWoman;
 import assets.entities.objects.*;
-import assets.entities.objects.collectables.Boots;
+import assets.entities.objects.collectables.equppables.Boots;
 import assets.entities.objects.collectables.Key;
-import assets.entities.objects.collectables.defenseobjects.Shield;
+import assets.entities.objects.collectables.equppables.defenseobjects.Shield;
 import assets.entities.objects.collectables.potions.EnergyPotion;
 import assets.entities.objects.collectables.potions.ExpPotion;
 import assets.entities.objects.collectables.potions.HealthPotion;
-import assets.entities.objects.collectables.weapons.Axe;
-import assets.entities.objects.collectables.weapons.Sword;
+import assets.entities.objects.collectables.equppables.weapons.Axe;
+import assets.entities.objects.collectables.equppables.weapons.Sword;
 
 import static application.GamePanel.tileSize;
 import static assets.ObjectType.*;

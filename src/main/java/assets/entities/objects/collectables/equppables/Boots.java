@@ -1,7 +1,7 @@
-package assets.entities.objects.collectables;
+package assets.entities.objects.collectables.equppables;
 
 import application.GamePanel;
-import assets.entities.objects.StorableObject;
+import assets.entities.objects.collectables.EquipableItem;
 import assets.interfaces.Equipable;
 
 import static application.Application.objectsImagesUrls;
@@ -9,7 +9,7 @@ import static assets.EntityType.BOOTS;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.POWER_UP;
 
-public class Boots extends StorableObject implements Equipable
+public class Boots extends EquipableItem
 {
     public Boots(GamePanel gp)
     {
@@ -36,7 +36,7 @@ public class Boots extends StorableObject implements Equipable
     @Override
     public void equip()
     {
-        //TODO draw equip effect in inventory
+        isEquipped = true;
         gp.soundHandler.playSoundEffect(POWER_UP);
         gp.player.movingSpeed += 2;
     }
@@ -44,6 +44,7 @@ public class Boots extends StorableObject implements Equipable
     @Override
     public void deEquip()
     {
+        isEquipped = false;
         gp.player.movingSpeed -= 2;
     }
 }

@@ -10,10 +10,10 @@ import assets.entities.movingentities.liveentities.artificials.Npc;
 import assets.entities.movingentities.projectiles.Fireball;
 import assets.entities.movingentities.sprites.AttackingSprite;
 import assets.entities.objects.StorableObject;
-import assets.entities.objects.collectables.DefenseObject;
-import assets.entities.objects.collectables.Weapon;
-import assets.entities.objects.collectables.defenseobjects.Shield;
-import assets.entities.objects.collectables.weapons.Sword;
+import assets.entities.objects.collectables.equppables.DefenseObject;
+import assets.entities.objects.collectables.equppables.Weapon;
+import assets.entities.objects.collectables.equppables.defenseobjects.Shield;
+import assets.entities.objects.collectables.equppables.weapons.Sword;
 import assets.interfaces.Damageable;
 import utilities.keyboard.KeyboardHandler;
 

@@ -1,8 +1,8 @@
-package assets.entities.objects.collectables.weapons;
+package assets.entities.objects.collectables.equppables.weapons;
 
 import application.GamePanel;
 import assets.EntityType;
-import assets.entities.objects.collectables.Weapon;
+import assets.entities.objects.collectables.equppables.Weapon;
 
 import java.awt.*;
 

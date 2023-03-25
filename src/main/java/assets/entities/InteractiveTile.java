@@ -9,6 +9,7 @@ import utilities.sound.Sound;
 import java.awt.image.BufferedImage;
 
 import static utilities.drawers.MessageDrawer.addMessage;
+import static utilities.sound.Sound.TREE_CHOP;
 
 public abstract class InteractiveTile extends Entity implements Interactive
 {
@@ -27,6 +28,7 @@ public abstract class InteractiveTile extends Entity implements Interactive
     {
         if (gp.player.currentWeapon.type.equals(toolForInteraction))
         {
+            gp.soundHandler.playSoundEffect(TREE_CHOP);
             decreaseEndurance(1);
             if (endurance == 0)
             {
