@@ -41,7 +41,7 @@ public class PlayScreenKeyboardHandler
             case KeyEvent.VK_SPACE ->
             {
                 isSpacePressed = true;
-                gp.player.isAttacking = true;
+                gp.player.isSwingingWeapon = true;
             }
         }
     }

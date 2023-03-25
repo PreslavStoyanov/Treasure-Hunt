@@ -2,16 +2,13 @@ package assets.entities.objects;
 
 import application.GamePanel;
 import assets.entities.Object;
-import assets.entities.objects.interfaces.Consumable;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static application.GamePanel.tileSize;
 import static assets.EntityType.HEART;
 import static utilities.drawers.MessageDrawer.addMessage;
-import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.images.ImageUtils.setupImage;
 import static utilities.sound.Sound.POWER_UP;
 
@@ -25,7 +22,7 @@ public class Heart extends Object
         name = "Heart";
         type = HEART;
         interactSound = POWER_UP;
-        defaultImage = setupImage(defaultImagesUrls.get("fullHeart"), tileSize - 16, tileSize - 16);
+        defaultImage = setupImage(objectsImagesUrls.get("fullHeart"), tileSize - 16, tileSize - 16);
     }
 
     @Override

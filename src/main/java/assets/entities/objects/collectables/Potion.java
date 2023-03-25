@@ -1,14 +1,14 @@
 package assets.entities.objects.collectables;
 
 import application.GamePanel;
-import assets.entities.objects.CollectableObject;
-import assets.entities.objects.interfaces.Consumable;
+import assets.entities.objects.StorableObject;
+import assets.interfaces.Consumable;
 
 import static assets.EntityType.POTION;
 import static utilities.sound.Sound.DRINK_POTION;
 import static utilities.sound.Sound.TAKE_POTION;
 
-public class Potion extends CollectableObject implements Consumable
+public class Potion extends StorableObject implements Consumable
 {
     public int value;
 

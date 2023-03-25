@@ -42,6 +42,7 @@ public abstract class Projectile extends MovingEntity
         setFlying(true);
         gp.projectiles.add(this);
         gp.soundHandler.playSoundEffect(shootSound);
+        //TODO implement timer for shooting
     }
 
     @Override
@@ -62,7 +63,7 @@ public abstract class Projectile extends MovingEntity
         if (shooter.type.equals(PLAYER))
         {
             gp.monsters.stream()
-                    .filter(monster -> gp.collisionChecker.isLiveEntityColliding(this, monster))
+                    .filter(monster -> gp.collisionChecker.isEntityColliding(this, monster))
                     .findFirst()
                     .ifPresent(monster -> {
                         gp.player.damageMonster(monster, flightTime / 20);
@@ -71,7 +72,7 @@ public abstract class Projectile extends MovingEntity
         }
         else if (MONSTER_TYPES.contains(shooter.type))
         {
-            boolean isContactingPlayer = gp.collisionChecker.isCollidingWithPlayer(this, gp.player);
+            boolean isContactingPlayer = gp.collisionChecker.isEntityColliding(this, gp.player);
 
             if (!gp.player.isInvincible && isContactingPlayer)
             {

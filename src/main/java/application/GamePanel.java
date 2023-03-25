@@ -1,6 +1,7 @@
 package application;
 
 import assets.Entity;
+import assets.entities.InteractiveTile;
 import assets.entities.movingentities.AliveEntity;
 import assets.entities.Object;
 import assets.entities.movingentities.Projectile;
@@ -37,8 +38,8 @@ public class GamePanel extends JPanel implements Runnable
     public static final int maxScreenRow = 12;
     public static final int screenWidth = tileSize * maxScreenCol;
     public static final int screenHeight = tileSize * maxScreenRow;
-    public static final int worldColumns = 62;
-    public static final int worldRows = 62;
+    public static final int worldColumns = 50;
+    public static final int worldRows = 50;
 
     public TileManager tileManager = new TileManager(this);
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
@@ -55,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable
     public List<Npc> npcs = new CopyOnWriteArrayList<>();
     public List<Monster> monsters = new CopyOnWriteArrayList<>();
     public List<Projectile> projectiles = new CopyOnWriteArrayList<>();
+    public List<InteractiveTile> interactiveTiles = new CopyOnWriteArrayList<>();
     private GameState gameState = HOME_STATE;
     private int frameCounter = 0;
 
@@ -84,10 +86,11 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setUpNewGame()
     {
-        tileManager.loadTileMap("/maps/world01.txt");
+        tileManager.loadTileMap("/maps/map_one.txt");
         entitySetter.setObjects();
         entitySetter.setNpcs();
         entitySetter.setMonsters();
+        entitySetter.setInteractiveTiles();
         setGameState(PLAY_STATE);
         soundHandler.playMusic(MAIN_BACKGROUND_MUSIC);
     }
@@ -141,12 +144,11 @@ public class GamePanel extends JPanel implements Runnable
         {
             player.update();
 
-            npcs.stream().filter(Objects::nonNull).forEach(AliveEntity::update);
+            npcs.stream().filter(Objects::nonNull).forEach(Npc::update);
 
             monsters.stream().filter(monster -> !monster.isAlive).forEach(Monster::dropItem);
             monsters.removeIf(monster -> !monster.isAlive);
             monsters.stream().filter(monster -> !monster.isDying).forEach(Monster::update);
-
 
             projectiles.removeIf(projectile -> !projectile.isFlying());
             projectiles.stream().filter(Projectile::isFlying).forEach(Projectile::update);
@@ -178,6 +180,7 @@ public class GamePanel extends JPanel implements Runnable
         entities.addAll(objects);
         entities.addAll(monsters);
         entities.addAll(projectiles);
+        entities.addAll(interactiveTiles);
 
         entities.sort(Comparator.comparingInt(e -> e.worldY));
         entities.forEach(entity -> entity.draw(g2));

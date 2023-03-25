@@ -2,11 +2,11 @@ package assets.entities.objects;
 
 import application.GamePanel;
 import assets.entities.Object;
-import assets.entities.objects.interfaces.Interactable;
+import assets.interfaces.Interactive;
 
 import java.util.Optional;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static application.GamePanel.tileSize;
 import static assets.EntityType.KEY;
 import static assets.EntityType.MONKEY;
@@ -14,7 +14,7 @@ import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.MONKEY_LAUGH;
 
-public class Monkey extends Object implements Interactable
+public class Monkey extends Object implements Interactive
 {
 
     public Monkey(GamePanel gp, int x, int y)
@@ -25,13 +25,13 @@ public class Monkey extends Object implements Interactable
         name = "Monkey";
         type = MONKEY;
         hasCollision = true;
-        defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("monkey"));
+        defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("monkey"));
     }
 
     @Override
     public void interact()
     {
-        Optional<CollectableObject> keyToRemove = gp.player.inventory.stream()
+        Optional<StorableObject> keyToRemove = gp.player.inventory.stream()
                 .filter(obj -> obj.type.equals(KEY))
                 .findFirst();
 

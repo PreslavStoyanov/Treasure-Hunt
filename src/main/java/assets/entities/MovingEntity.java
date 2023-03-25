@@ -12,8 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-import static application.GamePanel.tileSize;
 import static assets.entities.MovingEntity.Direction.*;
 
 public abstract class MovingEntity extends Entity
@@ -45,12 +45,15 @@ public abstract class MovingEntity extends Entity
     public void update()
     {
         changeMovingDirection();
-        hasCollision = gp.collisionChecker.isTileColliding(this);
+        hasCollision = gp.collisionChecker.isHittingCollisionTile(this);
         interactWithEntities();
+        Optional<InteractiveTile> interactiveTile = gp.interactiveTiles.stream()
+                .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
+                .findFirst();
 
-        this.isContactingPlayer = gp.collisionChecker.isCollidingWithPlayer(this, gp.player);
+        this.isContactingPlayer = gp.collisionChecker.isEntityColliding(this, gp.player);
 
-        if (!hasCollision && !isContactingPlayer)
+        if (interactiveTile.isEmpty() && !hasCollision && !isContactingPlayer)
         {
             handleMoving();
         }

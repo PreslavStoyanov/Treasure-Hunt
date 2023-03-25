@@ -5,7 +5,7 @@ import assets.entities.movingentities.liveentities.Player;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static application.GamePanel.*;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
@@ -21,10 +21,10 @@ public class PlayerStatsDrawer
 
     public PlayerStatsDrawer()
     {
-        heartFull = setupDefaultSizeImage(defaultImagesUrls.get("fullHeart"));
-        heartHalf = setupDefaultSizeImage(defaultImagesUrls.get("halfHeart"));
-        heartBlank = setupDefaultSizeImage(defaultImagesUrls.get("blankHeart"));
-        energyImage = setupDefaultSizeImage(defaultImagesUrls.get("energy"));
+        heartFull = setupDefaultSizeImage(objectsImagesUrls.get("fullHeart"));
+        heartHalf = setupDefaultSizeImage(objectsImagesUrls.get("halfHeart"));
+        heartBlank = setupDefaultSizeImage(objectsImagesUrls.get("blankHeart"));
+        energyImage = setupDefaultSizeImage(objectsImagesUrls.get("energy"));
     }
 
     public void drawPlayerStats(Player player)

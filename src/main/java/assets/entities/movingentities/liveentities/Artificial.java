@@ -34,8 +34,8 @@ public class Artificial extends AliveEntity
     @Override
     public void interactWithEntities()
     {
-        gp.objects.forEach(object -> gp.collisionChecker.isObjectColliding(this, object));
-        gp.npcs.forEach(npc -> gp.collisionChecker.isLiveEntityColliding(this, npc));
-        gp.monsters.forEach(monster -> gp.collisionChecker.isLiveEntityColliding(this, monster));
+        gp.objects.forEach(object -> gp.collisionChecker.isEntityColliding(this, object));
+        gp.npcs.forEach(npc -> gp.collisionChecker.isEntityColliding(this, npc));
+        gp.monsters.forEach(monster -> gp.collisionChecker.isEntityColliding(this, monster));
     }
 }

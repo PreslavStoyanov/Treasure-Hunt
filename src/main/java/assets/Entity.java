@@ -24,7 +24,15 @@ public abstract class Entity
         this.solidArea = new Rectangle(0, 0, 48, 48);
     }
 
-    public abstract void draw(Graphics2D g2);
+    public void draw(Graphics2D g2)
+    {
+        int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
+        int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
+        if (gp.isOnScreen(worldX, worldY))
+        {
+            g2.drawImage(defaultImage, screenX, screenY, null);
+        }
+    }
 
     public void setWorldLocation(int worldX, int worldY)
     {

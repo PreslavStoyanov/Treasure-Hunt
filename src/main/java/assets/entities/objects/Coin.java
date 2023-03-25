@@ -2,19 +2,19 @@ package assets.entities.objects;
 
 import application.GamePanel;
 import assets.entities.Object;
-import assets.entities.objects.interfaces.Interactable;
+import assets.interfaces.Interactive;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import static application.Application.defaultImagesUrls;
+import static application.Application.objectsImagesUrls;
 import static assets.EntityType.COIN;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.TAKE_COIN;
 
-public class Coin extends Object implements Interactable
+public class Coin extends Object implements Interactive
 {
     private final List<BufferedImage> images;
     private int spriteNumber = 0;
@@ -32,11 +32,11 @@ public class Coin extends Object implements Interactable
            [%s]
            Gold coin!
            Used for trading!""", name);
-        defaultImage = setupDefaultSizeImage(defaultImagesUrls.get("gold-coin-one"));
-        images = List.of(setupDefaultSizeImage(defaultImagesUrls.get("gold-coin-one")),
-                setupDefaultSizeImage(defaultImagesUrls.get("gold-coin-two")),
-                setupDefaultSizeImage(defaultImagesUrls.get("gold-coin-three")),
-                setupDefaultSizeImage(defaultImagesUrls.get("gold-coin-two")));
+        defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("gold-coin-one"));
+        images = List.of(setupDefaultSizeImage(objectsImagesUrls.get("gold-coin-one")),
+                setupDefaultSizeImage(objectsImagesUrls.get("gold-coin-two")),
+                setupDefaultSizeImage(objectsImagesUrls.get("gold-coin-three")),
+                setupDefaultSizeImage(objectsImagesUrls.get("gold-coin-two")));
     }
 
     @Override

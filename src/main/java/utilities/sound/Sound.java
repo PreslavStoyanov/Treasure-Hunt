@@ -19,5 +19,6 @@ public enum Sound
     DRINK_POTION,
     TAKE_POTION,
     TAKE_AXE,
-    MONKEY_LAUGH
+    MONKEY_LAUGH,
+    TREE_CHOP
 }

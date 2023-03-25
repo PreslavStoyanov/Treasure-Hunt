@@ -5,9 +5,9 @@ import assets.Entity;
 import assets.EntityType;
 import assets.entities.MovingEntity;
 import assets.entities.Object;
-import assets.entities.movingentities.liveentities.Player;
 
 import static application.GamePanel.tileSize;
+import static assets.EntityType.*;
 
 public class CollisionChecker
 {
@@ -18,7 +18,7 @@ public class CollisionChecker
         this.gp = gp;
     }
 
-    public boolean isTileColliding(MovingEntity movingEntity)
+    public boolean isHittingCollisionTile(MovingEntity movingEntity)
     {
         int entityLeftWorldX = movingEntity.worldX + movingEntity.solidArea.x;
         int entityRightWorldX = movingEntity.worldX + movingEntity.solidArea.x + movingEntity.solidArea.width;
@@ -68,71 +68,63 @@ public class CollisionChecker
         }
     }
 
-    public boolean isObjectColliding(MovingEntity movingEntity, Object object)
+    public boolean isEntityColliding(MovingEntity movingEntity, Entity entity)
     {
         increaseSolidAreaWorldCoordinates(movingEntity);
-        increaseSolidAreaWorldCoordinates(object);
+        increaseSolidAreaWorldCoordinates(entity);
         changeEntityDirection(movingEntity);
 
-        boolean result = isObjectIntersects(movingEntity, object);
+        boolean result = isEntityIntersects(movingEntity, entity);
 
         resetDefaultLocation(movingEntity);
-        resetDefaultLocation(object);
-
-        return result;
-    }
-    public boolean isLiveEntityColliding(MovingEntity movingEntity, MovingEntity target)
-    {
-        increaseSolidAreaWorldCoordinates(movingEntity);
-        increaseSolidAreaWorldCoordinates(target);
-        changeEntityDirection(movingEntity);
-
-        boolean result = isEntityIntersects(movingEntity, target);
-
-        resetDefaultLocation(movingEntity);
-        resetDefaultLocation(target);
+        resetDefaultLocation(entity);
         return result;
     }
 
-    public boolean isCollidingWithPlayer(MovingEntity movingEntity, Player player)
+    private boolean isEntityIntersects(MovingEntity movingEntity, Entity entity)
     {
-        boolean isContactingPlayer = false;
-        increaseSolidAreaWorldCoordinates(movingEntity);
-        increaseSolidAreaWorldCoordinates(player);
-        changeEntityDirection(movingEntity);
-
-        if (movingEntity.solidArea.intersects(player.solidArea))
-        {
-            movingEntity.hasCollision = true;
-            isContactingPlayer = true;
-        }
-
-        resetDefaultLocation(movingEntity);
-        resetDefaultLocation(player);
-
-        return isContactingPlayer;
-    }
-
-    private boolean isEntityIntersects(MovingEntity movingEntity, MovingEntity target)
-    {
-        if (!movingEntity.solidArea.intersects(target.solidArea))
+        if (!movingEntity.solidArea.intersects(entity.solidArea))
         {
             return false;
         }
+
+        if (entity.type.equals(PLAYER))
+        {
+            movingEntity.hasCollision = true;
+            return true;
+        }
+        else if (OBJECT_TYPES.contains(entity.type))
+        {
+            return isObjectIntersects(movingEntity, entity);
+        }
+        else if (MOVING_ENTITIES.contains(entity.type))
+        {
+            return isMovingEntityIntersects(movingEntity, entity);
+        }
+        else if (INTERACTIVE_TILES.contains(entity.type))
+        {
+            return isInteractiveTileIntersects(movingEntity, entity);
+        }
+        return true;
+    }
+
+    private static boolean isInteractiveTileIntersects(MovingEntity movingEntity, Entity entity)
+    {
+        return entity.hasCollision;
+    }
+
+    private static boolean isMovingEntityIntersects(MovingEntity movingEntity, Entity target)
+    {
         if (target != movingEntity)
         {
             movingEntity.hasCollision = true;
             return true;
         }
-        else return false;
+        return false;
     }
 
-    private boolean isObjectIntersects(MovingEntity movingEntity, Object object)
+    private static boolean isObjectIntersects(MovingEntity movingEntity, Entity object)
     {
-        if (!movingEntity.solidArea.intersects(object.solidArea))
-        {
-            return false;
-        }
         if (object.hasCollision)
         {
             movingEntity.hasCollision = true;

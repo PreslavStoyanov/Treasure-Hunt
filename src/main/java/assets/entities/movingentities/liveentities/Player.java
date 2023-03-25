@@ -1,18 +1,20 @@
 package assets.entities.movingentities.liveentities;
 
 import application.GamePanel;
+import assets.Entity;
+import assets.entities.InteractiveTile;
 import assets.entities.Object;
 import assets.entities.movingentities.AliveEntity;
-import assets.entities.movingentities.interfaces.Damageable;
 import assets.entities.movingentities.liveentities.artificials.Monster;
 import assets.entities.movingentities.liveentities.artificials.Npc;
 import assets.entities.movingentities.projectiles.Fireball;
 import assets.entities.movingentities.sprites.AttackingSprite;
-import assets.entities.objects.CollectableObject;
-import assets.entities.objects.collectables.DefenseObject;
-import assets.entities.objects.collectables.Weapon;
-import assets.entities.objects.collectables.defenseobjects.Shield;
-import assets.entities.objects.collectables.weapons.Sword;
+import assets.entities.objects.StorableObject;
+import assets.entities.objects.collectables.equppables.DefenseObject;
+import assets.entities.objects.collectables.equppables.Weapon;
+import assets.entities.objects.collectables.equppables.defenseobjects.Shield;
+import assets.entities.objects.collectables.equppables.weapons.Sword;
+import assets.interfaces.Damageable;
 import utilities.keyboard.KeyboardHandler;
 
 import java.awt.*;
@@ -22,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static application.GamePanel.*;
-import static assets.EntityType.PLAYER;
+import static assets.EntityType.*;
 import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.GAME_LOSE_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
@@ -32,7 +34,7 @@ import static utilities.sound.Sound.*;
 public class Player extends AliveEntity implements Damageable
 {
     private final KeyboardHandler keyboardHandler;
-    public List<CollectableObject> inventory = new ArrayList<>();
+    public List<StorableObject> inventory = new ArrayList<>();
     public int inventoryCapacity;
     public Weapon currentWeapon;
     public DefenseObject currentShield;
@@ -40,8 +42,8 @@ public class Player extends AliveEntity implements Damageable
     public int level;
     public int strength;
     public int agility;
-    public boolean isAttacking;
-    public int attackActionTimer = 0;
+    public boolean isSwingingWeapon;
+    public int swingTimer = 0;
     public int energy;
     public int maxEnergy;
     public int maxExp;
@@ -55,7 +57,7 @@ public class Player extends AliveEntity implements Damageable
         screenX = screenWidth / 2 - halfTileSize;
         screenY = screenHeight / 2 - halfTileSize;
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
-        setWorldLocation(tileSize * 28, tileSize * 28);
+        setWorldLocation(tileSize * 24, tileSize * 24);
         movingSpeed = 4;
         level = 1;
         maxLife = 6;
@@ -68,7 +70,7 @@ public class Player extends AliveEntity implements Damageable
         maxEnergy = 50;
         coins = 0;
         type = PLAYER;
-        isAttacking = false;
+        isSwingingWeapon = false;
         currentWeapon = new Sword(gp);
         currentShield = new Shield(gp);
         projectile = new Fireball(gp);
@@ -98,17 +100,20 @@ public class Player extends AliveEntity implements Damageable
     @Override
     public void update()
     {
-        if (isAttacking)
+        if (isSwingingWeapon)
         {
-            attack();
+            swing();
         }
         else if (isActionButtonPressed())
         {
             changeMovingDirection();
-            hasCollision = gp.collisionChecker.isTileColliding(this);
+            hasCollision = gp.collisionChecker.isHittingCollisionTile(this);
             interactWithEntities();
+            Optional<InteractiveTile> interactiveTile = gp.interactiveTiles.stream()
+                    .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
+                    .findFirst();
 
-            if (!hasCollision && !keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
+            if (interactiveTile.isEmpty() && !hasCollision && !keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
             {
                 handleMoving();
             }
@@ -139,7 +144,7 @@ public class Player extends AliveEntity implements Damageable
         int tempScreenX = screenX;
         int tempScreenY = screenY;
 
-        if (isAttacking)
+        if (isSwingingWeapon)
         {
             switch (direction)
             {
@@ -181,13 +186,13 @@ public class Player extends AliveEntity implements Damageable
     @Override
     public void interactWithEntities()
     {
-        gp.objects.stream().filter(object -> gp.collisionChecker.isObjectColliding(this, object))
+        gp.objects.stream().filter(object -> gp.collisionChecker.isEntityColliding(this, object))
                 .findFirst().ifPresent(Object::interact);
 
-        gp.npcs.stream().filter(npc -> gp.collisionChecker.isLiveEntityColliding(this, npc))
+        gp.npcs.stream().filter(npc -> gp.collisionChecker.isEntityColliding(this, npc))
                 .findFirst().ifPresent(this::talkToNpcIfTalkButtonPressed);
 
-        gp.monsters.stream().filter(monster -> gp.collisionChecker.isLiveEntityColliding(this, monster))
+        gp.monsters.stream().filter(monster -> gp.collisionChecker.isEntityColliding(this, monster))
                 .findFirst().ifPresent(this::takeDamageFromMonsterIfAvailable);
     }
 
@@ -232,10 +237,10 @@ public class Player extends AliveEntity implements Damageable
                 || keyboardHandler.playScreenKeyboardHandler.isInventoryButtonPressed || keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed;
     }
 
-    private void attack()
+    private void swing()
     {
-        attackActionTimer++;
-        if (attackActionTimer == 2)
+        swingTimer++;
+        if (swingTimer == 2)
         {
             switch (currentWeapon.type)
             {
@@ -243,27 +248,37 @@ public class Player extends AliveEntity implements Damageable
                 case AXE -> gp.soundHandler.playSoundEffect(SWING_AXE);
             }
         }
-        else if (attackActionTimer <= 5)
+        else if (swingTimer <= 5)
         {
             spriteNumber = 1;
         }
-        else if (attackActionTimer == 6)
+        else if (swingTimer == 6)
         {
-            getOptionalMonsterCollidingWithAttack().ifPresent(monster -> damageMonster(monster, attackValue));
+            getOptionalEntityCollidingWithWeaponSwing().ifPresent(entity ->
+            {
+                if (MONSTER_TYPES.contains(entity.type))
+                {
+                    damageMonster((Monster) entity, attackValue);
+                }
+                else if (INTERACTIVE_TILES.contains(entity.type))
+                {
+                    ((InteractiveTile) entity).interact();
+                }
+            });
         }
-        else if (attackActionTimer <= 25)
+        else if (swingTimer <= 25)
         {
             spriteNumber = 2;
         }
         else
         {
             spriteNumber = 1;
-            attackActionTimer = 0;
-            isAttacking = false;
+            swingTimer = 0;
+            isSwingingWeapon = false;
         }
     }
 
-    private Optional<Monster> getOptionalMonsterCollidingWithAttack()
+    private Optional<? extends Entity> getOptionalEntityCollidingWithWeaponSwing()
     {
         //save current worldX, worldY, solidArea
         int worldXBeforeAttack = worldX;
@@ -274,15 +289,22 @@ public class Player extends AliveEntity implements Damageable
         adjustPlayerCoordinatesForAttackArea();
         solidArea.setSize(currentWeapon.attackArea.width, currentWeapon.attackArea.height);
 
-        Optional<Monster> monster = gp.monsters.stream()
-                .filter(m -> gp.collisionChecker.isLiveEntityColliding(this, m))
+        Optional<? extends Entity> result = gp.monsters.stream()
+                .filter(m -> gp.collisionChecker.isEntityColliding(this, m))
                 .findFirst();
+
+        if (result.isEmpty())
+        {
+            result = gp.interactiveTiles.stream()
+                    .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
+                    .findFirst();
+        }
 
         //restore original position
         setWorldLocation(worldXBeforeAttack, worldYBeforeAttack);
         solidArea.setSize(solidAreaWidthBeforeAttack, solidAreaHeightBeforeAttack);
 
-        return monster;
+        return result;
     }
 
     public void damageMonster(Monster monster, int damage)
@@ -294,12 +316,17 @@ public class Player extends AliveEntity implements Damageable
             {
                 addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
 
-                exp += monster.exp;
-                if (exp >= maxExp)
-                {
-                    levelUp();
-                }
+                collectExp(monster.exp);
             }
+        }
+    }
+
+    public void collectExp(int collectedExp)
+    {
+        exp += collectedExp;
+        if (exp >= maxExp)
+        {
+            levelUp();
         }
     }
 
@@ -311,7 +338,8 @@ public class Player extends AliveEntity implements Damageable
         this.increaseLife(2);
         strength++;
         agility++;
-        exp = 0;
+        int expLeftover = exp - maxExp;
+        exp = Math.max(expLeftover, 0);
         maxExp += level;
 
         attackValue = calculateAttack();
