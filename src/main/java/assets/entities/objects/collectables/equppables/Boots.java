@@ -2,7 +2,6 @@ package assets.entities.objects.collectables.equppables;
 
 import application.GamePanel;
 import assets.entities.objects.collectables.EquipableItem;
-import assets.interfaces.Equipable;
 
 import static application.Application.objectsImagesUrls;
 import static assets.EntityType.BOOTS;
@@ -14,37 +13,26 @@ public class Boots extends EquipableItem
     public Boots(GamePanel gp)
     {
         super(gp);
-        this.name = "Boots";
-        this.type = BOOTS;
-        this.interactSound = POWER_UP; //TODO add TAKE_BOOTS sound
-        this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("boots"));
-        this.description = String.format("""
+        name = "Boots";
+        type = BOOTS;
+        interactSound = POWER_UP; //TODO add TAKE_BOOTS sound
+        value = 2;
+        defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("boots"));
+        description = String.format("""
                 [%s]
                 Make you faster!""", name);
     }
 
     @Override
-    public void useItem()
-    {
-        switch (gp.player.movingSpeed)
-        {
-            case 4 -> equip();
-            case 6 -> deEquip();
-        }
-    }
-
-    @Override
     public void equip()
     {
-        isEquipped = true;
         gp.soundHandler.playSoundEffect(POWER_UP);
-        gp.player.movingSpeed += 2;
+        gp.player.movingSpeed += value;
     }
 
     @Override
     public void deEquip()
     {
-        isEquipped = false;
-        gp.player.movingSpeed -= 2;
+        gp.player.movingSpeed -= value;
     }
 }

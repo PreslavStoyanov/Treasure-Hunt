@@ -103,12 +103,12 @@ public class CollisionChecker
         }
         else if (INTERACTIVE_TILES.contains(entity.type))
         {
-            return isInteractiveTileIntersects(movingEntity, entity);
+            return isInteractiveTileIntersects(entity);
         }
         return true;
     }
 
-    private static boolean isInteractiveTileIntersects(MovingEntity movingEntity, Entity entity)
+    private static boolean isInteractiveTileIntersects(Entity entity)
     {
         return entity.hasCollision;
     }

@@ -2,44 +2,41 @@ package assets.entities.objects.collectables.equppables;
 
 import application.GamePanel;
 import assets.entities.objects.collectables.EquipableItem;
-import assets.interfaces.Equipable;
 
 import java.awt.*;
+import java.util.Optional;
 
 import static utilities.drawers.MessageDrawer.addMessage;
+import static utilities.sound.Sound.TAKE_AXE;
 
 public class Weapon extends EquipableItem
 {
-    public int attackValue;
     public Rectangle attackArea;
 
     public Weapon(GamePanel gp)
     {
         super(gp);
+        this.interactSound = TAKE_AXE;
     }
 
     @Override
     public void useItem()
     {
-        equip();
+        super.useItem();
+        gp.player.attackValue = gp.player.calculateAttack();
     }
 
     @Override
     public void equip()
     {
-        if (gp.player.currentWeapon != null)
-        {
-            gp.player.currentWeapon.deEquip();
-        }
-        gp.player.currentWeapon = this;
-        isEquipped = true;
-        gp.player.attackValue = gp.player.calculateAttack();
+        gp.player.currentWeapon.ifPresent(Weapon::useItem);
+        gp.player.currentWeapon = Optional.of(this);
         addMessage(String.format("You equipped the %s", name));
     }
 
     @Override
     public void deEquip()
     {
-        isEquipped = false;
+        gp.player.currentWeapon = Optional.empty();
     }
 }

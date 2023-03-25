@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import static utilities.GameState.CHARACTER_STATE;
 import static utilities.GameState.PAUSE_STATE;
+import static utilities.drawers.MessageDrawer.addMessage;
 
 public class PlayScreenKeyboardHandler
 {
@@ -40,8 +41,14 @@ public class PlayScreenKeyboardHandler
             case KeyEvent.VK_P -> gp.setGameState(PAUSE_STATE);
             case KeyEvent.VK_SPACE ->
             {
-                isSpacePressed = true;
-                gp.player.isSwingingWeapon = true;
+                if (gp.player.currentWeapon.isPresent())
+                {
+                    isSpacePressed = true;
+                    gp.player.isSwingingWeapon = true;
+                } else
+                {
+                    addMessage("You need weapon/tool");
+                }
             }
         }
     }

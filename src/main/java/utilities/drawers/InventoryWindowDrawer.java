@@ -55,8 +55,7 @@ public class InventoryWindowDrawer
         {
             Object object = player.inventory.get(i);
 
-            if (EQUIPPABLE_ITEMS.contains(object.type) && ((EquipableItem) object).isEquipped ||
-                    object == player.currentWeapon || object == player.currentShield)
+            if (EQUIPPABLE_ITEMS.contains(object.type) && ((EquipableItem) object).isEquipped)
             {
                 drawRoundFilledRect(itemX, itemY, tileSize, tileSize,
                         new Color(162, 137, 0, 255));

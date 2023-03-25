@@ -12,8 +12,6 @@ import assets.entities.movingentities.sprites.AttackingSprite;
 import assets.entities.objects.StorableObject;
 import assets.entities.objects.collectables.equppables.DefenseObject;
 import assets.entities.objects.collectables.equppables.Weapon;
-import assets.entities.objects.collectables.equppables.defenseobjects.Shield;
-import assets.entities.objects.collectables.equppables.weapons.Sword;
 import assets.interfaces.Damageable;
 import utilities.keyboard.KeyboardHandler;
 
@@ -36,8 +34,8 @@ public class Player extends AliveEntity implements Damageable
     private final KeyboardHandler keyboardHandler;
     public List<StorableObject> inventory = new ArrayList<>();
     public int inventoryCapacity;
-    public Weapon currentWeapon;
-    public DefenseObject currentShield;
+    public Optional<Weapon> currentWeapon;
+    public Optional<DefenseObject> currentShield;
     public int coins;
     public int level;
     public int strength;
@@ -71,14 +69,14 @@ public class Player extends AliveEntity implements Damageable
         coins = 0;
         type = PLAYER;
         isSwingingWeapon = false;
-        currentWeapon = new Sword(gp);
-        currentShield = new Shield(gp);
+        currentWeapon = Optional.empty();
+        currentShield = Optional.empty();
         projectile = new Fireball(gp);
-        inventory.add(currentShield);
-        inventory.add(currentWeapon);
+//        inventory.add(currentShield);
+//        inventory.add(currentWeapon);
         inventoryCapacity = 20;
-        attackValue = calculateAttack();
-        defense = calculateDefense();
+//        attackValue = calculateAttack();
+//        defense = calculateDefense();
         sprites = setSprites("src/main/resources/player/player_sprites.yaml");
     }
 
@@ -89,12 +87,12 @@ public class Player extends AliveEntity implements Damageable
 
     public int calculateAttack()
     {
-        return strength * currentWeapon.attackValue;
+        return currentWeapon.map(weapon -> strength * weapon.value).orElse(0);
     }
 
     public int calculateDefense()
     {
-        return agility * currentShield.defenseValue;
+        return currentShield.map(defenseObject -> agility * defenseObject.value).orElse(0);
     }
 
     @Override
@@ -150,18 +148,18 @@ public class Player extends AliveEntity implements Damageable
             {
                 case UP ->
                 {
-                    image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getUpSprites());
+                    image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.get().type).getUpSprites());
                     tempScreenY -= tileSize;
                 }
                 case DOWN ->
-                        image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getDownSprites());
+                        image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.get().type).getDownSprites());
                 case LEFT ->
                 {
-                    image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getLeftSprites());
+                    image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.get().type).getLeftSprites());
                     tempScreenX -= tileSize;
                 }
                 case RIGHT ->
-                        image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.type).getRightSprites());
+                        image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.get().type).getRightSprites());
                 default -> throw new IllegalStateException("Unexpected value: " + direction);
             }
         }
@@ -242,7 +240,7 @@ public class Player extends AliveEntity implements Damageable
         swingTimer++;
         if (swingTimer == 2)
         {
-            switch (currentWeapon.type)
+            switch (currentWeapon.get().type)
             {
                 case SWORD -> gp.soundHandler.playSoundEffect(SWING_SWORD);
                 case AXE -> gp.soundHandler.playSoundEffect(SWING_AXE);
@@ -287,7 +285,7 @@ public class Player extends AliveEntity implements Damageable
         int solidAreaHeightBeforeAttack = solidArea.height;
 
         adjustPlayerCoordinatesForAttackArea();
-        solidArea.setSize(currentWeapon.attackArea.width, currentWeapon.attackArea.height);
+        solidArea.setSize(currentWeapon.get().attackArea.width, currentWeapon.get().attackArea.height);
 
         Optional<? extends Entity> result = gp.monsters.stream()
                 .filter(m -> gp.collisionChecker.isEntityColliding(this, m))
@@ -315,7 +313,6 @@ public class Player extends AliveEntity implements Damageable
             if (monster.isDying)
             {
                 addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
-
                 collectExp(monster.exp);
             }
         }
@@ -338,8 +335,7 @@ public class Player extends AliveEntity implements Damageable
         this.increaseLife(2);
         strength++;
         agility++;
-        int expLeftover = exp - maxExp;
-        exp = Math.max(expLeftover, 0);
+        exp = 0;
         maxExp += level;
 
         attackValue = calculateAttack();
@@ -352,10 +348,10 @@ public class Player extends AliveEntity implements Damageable
     {
         switch (direction)
         {
-            case UP -> worldY -= currentWeapon.attackArea.height;
-            case DOWN -> worldY += currentWeapon.attackArea.height;
-            case LEFT -> worldX -= currentWeapon.attackArea.width;
-            case RIGHT -> worldX += currentWeapon.attackArea.width;
+            case UP -> worldY -= currentWeapon.get().attackArea.height;
+            case DOWN -> worldY += currentWeapon.get().attackArea.height;
+            case LEFT -> worldX -= currentWeapon.get().attackArea.width;
+            case RIGHT -> worldX += currentWeapon.get().attackArea.width;
         }
     }
 

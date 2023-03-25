@@ -4,8 +4,9 @@ import application.GamePanel;
 import assets.entities.objects.StorableObject;
 import assets.interfaces.Equipable;
 
-public class EquipableItem extends StorableObject implements Equipable
+public abstract class EquipableItem extends StorableObject implements Equipable
 {
+    public int value;
     public boolean isEquipped = false;
 
     public EquipableItem(GamePanel gp)
@@ -14,14 +15,22 @@ public class EquipableItem extends StorableObject implements Equipable
     }
 
     @Override
-    public void equip()
+    public void useItem()
     {
-
+        if (isEquipped)
+        {
+            deEquip();
+        }
+        else
+        {
+            equip();
+        }
+        isEquipped = !isEquipped;
     }
 
     @Override
-    public void deEquip()
-    {
+    public abstract void equip();
 
-    }
+    @Override
+    public abstract void deEquip();
 }

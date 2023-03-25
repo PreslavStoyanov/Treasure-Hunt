@@ -1,43 +1,40 @@
 package assets.entities.objects.collectables.equppables;
 
 import application.GamePanel;
-import assets.entities.objects.StorableObject;
 import assets.entities.objects.collectables.EquipableItem;
-import assets.interfaces.Equipable;
+
+import java.util.Optional;
 
 import static utilities.drawers.MessageDrawer.addMessage;
+import static utilities.sound.Sound.TAKE_AXE;
 
 public class DefenseObject extends EquipableItem
 {
-    public int defenseValue;
 
     public DefenseObject(GamePanel gp)
     {
         super(gp);
+        this.interactSound = TAKE_AXE; //TODO add take shield sound
     }
 
     @Override
     public void useItem()
     {
-        equip();
+        super.useItem();
+        gp.player.defense = gp.player.calculateDefense();
     }
 
     @Override
     public void equip()
     {
-        if (gp.player.currentShield != null)
-        {
-            gp.player.currentShield.deEquip();
-        }
-        gp.player.currentShield = this;
-        isEquipped = true;
-        gp.player.defense = gp.player.calculateDefense();
+        gp.player.currentShield.ifPresent(DefenseObject::deEquip);
+        gp.player.currentShield = Optional.of(this);
         addMessage(String.format("You equipped the %s", name));
     }
 
     @Override
     public void deEquip()
     {
-        isEquipped = false;
+        gp.player.currentShield = Optional.empty();
     }
 }

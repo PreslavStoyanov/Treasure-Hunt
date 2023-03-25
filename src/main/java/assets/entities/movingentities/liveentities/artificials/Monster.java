@@ -2,7 +2,7 @@ package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
 import assets.interfaces.Damageable;
-import assets.interfaces.ItemDropable;
+import assets.interfaces.ItemDroppable;
 import assets.entities.movingentities.liveentities.Artificial;
 
 import java.awt.*;
@@ -12,7 +12,7 @@ import static application.GamePanel.tileSize;
 import static assets.ObjectType.*;
 import static utilities.sound.Sound.HIT_MONSTER;
 
-public class Monster extends Artificial implements Damageable, ItemDropable
+public class Monster extends Artificial implements Damageable, ItemDroppable
 {
 
     public boolean isAlive = true;

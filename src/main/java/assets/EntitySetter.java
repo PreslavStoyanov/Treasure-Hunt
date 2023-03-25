@@ -73,6 +73,8 @@ public class EntitySetter
         addObject(ENERGY_POTION, 14, 24);
         addObject(HEALTH_POTION, 15, 24);
         addObject(AXE, 22, 15);
+        addObject(SWORD, 27, 26);
+        addObject(SHIELD, 27, 25);
 
         addObject(BOOTS, 24, 34);
 

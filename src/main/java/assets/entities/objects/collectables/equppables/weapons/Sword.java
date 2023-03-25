@@ -17,7 +17,7 @@ public class Sword extends Weapon
         super(gp);
         this.name = "Sword";
         this.type = EntityType.SWORD;
-        this.attackValue = 1;
+        this.value = 1;
         this.attackArea = new Rectangle(0, 0, 36, 36);
         this.description = String.format("""
                 [%s]
