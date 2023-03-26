@@ -6,14 +6,15 @@ import assets.entities.InteractiveTile;
 import assets.entities.Object;
 import assets.entities.movingentities.AliveEntity;
 import assets.entities.movingentities.liveentities.artificials.Monster;
-import assets.entities.movingentities.liveentities.artificials.Npc;
 import assets.entities.movingentities.projectiles.Fireball;
 import assets.entities.movingentities.sprites.AttackingSprite;
+import assets.entities.movingentities.sprites.AttackingSprites;
 import assets.entities.objects.StorableObject;
 import assets.entities.objects.collectables.equppables.DefenseObject;
 import assets.entities.objects.collectables.equppables.Weapon;
 import assets.interfaces.Damageable;
 import utilities.keyboard.KeyboardHandler;
+import utilities.keyboard.PlayScreenKeyboardHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -27,20 +28,19 @@ import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.GAME_LOSE_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
+import static utilities.keyboard.PlayScreenKeyboardHandler.*;
 import static utilities.sound.Sound.*;
 
 public class Player extends AliveEntity implements Damageable
 {
-    private final KeyboardHandler keyboardHandler;
     public List<StorableObject> inventory = new ArrayList<>();
     public int inventoryCapacity;
-    public Optional<Weapon> currentWeapon;
-    public Optional<DefenseObject> currentShield;
+    public Optional<Weapon> currentWeapon = Optional.empty();
+    public Optional<DefenseObject> currentShield = Optional.empty();
     public int coins;
     public int level;
     public int strength;
     public int agility;
-    public boolean isSwingingWeapon;
     public int swingTimer = 0;
     public int energy;
     public int maxEnergy;
@@ -51,7 +51,6 @@ public class Player extends AliveEntity implements Damageable
     public Player(GamePanel gp, KeyboardHandler keyboardHandler)
     {
         super(gp);
-        this.keyboardHandler = keyboardHandler;
         screenX = screenWidth / 2 - halfTileSize;
         screenY = screenHeight / 2 - halfTileSize;
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
@@ -68,15 +67,8 @@ public class Player extends AliveEntity implements Damageable
         maxEnergy = 50;
         coins = 0;
         type = PLAYER;
-        isSwingingWeapon = false;
-        currentWeapon = Optional.empty();
-        currentShield = Optional.empty();
-        projectile = new Fireball(gp);
-//        inventory.add(currentShield);
-//        inventory.add(currentWeapon);
         inventoryCapacity = 20;
-//        attackValue = calculateAttack();
-//        defense = calculateDefense();
+        projectile = new Fireball(gp);
         sprites = setSprites("src/main/resources/player/player_sprites.yaml");
     }
 
@@ -98,40 +90,41 @@ public class Player extends AliveEntity implements Damageable
     @Override
     public void update()
     {
-        if (isSwingingWeapon)
+        if (isSwingButtonPressed && currentWeapon.isPresent())
         {
-            swing();
+            swing(currentWeapon.get());
         }
-        else if (isActionButtonPressed())
+        else
         {
             changeMovingDirection();
-            hasCollision = gp.collisionChecker.isHittingCollisionTile(this);
             interactWithEntities();
-            Optional<InteractiveTile> interactiveTile = gp.interactiveTiles.stream()
-                    .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
-                    .findFirst();
-
-            if (interactiveTile.isEmpty() && !hasCollision && !keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
-            {
-                handleMoving();
-            }
+            handleProjectileAction();
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isShootProjectileButtonPressed
+        setInvincibleTime(60);
+        if (life <= 0)
+        {
+            endGame();
+        }
+    }
+
+    private void endGame()
+    {
+        gp.soundHandler.stop();
+        gp.soundHandler.playSoundEffect(GAMEOVER_SOUND);
+        gp.setGameState(GAME_LOSE_STATE);
+    }
+
+    private void handleProjectileAction()
+    {
+        if (isShootProjectileButtonPressed
                 && energy >= projectile.castEnergyNeeded)
         {
             projectile.shoot(this);
             decreaseEnergy(projectile.castEnergyNeeded);
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isEnergyButtonPressed)
+        if (isEnergyButtonPressed)
         {
             increaseEnergy(1);
-        }
-        setInvincibleTime(60);
-        if (life <= 0)
-        {
-            gp.soundHandler.stop();
-            gp.soundHandler.playSoundEffect(GAMEOVER_SOUND);
-            gp.setGameState(GAME_LOSE_STATE);
         }
     }
 
@@ -142,74 +135,90 @@ public class Player extends AliveEntity implements Damageable
         int tempScreenX = screenX;
         int tempScreenY = screenY;
 
-        if (isSwingingWeapon)
+        if (isSwingButtonPressed && currentWeapon.isPresent())
         {
             switch (direction)
             {
-                case UP ->
-                {
-                    image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.get().type).getUpSprites());
-                    tempScreenY -= tileSize;
-                }
-                case DOWN ->
-                        image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.get().type).getDownSprites());
-                case LEFT ->
-                {
-                    image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.get().type).getLeftSprites());
-                    tempScreenX -= tileSize;
-                }
-                case RIGHT ->
-                        image = changeAttackingSprite(sprites.getAttackingSprites().get(currentWeapon.get().type).getRightSprites());
-                default -> throw new IllegalStateException("Unexpected value: " + direction);
+                case UP -> tempScreenY -= tileSize;
+                case LEFT -> tempScreenX -= tileSize;
             }
+            image = switchAttackingSpritesByDirection(currentWeapon.get());
         }
         else
         {
             image = switchWalkingSpritesByDirection();
         }
 
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, isInvincible ? 0.5F : 1F));
+        g2.drawImage(image, Math.min(tempScreenX, worldX), Math.min(tempScreenY, worldY), null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+    }
 
-        int x = Math.min(tempScreenX, worldX);
-        int y = Math.min(tempScreenY, worldY);
-
-        if (isInvincible)
+    private BufferedImage switchAttackingSpritesByDirection(Weapon weapon)
+    {
+        AttackingSprites attackingSprites = sprites.getAttackingSprites().get(weapon.type);
+        List<AttackingSprite> attackingSpritesByDirection;
+        switch (direction)
         {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            case UP -> attackingSpritesByDirection = attackingSprites.getUpSprites();
+            case DOWN -> attackingSpritesByDirection = attackingSprites.getDownSprites();
+            case LEFT -> attackingSpritesByDirection = attackingSprites.getLeftSprites();
+            case RIGHT -> attackingSpritesByDirection = attackingSprites.getRightSprites();
+            default -> throw new IllegalStateException("Unexpected value: " + direction);
         }
-
-        g2.drawImage(image, x, y, null);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        return changeAttackingSprite(attackingSpritesByDirection);
     }
 
     @Override
     public void interactWithEntities()
     {
+        isHittingTileWithCollision = gp.collisionChecker.isHittingCollisionTile(this);
+        Optional<InteractiveTile> interactiveTile = gp.interactiveTiles.stream()
+                .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
+                .findFirst();
+        gp.monsters.stream().filter(monster -> gp.collisionChecker.isEntityColliding(this, monster))
+                .findFirst()
+                .ifPresent(monster -> {
+                    if (!monster.isDying && !isInvincible)
+                    {
+                        takeDamage(monster.attackValue);
+                        reactToDamage();
+                    }
+                });
         gp.objects.stream().filter(object -> gp.collisionChecker.isEntityColliding(this, object))
-                .findFirst().ifPresent(Object::interact);
+                .findFirst()
+                .ifPresent(Object::interact);
+
+        if (interactiveTile.isEmpty() && !isHittingTileWithCollision && isWalkingButtonPressed())
+        {
+            handleMoving();
+        }
 
         gp.npcs.stream().filter(npc -> gp.collisionChecker.isEntityColliding(this, npc))
-                .findFirst().ifPresent(this::talkToNpcIfTalkButtonPressed);
-
-        gp.monsters.stream().filter(monster -> gp.collisionChecker.isEntityColliding(this, monster))
-                .findFirst().ifPresent(this::takeDamageFromMonsterIfAvailable);
+                .findFirst().ifPresent(npc -> {
+                    if (isTalkButtonPressed)
+                    {
+                        npc.speak();
+                    }
+                });
     }
 
     @Override
     public void changeMovingDirection()
     {
-        if (keyboardHandler.playScreenKeyboardHandler.isUpPressed)
+        if (isUpButtonPressed)
         {
             direction = UP;
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isDownPressed)
+        else if (isDownButtonPressed)
         {
             direction = DOWN;
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isLeftPressed)
+        else if (isLeftButtonPressed)
         {
             direction = LEFT;
         }
-        else if (keyboardHandler.playScreenKeyboardHandler.isRightPressed)
+        else if (isRightButtonPressed)
         {
             direction = RIGHT;
         }
@@ -228,23 +237,49 @@ public class Player extends AliveEntity implements Damageable
         isInvincible = true;
     }
 
-    private boolean isActionButtonPressed()
+    public void damageMonster(Monster monster, int damage)
     {
-        return keyboardHandler.playScreenKeyboardHandler.isUpPressed || keyboardHandler.playScreenKeyboardHandler.isDownPressed
-                || keyboardHandler.playScreenKeyboardHandler.isLeftPressed || keyboardHandler.playScreenKeyboardHandler.isRightPressed
-                || keyboardHandler.playScreenKeyboardHandler.isInventoryButtonPressed || keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed;
+        if (!monster.isInvincible)
+        {
+            monster.takeDamage(damage);
+            if (monster.isDying)
+            {
+                addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
+                collectExp(monster.exp);
+            }
+        }
     }
 
-    private void swing()
+    public void increaseEnergy(int value)
+    {
+        energy = Math.min(energy + value, maxEnergy);
+    }
+
+    public void decreaseEnergy(int value)
+    {
+        energy = Math.max(energy - value, 0);
+    }
+
+    public void collectExp(int collectedExp)
+    {
+        exp += collectedExp;
+        if (exp >= maxExp)
+        {
+            levelUp();
+        }
+    }
+
+    private boolean isWalkingButtonPressed()
+    {
+        return isUpButtonPressed || isDownButtonPressed || isLeftButtonPressed || isRightButtonPressed;
+    }
+
+    private void swing(Weapon weapon)
     {
         swingTimer++;
         if (swingTimer == 2)
         {
-            switch (currentWeapon.get().type)
-            {
-                case SWORD -> gp.soundHandler.playSoundEffect(SWING_SWORD);
-                case AXE -> gp.soundHandler.playSoundEffect(SWING_AXE);
-            }
+            gp.soundHandler.playSoundEffect(weapon.swingSound);
         }
         else if (swingTimer <= 5)
         {
@@ -252,7 +287,7 @@ public class Player extends AliveEntity implements Damageable
         }
         else if (swingTimer == 6)
         {
-            getOptionalEntityCollidingWithWeaponSwing().ifPresent(entity ->
+            getOptionalEntityCollidingWithWeaponSwing(weapon).ifPresent(entity ->
             {
                 if (MONSTER_TYPES.contains(entity.type))
                 {
@@ -272,11 +307,11 @@ public class Player extends AliveEntity implements Damageable
         {
             spriteNumber = 1;
             swingTimer = 0;
-            isSwingingWeapon = false;
+            PlayScreenKeyboardHandler.isSwingButtonPressed = false;
         }
     }
 
-    private Optional<? extends Entity> getOptionalEntityCollidingWithWeaponSwing()
+    private Optional<? extends Entity> getOptionalEntityCollidingWithWeaponSwing(Weapon weapon)
     {
         //save current worldX, worldY, solidArea
         int worldXBeforeAttack = worldX;
@@ -285,7 +320,7 @@ public class Player extends AliveEntity implements Damageable
         int solidAreaHeightBeforeAttack = solidArea.height;
 
         adjustPlayerCoordinatesForAttackArea();
-        solidArea.setSize(currentWeapon.get().attackArea.width, currentWeapon.get().attackArea.height);
+        solidArea.setSize(weapon.attackArea.width, weapon.attackArea.height);
 
         Optional<? extends Entity> result = gp.monsters.stream()
                 .filter(m -> gp.collisionChecker.isEntityColliding(this, m))
@@ -303,28 +338,6 @@ public class Player extends AliveEntity implements Damageable
         solidArea.setSize(solidAreaWidthBeforeAttack, solidAreaHeightBeforeAttack);
 
         return result;
-    }
-
-    public void damageMonster(Monster monster, int damage)
-    {
-        if (!monster.isInvincible)
-        {
-            monster.takeDamage(damage);
-            if (monster.isDying)
-            {
-                addMessage(String.format("%d exp gained from killing %s", monster.exp, monster.name));
-                collectExp(monster.exp);
-            }
-        }
-    }
-
-    public void collectExp(int collectedExp)
-    {
-        exp += collectedExp;
-        if (exp >= maxExp)
-        {
-            levelUp();
-        }
     }
 
     private void levelUp()
@@ -364,30 +377,8 @@ public class Player extends AliveEntity implements Damageable
         return attackingSprites.get(1).getImage();
     }
 
-    public void increaseEnergy(int value)
-    {
-        energy = Math.min(energy + value, maxEnergy);
-    }
-
-    public void decreaseEnergy(int value)
-    {
-        energy = Math.max(energy - value, 0);
-    }
-
-    private void talkToNpcIfTalkButtonPressed(Npc npc)
-    {
-        if (keyboardHandler.playScreenKeyboardHandler.isTalkButtonPressed)
-        {
-            npc.speak();
-        }
-    }
-
     private void takeDamageFromMonsterIfAvailable(Monster monster)
     {
-        if (!monster.isDying && !isInvincible)
-        {
-            takeDamage(monster.attackValue);
-            reactToDamage();
-        }
+
     }
 }

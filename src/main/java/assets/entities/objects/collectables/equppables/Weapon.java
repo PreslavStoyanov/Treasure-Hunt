@@ -2,6 +2,7 @@ package assets.entities.objects.collectables.equppables;
 
 import application.GamePanel;
 import assets.entities.objects.collectables.EquipableItem;
+import utilities.sound.Sound;
 
 import java.awt.*;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import static utilities.sound.Sound.TAKE_AXE;
 public class Weapon extends EquipableItem
 {
     public Rectangle attackArea;
+    public Sound swingSound;
 
     public Weapon(GamePanel gp)
     {

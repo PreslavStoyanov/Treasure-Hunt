@@ -3,6 +3,7 @@ package assets.entities.objects.collectables.equppables.weapons;
 import application.GamePanel;
 import assets.EntityType;
 import assets.entities.objects.collectables.equppables.Weapon;
+import utilities.sound.Sound;
 
 import java.awt.*;
 
@@ -19,6 +20,7 @@ public class Sword extends Weapon
         this.type = EntityType.SWORD;
         this.value = 1;
         this.attackArea = new Rectangle(0, 0, 36, 36);
+        swingSound = Sound.SWING_SWORD;
         this.description = String.format("""
                 [%s]
                 An old sword!""", name);

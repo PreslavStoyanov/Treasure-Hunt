@@ -15,6 +15,6 @@ public class Tree extends InteractiveTile
         type = TREE;
         interactSound = TREE_CHOP;
         toolForInteraction = AXE;
-        hasCollision = true;
+        isHittingTileWithCollision = true;
     }
 }

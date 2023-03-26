@@ -33,7 +33,7 @@ public abstract class InteractiveTile extends Entity implements Interactive
             if (endurance == 0)
             {
                 defaultImage = afterInteractionImage;
-                hasCollision = false;
+                isHittingTileWithCollision = false;
             }
         }
         else

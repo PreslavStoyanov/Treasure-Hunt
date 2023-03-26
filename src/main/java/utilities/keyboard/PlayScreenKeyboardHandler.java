@@ -6,20 +6,18 @@ import java.awt.event.KeyEvent;
 
 import static utilities.GameState.CHARACTER_STATE;
 import static utilities.GameState.PAUSE_STATE;
-import static utilities.drawers.MessageDrawer.addMessage;
 
 public class PlayScreenKeyboardHandler
 {
     private final GamePanel gp;
-    public boolean isUpPressed;
-    public boolean isDownPressed;
-    public boolean isLeftPressed;
-    public boolean isRightPressed;
-    public boolean isShootProjectileButtonPressed;
-    public boolean isTalkButtonPressed;
-    public boolean isInventoryButtonPressed;
-    public boolean isEnergyButtonPressed;
-    public boolean isSpacePressed;
+    public static boolean isUpButtonPressed;
+    public static boolean isDownButtonPressed;
+    public static boolean isLeftButtonPressed;
+    public static boolean isRightButtonPressed;
+    public static boolean isShootProjectileButtonPressed;
+    public static boolean isTalkButtonPressed;
+    public static boolean isEnergyButtonPressed;
+    public static boolean isSwingButtonPressed;
 
     public PlayScreenKeyboardHandler(GamePanel gp)
     {
@@ -30,26 +28,16 @@ public class PlayScreenKeyboardHandler
     {
         switch (keyPressed.getKeyCode())
         {
-            case KeyEvent.VK_W -> isUpPressed = true;
-            case KeyEvent.VK_S -> isDownPressed = true;
-            case KeyEvent.VK_A -> isLeftPressed = true;
-            case KeyEvent.VK_D -> isRightPressed = true;
+            case KeyEvent.VK_W -> isUpButtonPressed = true;
+            case KeyEvent.VK_S -> isDownButtonPressed = true;
+            case KeyEvent.VK_A -> isLeftButtonPressed = true;
+            case KeyEvent.VK_D -> isRightButtonPressed = true;
             case KeyEvent.VK_E -> isTalkButtonPressed = true;
             case KeyEvent.VK_F -> isEnergyButtonPressed = true;
             case KeyEvent.VK_R -> isShootProjectileButtonPressed = true;
             case KeyEvent.VK_Q -> gp.setGameState(CHARACTER_STATE);
             case KeyEvent.VK_P -> gp.setGameState(PAUSE_STATE);
-            case KeyEvent.VK_SPACE ->
-            {
-                if (gp.player.currentWeapon.isPresent())
-                {
-                    isSpacePressed = true;
-                    gp.player.isSwingingWeapon = true;
-                } else
-                {
-                    addMessage("You need weapon/tool");
-                }
-            }
+            case KeyEvent.VK_SPACE -> isSwingButtonPressed = true;
         }
     }
 
@@ -57,15 +45,13 @@ public class PlayScreenKeyboardHandler
     {
         switch (keyReleased.getKeyCode())
         {
-            case KeyEvent.VK_W -> isUpPressed = false;
-            case KeyEvent.VK_S -> isDownPressed = false;
-            case KeyEvent.VK_A -> isLeftPressed = false;
-            case KeyEvent.VK_D -> isRightPressed = false;
-            case KeyEvent.VK_Q -> isInventoryButtonPressed = false;
+            case KeyEvent.VK_W -> isUpButtonPressed = false;
+            case KeyEvent.VK_S -> isDownButtonPressed = false;
+            case KeyEvent.VK_A -> isLeftButtonPressed = false;
+            case KeyEvent.VK_D -> isRightButtonPressed = false;
             case KeyEvent.VK_R -> isShootProjectileButtonPressed = false;
             case KeyEvent.VK_E -> isTalkButtonPressed = false;
             case KeyEvent.VK_F -> isEnergyButtonPressed = false;
-            case KeyEvent.VK_SPACE -> isSpacePressed = false;
         }
     }
 }

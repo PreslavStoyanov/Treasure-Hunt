@@ -4,7 +4,6 @@ import application.GamePanel;
 import assets.Entity;
 import assets.EntityType;
 import assets.entities.MovingEntity;
-import assets.entities.Object;
 
 import static application.GamePanel.tileSize;
 import static assets.EntityType.*;
@@ -90,46 +89,31 @@ public class CollisionChecker
 
         if (entity.type.equals(PLAYER))
         {
-            movingEntity.hasCollision = true;
+            movingEntity.isHittingTileWithCollision = true;
             return true;
         }
         else if (OBJECT_TYPES.contains(entity.type))
         {
-            return isObjectIntersects(movingEntity, entity);
+            if (entity.isHittingTileWithCollision)
+            {
+                movingEntity.isHittingTileWithCollision = true;
+            }
+            return movingEntity.type.equals(EntityType.PLAYER);
         }
         else if (MOVING_ENTITIES.contains(entity.type))
         {
-            return isMovingEntityIntersects(movingEntity, entity);
+            if (entity != movingEntity)
+            {
+                movingEntity.isHittingTileWithCollision = true;
+                return true;
+            }
+            else return false;
         }
         else if (INTERACTIVE_TILES.contains(entity.type))
         {
-            return isInteractiveTileIntersects(entity);
+            return entity.isHittingTileWithCollision;
         }
-        return true;
-    }
-
-    private static boolean isInteractiveTileIntersects(Entity entity)
-    {
-        return entity.hasCollision;
-    }
-
-    private static boolean isMovingEntityIntersects(MovingEntity movingEntity, Entity target)
-    {
-        if (target != movingEntity)
-        {
-            movingEntity.hasCollision = true;
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean isObjectIntersects(MovingEntity movingEntity, Entity object)
-    {
-        if (object.hasCollision)
-        {
-            movingEntity.hasCollision = true;
-        }
-        return movingEntity.type.equals(EntityType.PLAYER);
+        else return true;
     }
 
     private static void increaseSolidAreaWorldCoordinates(Entity entity)

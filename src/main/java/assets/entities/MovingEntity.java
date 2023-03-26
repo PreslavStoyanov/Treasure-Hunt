@@ -45,7 +45,7 @@ public abstract class MovingEntity extends Entity
     public void update()
     {
         changeMovingDirection();
-        hasCollision = gp.collisionChecker.isHittingCollisionTile(this);
+        isHittingTileWithCollision = gp.collisionChecker.isHittingCollisionTile(this);
         interactWithEntities();
         Optional<InteractiveTile> interactiveTile = gp.interactiveTiles.stream()
                 .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
@@ -53,7 +53,7 @@ public abstract class MovingEntity extends Entity
 
         this.isContactingPlayer = gp.collisionChecker.isEntityColliding(this, gp.player);
 
-        if (interactiveTile.isEmpty() && !hasCollision && !isContactingPlayer)
+        if (interactiveTile.isEmpty() && !isHittingTileWithCollision && !isContactingPlayer)
         {
             handleMoving();
         }
