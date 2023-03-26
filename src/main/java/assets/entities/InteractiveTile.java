@@ -26,14 +26,14 @@ public abstract class InteractiveTile extends Entity implements Interactive
     @Override
     public void interact()
     {
-        if (gp.player.currentWeapon.type.equals(toolForInteraction))
+        if (gp.player.currentWeapon.get().type.equals(toolForInteraction))
         {
-            gp.soundHandler.playSoundEffect(TREE_CHOP);
+            gp.soundHandler.playSoundEffect(TREE_CHOP); //TODO fix TREE_CHOP sound -> should not have delay
             decreaseEndurance(1);
             if (endurance == 0)
             {
                 defaultImage = afterInteractionImage;
-                hasCollision = false;
+                isHittingTileWithCollision = false;
             }
         }
         else

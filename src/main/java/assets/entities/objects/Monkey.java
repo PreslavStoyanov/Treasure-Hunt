@@ -24,7 +24,7 @@ public class Monkey extends Object implements Interactive
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         name = "Monkey";
         type = MONKEY;
-        hasCollision = true;
+        isHittingTileWithCollision = true;
         defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("monkey"));
     }
 

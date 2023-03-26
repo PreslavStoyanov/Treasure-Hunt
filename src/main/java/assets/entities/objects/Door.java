@@ -22,7 +22,7 @@ public class Door extends Object implements Interactive
         this.setWorldLocation(x * tileSize, y * tileSize);
         name = "Door";
         type = DOOR;
-        hasCollision = true;
+        isHittingTileWithCollision = true;
         defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("door"));
         setSolidAreaAndDefaultLocation(0, 16,48, 32);
     }

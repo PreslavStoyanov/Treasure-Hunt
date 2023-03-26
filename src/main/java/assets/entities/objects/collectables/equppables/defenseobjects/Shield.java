@@ -14,7 +14,7 @@ public class Shield extends DefenseObject
         super(gp);
         this.name = "Shield";
         this.type = SHIELD;
-        this.defenseValue = 1;
+        this.value = 1;
         this.description = String.format("""
                 [%s]
                 Made of iron!""", name);
