@@ -19,7 +19,9 @@ public final class OptionsScreenKeyboardHandler
 {
     private final GamePanel gp;
     public static int optionSelection = 1;
+
     private boolean isOnFullScreen = Boolean.parseBoolean(properties.getProperty("fullscreen"));
+
     public static final Map<Integer, OptionsMenuSelection> optionMenuSelections =
             Map.of(1, FULL_SCREEN,
                     2, MUSIC,
@@ -27,10 +29,14 @@ public final class OptionsScreenKeyboardHandler
                     4, HELP,
                     5, QUIT,
                     6, BACK);
-
     public OptionsScreenKeyboardHandler(GamePanel gp)
     {
         this.gp = gp;
+    }
+
+    public boolean isOnFullScreen()
+    {
+        return isOnFullScreen;
     }
 
     public void handleOptionsScreenKeys(KeyEvent keyPressed)

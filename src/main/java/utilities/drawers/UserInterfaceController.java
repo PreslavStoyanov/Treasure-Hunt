@@ -46,7 +46,9 @@ public class UserInterfaceController
             case HOME_STATE -> HomeScreenDrawer.drawHomeScreen();
             case HELP_STATE -> HelpScreenDrawer.drawHelpScreen();
             case DIALOGUE_STATE -> DialogueWindowDrawer.drawDialogueScreen();
-            case OPTIONS_STATE -> OptionsWindowDrawer.drawOptionWindow();
+            case OPTIONS_STATE -> OptionsWindowDrawer.drawOptionWindow(
+                    gp.keyboardHandler.optionsScreenKeyboardHandler.isOnFullScreen(),
+                    gp.musicHandler.volume, gp.soundEffectsHandler.volume);
             case PLAY_STATE ->
             {
                 GameTimeDrawer.drawTime();
