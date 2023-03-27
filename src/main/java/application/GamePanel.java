@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static application.Application.properties;
 import static utilities.GameState.HOME_STATE;
 import static utilities.GameState.PLAY_STATE;
 import static utilities.sound.Sound.MAIN_BACKGROUND_MUSIC;
@@ -47,8 +48,8 @@ public class GamePanel extends JPanel implements Runnable
 
     public TileManager tileManager = new TileManager(this);
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
-    public SoundHandler soundEffectsHandler = new SoundHandler();
-    public SoundHandler musicHandler = new SoundHandler();
+    public SoundHandler soundEffectsHandler = new SoundHandler(Boolean.parseBoolean(properties.getProperty("sound-effects")));
+    public SoundHandler musicHandler = new SoundHandler(Boolean.parseBoolean(properties.getProperty("music")));
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public EntitySetter entitySetter = new EntitySetter(this);
     public UserInterfaceController ui = new UserInterfaceController(this);
@@ -104,6 +105,10 @@ public class GamePanel extends JPanel implements Runnable
         musicHandler.playMusic(MAIN_BACKGROUND_MUSIC);
         screen = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
         g2d = (Graphics2D) screen.getGraphics();
+        if (Boolean.parseBoolean(properties.get("fullscreen").toString()))
+        {
+            setFullScreen();
+        }
     }
 
     private void setUpNewEntities()

@@ -10,6 +10,7 @@ public class Application
     public static Properties objectsImagesUrls = new Properties();
     public static Properties soundsUrls = new Properties();
     public static Properties interactiveTilesUrls = new Properties();
+    public static Properties properties = new Properties();
     public static JFrame window;
 
     public static void main(String[] args) throws IOException
@@ -39,5 +40,6 @@ public class Application
         objectsImagesUrls.load(new FileInputStream("src/main/resources/objects/objects_images.properties"));
         interactiveTilesUrls.load(new FileInputStream("src/main/resources/interactive-tiles/interactive_tiles.properties"));
         soundsUrls.load(new FileInputStream("src/main/resources/sounds/sounds.properties"));
+        properties.load(new FileInputStream("src/main/resources/application.properties"));
     }
 }
