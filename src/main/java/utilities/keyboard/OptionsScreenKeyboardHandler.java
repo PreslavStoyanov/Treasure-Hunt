@@ -74,7 +74,7 @@ public final class OptionsScreenKeyboardHandler
             case MUSIC -> properties.setProperty("music", String.valueOf(gp.musicHandler.toggleVolume()));
             case SOUND_EFFECTS -> properties.setProperty("sound-effects", String.valueOf(gp.soundEffectsHandler.toggleVolume()));
             case HELP -> gp.setGameState(HELP_STATE);
-            case QUIT -> System.exit(0);
+            case QUIT -> gp.backToMainMenu();
             case BACK -> gp.returnToPreviousGameState();
         }
         saveConfig();

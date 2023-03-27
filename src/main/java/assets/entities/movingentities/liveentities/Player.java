@@ -24,7 +24,7 @@ import java.util.Optional;
 import static application.GamePanel.*;
 import static assets.EntityType.*;
 import static assets.entities.MovingEntity.Direction.*;
-import static utilities.GameState.GAME_LOSE_STATE;
+import static utilities.GameState.GAME_OVER_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.keyboard.PlayScreenKeyboardHandler.*;
@@ -33,7 +33,7 @@ import static utilities.sound.Sound.*;
 public class Player extends AliveEntity implements Damageable
 {
     public List<StorableObject> inventory = new ArrayList<>();
-    public int inventoryCapacity;
+    public int inventoryCapacity = 20;
     public Optional<Weapon> currentWeapon = Optional.empty();
     public Optional<DefenseObject> currentShield = Optional.empty();
     public int coins;
@@ -44,31 +44,43 @@ public class Player extends AliveEntity implements Damageable
     public int energy;
     public int maxEnergy;
     public int maxExp;
-    public final int screenX;
-    public final int screenY;
+    public final int screenX = SCREEN_WIDTH / 2 - HALF_TILE_SIZE;
+    public final int screenY = SCREEN_HEIGHT / 2 - HALF_TILE_SIZE;
 
     public Player(GamePanel gp)
     {
         super(gp);
-        screenX = SCREEN_WIDTH / 2 - HALF_TILE_SIZE;
-        screenY = SCREEN_HEIGHT / 2 - HALF_TILE_SIZE;
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
-        setWorldLocation(TILE_SIZE * 24, TILE_SIZE * 24);
-        movingSpeed = 4;
-        level = 1;
-        maxLife = 6;
-        life = maxLife;
-        strength = 1;
-        agility = 1;
-        exp = 0;
-        maxExp = 5;
-        energy = 0;
-        maxEnergy = 50;
-        coins = 0;
         type = PLAYER;
-        inventoryCapacity = 20;
         projectile = new Fireball(gp);
         sprites = setSprites("src/main/resources/player/player_sprites.yaml");
+    }
+
+    public void setDefaultLocation()
+    {
+        setWorldLocation(TILE_SIZE * 24, TILE_SIZE * 24);
+    }
+
+    public void setDefaultLife()
+    {
+        maxLife = 6;
+        life = maxLife;
+    }
+
+    public void setDefaultStats()
+    {
+        setDefaultLife();
+        level = 1;
+        maxExp = 5;
+        exp = 0;
+        maxEnergy = 50;
+        energy = 0;
+        movingSpeed = 4;
+        strength = 1;
+        agility = 1;
+        coins = 0;
+        currentWeapon = Optional.empty();
+        currentShield = Optional.empty();
     }
 
     public static int getInventoryItemIndex()
@@ -110,7 +122,7 @@ public class Player extends AliveEntity implements Damageable
     {
         gp.soundEffectsHandler.stop();
         gp.soundEffectsHandler.playSoundEffect(GAMEOVER_SOUND);
-        gp.setGameState(GAME_LOSE_STATE);
+        gp.setGameState(GAME_OVER_STATE);
     }
 
     private void handleProjectileAction()
