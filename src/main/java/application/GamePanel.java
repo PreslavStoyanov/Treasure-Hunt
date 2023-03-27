@@ -25,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static application.Application.properties;
 import static utilities.GameState.HOME_STATE;
 import static utilities.GameState.PLAY_STATE;
+import static utilities.drawers.GameTimeDrawer.playTime;
 import static utilities.sound.Sound.MAIN_BACKGROUND_MUSIC;
 
 public class GamePanel extends JPanel implements Runnable
@@ -98,10 +99,35 @@ public class GamePanel extends JPanel implements Runnable
         this.gameState = gameStatesOrder.peek();
     }
 
+    public void startNewGame()
+    {
+        gameStatesOrder.clear();
+        setGameState(PLAY_STATE);
+        startupDefaultSetup();
+    }
+
+    public void retryGame()
+    {
+        gameStatesOrder.clear();
+        setGameState(PLAY_STATE);
+        player.setDefaultLocation();
+        player.setDefaultLife();
+    }
+    public void backToMainMenu()
+    {
+        isGameStarted = false;
+        gameStatesOrder.clear();
+        setGameState(HOME_STATE);
+        startupDefaultSetup();
+    }
+
     public void setUpGame()
     {
-        setUpNewEntities();
+        tileManager.loadTileMap("/maps/map_one.txt");
+        gameStatesOrder.clear();
         setGameState(HOME_STATE);
+        startupDefaultSetup();
+
         musicHandler.playMusic(MAIN_BACKGROUND_MUSIC);
         screen = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
         g2d = (Graphics2D) screen.getGraphics();
@@ -111,9 +137,12 @@ public class GamePanel extends JPanel implements Runnable
         }
     }
 
-    private void setUpNewEntities()
+    private void startupDefaultSetup()
     {
-        tileManager.loadTileMap("/maps/map_one.txt");
+        playTime = 0;
+        player.inventory.clear();
+        player.setDefaultStats();
+        player.setDefaultLocation();
         entitySetter.setMapOneEntities();
     }
 
@@ -126,7 +155,6 @@ public class GamePanel extends JPanel implements Runnable
         fullScreenWidth = Application.window.getWidth();
         fullScreenHeight = Application.window.getHeight();
     }
-
 
     public void startGameThread()
     {

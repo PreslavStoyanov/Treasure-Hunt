@@ -11,7 +11,7 @@ public enum GameState
     HELP_STATE,
     DIALOGUE_STATE,
     CHARACTER_STATE,
-    GAME_LOSE_STATE,
+    GAME_OVER_STATE,
     GAME_WIN_STATE;
 
     public static final List<GameState> playableStates = List.of(PLAY_STATE, PAUSE_STATE, DIALOGUE_STATE, CHARACTER_STATE);

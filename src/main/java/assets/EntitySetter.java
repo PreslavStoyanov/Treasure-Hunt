@@ -41,6 +41,7 @@ public class EntitySetter
 
     private void setMapOneMonsters()
     {
+        gp.monsters.clear();
         gp.monsters.add(new OrangeSlime(gp, 36, 27));
         gp.monsters.add(new OrangeSlime(gp, 35, 27));
         gp.monsters.add(new OrangeSlime(gp, 34, 27));
@@ -56,12 +57,15 @@ public class EntitySetter
 
     private void setMapOneNpcs()
     {
+        gp.npcs.clear();
         gp.npcs.add(new OldMan(gp, 26, 27));
         gp.npcs.add(new OldWoman(gp, 23, 22));
     }
 
     private void setMapOneInteractiveTiles()
     {
+        gp.interactiveTiles.clear();
+
         Apple apple = new Apple(gp);
         apple.setWorldLocation(17 * TILE_SIZE, 26 * TILE_SIZE);
         gp.interactiveTiles.add(apple);
@@ -77,6 +81,7 @@ public class EntitySetter
 
     private void setMapOneObjects()
     {
+        gp.objects.clear();
         addObject(EXP_POTION, 13, 24);
         addObject(ENERGY_POTION, 14, 24);
         addObject(HEALTH_POTION, 15, 24);

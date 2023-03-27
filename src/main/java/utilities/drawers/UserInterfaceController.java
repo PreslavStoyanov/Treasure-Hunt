@@ -61,8 +61,8 @@ public class UserInterfaceController
                 InventoryWindowDrawer.drawInventoryWindow(gp.player);
                 MessageDrawer.drawMessage();
             }
-            case GAME_WIN_STATE -> drawGameWinScreen();
-            case GAME_LOSE_STATE -> drawGameLoseScreen();
+            case GAME_WIN_STATE -> EndScreenDrawer.drawGameWinScreen(playTime);
+            case GAME_OVER_STATE -> EndScreenDrawer.drawGameLoseScreen();
         }
         if (shouldShowCoordinates)
         {
@@ -73,7 +73,7 @@ public class UserInterfaceController
     private static void drawPauseStateScreen()
     {
         drawCenteredText("PAUSED", 4.5F, false, 80F);
-        drawCenteredText("QUIT GAME", 8.5F, true, 36F);
+        drawCenteredText("BACK", 8.5F, true, 36F);
     }
 
     private Font loadFont()
@@ -86,17 +86,5 @@ public class UserInterfaceController
         {
             throw new RuntimeException(e);
         }
-    }
-
-    private void drawGameWinScreen()
-    {
-        EndScreenDrawer.drawGameWinScreen(playTime);
-        gp.gameThread.interrupt();
-    }
-
-    private void drawGameLoseScreen()
-    {
-        EndScreenDrawer.drawGameLoseScreen(playTime);
-        gp.gameThread.interrupt();
     }
 }

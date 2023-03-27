@@ -4,8 +4,7 @@ import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 
-import static utilities.GameState.GAME_LOSE_STATE;
-import static utilities.GameState.PLAY_STATE;
+import static utilities.GameState.GAME_OVER_STATE;
 
 public record PauseScreenKeyboardHandler(GamePanel gp)
 {
@@ -13,8 +12,7 @@ public record PauseScreenKeyboardHandler(GamePanel gp)
     {
         switch (keyPressed.getKeyCode())
         {
-            case KeyEvent.VK_P -> gp.returnToPreviousGameState();
-            case KeyEvent.VK_ENTER -> gp.setGameState(GAME_LOSE_STATE);
+            case KeyEvent.VK_P, KeyEvent.VK_ESCAPE, KeyEvent.VK_ENTER -> gp.returnToPreviousGameState();
         }
     }
 }
