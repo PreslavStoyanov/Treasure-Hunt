@@ -11,7 +11,7 @@ public class MessageDrawer
 
     public static void drawMessage()
     {
-        float messageY = 11.5F;
+        float messageY = 8.5F;
 
         for (Map.Entry<String, Long> entry : messagesWIthTheirExpirationTime.entrySet())
         {
@@ -22,7 +22,7 @@ public class MessageDrawer
             {
                 messagesWIthTheirExpirationTime.remove(message);
             }
-            messageY += 1;
+            messageY -= 0.5F;
         }
     }
 

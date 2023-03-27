@@ -15,7 +15,7 @@ public record CharacterScreenKeyboardHandler(GamePanel gp)
     {
         switch (keyPressed.getKeyCode())
         {
-            case KeyEvent.VK_Q, KeyEvent.VK_ESCAPE -> gp.setGameState(PLAY_STATE);
+            case KeyEvent.VK_Q -> gp.setGameState(PLAY_STATE);
             case KeyEvent.VK_E, KeyEvent.VK_ENTER -> selectItem();
             case KeyEvent.VK_W, KeyEvent.VK_UP -> moveInventoryCursorUp();
             case KeyEvent.VK_S, KeyEvent.VK_DOWN -> moveInventoryCursorDown();
@@ -24,6 +24,7 @@ public record CharacterScreenKeyboardHandler(GamePanel gp)
         }
     }
 
+    //TODO extract inventory logic form keyboard handler. It should only handle pressing and releasing keys
     private void selectItem()
     {
         try
@@ -39,24 +40,24 @@ public record CharacterScreenKeyboardHandler(GamePanel gp)
     private void moveInventoryCursorUp()
     {
         inventorySlotCursorRow = Math.max(--inventorySlotCursorRow, 0);
-        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
+        gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
     }
 
     private void moveInventoryCursorDown()
     {
         inventorySlotCursorRow = Math.min(++inventorySlotCursorRow, INVENTORY_ROWS - 1);
-        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
+        gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
     }
 
     private void moveInventoryCursorLeft()
     {
         inventorySlotCursorCol = Math.max(--inventorySlotCursorCol, 0);
-        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
+        gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
     }
 
     private void moveInventoryCursorRight()
     {
         inventorySlotCursorCol = Math.min(++inventorySlotCursorCol, INVENTORY_COLS - 1);
-        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
+        gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
     }
 }

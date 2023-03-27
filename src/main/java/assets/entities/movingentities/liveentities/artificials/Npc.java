@@ -2,14 +2,13 @@ package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
 import assets.entities.movingentities.liveentities.Artificial;
-import utilities.keyboard.PlayScreenKeyboardHandler;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.DIALOGUE_STATE;
-import static utilities.keyboard.PlayScreenKeyboardHandler.*;
+import static utilities.keyboard.PlayScreenKeyboardHandler.isTalkButtonPressed;
 import static utilities.sound.Sound.GOSSIP;
 
 public class Npc extends Artificial
@@ -35,7 +34,7 @@ public class Npc extends Artificial
     public void speak()
     {
         gp.setGameState(DIALOGUE_STATE);
-        gp.soundHandler.playSoundEffect(GOSSIP);
+        gp.soundEffectsHandler.playSoundEffect(GOSSIP);
         faceUpPlayer();
         isTalkButtonPressed = false;
     }

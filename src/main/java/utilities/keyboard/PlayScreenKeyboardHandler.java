@@ -4,8 +4,7 @@ import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 
-import static utilities.GameState.CHARACTER_STATE;
-import static utilities.GameState.PAUSE_STATE;
+import static utilities.GameState.*;
 
 public class PlayScreenKeyboardHandler
 {
@@ -37,6 +36,7 @@ public class PlayScreenKeyboardHandler
             case KeyEvent.VK_R -> isShootProjectileButtonPressed = true;
             case KeyEvent.VK_Q -> gp.setGameState(CHARACTER_STATE);
             case KeyEvent.VK_P -> gp.setGameState(PAUSE_STATE);
+            case KeyEvent.VK_ESCAPE -> gp.setGameState(OPTIONS_STATE);
             case KeyEvent.VK_SPACE -> isSwingButtonPressed = true;
         }
     }

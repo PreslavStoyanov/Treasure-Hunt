@@ -10,16 +10,16 @@ import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSl
 import assets.entities.movingentities.liveentities.artificials.npcs.OldMan;
 import assets.entities.movingentities.liveentities.artificials.npcs.OldWoman;
 import assets.entities.objects.*;
-import assets.entities.objects.collectables.equppables.Boots;
 import assets.entities.objects.collectables.Key;
+import assets.entities.objects.collectables.equppables.Boots;
 import assets.entities.objects.collectables.equppables.defenseobjects.Shield;
+import assets.entities.objects.collectables.equppables.weapons.Axe;
+import assets.entities.objects.collectables.equppables.weapons.Sword;
 import assets.entities.objects.collectables.potions.EnergyPotion;
 import assets.entities.objects.collectables.potions.ExpPotion;
 import assets.entities.objects.collectables.potions.HealthPotion;
-import assets.entities.objects.collectables.equppables.weapons.Axe;
-import assets.entities.objects.collectables.equppables.weapons.Sword;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static assets.ObjectType.*;
 
 public class EntitySetter
@@ -31,7 +31,15 @@ public class EntitySetter
         this.gp = gp;
     }
 
-    public void setMonsters()
+    public void setMapOneEntities()
+    {
+        setMapOneMonsters();
+        setMapOneNpcs();
+        setMapOneInteractiveTiles();
+        setMapOneObjects();
+    }
+
+    private void setMapOneMonsters()
     {
         gp.monsters.add(new OrangeSlime(gp, 36, 27));
         gp.monsters.add(new OrangeSlime(gp, 35, 27));
@@ -46,28 +54,28 @@ public class EntitySetter
         gp.monsters.add(new Demon(gp, 23, 15));
     }
 
-    public void setNpcs()
+    private void setMapOneNpcs()
     {
         gp.npcs.add(new OldMan(gp, 26, 27));
         gp.npcs.add(new OldWoman(gp, 23, 22));
     }
 
-    public void setInteractiveTiles()
+    private void setMapOneInteractiveTiles()
     {
         Apple apple = new Apple(gp);
-        apple.setWorldLocation(17 * tileSize, 26 * tileSize);
+        apple.setWorldLocation(17 * TILE_SIZE, 26 * TILE_SIZE);
         gp.interactiveTiles.add(apple);
 
         Oak oak = new Oak(gp);
-        oak.setWorldLocation(17 * tileSize, 25 * tileSize);
+        oak.setWorldLocation(17 * TILE_SIZE, 25 * TILE_SIZE);
         gp.interactiveTiles.add(oak);
 
         Oak oak2 = new Oak(gp);
-        oak2.setWorldLocation(16 * tileSize, 26 * tileSize);
+        oak2.setWorldLocation(16 * TILE_SIZE, 26 * TILE_SIZE);
         gp.interactiveTiles.add(oak2);
     }
 
-    public void setObjects()
+    private void setMapOneObjects()
     {
         addObject(EXP_POTION, 13, 24);
         addObject(ENERGY_POTION, 14, 24);
@@ -112,7 +120,7 @@ public class EntitySetter
 
     private void addCollectableItem(Object object, int x, int y)
     {
-        object.setWorldLocation(x * tileSize, y * tileSize);
+        object.setWorldLocation(x * TILE_SIZE, y * TILE_SIZE);
         gp.objects.add(object);
     }
 }

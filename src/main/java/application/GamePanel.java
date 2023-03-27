@@ -1,15 +1,14 @@
 package application;
 
 import assets.Entity;
+import assets.EntitySetter;
 import assets.entities.InteractiveTile;
-import assets.entities.movingentities.AliveEntity;
 import assets.entities.Object;
 import assets.entities.movingentities.Projectile;
+import assets.entities.movingentities.liveentities.Player;
 import assets.entities.movingentities.liveentities.artificials.Monster;
 import assets.entities.movingentities.liveentities.artificials.Npc;
-import assets.entities.movingentities.liveentities.Player;
 import utilities.CollisionChecker;
-import assets.EntitySetter;
 import utilities.GameState;
 import utilities.drawers.UserInterfaceController;
 import utilities.keyboard.KeyboardHandler;
@@ -18,51 +17,59 @@ import utilities.tiles.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static utilities.GameState.*;
+import static utilities.GameState.HOME_STATE;
+import static utilities.GameState.PLAY_STATE;
 import static utilities.sound.Sound.MAIN_BACKGROUND_MUSIC;
 
 public class GamePanel extends JPanel implements Runnable
 {
     private static final int FPS = 60;
-    private static final int originalTileSize = 16;
-    private static final int scale = 3;
-    public static final int tileSize = originalTileSize * scale;
-    public static final int halfTileSize = tileSize / 2;
-    public static final int maxScreenCol = 16;
-    public static final int maxScreenRow = 12;
-    public static final int screenWidth = tileSize * maxScreenCol;
-    public static final int screenHeight = tileSize * maxScreenRow;
-    public static final int worldColumns = 50;
-    public static final int worldRows = 50;
+    private static final int ORIGINAL_TILE_SIZE = 16;
+    private static final int SCALE = 3;
+    public static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
+    public static final int HALF_TILE_SIZE = TILE_SIZE / 2;
+    public static final int MAX_SCREEN_COL = 16;
+    public static final int MAX_SCREEN_ROW = 9;
+    public static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
+    public static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
+    public static final int WORLD_COLUMNS = 50;
+    public static final int WORLD_ROWS = 50;
+
+    public static int fullScreenWidth = SCREEN_WIDTH;
+    public static int fullScreenHeight = SCREEN_HEIGHT;
+    private BufferedImage screen;
+    private Graphics2D g2d;
 
     public TileManager tileManager = new TileManager(this);
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
-    public SoundHandler soundHandler = new SoundHandler();
+    public SoundHandler soundEffectsHandler = new SoundHandler();
+    public SoundHandler musicHandler = new SoundHandler();
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public EntitySetter entitySetter = new EntitySetter(this);
     public UserInterfaceController ui = new UserInterfaceController(this);
 
     public Thread gameThread;
 
-    public Player player = new Player(this, keyboardHandler);
+    public Player player = new Player(this);
 
     public List<Object> objects = new CopyOnWriteArrayList<>();
     public List<Npc> npcs = new CopyOnWriteArrayList<>();
     public List<Monster> monsters = new CopyOnWriteArrayList<>();
     public List<Projectile> projectiles = new CopyOnWriteArrayList<>();
     public List<InteractiveTile> interactiveTiles = new CopyOnWriteArrayList<>();
+    private final Stack<GameState> gameStatesOrder = new Stack<>();
     private GameState gameState = HOME_STATE;
+    public boolean isGameStarted = false;
     private int frameCounter = 0;
 
     public GamePanel()
     {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(new Color(36, 84, 24));
         this.setDoubleBuffered(true);
         this.addKeyListener(keyboardHandler);
@@ -81,19 +88,40 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setGameState(GameState gameState)
     {
-        this.gameState = gameState;
+        this.gameState = gameStatesOrder.push(gameState);
     }
 
-    public void setUpNewGame()
+    public void returnToPreviousGameState()
+    {
+        gameStatesOrder.pop();
+        this.gameState = gameStatesOrder.peek();
+    }
+
+    public void setUpGame()
+    {
+        setUpNewEntities();
+        setGameState(HOME_STATE);
+        musicHandler.playMusic(MAIN_BACKGROUND_MUSIC);
+        screen = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        g2d = (Graphics2D) screen.getGraphics();
+    }
+
+    private void setUpNewEntities()
     {
         tileManager.loadTileMap("/maps/map_one.txt");
-        entitySetter.setObjects();
-        entitySetter.setNpcs();
-        entitySetter.setMonsters();
-        entitySetter.setInteractiveTiles();
-        setGameState(PLAY_STATE);
-        soundHandler.playMusic(MAIN_BACKGROUND_MUSIC);
+        entitySetter.setMapOneEntities();
     }
+
+    public void setFullScreen()
+    {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
+        graphicsDevice.setFullScreenWindow(Application.window);
+
+        fullScreenWidth = Application.window.getWidth();
+        fullScreenHeight = Application.window.getHeight();
+    }
+
 
     public void startGameThread()
     {
@@ -127,7 +155,8 @@ public class GamePanel extends JPanel implements Runnable
                     frameCounter = 0;
                 }
                 update();
-                repaint();
+                drawScreenImage();
+                drawToScreen();
                 delta--;
             }
 
@@ -155,20 +184,22 @@ public class GamePanel extends JPanel implements Runnable
         }
     }
 
-    public void paintComponent(Graphics g)
+    public void drawToScreen()
     {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+        Graphics graphics = getGraphics();
+        graphics.drawImage(screen, 0, 0, fullScreenWidth, fullScreenHeight, null);
+        graphics.dispose();
+    }
 
-        if (getGameState() == HOME_STATE || getGameState() == HELP_STATE)
+    public void drawScreenImage()
+    {
+        g2d.setColor(new Color(36, 84, 24));
+        g2d.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        if (isGameStarted)
         {
-            ui.draw(g2);
+            drawPlayScreen(g2d);
         }
-        else
-        {
-            drawPlayScreen(g2);
-        }
-        g2.dispose();
+        ui.draw(g2d);
     }
 
     private void drawPlayScreen(Graphics2D g2)
@@ -185,15 +216,13 @@ public class GamePanel extends JPanel implements Runnable
         entities.sort(Comparator.comparingInt(e -> e.worldY));
         entities.forEach(entity -> entity.draw(g2));
         entities.clear();
-
-        ui.draw(g2);
     }
 
     public boolean isOnScreen(int worldX, int worldY)
     {
-        return worldX + tileSize > player.worldX - player.screenX
-                && worldX - tileSize < player.worldX + player.screenX
-                && worldY + tileSize > player.worldY - player.screenY
-                && worldY - tileSize < player.worldY + player.screenY;
+        return worldX + TILE_SIZE > player.worldX - player.screenX
+                && worldX - TILE_SIZE < player.worldX + player.screenX
+                && worldY + TILE_SIZE > player.worldY - player.screenY
+                && worldY - TILE_SIZE < player.worldY + player.screenY;
     }
 }

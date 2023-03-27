@@ -16,6 +16,7 @@ public class KeyboardHandler implements KeyListener
     public final DialogueScreenKeyboardHandler dialogueScreenKeyboardHandler;
     public final CharacterScreenKeyboardHandler characterScreenKeyboardHandler;
     public final PlayScreenKeyboardHandler playScreenKeyboardHandler;
+    public final OptionsScreenKeyboardHandler optionsScreenKeyboardHandler;
 
     public KeyboardHandler(GamePanel gp)
     {
@@ -26,6 +27,7 @@ public class KeyboardHandler implements KeyListener
         this.dialogueScreenKeyboardHandler = new DialogueScreenKeyboardHandler(gp);
         this.characterScreenKeyboardHandler = new CharacterScreenKeyboardHandler(gp);
         this.playScreenKeyboardHandler = new PlayScreenKeyboardHandler(gp);
+        this.optionsScreenKeyboardHandler = new OptionsScreenKeyboardHandler(gp);
     }
 
     @Override
@@ -44,6 +46,7 @@ public class KeyboardHandler implements KeyListener
             case PLAY_STATE -> playScreenKeyboardHandler.handlePlayScreenKeysOnPress(event);
             case DIALOGUE_STATE -> dialogueScreenKeyboardHandler.handleDialogueScreenKeys(event);
             case CHARACTER_STATE -> characterScreenKeyboardHandler.handleCharacterScreenKeys(event);
+            case OPTIONS_STATE -> optionsScreenKeyboardHandler.handleOptionsScreenKeys(event);
         }
         if (event.getKeyCode() == KeyEvent.VK_O)
         {

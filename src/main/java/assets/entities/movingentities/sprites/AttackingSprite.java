@@ -2,7 +2,7 @@ package assets.entities.movingentities.sprites;
 
 import java.awt.image.BufferedImage;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static utilities.images.ImageUtils.setupImage;
 
 public class AttackingSprite
@@ -28,6 +28,6 @@ public class AttackingSprite
 
     public void setImage(String path)
     {
-        this.image = setupImage(path, this.xInTiles * tileSize, this.yInTilesSize * tileSize);
+        this.image = setupImage(path, this.xInTiles * TILE_SIZE, this.yInTilesSize * TILE_SIZE);
     }
 }

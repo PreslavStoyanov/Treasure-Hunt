@@ -26,7 +26,7 @@ public class Boots extends EquipableItem
     @Override
     public void equip()
     {
-        gp.soundHandler.playSoundEffect(POWER_UP);
+        gp.soundEffectsHandler.playSoundEffect(POWER_UP);
         gp.player.movingSpeed += value;
     }
 

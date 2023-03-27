@@ -3,15 +3,26 @@ package utilities.keyboard;
 import application.GamePanel;
 
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
-import static utilities.GameState.HELP_STATE;
+import static utilities.GameState.OPTIONS_STATE;
 import static utilities.GameState.PLAY_STATE;
-import static utilities.drawers.HomeScreenDrawer.HomeMenuOption.*;
-import static utilities.drawers.HomeScreenDrawer.homeMenuOption;
+import static utilities.keyboard.HomeScreenKeyboardHandler.HomeMenuSelection.*;
 import static utilities.sound.Sound.MOVE_CURSOR;
 
-public record HomeScreenKeyboardHandler(GamePanel gp)
+public final class HomeScreenKeyboardHandler
 {
+    private final GamePanel gp;
+    public static int homeMenuSelection = 1;
+    public static final Map<Integer, HomeMenuSelection> homeMenuSelections =
+            Map.of(1, NEW_GAME,
+                    2, OPTIONS,
+                    3, QUIT);
+
+    public HomeScreenKeyboardHandler(GamePanel gp)
+    {
+        this.gp = gp;
+    }
 
     public void handleHomeScreenKeys(KeyEvent pressedKey)
     {
@@ -19,64 +30,40 @@ public record HomeScreenKeyboardHandler(GamePanel gp)
         {
             case KeyEvent.VK_W, KeyEvent.VK_UP -> moveSelectionUp();
             case KeyEvent.VK_S, KeyEvent.VK_DOWN -> moveSelectionDown();
-            case KeyEvent.VK_ENTER -> handleSelection();
+            case KeyEvent.VK_ENTER -> handleSelection(homeMenuSelections.get(homeMenuSelection));
         }
     }
 
     private void moveSelectionUp()
     {
-        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
-        if (homeMenuOption.equals(NEW_GAME))
-        {
-            homeMenuOption = QUIT;
-        }
-        else if (homeMenuOption.equals(HELP))
-        {
-            homeMenuOption = NEW_GAME;
-        }
-        else if (homeMenuOption.equals(QUIT))
-        {
-            homeMenuOption = HELP;
-        }
+        gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
+        homeMenuSelection = Math.max(--homeMenuSelection, 1);
     }
 
     private void moveSelectionDown()
     {
-        gp.soundHandler.playSoundEffect(MOVE_CURSOR);
-        if (homeMenuOption.equals(NEW_GAME))
+        gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
+        homeMenuSelection = Math.min(++homeMenuSelection, 3);
+    }
+
+    private void handleSelection(HomeMenuSelection homeMenuSelection)
+    {
+        switch (homeMenuSelection)
         {
-            homeMenuOption = HELP;
-        }
-        else if (homeMenuOption.equals(HELP))
-        {
-            homeMenuOption = QUIT;
-        }
-        else if (homeMenuOption.equals(QUIT))
-        {
-            homeMenuOption = NEW_GAME;
+            case NEW_GAME ->
+            {
+                gp.setGameState(PLAY_STATE);
+                gp.isGameStarted = true;
+            }
+            case OPTIONS -> gp.setGameState(OPTIONS_STATE);
+            case QUIT -> System.exit(0);
         }
     }
 
-    private void handleSelection()
+    public enum HomeMenuSelection
     {
-        if (homeMenuOption.equals(NEW_GAME))
-        {
-            openNewGame();
-        }
-        if (homeMenuOption.equals(HELP))
-        {
-            gp.soundHandler.playSoundEffect(MOVE_CURSOR);
-            gp.setGameState(HELP_STATE);
-        }
-        if (homeMenuOption.equals(QUIT))
-        {
-            System.exit(0);
-        }
-    }
-
-    private void openNewGame()
-    {
-        gp.setGameState(PLAY_STATE);
-        gp.setUpNewGame();
+        NEW_GAME,
+        OPTIONS,
+        QUIT
     }
 }

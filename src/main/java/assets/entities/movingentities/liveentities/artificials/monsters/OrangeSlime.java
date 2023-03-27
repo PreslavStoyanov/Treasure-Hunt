@@ -4,7 +4,7 @@ import application.GamePanel;
 import assets.EntityType;
 import assets.entities.movingentities.liveentities.artificials.Monster;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 
 public class OrangeSlime extends Monster
 {
@@ -13,7 +13,7 @@ public class OrangeSlime extends Monster
     public OrangeSlime(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.setWorldLocation(x * tileSize, y * tileSize);
+        this.setWorldLocation(x * TILE_SIZE, y * TILE_SIZE);
         setSolidAreaAndDefaultLocation(3, 18, 42, 30);
         this.gp = gp;
         type = EntityType.SLIME;

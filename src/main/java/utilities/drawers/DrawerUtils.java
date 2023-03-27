@@ -6,17 +6,28 @@ import java.awt.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class DrawerUtils
 {
 
+    public static void drawText(String text, float x, float y, boolean shouldDrawShadow, float fontSize)
+    {
+        g2.setFont(g2.getFont().deriveFont(fontSize));
+        if (shouldDrawShadow)
+        {
+            drawShadow(text, x, y);
+        }
+
+        drawText(text, x, y);
+    }
+
     public static void drawCenteredText(String text, float numberOfTilesFromTop, boolean shouldDrawShadow, float fontSize)
     {
         g2.setFont(g2.getFont().deriveFont(fontSize));
         float x = getXForCenteredText(text);
-        float y = GamePanel.tileSize * numberOfTilesFromTop;
+        float y = GamePanel.TILE_SIZE * numberOfTilesFromTop;
         if (shouldDrawShadow)
         {
             drawShadow(text, x, y);
@@ -26,11 +37,11 @@ public class DrawerUtils
     }
 
     public static void drawFillingBar(int value, int valueMax,
-                               int x, int y,
-                               int scale, int width, int height,
-                               int strokeWidth, Color color)
+                                      int x, int y,
+                                      int scale, int width, int height,
+                                      int strokeWidth, Color color)
     {
-        double oneScale = (double) tileSize / valueMax;
+        double oneScale = (double) TILE_SIZE / valueMax;
         double barValue = oneScale * value;
         drawRoundFilledRect(x, y, width * scale, height, new Color(35, 35, 35));
         drawRoundFilledRect(x, y, (int) barValue * scale, height, color);
@@ -39,7 +50,7 @@ public class DrawerUtils
 
     public static void drawSubWindow(int x, int y, int width, int height, int strokeWidth)
     {
-        drawBlackRoundFilledRect(x, y, width, height, 210);
+        drawBlackRoundFilledRect(x, y, width, height, 150);
         drawRoundRect(x + 5, y + 5, width - 10, height - 10, strokeWidth);
     }
 
@@ -86,7 +97,7 @@ public class DrawerUtils
     private static int getXForCenteredText(String text)
     {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return GamePanel.screenWidth / 2 - length / 2;
+        return GamePanel.SCREEN_WIDTH / 2 - length / 2;
     }
 
     private static float getXForAlignToRightText(String text, float tailX)

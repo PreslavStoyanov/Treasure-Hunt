@@ -6,7 +6,6 @@ import assets.entities.movingentities.AliveEntity;
 import java.util.Random;
 
 import static assets.entities.MovingEntity.Direction.*;
-import static assets.entities.MovingEntity.Direction.RIGHT;
 
 public class Artificial extends AliveEntity
 {
