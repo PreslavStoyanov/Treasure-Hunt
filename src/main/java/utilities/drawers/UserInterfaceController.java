@@ -46,12 +46,15 @@ public class UserInterfaceController
             case HOME_STATE -> HomeScreenDrawer.drawHomeScreen();
             case HELP_STATE -> HelpScreenDrawer.drawHelpScreen();
             case DIALOGUE_STATE -> DialogueWindowDrawer.drawDialogueScreen();
+            case OPTIONS_STATE -> OptionsWindowDrawer.drawOptionWindow(
+                    gp.keyboardHandler.optionsScreenKeyboardHandler.isOnFullScreen(),
+                    gp.musicHandler.volume, gp.soundEffectsHandler.volume);
             case PLAY_STATE ->
             {
                 GameTimeDrawer.drawTime();
                 MessageDrawer.drawMessage();
             }
-            case PAUSE_STATE -> drawCenteredText("PAUSED", 8, true, 80F);
+            case PAUSE_STATE -> drawPauseStateScreen();
             case CHARACTER_STATE ->
             {
                 CharacterWindowDrawer.drawCharacterWindow(gp.player);
@@ -65,6 +68,12 @@ public class UserInterfaceController
         {
             showPlayerCoordinates(drawStart, gp.player);
         }
+    }
+
+    private static void drawPauseStateScreen()
+    {
+        drawCenteredText("PAUSED", 4.5F, false, 80F);
+        drawCenteredText("QUIT GAME", 8.5F, true, 36F);
     }
 
     private Font loadFont()

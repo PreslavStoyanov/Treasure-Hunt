@@ -6,7 +6,6 @@ import utilities.sound.Sound;
 
 import static assets.EntityType.MONSTER_TYPES;
 import static assets.EntityType.PLAYER;
-import static utilities.sound.Sound.FIREBALL_SOUND;
 
 public abstract class Projectile extends MovingEntity
 {
@@ -41,7 +40,7 @@ public abstract class Projectile extends MovingEntity
         direction = shooter.direction;
         setFlying(true);
         gp.projectiles.add(this);
-        gp.soundHandler.playSoundEffect(shootSound);
+        gp.soundEffectsHandler.playSoundEffect(shootSound);
         //TODO implement timer for shooting
     }
 

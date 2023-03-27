@@ -22,7 +22,7 @@ public class TileManager
         this.gp = gp;
         this.objectMapper = new ObjectMapper(new YAMLFactory());
         this.tiles = setUpTiles();
-        this.mapTileNumbers = new int[worldColumns][worldRows];
+        this.mapTileNumbers = new int[WORLD_COLUMNS][WORLD_ROWS];
     }
 
     public int[][] getMapTileNumbers()
@@ -53,10 +53,10 @@ public class TileManager
              BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is))))
         {
             String line;
-            for (int row = 0; row < worldRows && (line = br.readLine()) != null; row++)
+            for (int row = 0; row < WORLD_ROWS && (line = br.readLine()) != null; row++)
             {
                 String[] numbers = line.split("\\s+");
-                for (int col = 0; col < Math.min(worldColumns, numbers.length); col++)
+                for (int col = 0; col < Math.min(WORLD_COLUMNS, numbers.length); col++)
                 {
                     mapTileNumbers[col][row] = Integer.parseInt(numbers[col]);
                 }
@@ -70,13 +70,13 @@ public class TileManager
 
     public void draw(Graphics2D g2)
     {
-        for (int row = 0; row < worldRows; row++)
+        for (int row = 0; row < WORLD_ROWS; row++)
         {
-            for (int col = 0; col < worldColumns; col++)
+            for (int col = 0; col < WORLD_COLUMNS; col++)
             {
                 int tileNumber = mapTileNumbers[col][row];
-                int worldX = col * tileSize;
-                int worldY = row * tileSize;
+                int worldX = col * TILE_SIZE;
+                int worldY = row * TILE_SIZE;
                 int screenX = worldX + Math.min(gp.player.screenX - gp.player.worldX, 0);
                 int screenY = worldY + Math.min(gp.player.screenY - gp.player.worldY, 0);
 

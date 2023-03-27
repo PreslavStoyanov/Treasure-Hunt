@@ -19,6 +19,6 @@ public abstract class Object extends Entity implements Interactive
     public void interact()
     {
         gp.objects.remove(this);
-        gp.soundHandler.playSoundEffect(interactSound);
+        gp.soundEffectsHandler.playSoundEffect(interactSound);
     }
 }

@@ -6,10 +6,10 @@ import static utilities.drawers.UserInterfaceController.g2;
 
 public class DialogueWindowDrawer
 {
-    private static final int FRAME_X = tileSize * 2;
-    private static final int FRAME_Y = halfTileSize;
-    private static final int FRAME_WIDTH = screenWidth - (tileSize * 4);
-    private static final int FRAME_HEIGHT = tileSize * 4;
+    private static final int FRAME_WIDTH = SCREEN_WIDTH - (TILE_SIZE * 4);
+    private static final int FRAME_HEIGHT = TILE_SIZE * 4;
+    private static final int FRAME_X = (SCREEN_WIDTH - FRAME_WIDTH) / 2;
+    private static final int FRAME_Y = HALF_TILE_SIZE;
 
     public static String currentDialogue = "";
 
@@ -21,8 +21,8 @@ public class DialogueWindowDrawer
 
     private static void drawDialogueLines()
     {
-        int x = tileSize * 3;
-        int y = halfTileSize + tileSize;
+        int x = TILE_SIZE * 3;
+        int y = HALF_TILE_SIZE + TILE_SIZE;
         for (String line : currentDialogue.split("\n"))
         {
             g2.drawString(line, x, y);

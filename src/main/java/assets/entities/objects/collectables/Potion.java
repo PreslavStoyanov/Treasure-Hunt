@@ -30,6 +30,6 @@ public class Potion extends StorableObject implements Consumable
     public void consume()
     {
         gp.player.inventory.remove(this);
-        gp.soundHandler.playSoundEffect(DRINK_POTION);
+        gp.soundEffectsHandler.playSoundEffect(DRINK_POTION);
     }
 }

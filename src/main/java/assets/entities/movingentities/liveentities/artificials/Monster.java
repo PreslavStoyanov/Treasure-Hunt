@@ -1,14 +1,14 @@
 package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
+import assets.entities.movingentities.liveentities.Artificial;
 import assets.interfaces.Damageable;
 import assets.interfaces.ItemDroppable;
-import assets.entities.movingentities.liveentities.Artificial;
 
 import java.awt.*;
 import java.util.Random;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static assets.ObjectType.*;
 import static utilities.sound.Sound.HIT_MONSTER;
 
@@ -67,7 +67,7 @@ public class Monster extends Artificial implements Damageable, ItemDroppable
     @Override
     public void takeDamage(int damage)
     {
-        gp.soundHandler.playSoundEffect(HIT_MONSTER);
+        gp.soundEffectsHandler.playSoundEffect(HIT_MONSTER);
         super.takeDamage(damage);
         reactToDamage();
         isDying = life <= 0;
@@ -81,8 +81,8 @@ public class Monster extends Artificial implements Damageable, ItemDroppable
     @Override
     public void dropItem()
     {
-        int droppingWorldX = worldX / tileSize;
-        int droppingWorldXY = worldY / tileSize;
+        int droppingWorldX = worldX / TILE_SIZE;
+        int droppingWorldXY = worldY / TILE_SIZE;
         switch (new Random().nextInt(20))
         {
             case 1 -> gp.entitySetter.addObject(HEALTH_POTION, droppingWorldX, droppingWorldXY);
@@ -111,18 +111,18 @@ public class Monster extends Artificial implements Damageable, ItemDroppable
      */
     private void drawFillingBar(Graphics2D g2, int screenX, int screenY)
     {
-        double oneScale = (double) tileSize / maxLife;
+        double oneScale = (double) TILE_SIZE / maxLife;
         double hpBarValue = oneScale * life;
 
         g2.setColor(new Color(35, 35, 35));
-        g2.fillRoundRect(screenX, screenY - tileSize / 3, tileSize, tileSize / 4, 10, 10);
+        g2.fillRoundRect(screenX, screenY - TILE_SIZE / 3, TILE_SIZE, TILE_SIZE / 4, 10, 10);
 
         g2.setColor(new Color(255, 0, 30));
-        g2.fillRoundRect(screenX, screenY - tileSize / 3, (int) hpBarValue, tileSize / 4, 10, 10);
+        g2.fillRoundRect(screenX, screenY - TILE_SIZE / 3, (int) hpBarValue, TILE_SIZE / 4, 10, 10);
 
         g2.setColor(new Color(255, 255, 255));
         g2.setStroke(new BasicStroke(1));
-        g2.drawRoundRect(screenX, screenY - tileSize / 3, tileSize, tileSize / 4, 10, 10);
+        g2.drawRoundRect(screenX, screenY - TILE_SIZE / 3, TILE_SIZE, TILE_SIZE / 4, 10, 10);
     }
 
     private void dyingAnimation(Graphics2D g2)

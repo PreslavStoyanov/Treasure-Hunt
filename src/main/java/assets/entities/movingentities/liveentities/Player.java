@@ -13,7 +13,6 @@ import assets.entities.objects.StorableObject;
 import assets.entities.objects.collectables.equppables.DefenseObject;
 import assets.entities.objects.collectables.equppables.Weapon;
 import assets.interfaces.Damageable;
-import utilities.keyboard.KeyboardHandler;
 import utilities.keyboard.PlayScreenKeyboardHandler;
 
 import java.awt.*;
@@ -48,13 +47,13 @@ public class Player extends AliveEntity implements Damageable
     public final int screenX;
     public final int screenY;
 
-    public Player(GamePanel gp, KeyboardHandler keyboardHandler)
+    public Player(GamePanel gp)
     {
         super(gp);
-        screenX = screenWidth / 2 - halfTileSize;
-        screenY = screenHeight / 2 - halfTileSize;
+        screenX = SCREEN_WIDTH / 2 - HALF_TILE_SIZE;
+        screenY = SCREEN_HEIGHT / 2 - HALF_TILE_SIZE;
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
-        setWorldLocation(tileSize * 24, tileSize * 24);
+        setWorldLocation(TILE_SIZE * 24, TILE_SIZE * 24);
         movingSpeed = 4;
         level = 1;
         maxLife = 6;
@@ -109,8 +108,8 @@ public class Player extends AliveEntity implements Damageable
 
     private void endGame()
     {
-        gp.soundHandler.stop();
-        gp.soundHandler.playSoundEffect(GAMEOVER_SOUND);
+        gp.soundEffectsHandler.stop();
+        gp.soundEffectsHandler.playSoundEffect(GAMEOVER_SOUND);
         gp.setGameState(GAME_LOSE_STATE);
     }
 
@@ -139,8 +138,8 @@ public class Player extends AliveEntity implements Damageable
         {
             switch (direction)
             {
-                case UP -> tempScreenY -= tileSize;
-                case LEFT -> tempScreenX -= tileSize;
+                case UP -> tempScreenY -= TILE_SIZE;
+                case LEFT -> tempScreenX -= TILE_SIZE;
             }
             image = switchAttackingSpritesByDirection(currentWeapon.get());
         }
@@ -227,7 +226,7 @@ public class Player extends AliveEntity implements Damageable
     @Override
     public void takeDamage(int damage)
     {
-        gp.soundHandler.playSoundEffect(RECEIVE_DAMAGE);
+        gp.soundEffectsHandler.playSoundEffect(RECEIVE_DAMAGE);
         super.takeDamage(damage);
     }
 
@@ -279,7 +278,7 @@ public class Player extends AliveEntity implements Damageable
         swingTimer++;
         if (swingTimer == 2)
         {
-            gp.soundHandler.playSoundEffect(weapon.swingSound);
+            gp.soundEffectsHandler.playSoundEffect(weapon.swingSound);
         }
         else if (swingTimer <= 5)
         {
@@ -319,7 +318,7 @@ public class Player extends AliveEntity implements Damageable
         int solidAreaWidthBeforeAttack = solidArea.width;
         int solidAreaHeightBeforeAttack = solidArea.height;
 
-        adjustPlayerCoordinatesForAttackArea();
+        adjustPlayerCoordinatesForAttackArea(weapon);
         solidArea.setSize(weapon.attackArea.width, weapon.attackArea.height);
 
         Optional<? extends Entity> result = gp.monsters.stream()
@@ -353,18 +352,18 @@ public class Player extends AliveEntity implements Damageable
 
         attackValue = calculateAttack();
         defense = calculateDefense();
-        gp.soundHandler.playSoundEffect(LEVEL_UP);
+        gp.soundEffectsHandler.playSoundEffect(LEVEL_UP);
         addMessage(String.format("You are level %d now! You feel stronger!", level));
     }
 
-    private void adjustPlayerCoordinatesForAttackArea()
+    private void adjustPlayerCoordinatesForAttackArea(Weapon weapon)
     {
         switch (direction)
         {
-            case UP -> worldY -= currentWeapon.get().attackArea.height;
-            case DOWN -> worldY += currentWeapon.get().attackArea.height;
-            case LEFT -> worldX -= currentWeapon.get().attackArea.width;
-            case RIGHT -> worldX += currentWeapon.get().attackArea.width;
+            case UP -> worldY -= weapon.attackArea.height;
+            case DOWN -> worldY += weapon.attackArea.height;
+            case LEFT -> worldX -= weapon.attackArea.width;
+            case RIGHT -> worldX += weapon.attackArea.width;
         }
     }
 
@@ -375,10 +374,5 @@ public class Player extends AliveEntity implements Damageable
             return attackingSprites.get(0).getImage();
         }
         return attackingSprites.get(1).getImage();
-    }
-
-    private void takeDamageFromMonsterIfAvailable(Monster monster)
-    {
-
     }
 }

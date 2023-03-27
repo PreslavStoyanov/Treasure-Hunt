@@ -4,7 +4,6 @@ import application.GamePanel;
 import assets.entities.Object;
 import assets.interfaces.Interactive;
 
-
 import static utilities.drawers.MessageDrawer.addMessage;
 
 public class StorableObject extends Object implements Interactive

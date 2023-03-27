@@ -7,7 +7,7 @@ import assets.entities.movingentities.projectiles.Slimeball;
 
 import java.util.Random;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 
 public class GreenSlime extends Monster
 {
@@ -17,7 +17,7 @@ public class GreenSlime extends Monster
     {
         super(gp);
         this.gp = gp;
-        this.setWorldLocation(x * tileSize, y * tileSize);
+        this.setWorldLocation(x * TILE_SIZE, y * TILE_SIZE);
         setSolidAreaAndDefaultLocation(3, 18, 42, 30);
         type = EntityType.SLIME;
         name = "Green slime";

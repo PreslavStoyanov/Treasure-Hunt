@@ -15,6 +15,6 @@ public class GameTimeDrawer
     {
         g2.setColor(Color.white);
         playTime += (double) 1 / 60;
-        g2.drawString(String.format("Time : %.2f", playTime), GamePanel.tileSize * 11, GamePanel.tileSize);
+        g2.drawString(String.format("Time : %.2f", playTime), GamePanel.TILE_SIZE * 11, GamePanel.TILE_SIZE);
     }
 }

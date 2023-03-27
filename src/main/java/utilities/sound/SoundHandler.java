@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import static application.Application.properties;
 import static application.Application.soundsUrls;
 import static utilities.sound.Sound.*;
 
@@ -13,9 +14,12 @@ public class SoundHandler
 {
     private Clip clip;
     private final Map<Sound, URL> sounds = new HashMap<>();
+    private FloatControl floatControl;
+    public boolean volume;
 
-    public SoundHandler()
+    public SoundHandler(boolean volume)
     {
+        this.volume = volume;
         sounds.put(MAIN_BACKGROUND_MUSIC, getSoundUrl("main-background-music"));
         sounds.put(POWER_UP, getSoundUrl("power-up"));
         sounds.put(LEVEL_UP, getSoundUrl("level-up"));
@@ -35,6 +39,18 @@ public class SoundHandler
         sounds.put(DRINK_POTION, getSoundUrl("drink-potion"));
         sounds.put(MONKEY_LAUGH, getSoundUrl("monkey-laugh"));
         sounds.put(TREE_CHOP, getSoundUrl("tree-chop"));
+    }
+
+    public boolean toggleVolume()
+    {
+        volume = !volume;
+        setVolume(volume);
+        return volume;
+    }
+
+    public void setVolume(boolean soundVolume)
+    {
+        floatControl.setValue(soundVolume ? 6F : -80F);
     }
 
     public void playMusic(Sound sound)
@@ -66,6 +82,8 @@ public class SoundHandler
         {
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+            floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            setVolume(volume);
         }
         catch (IOException | LineUnavailableException | UnsupportedAudioFileException e)
         {

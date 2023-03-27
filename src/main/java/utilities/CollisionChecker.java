@@ -5,7 +5,7 @@ import assets.Entity;
 import assets.EntityType;
 import assets.entities.MovingEntity;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.*;
 
 public class CollisionChecker
@@ -24,16 +24,16 @@ public class CollisionChecker
         int entityTopWorldY = movingEntity.worldY + movingEntity.solidArea.y;
         int entityBottomWorldY = movingEntity.worldY + movingEntity.solidArea.y + movingEntity.solidArea.height;
 
-        int entityLeftCol = entityLeftWorldX / tileSize;
-        int entityRightCol = entityRightWorldX / tileSize;
-        int entityTopRow = entityTopWorldY / tileSize;
-        int entityBottomRow = entityBottomWorldY / tileSize;
+        int entityLeftCol = entityLeftWorldX / TILE_SIZE;
+        int entityRightCol = entityRightWorldX / TILE_SIZE;
+        int entityTopRow = entityTopWorldY / TILE_SIZE;
+        int entityBottomRow = entityBottomWorldY / TILE_SIZE;
 
         switch (movingEntity.direction)
         {
             case UP ->
             {
-                entityTopRow = (entityTopWorldY - movingEntity.movingSpeed) / tileSize;
+                entityTopRow = (entityTopWorldY - movingEntity.movingSpeed) / TILE_SIZE;
                 return areSurroundingTilesWithCollision(
                         getTileNumber(entityLeftCol, entityTopRow),
                         getTileNumber(entityRightCol, entityTopRow));
@@ -41,21 +41,21 @@ public class CollisionChecker
             }
             case DOWN ->
             {
-                entityBottomRow = (entityBottomWorldY + movingEntity.movingSpeed) / tileSize;
+                entityBottomRow = (entityBottomWorldY + movingEntity.movingSpeed) / TILE_SIZE;
                 return areSurroundingTilesWithCollision(
                         getTileNumber(entityLeftCol, entityBottomRow),
                         getTileNumber(entityRightCol, entityBottomRow));
             }
             case LEFT ->
             {
-                entityLeftCol = (entityLeftWorldX - movingEntity.movingSpeed) / tileSize;
+                entityLeftCol = (entityLeftWorldX - movingEntity.movingSpeed) / TILE_SIZE;
                 return areSurroundingTilesWithCollision(
                         getTileNumber(entityLeftCol, entityTopRow),
                         getTileNumber(entityLeftCol, entityBottomRow));
             }
             case RIGHT ->
             {
-                entityRightCol = (entityRightWorldX + movingEntity.movingSpeed) / tileSize;
+                entityRightCol = (entityRightWorldX + movingEntity.movingSpeed) / TILE_SIZE;
                 return areSurroundingTilesWithCollision(
                         getTileNumber(entityRightCol, entityTopRow),
                         getTileNumber(entityRightCol, entityBottomRow));

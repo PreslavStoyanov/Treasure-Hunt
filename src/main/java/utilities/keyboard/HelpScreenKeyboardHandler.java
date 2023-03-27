@@ -4,18 +4,26 @@ import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 
-import static utilities.GameState.HOME_STATE;
 import static utilities.sound.Sound.MOVE_CURSOR;
 
-public record HelpScreenKeyboardHandler(GamePanel gp)
+public final class HelpScreenKeyboardHandler
 {
+    private final GamePanel gp;
+
+    public HelpScreenKeyboardHandler(GamePanel gp)
+    {
+        this.gp = gp;
+    }
 
     public void handleHelpScreenKeys(KeyEvent keyPressed)
     {
-        if (keyPressed.getKeyCode() == KeyEvent.VK_ENTER)
+        switch (keyPressed.getKeyCode())
         {
-            gp.soundHandler.playSoundEffect(MOVE_CURSOR);
-            gp.setGameState(HOME_STATE);
+            case KeyEvent.VK_ENTER, KeyEvent.VK_ESCAPE ->
+            {
+                gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
+                gp.returnToPreviousGameState();
+            }
         }
     }
 }

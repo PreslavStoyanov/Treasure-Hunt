@@ -7,7 +7,7 @@ import assets.interfaces.Interactive;
 import java.util.Optional;
 
 import static application.Application.objectsImagesUrls;
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.KEY;
 import static assets.EntityType.MONKEY;
 import static utilities.drawers.MessageDrawer.addMessage;
@@ -20,7 +20,7 @@ public class Monkey extends Object implements Interactive
     public Monkey(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.setWorldLocation(x * tileSize, y * tileSize);
+        this.setWorldLocation(x * TILE_SIZE, y * TILE_SIZE);
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         name = "Monkey";
         type = MONKEY;

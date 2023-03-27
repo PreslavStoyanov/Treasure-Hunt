@@ -4,7 +4,7 @@ import application.GamePanel;
 import assets.EntityType;
 import assets.entities.movingentities.liveentities.artificials.Monster;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static assets.entities.MovingEntity.Direction.*;
 
 public class Demon extends Monster
@@ -14,7 +14,7 @@ public class Demon extends Monster
     public Demon(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.setWorldLocation(x * tileSize, y * tileSize);
+        this.setWorldLocation(x * TILE_SIZE, y * TILE_SIZE);
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         this.gp = gp;
         type = EntityType.DEMON;

@@ -3,7 +3,7 @@ package assets.entities.movingentities.liveentities.artificials.npcs;
 import application.GamePanel;
 import assets.entities.movingentities.liveentities.artificials.Npc;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.OLD_MAN;
 import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 
@@ -14,7 +14,7 @@ public class OldMan extends Npc
     public OldMan(GamePanel gp, int x, int y)
     {
         super(gp);
-        this.setWorldLocation(x * tileSize, y * tileSize);
+        this.setWorldLocation(x * TILE_SIZE, y * TILE_SIZE);
         setSolidAreaAndDefaultLocation(8, 16, 30, 30);
         type = OLD_MAN;
         movingSpeed = 1;

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import static assets.entities.MovingEntity.Direction.*;
+import static assets.entities.MovingEntity.Direction.DOWN;
 
 public abstract class MovingEntity extends Entity
 {
@@ -89,8 +89,10 @@ public abstract class MovingEntity extends Entity
 
     public abstract void interactWithEntities();
 
-    private void changeSpriteNumber() {
-        if (gp.getFrameCounter() % ((sprites.getDefaultUpSprites().size() * 5) / movingSpeed) == 0) {
+    private void changeSpriteNumber()
+    {
+        if (gp.getFrameCounter() % ((sprites.getDefaultUpSprites().size() * 5) / movingSpeed) == 0)
+        {
             spriteNumber = (spriteNumber + 1) % sprites.getDefaultUpSprites().size();
         }
     }

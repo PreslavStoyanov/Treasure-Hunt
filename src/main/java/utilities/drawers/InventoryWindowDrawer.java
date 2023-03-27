@@ -6,7 +6,7 @@ import assets.entities.objects.collectables.EquipableItem;
 
 import java.awt.*;
 
-import static application.GamePanel.tileSize;
+import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.EQUIPPABLE_ITEMS;
 import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.drawers.DrawerUtils.*;
@@ -14,10 +14,10 @@ import static utilities.drawers.UserInterfaceController.g2;
 
 public class InventoryWindowDrawer
 {
-    private static final int FRAME_X = tileSize * 9;
-    private static final int FRAME_Y = tileSize;
-    private static final int FRAME_WIDTH = tileSize * 6;
-    private static final int FRAME_HEIGHT = tileSize * 5;
+    private static final int FRAME_X = TILE_SIZE * 9;
+    private static final int FRAME_Y = TILE_SIZE;
+    private static final int FRAME_WIDTH = TILE_SIZE * 6;
+    private static final int FRAME_HEIGHT = TILE_SIZE * 5;
     public static final int INVENTORY_COLS = 5;
     public static final int INVENTORY_ROWS = 4;
     public static int inventorySlotCursorCol = 0;
@@ -40,7 +40,7 @@ public class InventoryWindowDrawer
         {
             for (int col = 0; col < INVENTORY_COLS; col++)
             {
-                drawBlackRoundFilledRect(slotX + tileSize * col, slotY + tileSize * row, tileSize, tileSize, 100);
+                drawBlackRoundFilledRect(slotX + TILE_SIZE * col, slotY + TILE_SIZE * row, TILE_SIZE, TILE_SIZE, 100);
             }
         }
     }
@@ -57,16 +57,16 @@ public class InventoryWindowDrawer
 
             if (EQUIPPABLE_ITEMS.contains(object.type) && ((EquipableItem) object).isEquipped)
             {
-                drawRoundFilledRect(itemX, itemY, tileSize, tileSize,
+                drawRoundFilledRect(itemX, itemY, TILE_SIZE, TILE_SIZE,
                         new Color(162, 137, 0, 255));
             }
 
-            g2.drawImage(object.defaultImage, itemX + 3, itemY + 3, tileSize - 6, tileSize - 6, null);
-            itemX += tileSize;
+            g2.drawImage(object.defaultImage, itemX + 3, itemY + 3, TILE_SIZE - 6, TILE_SIZE - 6, null);
+            itemX += TILE_SIZE;
 
             if (i == 4 || i == 9 || i == 14)
             {
-                itemY += tileSize;
+                itemY += TILE_SIZE;
                 itemX = itemXStart;
             }
         }
@@ -76,9 +76,9 @@ public class InventoryWindowDrawer
     {
         final int cursorX = FRAME_X + 25;
         final int cursorY = FRAME_Y + 25;
-        drawRoundRect(cursorX + tileSize * inventorySlotCursorCol,
-                cursorY + tileSize * inventorySlotCursorRow,
-                tileSize, tileSize, 2);
+        drawRoundRect(cursorX + TILE_SIZE * inventorySlotCursorCol,
+                cursorY + TILE_SIZE * inventorySlotCursorRow,
+                TILE_SIZE, TILE_SIZE, 2);
     }
 
     private static void drawDescriptionWindow(Player player)
@@ -91,8 +91,9 @@ public class InventoryWindowDrawer
         int inventoryItemIndex = getInventoryItemIndex();
         if (inventoryItemIndex < player.inventory.size())
         {
-            drawSubWindow(FRAME_X, FRAME_Y + FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT - tileSize * 2, 5);
+            drawSubWindow(FRAME_X, FRAME_Y + FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT - TILE_SIZE * 3, 5);
             String[] split = player.inventory.get(inventoryItemIndex).description.split("\n");
+            //TODO FIX BUG using items quickly can cause IndexOutOfBoundsException
             for (String line : split)
             {
                 g2.drawString(line, textX, textY);
