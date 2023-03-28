@@ -3,7 +3,7 @@ package assets.entities.interactivetiles.trees;
 import application.GamePanel;
 import assets.entities.interactivetiles.Tree;
 
-import static application.Application.interactiveTilesUrls;
+import static application.Application.breakableTilesUrls;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
 public class Oak extends Tree
@@ -13,7 +13,7 @@ public class Oak extends Tree
         super(gp);
         name = "Oak tree";
         endurance = 5;
-        defaultImage = setupDefaultSizeImage(interactiveTilesUrls.get("oak-tree"));
-        afterInteractionImage = setupDefaultSizeImage(interactiveTilesUrls.get("oak-tree-stump"));
+        defaultImage = setupDefaultSizeImage(breakableTilesUrls.get("oak-tree"));
+        brokenImage = setupDefaultSizeImage(breakableTilesUrls.get("oak-tree-stump"));
     }
 }

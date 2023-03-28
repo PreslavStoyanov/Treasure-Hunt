@@ -7,6 +7,8 @@ public enum ObjectType
     MONKEY,
     BOOTS,
     KEY,
+    BOAT,
+    BOAT_PADDLE,
     HEALTH_POTION,
     ENERGY_POTION,
     EXP_POTION,

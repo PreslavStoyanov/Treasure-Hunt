@@ -1,7 +1,7 @@
-package assets.entities.objects.collectables.potions;
+package assets.entities.objects.storables.potions;
 
 import application.GamePanel;
-import assets.entities.objects.collectables.Potion;
+import assets.entities.objects.storables.Potion;
 import assets.interfaces.Consumable;
 
 import static application.Application.objectsImagesUrls;

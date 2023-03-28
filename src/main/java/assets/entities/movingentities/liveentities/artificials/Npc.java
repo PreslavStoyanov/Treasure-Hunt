@@ -8,8 +8,8 @@ import java.util.List;
 
 import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.DIALOGUE_STATE;
-import static utilities.statehandlers.PlayStateHandler.isTalkButtonPressed;
 import static utilities.sound.Sound.GOSSIP;
+import static utilities.statehandlers.PlayStateHandler.isTalkButtonPressed;
 
 public class Npc extends Artificial
 {

@@ -10,14 +10,15 @@ import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSl
 import assets.entities.movingentities.liveentities.artificials.npcs.OldMan;
 import assets.entities.movingentities.liveentities.artificials.npcs.OldWoman;
 import assets.entities.objects.*;
-import assets.entities.objects.collectables.Key;
-import assets.entities.objects.collectables.equppables.Boots;
-import assets.entities.objects.collectables.equppables.defenseobjects.Shield;
-import assets.entities.objects.collectables.equppables.weapons.Axe;
-import assets.entities.objects.collectables.equppables.weapons.Sword;
-import assets.entities.objects.collectables.potions.EnergyPotion;
-import assets.entities.objects.collectables.potions.ExpPotion;
-import assets.entities.objects.collectables.potions.HealthPotion;
+import assets.entities.objects.storables.BoatPaddle;
+import assets.entities.objects.storables.Key;
+import assets.entities.objects.storables.equppables.Boots;
+import assets.entities.objects.storables.equppables.defenseobjects.Shield;
+import assets.entities.objects.storables.equppables.weapons.Axe;
+import assets.entities.objects.storables.equppables.weapons.Sword;
+import assets.entities.objects.storables.potions.EnergyPotion;
+import assets.entities.objects.storables.potions.ExpPotion;
+import assets.entities.objects.storables.potions.HealthPotion;
 
 import static application.GamePanel.TILE_SIZE;
 import static application.GamePanel.WORLD_COLUMNS;
@@ -65,19 +66,19 @@ public class EntitySetter
 
     private void setMapOneInteractiveTiles()
     {
-        gp.interactiveTiles.clear();
+        gp.breakableTiles.clear();
 
         Apple apple = new Apple(gp);
         apple.setWorldLocation(17 * TILE_SIZE, 26 * TILE_SIZE);
-        gp.interactiveTiles.add(apple);
+        gp.breakableTiles.add(apple);
 
         Oak oak = new Oak(gp);
         oak.setWorldLocation(17 * TILE_SIZE, 25 * TILE_SIZE);
-        gp.interactiveTiles.add(oak);
+        gp.breakableTiles.add(oak);
 
         Oak oak2 = new Oak(gp);
         oak2.setWorldLocation(16 * TILE_SIZE, 26 * TILE_SIZE);
-        gp.interactiveTiles.add(oak2);
+        gp.breakableTiles.add(oak2);
     }
 
     private void setMapOneObjects()
@@ -100,14 +101,15 @@ public class EntitySetter
         addObject(DOOR, 26, 14);
         addObject(DOOR, 26, 17);
 
-        addObject(CHEST, 23, 12);
+        gp.objects.add(new Chest(gp, 23, 12, BOAT_PADDLE));
+        gp.objects.add(new Boat(gp, 25, 40, 18, 47));
+        gp.objects.add(new Boat(gp, 18, 48, 25, 39));
     }
 
     public void addObject(ObjectType objectType, int x, int y)
     {
         switch (objectType)
         {
-            case CHEST -> gp.objects.add(new Chest(gp, x, y));
             case DOOR -> gp.objects.add(new Door(gp, x, y));
             case MONKEY -> gp.objects.add(new Monkey(gp, x, y));
             case BOOTS -> addCollectableItem(new Boots(gp), x, y);
@@ -121,6 +123,7 @@ public class EntitySetter
             case SHIELD -> addCollectableItem(new Shield(gp), x, y);
             case SWORD -> addCollectableItem(new Sword(gp), x, y);
             case AXE -> addCollectableItem(new Axe(gp), x, y);
+            case BOAT_PADDLE -> addCollectableItem(new BoatPaddle(gp), x, y);
         }
     }
 

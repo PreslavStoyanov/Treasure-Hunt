@@ -2,13 +2,13 @@ package utilities.drawers;
 
 import java.awt.*;
 
-import static application.GamePanel.SCREEN_WIDTH;
 import static application.GamePanel.SCREEN_HEIGHT;
+import static application.GamePanel.SCREEN_WIDTH;
 import static utilities.drawers.DrawerUtils.drawCenteredText;
 import static utilities.drawers.DrawerUtils.drawRoundFilledRect;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
-import static utilities.statehandlers.EndStateHandler.*;
+import static utilities.statehandlers.EndStateHandler.optionSelection;
 
 public class EndScreenDrawer
 {

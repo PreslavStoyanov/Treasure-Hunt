@@ -11,6 +11,8 @@ public enum EntityType
     OLD_MAN,
     OLD_WOMAN,
     CHEST,
+    BOAT,
+    BOAT_PADDLE,
     DOOR,
     MONKEY,
     BOOTS,
@@ -24,7 +26,7 @@ public enum EntityType
     AXE,
     TREE;
 
-    public static final List<EntityType> OBJECT_TYPES = List.of(CHEST, DOOR, MONKEY, BOOTS, KEY, POTION, HEART, ENERGY, COIN, SHIELD, SWORD, AXE);
+    public static final List<EntityType> OBJECT_TYPES = List.of(CHEST, DOOR, MONKEY, BOOTS, KEY, POTION, HEART, ENERGY, COIN, SHIELD, SWORD, AXE, BOAT, BOAT_PADDLE);
     public static final List<EntityType> MONSTER_TYPES = List.of(DEMON, SLIME);
     public static final List<EntityType> NPC_TYPES = List.of(OLD_MAN, OLD_WOMAN);
     public static final List<EntityType> INTERACTIVE_TILES = List.of(TREE);

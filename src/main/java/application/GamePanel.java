@@ -2,7 +2,7 @@ package application;
 
 import assets.Entity;
 import assets.EntitySetter;
-import assets.entities.InteractiveTile;
+import assets.entities.BreakableTile;
 import assets.entities.Object;
 import assets.entities.movingentities.Projectile;
 import assets.entities.movingentities.liveentities.Player;
@@ -11,8 +11,8 @@ import assets.entities.movingentities.liveentities.artificials.Npc;
 import utilities.CollisionChecker;
 import utilities.GameState;
 import utilities.drawers.UserInterfaceController;
-import utilities.statehandlers.GameStateHandler;
 import utilities.sound.SoundHandler;
+import utilities.statehandlers.GameStateHandler;
 import utilities.tiles.TileManager;
 
 import javax.swing.*;
@@ -38,8 +38,8 @@ public class GamePanel extends JPanel implements Runnable
     public static final int MAX_SCREEN_ROW = 9;
     public static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
-    public static final int WORLD_COLUMNS = 50;
-    public static final int WORLD_ROWS = 50;
+    public static final int WORLD_COLUMNS = 500;
+    public static final int WORLD_ROWS = 500;
 
     public static int fullScreenWidth = SCREEN_WIDTH;
     public static int fullScreenHeight = SCREEN_HEIGHT;
@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable
     public List<Npc> npcs = new Vector<>();
     public List<Monster> monsters = new Vector<>();
     public List<Projectile> projectiles = new Vector<>();
-    public List<InteractiveTile> interactiveTiles = new Vector<>();
+    public List<BreakableTile> breakableTiles = new Vector<>();
     private final Stack<GameState> gameStatesOrder = new Stack<>();
     private GameState gameState = HOME_STATE;
     public boolean isGameStarted = false;
@@ -112,6 +112,7 @@ public class GamePanel extends JPanel implements Runnable
         player.setDefaultLocation();
         player.setDefaultLife();
     }
+
     public void backToMainMenu()
     {
         isGameStarted = false;
@@ -122,7 +123,7 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setUpGame()
     {
-        tileManager.loadTileMap("/maps/map_one.txt");
+        tileManager.loadTileMap("/maps/map_two.txt");
         gameStatesOrder.clear();
         setGameState(HOME_STATE);
         startupDefaultSetup();
@@ -243,7 +244,7 @@ public class GamePanel extends JPanel implements Runnable
         entities.addAll(objects);
         entities.addAll(monsters);
         entities.addAll(projectiles);
-        entities.addAll(interactiveTiles);
+        entities.addAll(breakableTiles);
 
         entities.sort(Comparator.comparingInt(e -> e.worldY));
         entities.forEach(entity -> entity.draw(g2));

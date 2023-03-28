@@ -29,9 +29,9 @@ public class Coin extends Object implements Interactive
         interactSound = TAKE_COIN;
         value = 1;
         description = String.format("""
-           [%s]
-           Gold coin!
-           Used for trading!""", name);
+                [%s]
+                Gold coin!
+                Used for trading!""", name);
         defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("gold-coin-one"));
         images = List.of(setupDefaultSizeImage(objectsImagesUrls.get("gold-coin-one")),
                 setupDefaultSizeImage(objectsImagesUrls.get("gold-coin-two")),

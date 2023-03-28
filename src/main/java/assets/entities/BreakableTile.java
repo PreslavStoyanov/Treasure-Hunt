@@ -9,16 +9,15 @@ import utilities.sound.Sound;
 import java.awt.image.BufferedImage;
 
 import static utilities.drawers.MessageDrawer.addMessage;
-import static utilities.sound.Sound.TREE_CHOP;
 
-public abstract class InteractiveTile extends Entity implements Interactive
+public abstract class BreakableTile extends Entity implements Interactive
 {
-    public BufferedImage afterInteractionImage;
+    public BufferedImage brokenImage;
     public Sound interactSound;
     public int endurance;
-    public EntityType toolForInteraction;
+    public EntityType breakTool;
 
-    public InteractiveTile(GamePanel gp)
+    public BreakableTile(GamePanel gp)
     {
         super(gp);
     }
@@ -26,19 +25,19 @@ public abstract class InteractiveTile extends Entity implements Interactive
     @Override
     public void interact()
     {
-        if (gp.player.currentWeapon.get().type.equals(toolForInteraction))
+        if (gp.player.getRequiredToolForInteraction(breakTool).isPresent())
         {
-            gp.soundEffectsHandler.playSoundEffect(TREE_CHOP);
+            gp.soundEffectsHandler.playSoundEffect(interactSound);
             decreaseEndurance(1);
             if (endurance == 0)
             {
-                defaultImage = afterInteractionImage;
-                isHittingTileWithCollision = false;
+                defaultImage = brokenImage;
+                isTransitional = false;
             }
         }
         else
         {
-            addMessage(String.format("You need %s", toolForInteraction));
+            addMessage(String.format("You need %s", breakTool));
         }
     }
 

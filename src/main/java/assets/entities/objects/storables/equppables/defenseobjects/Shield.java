@@ -1,7 +1,7 @@
-package assets.entities.objects.collectables.equppables.defenseobjects;
+package assets.entities.objects.storables.equppables.defenseobjects;
 
 import application.GamePanel;
-import assets.entities.objects.collectables.equppables.DefenseObject;
+import assets.entities.objects.storables.equppables.DefenseObject;
 
 import static application.Application.objectsImagesUrls;
 import static assets.EntityType.SHIELD;

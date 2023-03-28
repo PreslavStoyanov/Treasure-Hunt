@@ -8,10 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
-import static application.Application.*;
+import static application.Application.properties;
 import static utilities.GameState.HELP_STATE;
-import static utilities.statehandlers.OptionsStateHandler.OptionsMenuSelection.*;
 import static utilities.sound.Sound.MOVE_CURSOR;
+import static utilities.statehandlers.OptionsStateHandler.OptionsMenuSelection.*;
 
 public final class OptionsStateHandler
 {
@@ -27,6 +27,7 @@ public final class OptionsStateHandler
                     4, HELP,
                     5, QUIT,
                     6, BACK);
+
     public OptionsStateHandler(GamePanel gp)
     {
         this.gp = gp;
@@ -65,17 +66,20 @@ public final class OptionsStateHandler
         gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
         switch (optionsMenuSelection)
         {
-            case FULL_SCREEN -> {
+            case FULL_SCREEN ->
+            {
                 gp.setFullScreen();
                 isOnFullScreen = !isOnFullScreen;
                 properties.setProperty("fullscreen", String.valueOf(isOnFullScreen));
                 saveConfig();
             }
-            case MUSIC -> {
+            case MUSIC ->
+            {
                 properties.setProperty("music", String.valueOf(gp.musicHandler.toggleVolume()));
                 saveConfig();
             }
-            case SOUND_EFFECTS -> {
+            case SOUND_EFFECTS ->
+            {
                 properties.setProperty("sound-effects", String.valueOf(gp.soundEffectsHandler.toggleVolume()));
                 saveConfig();
             }
