@@ -68,19 +68,19 @@ public class EntitySetter
 
     private void setMapOneInteractiveTiles()
     {
-        gp.interactiveTiles.clear();
+        gp.breakableTiles.clear();
 
         Apple apple = new Apple(gp);
         apple.setWorldLocation(17 * TILE_SIZE, 26 * TILE_SIZE);
-        gp.interactiveTiles.add(apple);
+        gp.breakableTiles.add(apple);
 
         Oak oak = new Oak(gp);
         oak.setWorldLocation(17 * TILE_SIZE, 25 * TILE_SIZE);
-        gp.interactiveTiles.add(oak);
+        gp.breakableTiles.add(oak);
 
         Oak oak2 = new Oak(gp);
         oak2.setWorldLocation(16 * TILE_SIZE, 26 * TILE_SIZE);
-        gp.interactiveTiles.add(oak2);
+        gp.breakableTiles.add(oak2);
     }
 
     private void setMapOneObjects()

@@ -3,7 +3,7 @@ package assets.entities.movingentities.liveentities;
 import application.GamePanel;
 import assets.Entity;
 import assets.EntityType;
-import assets.entities.InteractiveTile;
+import assets.entities.BreakableTile;
 import assets.entities.Object;
 import assets.entities.movingentities.AliveEntity;
 import assets.entities.movingentities.liveentities.artificials.Monster;
@@ -83,9 +83,6 @@ public class Player extends AliveEntity implements Damageable
         coins = 0;
         currentWeapon = Optional.empty();
         currentShield = Optional.empty();
-        inventory.add(new Key(gp));
-        inventory.add(new Key(gp));
-        inventory.add(new Key(gp));
     }
 
     public static int getInventoryItemIndex()
@@ -190,10 +187,9 @@ public class Player extends AliveEntity implements Damageable
     {
         isTransitional = gp.collisionChecker.isHittingCollisionTile(this);
 
-        Optional<InteractiveTile> interactiveTile = gp.interactiveTiles.stream()
+        Optional<BreakableTile> interactiveTile = gp.breakableTiles.stream()
                 .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
                 .findFirst();
-        interactiveTile.ifPresent(InteractiveTile::interact);
 
         gp.monsters.stream().filter(monster -> gp.collisionChecker.isEntityColliding(this, monster))
                 .findFirst()
@@ -315,7 +311,7 @@ public class Player extends AliveEntity implements Damageable
                 }
                 else if (INTERACTIVE_TILES.contains(entity.type))
                 {
-                    ((InteractiveTile) entity).interact();
+                    ((BreakableTile) entity).interact();
                 }
             });
         }
@@ -348,7 +344,7 @@ public class Player extends AliveEntity implements Damageable
 
         if (result.isEmpty())
         {
-            result = gp.interactiveTiles.stream()
+            result = gp.breakableTiles.stream()
                     .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
                     .findFirst();
         }

@@ -47,7 +47,7 @@ public abstract class MovingEntity extends Entity
         changeMovingDirection();
         isTransitional = gp.collisionChecker.isHittingCollisionTile(this);
         interactWithEntities();
-        Optional<InteractiveTile> interactiveTile = gp.interactiveTiles.stream()
+        Optional<BreakableTile> interactiveTile = gp.breakableTiles.stream()
                 .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
                 .findFirst();
 

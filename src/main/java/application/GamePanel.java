@@ -2,7 +2,7 @@ package application;
 
 import assets.Entity;
 import assets.EntitySetter;
-import assets.entities.InteractiveTile;
+import assets.entities.BreakableTile;
 import assets.entities.Object;
 import assets.entities.movingentities.Projectile;
 import assets.entities.movingentities.liveentities.Player;
@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable
     public List<Npc> npcs = new Vector<>();
     public List<Monster> monsters = new Vector<>();
     public List<Projectile> projectiles = new Vector<>();
-    public List<InteractiveTile> interactiveTiles = new Vector<>();
+    public List<BreakableTile> breakableTiles = new Vector<>();
     private final Stack<GameState> gameStatesOrder = new Stack<>();
     private GameState gameState = HOME_STATE;
     public boolean isGameStarted = false;
@@ -243,7 +243,7 @@ public class GamePanel extends JPanel implements Runnable
         entities.addAll(objects);
         entities.addAll(monsters);
         entities.addAll(projectiles);
-        entities.addAll(interactiveTiles);
+        entities.addAll(breakableTiles);
 
         entities.sort(Comparator.comparingInt(e -> e.worldY));
         entities.forEach(entity -> entity.draw(g2));
