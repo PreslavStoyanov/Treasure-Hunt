@@ -4,8 +4,8 @@ import java.awt.*;
 
 import static application.GamePanel.*;
 import static utilities.drawers.DrawerUtils.*;
-import static utilities.keyboard.OptionsScreenKeyboardHandler.*;
-import static utilities.keyboard.OptionsScreenKeyboardHandler.OptionsMenuSelection.*;
+import static utilities.statehandlers.OptionsStateHandler.*;
+import static utilities.statehandlers.OptionsStateHandler.OptionsMenuSelection.*;
 
 public class OptionsWindowDrawer
 {

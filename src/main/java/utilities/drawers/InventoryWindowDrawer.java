@@ -93,7 +93,6 @@ public class InventoryWindowDrawer
         {
             drawSubWindow(FRAME_X, FRAME_Y + FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT - TILE_SIZE * 3, 5);
             String[] split = player.inventory.get(inventoryItemIndex).description.split("\n");
-            //TODO FIX BUG using items quickly can cause IndexOutOfBoundsException
             for (String line : split)
             {
                 g2.drawString(line, textX, textY);

@@ -1,17 +1,19 @@
-package utilities.keyboard;
+package utilities.statehandlers;
 
 import application.GamePanel;
+import assets.entities.objects.StorableObject;
 
 import java.awt.event.KeyEvent;
+import java.util.Optional;
 
 import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.GameState.PLAY_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.sound.Sound.MOVE_CURSOR;
 
-public record CharacterScreenKeyboardHandler(GamePanel gp)
+public record CharacterStateHandler(GamePanel gp)
 {
-    public void handleCharacterScreenKeys(KeyEvent keyPressed)
+    public void handleCharacterStateEvent(KeyEvent keyPressed)
     {
         switch (keyPressed.getKeyCode())
         {
@@ -24,16 +26,16 @@ public record CharacterScreenKeyboardHandler(GamePanel gp)
         }
     }
 
-    //TODO extract inventory logic form keyboard handler. It should only handle pressing and releasing keys
+
     private void selectItem()
     {
         try
         {
-            gp.player.inventory.get(getInventoryItemIndex()).useItem();
+            Optional.ofNullable(gp.player.inventory.get(getInventoryItemIndex())).ifPresent(StorableObject::useItem);
         }
         catch (IndexOutOfBoundsException e)
         {
-
+            //expect to not have item at the given inventory index
         }
     }
 

@@ -11,7 +11,7 @@ import assets.entities.movingentities.liveentities.artificials.Npc;
 import utilities.CollisionChecker;
 import utilities.GameState;
 import utilities.drawers.UserInterfaceController;
-import utilities.keyboard.KeyboardHandler;
+import utilities.statehandlers.GameStateHandler;
 import utilities.sound.SoundHandler;
 import utilities.tiles.TileManager;
 
@@ -20,7 +20,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static application.Application.properties;
 import static utilities.GameState.HOME_STATE;
@@ -48,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable
     private Graphics2D g2d;
 
     public TileManager tileManager = new TileManager(this);
-    public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
+    public GameStateHandler gameStateHandler = new GameStateHandler(this);
     public SoundHandler soundEffectsHandler = new SoundHandler(Boolean.parseBoolean(properties.getProperty("sound-effects")));
     public SoundHandler musicHandler = new SoundHandler(Boolean.parseBoolean(properties.getProperty("music")));
     public CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -74,7 +73,7 @@ public class GamePanel extends JPanel implements Runnable
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(new Color(36, 84, 24));
         this.setDoubleBuffered(true);
-        this.addKeyListener(keyboardHandler);
+        this.addKeyListener(gameStateHandler);
         this.setFocusable(true);
     }
 

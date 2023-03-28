@@ -1,14 +1,12 @@
-package utilities.keyboard;
+package utilities.statehandlers;
 
 import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 
-import static utilities.GameState.PLAY_STATE;
-
-public record DialogueScreenKeyboardHandler(GamePanel gp)
+public record DialogueStateHandler(GamePanel gp)
 {
-    public void handleDialogueScreenKeys(KeyEvent keyPressed)
+    public void handleDialogueStateEvent(KeyEvent keyPressed)
     {
         switch (keyPressed.getKeyCode())
         {

@@ -3,9 +3,9 @@ package utilities.drawers;
 import static utilities.drawers.DrawerUtils.drawCenteredText;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
-import static utilities.keyboard.HomeScreenKeyboardHandler.HomeMenuSelection.*;
-import static utilities.keyboard.HomeScreenKeyboardHandler.homeMenuSelection;
-import static utilities.keyboard.HomeScreenKeyboardHandler.homeMenuSelections;
+import static utilities.statehandlers.HomeStateHandler.HomeMenuSelection.*;
+import static utilities.statehandlers.HomeStateHandler.homeMenuSelection;
+import static utilities.statehandlers.HomeStateHandler.homeMenuSelections;
 
 public class HomeScreenDrawer
 {

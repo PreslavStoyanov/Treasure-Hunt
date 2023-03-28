@@ -1,4 +1,4 @@
-package utilities.keyboard;
+package utilities.statehandlers;
 
 import application.GamePanel;
 
@@ -7,10 +7,10 @@ import java.util.Map;
 
 import static utilities.GameState.OPTIONS_STATE;
 import static utilities.GameState.PLAY_STATE;
-import static utilities.keyboard.HomeScreenKeyboardHandler.HomeMenuSelection.*;
+import static utilities.statehandlers.HomeStateHandler.HomeMenuSelection.*;
 import static utilities.sound.Sound.MOVE_CURSOR;
 
-public final class HomeScreenKeyboardHandler
+public final class HomeStateHandler
 {
     private final GamePanel gp;
     public static int homeMenuSelection = 1;
@@ -19,12 +19,12 @@ public final class HomeScreenKeyboardHandler
                     2, OPTIONS,
                     3, QUIT);
 
-    public HomeScreenKeyboardHandler(GamePanel gp)
+    public HomeStateHandler(GamePanel gp)
     {
         this.gp = gp;
     }
 
-    public void handleHomeScreenKeys(KeyEvent pressedKey)
+    public void handleHomeStateEvent(KeyEvent pressedKey)
     {
         switch (pressedKey.getKeyCode())
         {

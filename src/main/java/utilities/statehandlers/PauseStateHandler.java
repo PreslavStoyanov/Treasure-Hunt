@@ -1,14 +1,12 @@
-package utilities.keyboard;
+package utilities.statehandlers;
 
 import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 
-import static utilities.GameState.GAME_OVER_STATE;
-
-public record PauseScreenKeyboardHandler(GamePanel gp)
+public record PauseStateHandler(GamePanel gp)
 {
-    public void handlePauseScreenKeys(KeyEvent keyPressed)
+    public void handlePauseStateEvent(KeyEvent keyPressed)
     {
         switch (keyPressed.getKeyCode())
         {

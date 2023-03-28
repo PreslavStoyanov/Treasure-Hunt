@@ -1,4 +1,4 @@
-package utilities.keyboard;
+package utilities.statehandlers;
 
 import application.GamePanel;
 
@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 
 import static utilities.GameState.*;
 
-public class PlayScreenKeyboardHandler
+public class PlayStateHandler
 {
     private final GamePanel gp;
     public static boolean isUpButtonPressed;
@@ -18,12 +18,12 @@ public class PlayScreenKeyboardHandler
     public static boolean isEnergyButtonPressed;
     public static boolean isSwingButtonPressed;
 
-    public PlayScreenKeyboardHandler(GamePanel gp)
+    public PlayStateHandler(GamePanel gp)
     {
         this.gp = gp;
     }
 
-    public void handlePlayScreenKeysOnPress(KeyEvent keyPressed)
+    public void handlePlayStateEventOnButtonPress(KeyEvent keyPressed)
     {
         switch (keyPressed.getKeyCode())
         {
@@ -41,7 +41,7 @@ public class PlayScreenKeyboardHandler
         }
     }
 
-    public void handlePlayScreenKeysOnRelease(KeyEvent keyReleased)
+    public void handlePlayStateEventOnButtonRelease(KeyEvent keyReleased)
     {
         switch (keyReleased.getKeyCode())
         {

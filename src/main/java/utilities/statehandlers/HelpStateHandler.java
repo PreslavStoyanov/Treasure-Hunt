@@ -1,4 +1,4 @@
-package utilities.keyboard;
+package utilities.statehandlers;
 
 import application.GamePanel;
 
@@ -6,16 +6,16 @@ import java.awt.event.KeyEvent;
 
 import static utilities.sound.Sound.MOVE_CURSOR;
 
-public final class HelpScreenKeyboardHandler
+public final class HelpStateHandler
 {
     private final GamePanel gp;
 
-    public HelpScreenKeyboardHandler(GamePanel gp)
+    public HelpStateHandler(GamePanel gp)
     {
         this.gp = gp;
     }
 
-    public void handleHelpScreenKeys(KeyEvent keyPressed)
+    public void handleHelpStateEvent(KeyEvent keyPressed)
     {
         switch (keyPressed.getKeyCode())
         {

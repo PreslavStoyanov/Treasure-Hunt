@@ -1,24 +1,22 @@
-package utilities.keyboard;
+package utilities.statehandlers;
 
 import application.GamePanel;
-import utilities.GameState;
 
 import java.awt.event.KeyEvent;
 
-import static utilities.GameState.GAME_WIN_STATE;
 import static utilities.sound.Sound.MOVE_CURSOR;
 
-public class EndScreenKeyboardHandler
+public class EndStateHandler
 {
     private final GamePanel gp;
     public static int optionSelection = 1;
 
-    public EndScreenKeyboardHandler(GamePanel gp)
+    public EndStateHandler(GamePanel gp)
     {
         this.gp = gp;
     }
 
-    public void handleEndScreenKeys(KeyEvent keyPressed)
+    public void handleEndStateEvent(KeyEvent keyPressed)
     {
         switch (keyPressed.getKeyCode())
         {

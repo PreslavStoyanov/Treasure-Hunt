@@ -1,21 +1,19 @@
-package utilities.keyboard;
+package utilities.statehandlers;
 
-import application.Application;
 import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import static application.Application.*;
 import static utilities.GameState.HELP_STATE;
-import static utilities.keyboard.OptionsScreenKeyboardHandler.OptionsMenuSelection.*;
+import static utilities.statehandlers.OptionsStateHandler.OptionsMenuSelection.*;
 import static utilities.sound.Sound.MOVE_CURSOR;
 
-public final class OptionsScreenKeyboardHandler
+public final class OptionsStateHandler
 {
     private final GamePanel gp;
     public static int optionSelection = 1;
@@ -29,7 +27,7 @@ public final class OptionsScreenKeyboardHandler
                     4, HELP,
                     5, QUIT,
                     6, BACK);
-    public OptionsScreenKeyboardHandler(GamePanel gp)
+    public OptionsStateHandler(GamePanel gp)
     {
         this.gp = gp;
     }
@@ -39,7 +37,7 @@ public final class OptionsScreenKeyboardHandler
         return isOnFullScreen;
     }
 
-    public void handleOptionsScreenKeys(KeyEvent keyPressed)
+    public void handleOptionsStateEvent(KeyEvent keyPressed)
     {
         switch (keyPressed.getKeyCode())
         {

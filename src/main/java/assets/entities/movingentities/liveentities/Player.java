@@ -13,13 +13,14 @@ import assets.entities.objects.StorableObject;
 import assets.entities.objects.collectables.equppables.DefenseObject;
 import assets.entities.objects.collectables.equppables.Weapon;
 import assets.interfaces.Damageable;
-import utilities.keyboard.PlayScreenKeyboardHandler;
+import utilities.statehandlers.PlayStateHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Vector;
 
 import static application.GamePanel.*;
 import static assets.EntityType.*;
@@ -27,7 +28,7 @@ import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.GAME_OVER_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
-import static utilities.keyboard.PlayScreenKeyboardHandler.*;
+import static utilities.statehandlers.PlayStateHandler.*;
 import static utilities.sound.Sound.*;
 
 public class Player extends AliveEntity implements Damageable
@@ -318,7 +319,7 @@ public class Player extends AliveEntity implements Damageable
         {
             spriteNumber = 1;
             swingTimer = 0;
-            PlayScreenKeyboardHandler.isSwingButtonPressed = false;
+            PlayStateHandler.isSwingButtonPressed = false;
         }
     }
 

@@ -1,7 +1,5 @@
 package utilities.drawers;
 
-import utilities.keyboard.EndScreenKeyboardHandler;
-
 import java.awt.*;
 
 import static application.GamePanel.SCREEN_WIDTH;
@@ -10,7 +8,7 @@ import static utilities.drawers.DrawerUtils.drawCenteredText;
 import static utilities.drawers.DrawerUtils.drawRoundFilledRect;
 import static utilities.drawers.UserInterfaceController.g2;
 import static utilities.drawers.UserInterfaceController.pixelFont;
-import static utilities.keyboard.EndScreenKeyboardHandler.*;
+import static utilities.statehandlers.EndStateHandler.*;
 
 public class EndScreenDrawer
 {

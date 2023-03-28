@@ -8,7 +8,7 @@ import java.util.List;
 
 import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.DIALOGUE_STATE;
-import static utilities.keyboard.PlayScreenKeyboardHandler.isTalkButtonPressed;
+import static utilities.statehandlers.PlayStateHandler.isTalkButtonPressed;
 import static utilities.sound.Sound.GOSSIP;
 
 public class Npc extends Artificial
