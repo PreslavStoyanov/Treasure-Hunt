@@ -26,7 +26,7 @@ public class HelpScreenDrawer
 
     private static void drawButtons()
     {
-        g2.setFont(g2.getFont().deriveFont(10F));
+        g2.setFont(pixelFont.deriveFont(10F));
         float textX = FRAME_X + 20;
         float textY = TILE_SIZE * 2.6F;
         drawListWithSameMargin(

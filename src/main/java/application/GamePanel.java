@@ -59,11 +59,11 @@ public class GamePanel extends JPanel implements Runnable
 
     public Player player = new Player(this);
 
-    public List<Object> objects = new CopyOnWriteArrayList<>();
-    public List<Npc> npcs = new CopyOnWriteArrayList<>();
-    public List<Monster> monsters = new CopyOnWriteArrayList<>();
-    public List<Projectile> projectiles = new CopyOnWriteArrayList<>();
-    public List<InteractiveTile> interactiveTiles = new CopyOnWriteArrayList<>();
+    public List<Object> objects = new Vector<>();
+    public List<Npc> npcs = new Vector<>();
+    public List<Monster> monsters = new Vector<>();
+    public List<Projectile> projectiles = new Vector<>();
+    public List<InteractiveTile> interactiveTiles = new Vector<>();
     private final Stack<GameState> gameStatesOrder = new Stack<>();
     private GameState gameState = HOME_STATE;
     public boolean isGameStarted = false;

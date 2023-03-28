@@ -28,7 +28,7 @@ public abstract class InteractiveTile extends Entity implements Interactive
     {
         if (gp.player.currentWeapon.get().type.equals(toolForInteraction))
         {
-            gp.soundEffectsHandler.playSoundEffect(TREE_CHOP); //TODO fix TREE_CHOP sound -> should not have delay
+            gp.soundEffectsHandler.playSoundEffect(TREE_CHOP);
             decreaseEndurance(1);
             if (endurance == 0)
             {

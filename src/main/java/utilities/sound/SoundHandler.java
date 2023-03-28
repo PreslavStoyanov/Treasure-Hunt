@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import static application.Application.properties;
 import static application.Application.soundsUrls;
 import static utilities.sound.Sound.*;
 
@@ -30,15 +29,18 @@ public class SoundHandler
         sounds.put(SWING_SWORD, getSoundUrl("swing-sword"));
         sounds.put(SWING_AXE, getSoundUrl("swing-axe"));
         sounds.put(FIREBALL_SOUND, getSoundUrl("fireball-sound"));
+        sounds.put(SLIMEBALL_SOUND, getSoundUrl("slimeball-sound"));
         sounds.put(MOVE_CURSOR, getSoundUrl("move-cursor"));
         sounds.put(GOSSIP, getSoundUrl("gossip"));
         sounds.put(OPEN_DOOR, getSoundUrl("open-door"));
-        sounds.put(TAKE_COIN, getSoundUrl("take-key"));
+        sounds.put(TAKE_COIN, getSoundUrl("take-coin"));
+        sounds.put(TAKE_KEY, getSoundUrl("take-key"));
         sounds.put(TAKE_POTION, getSoundUrl("take-potion"));
-        sounds.put(TAKE_AXE, getSoundUrl("take-axe"));
+        sounds.put(TAKE_WEAPON, getSoundUrl("take-axe"));
         sounds.put(DRINK_POTION, getSoundUrl("drink-potion"));
         sounds.put(MONKEY_LAUGH, getSoundUrl("monkey-laugh"));
         sounds.put(TREE_CHOP, getSoundUrl("tree-chop"));
+        sounds.put(TAKE_BOOTS, getSoundUrl("take-boots"));
     }
 
     public boolean toggleVolume()

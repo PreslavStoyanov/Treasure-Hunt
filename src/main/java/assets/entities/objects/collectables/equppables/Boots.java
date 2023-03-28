@@ -7,6 +7,7 @@ import static application.Application.objectsImagesUrls;
 import static assets.EntityType.BOOTS;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.POWER_UP;
+import static utilities.sound.Sound.TAKE_BOOTS;
 
 public class Boots extends EquipableItem
 {
@@ -15,7 +16,7 @@ public class Boots extends EquipableItem
         super(gp);
         name = "Boots";
         type = BOOTS;
-        interactSound = POWER_UP; //TODO add TAKE_BOOTS sound
+        interactSound = TAKE_BOOTS;
         value = 2;
         defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("boots"));
         description = String.format("""

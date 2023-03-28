@@ -4,6 +4,7 @@ public enum Sound
 {
     MAIN_BACKGROUND_MUSIC,
     TAKE_COIN,
+    TAKE_KEY,
     POWER_UP,
     WIN_SOUND,
     GAMEOVER_SOUND,
@@ -12,13 +13,15 @@ public enum Sound
     SWING_SWORD,
     SWING_AXE,
     FIREBALL_SOUND,
+    SLIMEBALL_SOUND,
     LEVEL_UP,
     MOVE_CURSOR,
     GOSSIP,
     OPEN_DOOR,
     DRINK_POTION,
     TAKE_POTION,
-    TAKE_AXE,
+    TAKE_WEAPON,
     MONKEY_LAUGH,
-    TREE_CHOP
+    TREE_CHOP,
+    TAKE_BOOTS
 }

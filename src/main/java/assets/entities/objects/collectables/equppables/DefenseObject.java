@@ -6,7 +6,7 @@ import assets.entities.objects.collectables.EquipableItem;
 import java.util.Optional;
 
 import static utilities.drawers.MessageDrawer.addMessage;
-import static utilities.sound.Sound.TAKE_AXE;
+import static utilities.sound.Sound.TAKE_WEAPON;
 
 public class DefenseObject extends EquipableItem
 {
@@ -14,7 +14,7 @@ public class DefenseObject extends EquipableItem
     public DefenseObject(GamePanel gp)
     {
         super(gp);
-        this.interactSound = TAKE_AXE; //TODO add take shield sound
+        this.interactSound = TAKE_WEAPON;
     }
 
     @Override

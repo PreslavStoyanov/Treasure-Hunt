@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import static application.GamePanel.TILE_SIZE;
 import static utilities.drawers.UserInterfaceController.g2;
+import static utilities.drawers.UserInterfaceController.pixelFont;
 
 public class CoordinatesDrawer
 {
@@ -15,8 +16,7 @@ public class CoordinatesDrawer
 
     public static void showPlayerCoordinates(long drawStart, Player player)
     {
-        g2.setFont(new Font("Arial", Font.BOLD, 20));
-        g2.setColor(Color.white);
+        g2.setFont(pixelFont.deriveFont(10F));
         int x = 10;
         int y = TILE_SIZE * 6;
         int lineHeight = 20;

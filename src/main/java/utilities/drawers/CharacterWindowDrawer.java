@@ -7,6 +7,7 @@ import java.util.List;
 import static application.GamePanel.TILE_SIZE;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
+import static utilities.drawers.UserInterfaceController.pixelFont;
 
 public class CharacterWindowDrawer
 {
@@ -19,7 +20,7 @@ public class CharacterWindowDrawer
     public static void drawCharacterWindow(Player player)
     {
         drawSubWindow(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT, 5);
-        g2.setFont(g2.getFont().deriveFont(15F));
+        g2.setFont(pixelFont.deriveFont(15F));
         drawLabels();
         drawParameters(player);
     }

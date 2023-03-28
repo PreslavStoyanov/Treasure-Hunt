@@ -81,15 +81,14 @@ public class Monster extends Artificial implements Damageable, ItemDroppable
     @Override
     public void dropItem()
     {
-        int droppingWorldX = worldX / TILE_SIZE;
-        int droppingWorldXY = worldY / TILE_SIZE;
         switch (new Random().nextInt(20))
         {
-            case 1 -> gp.entitySetter.addObject(HEALTH_POTION, droppingWorldX, droppingWorldXY);
-            case 2 -> gp.entitySetter.addObject(ENERGY_POTION, droppingWorldX, droppingWorldXY);
-            case 3, 4, 5, 6, 7 -> gp.entitySetter.addObject(ENERGY, droppingWorldX, droppingWorldXY);
-            case 8, 9, 10, 11, 12 -> gp.entitySetter.addObject(HEART, droppingWorldX, droppingWorldXY);
-            case 13, 14 -> gp.entitySetter.addObject(COIN, droppingWorldX, droppingWorldXY);
+            case 1 -> gp.entitySetter.addObject(HEALTH_POTION, worldX, worldY);
+            case 2 -> gp.entitySetter.addObject(ENERGY_POTION, worldX, worldY);
+            case 15 -> gp.entitySetter.addObject(EXP_POTION, worldX, worldY);
+            case 3, 4, 5, 6, 7 -> gp.entitySetter.addObject(ENERGY, worldX, worldY);
+            case 8, 9, 10, 11, 12 -> gp.entitySetter.addObject(HEART, worldX, worldY);
+            case 13, 14 -> gp.entitySetter.addObject(COIN, worldX, worldY);
         }
     }
 

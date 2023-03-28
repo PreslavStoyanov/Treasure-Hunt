@@ -64,21 +64,27 @@ public final class OptionsScreenKeyboardHandler
 
     private void handleSelection(OptionsMenuSelection optionsMenuSelection)
     {
+        gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
         switch (optionsMenuSelection)
         {
             case FULL_SCREEN -> {
                 gp.setFullScreen();
                 isOnFullScreen = !isOnFullScreen;
                 properties.setProperty("fullscreen", String.valueOf(isOnFullScreen));
+                saveConfig();
             }
-            case MUSIC -> properties.setProperty("music", String.valueOf(gp.musicHandler.toggleVolume()));
-            case SOUND_EFFECTS -> properties.setProperty("sound-effects", String.valueOf(gp.soundEffectsHandler.toggleVolume()));
+            case MUSIC -> {
+                properties.setProperty("music", String.valueOf(gp.musicHandler.toggleVolume()));
+                saveConfig();
+            }
+            case SOUND_EFFECTS -> {
+                properties.setProperty("sound-effects", String.valueOf(gp.soundEffectsHandler.toggleVolume()));
+                saveConfig();
+            }
             case HELP -> gp.setGameState(HELP_STATE);
             case QUIT -> gp.backToMainMenu();
             case BACK -> gp.returnToPreviousGameState();
         }
-        saveConfig();
-        gp.soundEffectsHandler.playSoundEffect(MOVE_CURSOR);
     }
 
     private static void saveConfig()

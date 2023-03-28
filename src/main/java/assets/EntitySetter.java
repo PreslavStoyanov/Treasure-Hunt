@@ -20,6 +20,7 @@ import assets.entities.objects.collectables.potions.ExpPotion;
 import assets.entities.objects.collectables.potions.HealthPotion;
 
 import static application.GamePanel.TILE_SIZE;
+import static application.GamePanel.WORLD_COLUMNS;
 import static assets.ObjectType.*;
 
 public class EntitySetter
@@ -125,7 +126,12 @@ public class EntitySetter
 
     private void addCollectableItem(Object object, int x, int y)
     {
-        object.setWorldLocation(x * TILE_SIZE, y * TILE_SIZE);
+        if (x <= WORLD_COLUMNS)
+        {
+            x *= TILE_SIZE;
+            y *= TILE_SIZE;
+        }
+        object.setWorldLocation(x, y);
         gp.objects.add(object);
     }
 }

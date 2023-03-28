@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.Optional;
 
 import static utilities.drawers.MessageDrawer.addMessage;
-import static utilities.sound.Sound.TAKE_AXE;
+import static utilities.sound.Sound.TAKE_WEAPON;
 
 public class Weapon extends EquipableItem
 {
@@ -18,7 +18,7 @@ public class Weapon extends EquipableItem
     public Weapon(GamePanel gp)
     {
         super(gp);
-        this.interactSound = TAKE_AXE;
+        this.interactSound = TAKE_WEAPON;
     }
 
     @Override
