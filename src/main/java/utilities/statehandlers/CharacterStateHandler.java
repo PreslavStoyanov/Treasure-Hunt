@@ -26,7 +26,6 @@ public record CharacterStateHandler(GamePanel gp)
         }
     }
 
-
     private void selectItem()
     {
         try

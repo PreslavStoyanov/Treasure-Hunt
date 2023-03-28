@@ -1,7 +1,7 @@
-package assets.entities.objects.collectables.equppables;
+package assets.entities.objects.storables.equppables;
 
 import application.GamePanel;
-import assets.entities.objects.collectables.EquipableItem;
+import assets.entities.objects.storables.EquipableItem;
 
 import java.util.Optional;
 

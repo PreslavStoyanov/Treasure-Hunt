@@ -2,6 +2,8 @@ package assets;
 
 import application.GamePanel;
 import assets.entities.Object;
+import assets.entities.objects.Boat;
+import assets.entities.objects.Chest;
 import assets.entities.interactivetiles.trees.Apple;
 import assets.entities.interactivetiles.trees.Oak;
 import assets.entities.movingentities.liveentities.artificials.monsters.Demon;
@@ -10,14 +12,15 @@ import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSl
 import assets.entities.movingentities.liveentities.artificials.npcs.OldMan;
 import assets.entities.movingentities.liveentities.artificials.npcs.OldWoman;
 import assets.entities.objects.*;
-import assets.entities.objects.collectables.Key;
-import assets.entities.objects.collectables.equppables.Boots;
-import assets.entities.objects.collectables.equppables.defenseobjects.Shield;
-import assets.entities.objects.collectables.equppables.weapons.Axe;
-import assets.entities.objects.collectables.equppables.weapons.Sword;
-import assets.entities.objects.collectables.potions.EnergyPotion;
-import assets.entities.objects.collectables.potions.ExpPotion;
-import assets.entities.objects.collectables.potions.HealthPotion;
+import assets.entities.objects.storables.Key;
+import assets.entities.objects.storables.BoatPaddle;
+import assets.entities.objects.storables.equppables.Boots;
+import assets.entities.objects.storables.equppables.defenseobjects.Shield;
+import assets.entities.objects.storables.equppables.weapons.Axe;
+import assets.entities.objects.storables.equppables.weapons.Sword;
+import assets.entities.objects.storables.potions.EnergyPotion;
+import assets.entities.objects.storables.potions.ExpPotion;
+import assets.entities.objects.storables.potions.HealthPotion;
 
 import static application.GamePanel.TILE_SIZE;
 import static application.GamePanel.WORLD_COLUMNS;
@@ -100,14 +103,15 @@ public class EntitySetter
         addObject(DOOR, 26, 14);
         addObject(DOOR, 26, 17);
 
-        addObject(CHEST, 23, 12);
+        gp.objects.add(new Chest(gp,23, 12, SHIP_WHEEL));
+        gp.objects.add(new Boat(gp, 25, 40, 18, 47));
+        gp.objects.add(new Boat(gp, 18, 48, 25, 39));
     }
 
     public void addObject(ObjectType objectType, int x, int y)
     {
         switch (objectType)
         {
-            case CHEST -> gp.objects.add(new Chest(gp, x, y));
             case DOOR -> gp.objects.add(new Door(gp, x, y));
             case MONKEY -> gp.objects.add(new Monkey(gp, x, y));
             case BOOTS -> addCollectableItem(new Boots(gp), x, y);
@@ -121,6 +125,7 @@ public class EntitySetter
             case SHIELD -> addCollectableItem(new Shield(gp), x, y);
             case SWORD -> addCollectableItem(new Sword(gp), x, y);
             case AXE -> addCollectableItem(new Axe(gp), x, y);
+            case SHIP_WHEEL -> addCollectableItem(new BoatPaddle(gp), x, y);
         }
     }
 

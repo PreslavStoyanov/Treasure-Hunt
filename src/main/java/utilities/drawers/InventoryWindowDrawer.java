@@ -2,7 +2,7 @@ package utilities.drawers;
 
 import assets.entities.Object;
 import assets.entities.movingentities.liveentities.Player;
-import assets.entities.objects.collectables.EquipableItem;
+import assets.entities.objects.storables.EquipableItem;
 
 import java.awt.*;
 

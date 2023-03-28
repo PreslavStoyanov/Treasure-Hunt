@@ -38,8 +38,8 @@ public class GamePanel extends JPanel implements Runnable
     public static final int MAX_SCREEN_ROW = 9;
     public static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
-    public static final int WORLD_COLUMNS = 50;
-    public static final int WORLD_ROWS = 50;
+    public static final int WORLD_COLUMNS = 500;
+    public static final int WORLD_ROWS = 500;
 
     public static int fullScreenWidth = SCREEN_WIDTH;
     public static int fullScreenHeight = SCREEN_HEIGHT;
@@ -122,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setUpGame()
     {
-        tileManager.loadTileMap("/maps/map_one.txt");
+        tileManager.loadTileMap("/maps/map_two.txt");
         gameStatesOrder.clear();
         setGameState(HOME_STATE);
         startupDefaultSetup();

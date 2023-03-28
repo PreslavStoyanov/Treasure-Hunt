@@ -10,7 +10,7 @@ public abstract class Entity
     public final GamePanel gp;
     public String name;
     public EntityType type;
-    public boolean isHittingTileWithCollision;
+    public boolean isTransitional;
     public int worldX;
     public int worldY;
     public BufferedImage defaultImage;

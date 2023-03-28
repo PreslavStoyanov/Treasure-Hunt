@@ -1,6 +1,7 @@
 package assets.entities.objects;
 
 import application.GamePanel;
+import assets.EntityType;
 import assets.entities.Object;
 import assets.interfaces.Interactive;
 
@@ -16,13 +17,16 @@ import static utilities.sound.Sound.OPEN_DOOR;
 
 public class Door extends Object implements Interactive
 {
+    private final EntityType toolForInteraction;
+
     public Door(GamePanel gp, int x, int y)
     {
         super(gp);
         this.setWorldLocation(x * TILE_SIZE, y * TILE_SIZE);
         name = "Door";
         type = DOOR;
-        isHittingTileWithCollision = true;
+        toolForInteraction = KEY;
+        isTransitional = true;
         defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("door"));
         setSolidAreaAndDefaultLocation(0, 16, 48, 32);
     }
@@ -30,14 +34,12 @@ public class Door extends Object implements Interactive
     @Override
     public void interact()
     {
-        Optional<StorableObject> keyToRemove = gp.player.inventory.stream()
-                .filter(obj -> obj.type.equals(KEY))
-                .findFirst();
+        Optional<StorableObject> key = gp.player.getRequiredToolForInteraction(toolForInteraction);
 
-        if (keyToRemove.isPresent())
+        if (key.isPresent())
         {
             interactSound = OPEN_DOOR;
-            gp.player.inventory.remove(keyToRemove.get());
+            gp.player.inventory.remove(key.get());
             addMessage("Door opened!");
             super.interact();
         }

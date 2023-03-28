@@ -1,21 +1,30 @@
-package assets.entities.interactivetiles;
+package assets.entities.objects;
 
 import application.GamePanel;
+import assets.EntityType;
 import assets.ObjectType;
-import assets.entities.InteractiveTile;
+import assets.entities.Object;
+import assets.interfaces.Interactive;
 import assets.interfaces.ItemDroppable;
 
-import static application.Application.interactiveTilesUrls;
+import java.awt.image.BufferedImage;
+import java.util.Optional;
+
 import static application.Application.objectsImagesUrls;
 import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.CHEST;
 import static assets.EntityType.KEY;
+import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
+import static utilities.sound.Sound.OPEN_DOOR;
 import static utilities.sound.Sound.WIN_SOUND;
 
-public class Chest extends InteractiveTile implements ItemDroppable
+public class Chest extends Object implements Interactive, ItemDroppable
 {
     private final ObjectType itemDrop;
+    private boolean isOpened = false;
+    private final EntityType toolForInteraction;
+    private final BufferedImage afterInteractionImage;
 
     public Chest(GamePanel gp, int x, int y, ObjectType itemDrop)
     {
@@ -26,15 +35,30 @@ public class Chest extends InteractiveTile implements ItemDroppable
         name = "Chest";
         type = CHEST;
         isTransitional = true;
-        interactSound = WIN_SOUND; //TODO add CHEST_OPEN sound
-        defaultImage = setupDefaultSizeImage(interactiveTilesUrls.get("chest"));
-        afterInteractionImage = setupDefaultSizeImage(interactiveTilesUrls.get("opened-chest"));
+        interactSound = OPEN_DOOR; //TODO add CHEST_OPEN sound
+        defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("chest"));
+        afterInteractionImage = setupDefaultSizeImage(objectsImagesUrls.get("chest-opened"));
     }
 
     @Override
-    public void doAction()
+    public void interact()
     {
-        dropItem();
+        Optional<StorableObject> key = gp.player.getRequiredToolForInteraction(toolForInteraction);
+        if (!isOpened)
+        {
+            if (key.isPresent())
+            {
+                defaultImage = afterInteractionImage;
+                gp.soundEffectsHandler.playSoundEffect(interactSound);
+                gp.player.inventory.remove(key.get());
+                dropItem();
+                isOpened = true;
+            }
+            else
+            {
+                addMessage("You need a key!");
+            }
+        }
     }
 
     @Override

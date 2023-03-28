@@ -89,14 +89,14 @@ public class CollisionChecker
 
         if (entity.type.equals(PLAYER))
         {
-            movingEntity.isHittingTileWithCollision = true;
+            movingEntity.isTransitional = true;
             return true;
         }
         else if (OBJECT_TYPES.contains(entity.type))
         {
-            if (entity.isHittingTileWithCollision)
+            if (entity.isTransitional)
             {
-                movingEntity.isHittingTileWithCollision = true;
+                movingEntity.isTransitional = true;
             }
             return movingEntity.type.equals(EntityType.PLAYER);
         }
@@ -104,14 +104,14 @@ public class CollisionChecker
         {
             if (entity != movingEntity)
             {
-                movingEntity.isHittingTileWithCollision = true;
+                movingEntity.isTransitional = true;
                 return true;
             }
             else return false;
         }
         else if (INTERACTIVE_TILES.contains(entity.type))
         {
-            return entity.isHittingTileWithCollision;
+            return entity.isTransitional;
         }
         else return true;
     }

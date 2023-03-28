@@ -1,7 +1,8 @@
-package assets.entities.interactivetiles;
+package assets.entities.objects;
 
 import application.GamePanel;
-import assets.entities.InteractiveTile;
+import assets.EntityType;
+import assets.entities.Object;
 import assets.interfaces.Teleportable;
 import utilities.sound.Sound;
 
@@ -12,14 +13,16 @@ import static assets.EntityType.BOAT_PADDLE;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
-public class Boat extends InteractiveTile implements Teleportable
+public class Boat extends Object implements Teleportable
 {
     private final int teleportX;
     private final int teleportY;
+    private final EntityType toolForInteraction;
 
     public Boat(GamePanel gp, int shipLocationX, int shipLocationY, int teleportX, int teleportY)
     {
         super(gp);
+        solidArea.setSize(50, 50);
         this.setWorldLocation(shipLocationX * TILE_SIZE, shipLocationY * TILE_SIZE);
         this.teleportX = teleportX;
         this.teleportY = teleportY;
@@ -35,15 +38,17 @@ public class Boat extends InteractiveTile implements Teleportable
     {
         if (gp.getFrameCounter() % 120 == 0)
         {
-            super.interact();
-            addMessage("Landed!");
+            if (gp.player.getRequiredToolForInteraction(toolForInteraction).isPresent())
+            {
+                gp.soundEffectsHandler.playSoundEffect(interactSound);
+                teleport(teleportX, teleportY);
+                addMessage("Landed!");
+            }
+            else
+            {
+                addMessage("You need a paddle!");
+            }
         }
-    }
-
-    @Override
-    public void doAction()
-    {
-        teleport(teleportX, teleportY);
     }
 
     @Override

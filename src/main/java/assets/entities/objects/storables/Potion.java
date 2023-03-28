@@ -1,4 +1,4 @@
-package assets.entities.objects.collectables;
+package assets.entities.objects.storables;
 
 import application.GamePanel;
 import assets.entities.objects.StorableObject;

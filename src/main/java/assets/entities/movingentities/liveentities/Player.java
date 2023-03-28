@@ -2,6 +2,7 @@ package assets.entities.movingentities.liveentities;
 
 import application.GamePanel;
 import assets.Entity;
+import assets.EntityType;
 import assets.entities.InteractiveTile;
 import assets.entities.Object;
 import assets.entities.movingentities.AliveEntity;
@@ -10,8 +11,9 @@ import assets.entities.movingentities.projectiles.Fireball;
 import assets.entities.movingentities.sprites.AttackingSprite;
 import assets.entities.movingentities.sprites.AttackingSprites;
 import assets.entities.objects.StorableObject;
-import assets.entities.objects.collectables.equppables.DefenseObject;
-import assets.entities.objects.collectables.equppables.Weapon;
+import assets.entities.objects.storables.Key;
+import assets.entities.objects.storables.equppables.DefenseObject;
+import assets.entities.objects.storables.equppables.Weapon;
 import assets.interfaces.Damageable;
 import utilities.statehandlers.PlayStateHandler;
 
@@ -20,7 +22,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Vector;
 
 import static application.GamePanel.*;
 import static assets.EntityType.*;
@@ -28,8 +29,8 @@ import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.GAME_OVER_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
-import static utilities.statehandlers.PlayStateHandler.*;
 import static utilities.sound.Sound.*;
+import static utilities.statehandlers.PlayStateHandler.*;
 
 public class Player extends AliveEntity implements Damageable
 {
@@ -82,6 +83,9 @@ public class Player extends AliveEntity implements Damageable
         coins = 0;
         currentWeapon = Optional.empty();
         currentShield = Optional.empty();
+        inventory.add(new Key(gp));
+        inventory.add(new Key(gp));
+        inventory.add(new Key(gp));
     }
 
     public static int getInventoryItemIndex()
@@ -184,10 +188,13 @@ public class Player extends AliveEntity implements Damageable
     @Override
     public void interactWithEntities()
     {
-        isHittingTileWithCollision = gp.collisionChecker.isHittingCollisionTile(this);
+        isTransitional = gp.collisionChecker.isHittingCollisionTile(this);
+
         Optional<InteractiveTile> interactiveTile = gp.interactiveTiles.stream()
                 .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
                 .findFirst();
+        interactiveTile.ifPresent(InteractiveTile::interact);
+
         gp.monsters.stream().filter(monster -> gp.collisionChecker.isEntityColliding(this, monster))
                 .findFirst()
                 .ifPresent(monster -> {
@@ -197,11 +204,12 @@ public class Player extends AliveEntity implements Damageable
                         reactToDamage();
                     }
                 });
+
         gp.objects.stream().filter(object -> gp.collisionChecker.isEntityColliding(this, object))
                 .findFirst()
                 .ifPresent(Object::interact);
 
-        if (interactiveTile.isEmpty() && !isHittingTileWithCollision && isWalkingButtonPressed())
+        if (interactiveTile.isEmpty() && !isTransitional && isWalkingButtonPressed())
         {
             handleMoving();
         }
@@ -387,5 +395,10 @@ public class Player extends AliveEntity implements Damageable
             return attackingSprites.get(0).getImage();
         }
         return attackingSprites.get(1).getImage();
+    }
+
+    public Optional<StorableObject> getRequiredToolForInteraction(EntityType requiredTool)
+    {
+        return gp.player.inventory.stream().filter(obj -> obj.type.equals(requiredTool)).findFirst();
     }
 }

@@ -1,8 +1,8 @@
-package assets.entities.objects.collectables.equppables.weapons;
+package assets.entities.objects.storables.equppables.weapons;
 
 import application.GamePanel;
 import assets.EntityType;
-import assets.entities.objects.collectables.equppables.Weapon;
+import assets.entities.objects.storables.equppables.Weapon;
 import utilities.sound.Sound;
 
 import java.awt.*;
