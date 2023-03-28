@@ -8,7 +8,6 @@ import static assets.EntityType.BOAT_PADDLE;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.TAKE_BOOTS;
-import static utilities.sound.Sound.TAKE_KEY;
 
 public class BoatPaddle extends StorableObject
 {

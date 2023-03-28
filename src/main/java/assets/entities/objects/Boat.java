@@ -3,7 +3,6 @@ package assets.entities.objects;
 import application.GamePanel;
 import assets.EntityType;
 import assets.entities.Object;
-import assets.interfaces.Teleportable;
 import utilities.sound.Sound;
 
 import static application.Application.objectsImagesUrls;
@@ -13,23 +12,21 @@ import static assets.EntityType.BOAT_PADDLE;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 
-public class Boat extends Object implements Teleportable
+public class Boat extends Object
 {
-    private final int teleportX;
-    private final int teleportY;
-    private final EntityType toolForInteraction;
+    private final int sailingX;
+    private final int sailingY;
+    private final EntityType toolForInteraction = BOAT_PADDLE;
 
-    public Boat(GamePanel gp, int shipLocationX, int shipLocationY, int teleportX, int teleportY)
+    public Boat(GamePanel gp, int boatX, int boatY, int sailingX, int sailingY)
     {
         super(gp);
-        solidArea.setSize(50, 50);
-        this.setWorldLocation(shipLocationX * TILE_SIZE, shipLocationY * TILE_SIZE);
-        this.teleportX = teleportX;
-        this.teleportY = teleportY;
+        this.setWorldLocation(boatX * TILE_SIZE, boatY * TILE_SIZE);
+        this.sailingX = sailingX;
+        this.sailingY = sailingY;
         name = "Boat";
         type = BOAT;
         interactSound = Sound.TAKE_BOOTS; //TODO add SHIPPING sound
-        toolForInteraction = BOAT_PADDLE;
         defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("boat"));
     }
 
@@ -41,7 +38,7 @@ public class Boat extends Object implements Teleportable
             if (gp.player.getRequiredToolForInteraction(toolForInteraction).isPresent())
             {
                 gp.soundEffectsHandler.playSoundEffect(interactSound);
-                teleport(teleportX, teleportY);
+                sail(sailingX, sailingY);
                 addMessage("Landed!");
             }
             else
@@ -51,9 +48,8 @@ public class Boat extends Object implements Teleportable
         }
     }
 
-    @Override
-    public void teleport(int teleportX, int teleportY)
+    public void sail(int sailingX, int sailingY)
     {
-        gp.player.setWorldLocation(teleportX * TILE_SIZE, teleportY * TILE_SIZE);
+        gp.player.setWorldLocation(sailingX * TILE_SIZE, sailingY * TILE_SIZE);
     }
 }

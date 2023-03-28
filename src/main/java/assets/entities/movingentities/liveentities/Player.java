@@ -11,7 +11,6 @@ import assets.entities.movingentities.projectiles.Fireball;
 import assets.entities.movingentities.sprites.AttackingSprite;
 import assets.entities.movingentities.sprites.AttackingSprites;
 import assets.entities.objects.StorableObject;
-import assets.entities.objects.storables.Key;
 import assets.entities.objects.storables.equppables.DefenseObject;
 import assets.entities.objects.storables.equppables.Weapon;
 import assets.interfaces.Damageable;
@@ -185,13 +184,13 @@ public class Player extends AliveEntity implements Damageable
     @Override
     public void interactWithEntities()
     {
-        isTransitional = gp.collisionChecker.isHittingCollisionTile(this);
+        isTransitional = gp.collisionChecker.isTileTransitional(this);
 
         Optional<BreakableTile> interactiveTile = gp.breakableTiles.stream()
-                .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
+                .filter(tile -> gp.collisionChecker.isEntityTransitional(this, tile))
                 .findFirst();
 
-        gp.monsters.stream().filter(monster -> gp.collisionChecker.isEntityColliding(this, monster))
+        gp.monsters.stream().filter(monster -> gp.collisionChecker.isEntityTransitional(this, monster))
                 .findFirst()
                 .ifPresent(monster -> {
                     if (!monster.isDying && !isInvincible)
@@ -201,7 +200,7 @@ public class Player extends AliveEntity implements Damageable
                     }
                 });
 
-        gp.objects.stream().filter(object -> gp.collisionChecker.isEntityColliding(this, object))
+        gp.objects.stream().filter(object -> gp.collisionChecker.isEntityTransitional(this, object))
                 .findFirst()
                 .ifPresent(Object::interact);
 
@@ -210,7 +209,7 @@ public class Player extends AliveEntity implements Damageable
             handleMoving();
         }
 
-        gp.npcs.stream().filter(npc -> gp.collisionChecker.isEntityColliding(this, npc))
+        gp.npcs.stream().filter(npc -> gp.collisionChecker.isEntityTransitional(this, npc))
                 .findFirst().ifPresent(npc -> {
                     if (isTalkButtonPressed)
                     {
@@ -339,13 +338,13 @@ public class Player extends AliveEntity implements Damageable
         solidArea.setSize(weapon.attackArea.width, weapon.attackArea.height);
 
         Optional<? extends Entity> result = gp.monsters.stream()
-                .filter(m -> gp.collisionChecker.isEntityColliding(this, m))
+                .filter(m -> gp.collisionChecker.isEntityTransitional(this, m))
                 .findFirst();
 
         if (result.isEmpty())
         {
             result = gp.breakableTiles.stream()
-                    .filter(tile -> gp.collisionChecker.isEntityColliding(this, tile))
+                    .filter(tile -> gp.collisionChecker.isEntityTransitional(this, tile))
                     .findFirst();
         }
 

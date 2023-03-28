@@ -7,8 +7,8 @@ import java.util.Map;
 
 import static utilities.GameState.OPTIONS_STATE;
 import static utilities.GameState.PLAY_STATE;
-import static utilities.statehandlers.HomeStateHandler.HomeMenuSelection.*;
 import static utilities.sound.Sound.MOVE_CURSOR;
+import static utilities.statehandlers.HomeStateHandler.HomeMenuSelection.*;
 
 public final class HomeStateHandler
 {

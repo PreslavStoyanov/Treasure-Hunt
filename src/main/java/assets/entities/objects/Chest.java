@@ -17,7 +17,6 @@ import static assets.EntityType.KEY;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.OPEN_DOOR;
-import static utilities.sound.Sound.WIN_SOUND;
 
 public class Chest extends Object implements Interactive, ItemDroppable
 {

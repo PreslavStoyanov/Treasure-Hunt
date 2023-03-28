@@ -38,7 +38,7 @@ public class Application
     private static void setupUrlsFromProperties() throws IOException
     {
         objectsImagesUrls.load(new FileInputStream("src/main/resources/objects/objects_images.properties"));
-        breakableTilesUrls.load(new FileInputStream("src/main/resources/interactive-tiles/interactive_tiles.properties"));
+        breakableTilesUrls.load(new FileInputStream("src/main/resources/breakable-tiles/breakable_tiles.properties"));
         soundsUrls.load(new FileInputStream("src/main/resources/sounds/sounds.properties"));
         properties.load(new FileInputStream("src/main/resources/application.properties"));
     }

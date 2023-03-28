@@ -17,7 +17,7 @@ public class CollisionChecker
         this.gp = gp;
     }
 
-    public boolean isHittingCollisionTile(MovingEntity movingEntity)
+    public boolean isTileTransitional(MovingEntity movingEntity)
     {
         int entityLeftWorldX = movingEntity.worldX + movingEntity.solidArea.x;
         int entityRightWorldX = movingEntity.worldX + movingEntity.solidArea.x + movingEntity.solidArea.width;
@@ -34,7 +34,7 @@ public class CollisionChecker
             case UP ->
             {
                 entityTopRow = (entityTopWorldY - movingEntity.movingSpeed) / TILE_SIZE;
-                return areSurroundingTilesWithCollision(
+                return areSurroundingTilesTransitional(
                         getTileNumber(entityLeftCol, entityTopRow),
                         getTileNumber(entityRightCol, entityTopRow));
 
@@ -42,21 +42,21 @@ public class CollisionChecker
             case DOWN ->
             {
                 entityBottomRow = (entityBottomWorldY + movingEntity.movingSpeed) / TILE_SIZE;
-                return areSurroundingTilesWithCollision(
+                return areSurroundingTilesTransitional(
                         getTileNumber(entityLeftCol, entityBottomRow),
                         getTileNumber(entityRightCol, entityBottomRow));
             }
             case LEFT ->
             {
                 entityLeftCol = (entityLeftWorldX - movingEntity.movingSpeed) / TILE_SIZE;
-                return areSurroundingTilesWithCollision(
+                return areSurroundingTilesTransitional(
                         getTileNumber(entityLeftCol, entityTopRow),
                         getTileNumber(entityLeftCol, entityBottomRow));
             }
             case RIGHT ->
             {
                 entityRightCol = (entityRightWorldX + movingEntity.movingSpeed) / TILE_SIZE;
-                return areSurroundingTilesWithCollision(
+                return areSurroundingTilesTransitional(
                         getTileNumber(entityRightCol, entityTopRow),
                         getTileNumber(entityRightCol, entityBottomRow));
             }
@@ -67,20 +67,20 @@ public class CollisionChecker
         }
     }
 
-    public boolean isEntityColliding(MovingEntity movingEntity, Entity entity)
+    public boolean isEntityTransitional(MovingEntity movingEntity, Entity entity)
     {
         increaseSolidAreaWorldCoordinates(movingEntity);
         increaseSolidAreaWorldCoordinates(entity);
         changeEntityDirection(movingEntity);
 
-        boolean result = isEntityIntersects(movingEntity, entity);
+        boolean result = isEntityIntersecting(movingEntity, entity);
 
         resetDefaultLocation(movingEntity);
         resetDefaultLocation(entity);
         return result;
     }
 
-    private boolean isEntityIntersects(MovingEntity movingEntity, Entity entity)
+    private boolean isEntityIntersecting(MovingEntity movingEntity, Entity entity)
     {
         if (!movingEntity.solidArea.intersects(entity.solidArea))
         {
@@ -137,7 +137,7 @@ public class CollisionChecker
         entity.solidArea.setLocation(entity.solidAreaDefaultX, entity.solidAreaDefaultY);
     }
 
-    private boolean areSurroundingTilesWithCollision(int tileNumber1, int tileNumber2)
+    private boolean areSurroundingTilesTransitional(int tileNumber1, int tileNumber2)
     {
         return gp.tileManager.getTiles().getTiles().get(tileNumber1).hasCollision()
                 || gp.tileManager.getTiles().getTiles().get(tileNumber2).hasCollision();

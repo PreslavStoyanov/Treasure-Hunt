@@ -11,8 +11,8 @@ import assets.entities.movingentities.liveentities.artificials.Npc;
 import utilities.CollisionChecker;
 import utilities.GameState;
 import utilities.drawers.UserInterfaceController;
-import utilities.statehandlers.GameStateHandler;
 import utilities.sound.SoundHandler;
+import utilities.statehandlers.GameStateHandler;
 import utilities.tiles.TileManager;
 
 import javax.swing.*;
@@ -112,6 +112,7 @@ public class GamePanel extends JPanel implements Runnable
         player.setDefaultLocation();
         player.setDefaultLife();
     }
+
     public void backToMainMenu()
     {
         isGameStarted = false;
