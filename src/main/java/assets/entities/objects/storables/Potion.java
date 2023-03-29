@@ -29,7 +29,7 @@ public class Potion extends StorableObject implements Consumable
     @Override
     public void consume()
     {
-        gp.player.inventory.remove(this);
+        gp.player.inventory.getStorage().remove(this);
         gp.soundEffectsHandler.playSoundEffect(DRINK_POTION);
     }
 }

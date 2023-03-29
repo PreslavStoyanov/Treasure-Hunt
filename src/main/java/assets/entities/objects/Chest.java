@@ -4,11 +4,9 @@ import application.GamePanel;
 import assets.EntityType;
 import assets.ObjectType;
 import assets.entities.Object;
-import assets.interfaces.Interactive;
 import assets.interfaces.ItemDroppable;
 
 import java.awt.image.BufferedImage;
-import java.util.Optional;
 
 import static application.Application.objectsImagesUrls;
 import static application.GamePanel.TILE_SIZE;
@@ -18,7 +16,7 @@ import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.OPEN_DOOR;
 
-public class Chest extends Object implements Interactive, ItemDroppable
+public class Chest extends Object implements ItemDroppable
 {
     private final ObjectType itemDrop;
     private boolean isOpened = false;
@@ -42,14 +40,12 @@ public class Chest extends Object implements Interactive, ItemDroppable
     @Override
     public void interact()
     {
-        Optional<StorableObject> key = gp.player.getRequiredToolForInteraction(toolForInteraction);
         if (!isOpened)
         {
-            if (key.isPresent())
+            if (gp.player.inventory.ifPresentRemoveItemByType(toolForInteraction))
             {
                 defaultImage = afterInteractionImage;
                 gp.soundEffectsHandler.playSoundEffect(interactSound);
-                gp.player.inventory.remove(key.get());
                 dropItem();
                 isOpened = true;
             }

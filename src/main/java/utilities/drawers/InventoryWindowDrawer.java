@@ -5,10 +5,10 @@ import assets.entities.movingentities.liveentities.Player;
 import assets.entities.objects.storables.EquipableItem;
 
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.EQUIPPABLE_ITEMS;
-import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 
@@ -51,9 +51,9 @@ public class InventoryWindowDrawer
         final int itemYStart = FRAME_Y + 25;
         int itemX = itemXStart;
         int itemY = itemYStart;
-        for (int i = 0; i < player.inventory.size(); i++)
+        for (int i = 0; i < player.inventory.getStorage().size(); i++)
         {
-            Object object = player.inventory.get(i);
+            Object object = player.inventory.getStorage().get(i);
 
             if (EQUIPPABLE_ITEMS.contains(object.type) && ((EquipableItem) object).isEquipped)
             {
@@ -84,20 +84,18 @@ public class InventoryWindowDrawer
     private static void drawDescriptionWindow(Player player)
     {
         int textX = FRAME_X + 20;
-        int textY = FRAME_Y + FRAME_HEIGHT + 30;
+        AtomicInteger textY = new AtomicInteger(FRAME_Y + FRAME_HEIGHT + 30);
 
         g2.setFont(g2.getFont().deriveFont(12F));
-
-        int inventoryItemIndex = getInventoryItemIndex();
-        if (inventoryItemIndex < player.inventory.size())
+        player.inventory.getItemOnCurrentSlot().ifPresent(item ->
         {
             drawSubWindow(FRAME_X, FRAME_Y + FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT - TILE_SIZE * 3, 5);
-            String[] split = player.inventory.get(inventoryItemIndex).description.split("\n");
+            String[] split = item.description.split("\n");
             for (String line : split)
             {
-                g2.drawString(line, textX, textY);
-                textY += 15;
+                g2.drawString(line, textX, textY.get());
+                textY.set(textY.get() + 15);
             }
-        }
+        });
     }
 }

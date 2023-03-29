@@ -2,7 +2,7 @@ package assets.entities.movingentities.liveentities;
 
 import application.GamePanel;
 import assets.Entity;
-import assets.EntityType;
+import assets.Inventory;
 import assets.entities.BreakableTile;
 import assets.entities.Object;
 import assets.entities.movingentities.AliveEntity;
@@ -10,7 +10,6 @@ import assets.entities.movingentities.liveentities.artificials.Monster;
 import assets.entities.movingentities.projectiles.Fireball;
 import assets.entities.movingentities.sprites.AttackingSprite;
 import assets.entities.movingentities.sprites.AttackingSprites;
-import assets.entities.objects.StorableObject;
 import assets.entities.objects.storables.equppables.DefenseObject;
 import assets.entities.objects.storables.equppables.Weapon;
 import assets.interfaces.Damageable;
@@ -18,7 +17,6 @@ import utilities.statehandlers.PlayStateHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +31,7 @@ import static utilities.statehandlers.PlayStateHandler.*;
 
 public class Player extends AliveEntity implements Damageable
 {
-    public List<StorableObject> inventory = new ArrayList<>();
-    public int inventoryCapacity = 20;
+    public Inventory inventory = new Inventory();
     public Optional<Weapon> currentWeapon = Optional.empty();
     public Optional<DefenseObject> currentShield = Optional.empty();
     public int coins;
@@ -390,10 +387,5 @@ public class Player extends AliveEntity implements Damageable
             return attackingSprites.get(0).getImage();
         }
         return attackingSprites.get(1).getImage();
-    }
-
-    public Optional<StorableObject> getRequiredToolForInteraction(EntityType requiredTool)
-    {
-        return gp.player.inventory.stream().filter(obj -> obj.type.equals(requiredTool)).findFirst();
     }
 }

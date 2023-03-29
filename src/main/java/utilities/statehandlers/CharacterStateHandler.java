@@ -4,9 +4,7 @@ import application.GamePanel;
 import assets.entities.objects.StorableObject;
 
 import java.awt.event.KeyEvent;
-import java.util.Optional;
 
-import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.GameState.PLAY_STATE;
 import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.sound.Sound.MOVE_CURSOR;
@@ -28,14 +26,7 @@ public record CharacterStateHandler(GamePanel gp)
 
     private void selectItem()
     {
-        try
-        {
-            Optional.ofNullable(gp.player.inventory.get(getInventoryItemIndex())).ifPresent(StorableObject::useItem);
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            //expect to not have item at the given inventory index
-        }
+        gp.player.inventory.getItemOnCurrentSlot().ifPresent(StorableObject::useItem);
     }
 
     private void moveInventoryCursorUp()

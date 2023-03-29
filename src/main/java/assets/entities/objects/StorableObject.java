@@ -6,7 +6,7 @@ import assets.interfaces.Interactive;
 
 import static utilities.drawers.MessageDrawer.addMessage;
 
-public class StorableObject extends Object implements Interactive
+public class StorableObject extends Object
 {
     public StorableObject(GamePanel gp)
     {
@@ -23,11 +23,6 @@ public class StorableObject extends Object implements Interactive
 
     public void store()
     {
-        if (gp.player.inventory.size() == gp.player.inventoryCapacity)
-        {
-            addMessage("Inventory is full!");
-            return;
-        }
         gp.player.inventory.add(this);
     }
 

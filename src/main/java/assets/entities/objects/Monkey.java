@@ -1,10 +1,8 @@
 package assets.entities.objects;
 
 import application.GamePanel;
+import assets.EntityType;
 import assets.entities.Object;
-import assets.interfaces.Interactive;
-
-import java.util.Optional;
 
 import static application.Application.objectsImagesUrls;
 import static application.GamePanel.TILE_SIZE;
@@ -14,8 +12,10 @@ import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.MONKEY_LAUGH;
 
-public class Monkey extends Object implements Interactive
+public class Monkey extends Object
 {
+
+    private static final EntityType toolForInteraction = KEY;
 
     public Monkey(GamePanel gp, int x, int y)
     {
@@ -31,14 +31,9 @@ public class Monkey extends Object implements Interactive
     @Override
     public void interact()
     {
-        Optional<StorableObject> keyToRemove = gp.player.inventory.stream()
-                .filter(obj -> obj.type.equals(KEY))
-                .findFirst();
-
-        if (keyToRemove.isPresent())
+        if (gp.player.inventory.ifPresentRemoveItemByType(toolForInteraction))
         {
             interactSound = MONKEY_LAUGH;
-            gp.player.inventory.remove(keyToRemove.get());
             addMessage("The monkey robbed you and ran out!");
             super.interact();
         }
