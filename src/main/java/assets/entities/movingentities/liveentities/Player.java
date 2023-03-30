@@ -24,7 +24,6 @@ import static application.GamePanel.*;
 import static assets.EntityType.*;
 import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.GAME_OVER_STATE;
-import static utilities.drawers.InventoryWindowDrawer.*;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.sound.Sound.*;
 import static utilities.statehandlers.PlayStateHandler.*;
@@ -79,11 +78,6 @@ public class Player extends AliveEntity implements Damageable
         coins = 0;
         currentWeapon = Optional.empty();
         currentShield = Optional.empty();
-    }
-
-    public static int getInventoryItemIndex()
-    {
-        return inventorySlotCursorCol + inventorySlotCursorRow * INVENTORY_COLS;
     }
 
     public int calculateAttack()

@@ -7,6 +7,7 @@ import assets.entities.interactivetiles.trees.Oak;
 import assets.entities.movingentities.liveentities.artificials.monsters.Demon;
 import assets.entities.movingentities.liveentities.artificials.monsters.GreenSlime;
 import assets.entities.movingentities.liveentities.artificials.monsters.OrangeSlime;
+import assets.entities.movingentities.liveentities.artificials.npcs.MerchantGirl;
 import assets.entities.movingentities.liveentities.artificials.npcs.OldMan;
 import assets.entities.movingentities.liveentities.artificials.npcs.OldWoman;
 import assets.entities.objects.*;
@@ -62,6 +63,7 @@ public class EntitySetter
         gp.npcs.clear();
         gp.npcs.add(new OldMan(gp, 26, 27));
         gp.npcs.add(new OldWoman(gp, 23, 22));
+        gp.npcs.add(new MerchantGirl(gp, 24, 22));
     }
 
     private void setMapOneInteractiveTiles()

@@ -2,6 +2,7 @@ package utilities.drawers;
 
 import static application.GamePanel.*;
 import static utilities.drawers.DrawerUtils.drawSubWindow;
+import static utilities.drawers.DrawerUtils.drawText;
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class DialogueWindowDrawer
@@ -17,6 +18,7 @@ public class DialogueWindowDrawer
     {
         drawSubWindow(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT, 5);
         drawDialogueLines();
+        drawText("TRADE", FRAME_X + FRAME_WIDTH - TILE_SIZE * 2, FRAME_Y + FRAME_HEIGHT - 20, true, 15F);
     }
 
     private static void drawDialogueLines()

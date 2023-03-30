@@ -2,7 +2,6 @@ package assets.entities.objects;
 
 import application.GamePanel;
 import assets.entities.Object;
-import assets.interfaces.Interactive;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -6,33 +6,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
+import static utilities.drawers.InventoryWindowDrawer.INVENTORY_COLS;
 import static utilities.drawers.MessageDrawer.addMessage;
 
 public class Inventory
 {
     private static final int CAPACITY = 20;
-
+    public int inventorySlotCursorCol = 0;
+    public int inventorySlotCursorRow = 0;
     private final List<StorableObject> storage;
 
     public Inventory()
     {
-        this.storage = new ArrayList<>(CAPACITY);
+        this(new ArrayList<>());
     }
+
+    public Inventory(List<StorableObject> storage)
+    {
+        this.storage = storage;
+    }
+
 
     public List<StorableObject> getStorage()
     {
         return storage;
     }
 
-    public void add(StorableObject object)
+    public boolean haveSpace()
     {
         if (storage.size() == CAPACITY)
         {
             addMessage("Inventory storage is full!");
-            return;
+            return false;
         }
+        return true;
+    }
 
+    public void add(StorableObject object)
+    {
         storage.add(object);
     }
 
@@ -72,5 +83,10 @@ public class Inventory
     private Optional<StorableObject> getFirstItemByType(EntityType requiredItemType)
     {
         return storage.stream().filter(item -> item.type.equals(requiredItemType)).findFirst();
+    }
+
+    private int getInventoryItemIndex()
+    {
+        return inventorySlotCursorCol + inventorySlotCursorRow * INVENTORY_COLS;
     }
 }

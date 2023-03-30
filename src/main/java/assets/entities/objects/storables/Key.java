@@ -18,6 +18,7 @@ public class Key extends StorableObject
         this.name = "Key";
         this.type = KEY;
         this.interactSound = TAKE_KEY;
+        this.price = 3;
         this.description = String.format("""
                 [%s]
                 It can open doors!""", name);

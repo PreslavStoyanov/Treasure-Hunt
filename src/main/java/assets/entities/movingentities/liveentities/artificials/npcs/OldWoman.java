@@ -3,13 +3,14 @@ package assets.entities.movingentities.liveentities.artificials.npcs;
 import application.GamePanel;
 import assets.entities.movingentities.liveentities.artificials.Npc;
 
+import java.util.List;
+
 import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.OLD_WOMAN;
-import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 
 public class OldWoman extends Npc
 {
-    int dialogueIndex;
+
 
     public OldWoman(GamePanel gp, int x, int y)
     {
@@ -19,27 +20,11 @@ public class OldWoman extends Npc
         type = OLD_WOMAN;
         movingSpeed = 1;
         sprites = setSprites("src/main/resources/npc/old_woman_sprites.yaml");
-        setDialogue();
-    }
-
-    @Override
-    public void faceUpPlayer()
-    {
-        super.faceUpPlayer();
-        currentDialogue = dialogues.get(dialogueIndex);
-        dialogueIndex++;
-        if (dialogueIndex == dialogues.size())
-        {
-            dialogueIndex = 0;
-        }
-    }
-
-    public void setDialogue()
-    {
-        dialogues.add("Hello, Hello!");
-        dialogues.add("Don't trust anybody!");
-        dialogues.add("I'm a wizard as this old-man down \nthere!");
-        dialogues.add("I was better than the old-man!");
-        dialogues.add("So good luck!");
+        dialogues = List.of(
+                "Hello, Hello!",
+                "Don't trust anybody!",
+                "I'm a wizard as this old-man down \nthere!",
+                "I was better than the old-man!",
+                "So good luck!");
     }
 }

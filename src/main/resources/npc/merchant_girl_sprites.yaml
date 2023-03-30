@@ -1,0 +1,20 @@
+defaultUpSprites:
+  - image: /npc/merchant_girl/merchant_girl09.png
+  - image: /npc/merchant_girl/merchant_girl10.png
+  - image: /npc/merchant_girl/merchant_girl11.png
+  - image: /npc/merchant_girl/merchant_girl10.png
+defaultDownSprites:
+  - image: /npc/merchant_girl/merchant_girl00.png
+  - image: /npc/merchant_girl/merchant_girl01.png
+  - image: /npc/merchant_girl/merchant_girl02.png
+  - image: /npc/merchant_girl/merchant_girl01.png
+defaultLeftSprites:
+  - image: /npc/merchant_girl/merchant_girl03.png
+  - image: /npc/merchant_girl/merchant_girl04.png
+  - image: /npc/merchant_girl/merchant_girl05.png
+  - image: /npc/merchant_girl/merchant_girl04.png
+defaultRightSprites:
+  - image: /npc/merchant_girl/merchant_girl06.png
+  - image: /npc/merchant_girl/merchant_girl07.png
+  - image: /npc/merchant_girl/merchant_girl08.png
+  - image: /npc/merchant_girl/merchant_girl07.png

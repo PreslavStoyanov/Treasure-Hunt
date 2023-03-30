@@ -18,6 +18,7 @@ public class Boots extends EquipableItem
         type = BOOTS;
         interactSound = TAKE_BOOTS;
         value = 2;
+        price = 3;
         defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("boots"));
         description = String.format("""
                 [%s]
