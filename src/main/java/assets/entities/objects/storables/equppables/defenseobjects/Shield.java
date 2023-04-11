@@ -15,6 +15,7 @@ public class Shield extends DefenseObject
         this.name = "Shield";
         this.type = SHIELD;
         this.value = 1;
+        this.price = 3;
         this.description = String.format("""
                 [%s]
                 Made of iron!""", name);

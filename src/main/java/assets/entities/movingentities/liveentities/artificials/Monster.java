@@ -83,12 +83,12 @@ public class Monster extends Artificial implements Damageable, ItemDroppable
     {
         switch (new Random().nextInt(20))
         {
-            case 1 -> gp.entitySetter.addObject(HEALTH_POTION, worldX, worldY);
-            case 2 -> gp.entitySetter.addObject(ENERGY_POTION, worldX, worldY);
-            case 15 -> gp.entitySetter.addObject(EXP_POTION, worldX, worldY);
-            case 3, 4, 5, 6, 7 -> gp.entitySetter.addObject(ENERGY, worldX, worldY);
-            case 8, 9, 10, 11, 12 -> gp.entitySetter.addObject(HEART, worldX, worldY);
-            case 13, 14 -> gp.entitySetter.addObject(COIN, worldX, worldY);
+            case 1, 2 -> gp.entitySetter.addObject(HEALTH_POTION, worldX, worldY);
+            case 3, 4 -> gp.entitySetter.addObject(ENERGY_POTION, worldX, worldY);
+            case 5 -> gp.entitySetter.addObject(EXP_POTION, worldX, worldY);
+            case 6, 7, 8 -> gp.entitySetter.addObject(ENERGY, worldX, worldY);
+            case 9, 10, 11 -> gp.entitySetter.addObject(HEART, worldX, worldY);
+            default -> gp.entitySetter.addObject(COIN, worldX, worldY);
         }
     }
 

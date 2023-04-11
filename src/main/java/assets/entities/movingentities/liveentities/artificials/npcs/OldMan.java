@@ -3,13 +3,13 @@ package assets.entities.movingentities.liveentities.artificials.npcs;
 import application.GamePanel;
 import assets.entities.movingentities.liveentities.artificials.Npc;
 
+import java.util.List;
+
 import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.OLD_MAN;
-import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 
 public class OldMan extends Npc
 {
-    int dialogueIndex;
 
     public OldMan(GamePanel gp, int x, int y)
     {
@@ -19,26 +19,10 @@ public class OldMan extends Npc
         type = OLD_MAN;
         movingSpeed = 1;
         sprites = setSprites("src/main/resources/npc/old_man_sprites.yaml");
-        setDialogue();
-    }
-
-    @Override
-    public void faceUpPlayer()
-    {
-        super.faceUpPlayer();
-        currentDialogue = dialogues.get(dialogueIndex);
-        dialogueIndex++;
-        if (dialogueIndex == dialogues.size())
-        {
-            dialogueIndex = 0;
-        }
-    }
-
-    public void setDialogue()
-    {
-        dialogues.add("Hello, buddy!");
-        dialogues.add("Be aware of the monkey!");
-        dialogues.add("Once I was a wizard but now... I was \ntrowing a fire balls. Now I'm just \nold-man");
-        dialogues.add("Good luck!");
+        dialogues = List.of(
+                "Hello, buddy!",
+                "Be aware of the monkey!",
+                "Once I was a wizard but now... I was \ntrowing a fire balls. Now I'm just \nold-man",
+                "Good luck!");
     }
 }

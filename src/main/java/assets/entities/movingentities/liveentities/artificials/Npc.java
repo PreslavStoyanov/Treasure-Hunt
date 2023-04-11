@@ -1,19 +1,22 @@
 package assets.entities.movingentities.liveentities.artificials;
 
 import application.GamePanel;
+import assets.Inventory;
 import assets.entities.movingentities.liveentities.Artificial;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import static assets.entities.MovingEntity.Direction.*;
 import static utilities.GameState.DIALOGUE_STATE;
-import static utilities.sound.Sound.GOSSIP;
+import static utilities.drawers.DialogueWindowDrawer.currentDialogue;
 import static utilities.statehandlers.PlayStateHandler.isTalkButtonPressed;
+import static utilities.statehandlers.TradeStateHandler.inventoryToBuyFrom;
 
 public class Npc extends Artificial
 {
-    public List<String> dialogues = new LinkedList<>();
+    public Inventory inventory = new Inventory();
+    public int dialogueIndex;
+    public List<String> dialogues;
 
     public Npc(GamePanel gp)
     {
@@ -31,11 +34,23 @@ public class Npc extends Artificial
         }
     }
 
+    private void talk()
+    {
+        currentDialogue = dialogues.get(dialogueIndex);
+        dialogueIndex++;
+        if (dialogueIndex == dialogues.size())
+        {
+            dialogueIndex = 0;
+        }
+    }
+
     public void speak()
     {
         gp.setGameState(DIALOGUE_STATE);
-        gp.soundEffectsHandler.playSoundEffect(GOSSIP);
+//        gp.soundEffectsHandler.playSoundEffect(GOSSIP);
         faceUpPlayer();
+        talk();
         isTalkButtonPressed = false;
+        inventoryToBuyFrom = inventory;
     }
 }

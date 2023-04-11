@@ -25,7 +25,7 @@ public abstract class BreakableTile extends Entity implements Interactive
     @Override
     public void interact()
     {
-        if (gp.player.getRequiredToolForInteraction(breakTool).isPresent())
+        if (gp.player.inventory.isItemInStorage(breakTool))
         {
             gp.soundEffectsHandler.playSoundEffect(interactSound);
             decreaseEndurance(1);

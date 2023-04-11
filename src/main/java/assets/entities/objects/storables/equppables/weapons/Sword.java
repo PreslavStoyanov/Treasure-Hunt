@@ -19,6 +19,7 @@ public class Sword extends Weapon
         this.name = "Sword";
         this.type = EntityType.SWORD;
         this.value = 1;
+        this.price = 5;
         this.attackArea = new Rectangle(0, 0, 36, 36);
         swingSound = Sound.SWING_SWORD;
         this.description = String.format("""

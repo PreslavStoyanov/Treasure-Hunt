@@ -2,7 +2,6 @@ package assets.entities.objects;
 
 import application.GamePanel;
 import assets.entities.Object;
-import assets.interfaces.Interactive;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,7 +13,7 @@ import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.images.ImageUtils.setupDefaultSizeImage;
 import static utilities.sound.Sound.TAKE_COIN;
 
-public class Coin extends Object implements Interactive
+public class Coin extends Object
 {
     private final List<BufferedImage> images;
     private int spriteNumber = 0;

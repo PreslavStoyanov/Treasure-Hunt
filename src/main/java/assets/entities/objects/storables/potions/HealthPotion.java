@@ -19,6 +19,7 @@ public class HealthPotion extends Potion implements Consumable
         this.description = String.format("""
                 [%s]
                 Gives you %d hearts!""", name, value / 2);
+        this.price = 2;
         this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("health-potion"));
     }
 

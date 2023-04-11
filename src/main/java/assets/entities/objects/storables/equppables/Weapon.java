@@ -10,7 +10,7 @@ import java.util.Optional;
 import static utilities.drawers.MessageDrawer.addMessage;
 import static utilities.sound.Sound.TAKE_WEAPON;
 
-public class Weapon extends EquipableItem
+public abstract class Weapon extends EquipableItem
 {
     public Rectangle attackArea;
     public Sound swingSound;

@@ -35,7 +35,7 @@ public class Boat extends Object
     {
         if (gp.getFrameCounter() % 120 == 0)
         {
-            if (gp.player.getRequiredToolForInteraction(toolForInteraction).isPresent())
+            if (gp.player.inventory.isItemInStorage(toolForInteraction))
             {
                 gp.soundEffectsHandler.playSoundEffect(interactSound);
                 sail(sailingX, sailingY);

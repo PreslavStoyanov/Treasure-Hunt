@@ -140,7 +140,7 @@ public class GamePanel extends JPanel implements Runnable
     private void startupDefaultSetup()
     {
         playTime = 0;
-        player.inventory.clear();
+        player.inventory.removeAllItems();
         player.setDefaultStats();
         player.setDefaultLocation();
         entitySetter.setMapOneEntities();

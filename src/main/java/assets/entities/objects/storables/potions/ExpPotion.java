@@ -20,6 +20,7 @@ public class ExpPotion extends Potion implements Consumable
         this.description = String.format("""
                 [%s]
                 Gives you %d exp!""", name, value);
+        this.price = 5;
         this.defaultImage = setupDefaultSizeImage(objectsImagesUrls.get("exp-potion"));
     }
 

@@ -8,7 +8,7 @@ import static assets.EntityType.POTION;
 import static utilities.sound.Sound.DRINK_POTION;
 import static utilities.sound.Sound.TAKE_POTION;
 
-public class Potion extends StorableObject implements Consumable
+public abstract class Potion extends StorableObject implements Consumable
 {
     public int value;
 
@@ -29,7 +29,7 @@ public class Potion extends StorableObject implements Consumable
     @Override
     public void consume()
     {
-        gp.player.inventory.remove(this);
+        gp.player.inventory.getStorage().remove(this);
         gp.soundEffectsHandler.playSoundEffect(DRINK_POTION);
     }
 }

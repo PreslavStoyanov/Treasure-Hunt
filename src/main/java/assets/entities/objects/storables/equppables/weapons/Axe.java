@@ -18,6 +18,7 @@ public class Axe extends Weapon
         this.name = "Axe";
         this.type = EntityType.AXE;
         this.value = 2;
+        this.price = 7;
         this.attackArea = new Rectangle(0, 0, 30, 30);
         swingSound = Sound.SWING_AXE;
         this.description = String.format("""

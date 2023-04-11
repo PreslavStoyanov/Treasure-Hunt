@@ -1,41 +1,35 @@
 package utilities.drawers;
 
+import assets.Inventory;
 import assets.entities.Object;
-import assets.entities.movingentities.liveentities.Player;
 import assets.entities.objects.storables.EquipableItem;
 
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static application.GamePanel.TILE_SIZE;
 import static assets.EntityType.EQUIPPABLE_ITEMS;
-import static assets.entities.movingentities.liveentities.Player.getInventoryItemIndex;
 import static utilities.drawers.DrawerUtils.*;
 import static utilities.drawers.UserInterfaceController.g2;
 
 public class InventoryWindowDrawer
 {
-    private static final int FRAME_X = TILE_SIZE * 9;
-    private static final int FRAME_Y = TILE_SIZE;
-    private static final int FRAME_WIDTH = TILE_SIZE * 6;
-    private static final int FRAME_HEIGHT = TILE_SIZE * 5;
     public static final int INVENTORY_COLS = 5;
     public static final int INVENTORY_ROWS = 4;
-    public static int inventorySlotCursorCol = 0;
-    public static int inventorySlotCursorRow = 0;
 
-    public static void drawInventoryWindow(Player player)
+    public static void drawInventoryWindow(Inventory inventory, int frameX, int frameY, int frameWidth, int frameHeight)
     {
-        drawSubWindow(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT, 5);
-        drawSlots();
-        drawItems(player);
-        drawCursor();
-        drawDescriptionWindow(player);
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight, 5);
+        drawSlots(frameX, frameY);
+        drawItems(inventory, frameX, frameY);
+        drawCursor(inventory, frameX, frameY);
+        drawDescriptionWindow(inventory, frameX, frameY, frameWidth, frameHeight);
     }
 
-    private static void drawSlots()
+    private static void drawSlots(int frameX, int frameY)
     {
-        int slotX = FRAME_X + 25;
-        int slotY = FRAME_Y + 25;
+        int slotX = frameX + 25;
+        int slotY = frameY + 25;
         for (int row = 0; row < INVENTORY_ROWS; row++)
         {
             for (int col = 0; col < INVENTORY_COLS; col++)
@@ -45,15 +39,15 @@ public class InventoryWindowDrawer
         }
     }
 
-    private static void drawItems(Player player)
+    private static void drawItems(Inventory inventory, int frameX, int frameY)
     {
-        final int itemXStart = FRAME_X + 25;
-        final int itemYStart = FRAME_Y + 25;
+        final int itemXStart = frameX + 25;
+        final int itemYStart = frameY + 25;
         int itemX = itemXStart;
         int itemY = itemYStart;
-        for (int i = 0; i < player.inventory.size(); i++)
+        for (int i = 0; i < inventory.getStorage().size(); i++)
         {
-            Object object = player.inventory.get(i);
+            Object object = inventory.getStorage().get(i);
 
             if (EQUIPPABLE_ITEMS.contains(object.type) && ((EquipableItem) object).isEquipped)
             {
@@ -72,32 +66,30 @@ public class InventoryWindowDrawer
         }
     }
 
-    private static void drawCursor()
+    private static void drawCursor(Inventory inventory, int frameX, int frameY)
     {
-        final int cursorX = FRAME_X + 25;
-        final int cursorY = FRAME_Y + 25;
-        drawRoundRect(cursorX + TILE_SIZE * inventorySlotCursorCol,
-                cursorY + TILE_SIZE * inventorySlotCursorRow,
+        final int cursorX = frameX + 25;
+        final int cursorY = frameY + 25;
+        drawRoundRect(cursorX + TILE_SIZE * inventory.inventorySlotCursorCol,
+                cursorY + TILE_SIZE * inventory.inventorySlotCursorRow,
                 TILE_SIZE, TILE_SIZE, 2);
     }
 
-    private static void drawDescriptionWindow(Player player)
+    private static void drawDescriptionWindow(Inventory inventory, int frameX, int frameY, int frameWidth, int frameHeight)
     {
-        int textX = FRAME_X + 20;
-        int textY = FRAME_Y + FRAME_HEIGHT + 30;
+        int textX = frameX + 20;
+        AtomicInteger textY = new AtomicInteger(frameY + frameHeight + 30);
 
         g2.setFont(g2.getFont().deriveFont(12F));
-
-        int inventoryItemIndex = getInventoryItemIndex();
-        if (inventoryItemIndex < player.inventory.size())
+        inventory.getItemOnCurrentSlot().ifPresent(item ->
         {
-            drawSubWindow(FRAME_X, FRAME_Y + FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT - TILE_SIZE * 3, 5);
-            String[] split = player.inventory.get(inventoryItemIndex).description.split("\n");
+            drawSubWindow(frameX, frameY + frameHeight, frameWidth, frameHeight - TILE_SIZE * 3, 5);
+            String[] split = item.description.split("\n");
             for (String line : split)
             {
-                g2.drawString(line, textX, textY);
-                textY += 15;
+                g2.drawString(line, textX, textY.get());
+                textY.set(textY.get() + 15);
             }
-        }
+        });
     }
 }

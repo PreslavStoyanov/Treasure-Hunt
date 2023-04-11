@@ -18,6 +18,7 @@ public class BoatPaddle extends StorableObject
         this.name = "Boat Paddle";
         this.type = BOAT_PADDLE;
         this.interactSound = TAKE_BOOTS; //TODO add TAKE_BOAT_PADDLE sound
+        this.price = 10;
         this.description = String.format("""
                 [%s]
                 Used for shipping!""", name);

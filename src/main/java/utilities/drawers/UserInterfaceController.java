@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+import static application.GamePanel.TILE_SIZE;
 import static utilities.GameState.playableStates;
 import static utilities.drawers.CoordinatesDrawer.shouldShowCoordinates;
 import static utilities.drawers.CoordinatesDrawer.showPlayerCoordinates;
@@ -58,11 +59,17 @@ public class UserInterfaceController
             case CHARACTER_STATE ->
             {
                 CharacterWindowDrawer.drawCharacterWindow(gp.player);
-                InventoryWindowDrawer.drawInventoryWindow(gp.player);
+                InventoryWindowDrawer.drawInventoryWindow(gp.player.inventory,
+                        TILE_SIZE * 9, TILE_SIZE, TILE_SIZE * 6, TILE_SIZE * 5);
                 MessageDrawer.drawMessage();
             }
             case GAME_WIN_STATE -> EndScreenDrawer.drawGameWinScreen(playTime);
             case GAME_OVER_STATE -> EndScreenDrawer.drawGameLoseScreen();
+            case TRADE_STATE ->
+            {
+                TradeWindowDrawer.drawTradeWindow(gp.player.inventory, gp.player.coins);
+                MessageDrawer.drawMessage();
+            }
         }
         if (shouldShowCoordinates)
         {

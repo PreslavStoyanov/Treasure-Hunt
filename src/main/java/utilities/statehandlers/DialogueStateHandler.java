@@ -4,6 +4,8 @@ import application.GamePanel;
 
 import java.awt.event.KeyEvent;
 
+import static utilities.GameState.TRADE_STATE;
+
 public record DialogueStateHandler(GamePanel gp)
 {
     public void handleDialogueStateEvent(KeyEvent keyPressed)
@@ -13,8 +15,8 @@ public record DialogueStateHandler(GamePanel gp)
             case KeyEvent.VK_E, KeyEvent.VK_ESCAPE ->
             {
                 gp.returnToPreviousGameState();
-                gp.soundEffectsHandler.stop();
             }
+            case KeyEvent.VK_ENTER -> gp.setGameState(TRADE_STATE);
         }
     }
 }
