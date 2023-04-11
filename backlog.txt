@@ -1,0 +1,12 @@
+TH 
+/**
+ * BACKLOG
+ * @3. monster respawning
+ * @4. coins should be storable - depends on 5.
+ * @5. make items stackable
+ * @6. monsters chasing player if are hit - path finding algorithm
+ * @7. extract logic for objects which require item for interaction
+ * @8. improve combat - knockback, paring, stop monster projectiles with swing -> refactor swing code
+ * @9. day/night
+ * @BUG fixes - All TODOs
+ */
